@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "outDir": "./public/dist/accessabar/",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "module": "commonjs",
+        "target": "esnext",
+        "allowJs": false,
+		"allowSyntheticDefaultImports": true,
+        "preserveConstEnums": true,
+        "noUnusedLocals": true,
+		"strictNullChecks": true,
+        "removeComments": false,
+        "moduleResolution": "node",
+        "pretty": true,
+        "experimentalDecorators": true
+    },
+    "include": [
+        "./src/**/*",
+        "./tests/**/*.ts"
+    ],
+    "exclude": [
+		"node_modules"
+	]
+}

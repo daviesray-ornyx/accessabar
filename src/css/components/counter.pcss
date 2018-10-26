@@ -1,0 +1,55 @@
+#counter {
+    display: grid;
+    margin: 1em;
+    grid-template-rows: 1fr 1fr;
+    grid-row-gap: 0.5em;
+    grid-template-areas:
+        "counter-number"
+        "button-container";
+
+    h1 {
+        display: flex;
+        color: white;
+        font-size: 2.2em;
+        margin: 0;
+        grid-area: counter-number;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--monospace-font);
+    }
+
+    #button-container {
+        grid-area: button-container;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            width: 3.5em;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            border-radius: none;
+            border: 4px solid var(--dark-grey);
+            outline: none;
+            background: var(--blue-grey);
+            color: white;
+            padding: 0.5em;
+            margin: 0.15em;
+            font-weight: bold;
+            font-size: 1.25em;
+            transition: background 0.2s;
+
+            &:hover {
+                cursor: pointer;
+                background: var(--button-hover);
+            }
+
+            &:active {
+                outline: 2px solid var(--dark-grey);
+            }
+        }
+    }
+}
