@@ -18,14 +18,20 @@ const { resolve } = require('path');
 //
 
 const prodBanner = `Accessabar
+Copyright (C) 2018  Elliott Judd
 ------------
+License:
+https://www.gnu.org/licenses/agpl.txt
 Authors:
 Elliott Judd <elliott.judd@hands-free.co.uk>`;
 
 const devBanner = `--- Compiled in Developer Mode ---
 
 Accessabar
+Copyright (C) 2018  Elliott Judd
 ------------
+License:
+https://www.gnu.org/licenses/agpl.txt
 Authors:
 Elliott Judd <elliott.judd@hands-free.co.uk>`;
 
