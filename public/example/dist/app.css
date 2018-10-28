@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Catamaran|Yantramanav:300');
+
+nav#context-menu {
+    font-family: 'Yantramanav', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 1em;
+    margin: 0.25em;
+    border: 1px dashed #c0c0c0;
+    max-width: 12em;
+    align-self: flex-start;
+}
+
+nav#context-menu #accessabar-button {
+    display: flex;
+    margin-bottom: 0.75em;
+}
+
+nav#context-menu #accessabar-button a {
+    background: #1f2625;
+    border: 2.5px solid #009688;
+    color: white;
+    padding: 0.5em;
+    font-size: 1.05em;
+    font-family: 'Catamaran', sans-serif;
+    white-space: nowrap;
+}
+
+nav#context-menu #accessabar-button a:hover {
+    background: #273130;
+    cursor: pointer;
+}
+
+nav#context-menu #menu {
+    display: flex;
+    flex-direction: column;
+}
+
+nav#context-menu #menu a {
+    color: #0027ff;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+nav#context-menu #menu a:not(.active) {
+    margin-left: 0.67em;
+}
+
+nav#context-menu #menu a.active::before {
+    content: "> ";
+    color: black;
+}
+
+nav#context-menu #menu a:hover {
+    cursor: pointer;
+}
+
+#sample-page {
+    display: flex;
+}
+
+#page-container {
+    padding: 2em 15%;
+    width: 100%;
+}
+
+#editor-container {
+    height: 20em;
+}
+
+#edit-menu {
+    display: flex;
+    padding: 1em 0;
+    justify-content: flex-end;
+}
+
+@media (max-width: 599px) {
+    #page-container {
+        padding: 1em;
+    }
+
+    #sample-page {
+        flex-direction: column;
+    }
+
+    nav#context-menu {
+        align-self: center;
+    }
+
+    #editor-container {
+        height: 10em;
+    }
+}
