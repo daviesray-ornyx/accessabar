@@ -1,7 +1,9 @@
 import { View } from 'hyperapp';
 import { div } from '@hyperapp/html';
-import counter from './components/counter';
+import logo from './components/logo';
 
-const mainView: View<Counter.IState, Counter.IActions> = (state, actions) => div({ id: 'app' }, [counter(state, actions)]);
+const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => div({ id: 'accessabar-container' }, [
+    logo(),
+]);
 
 export default mainView;

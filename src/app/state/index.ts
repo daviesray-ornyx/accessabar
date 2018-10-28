@@ -1,5 +1,4 @@
-const state: Counter.IState = {
-    count: 0,
+const state: Accessabar.IState = {
 };
 
 export default state;

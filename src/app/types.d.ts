@@ -1,12 +1,8 @@
-declare namespace Counter {
+declare namespace Accessabar {
     interface IState {
-        count: number;
     }
 
     interface IActions {
-        down(): (state: Counter.IState) => Counter.IState;
-        up(): (state: Counter.IState) => Counter.IState;
-        reset(): Counter.IState;
     }
 }
 
