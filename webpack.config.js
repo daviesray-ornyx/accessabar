@@ -146,9 +146,10 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
         output: {
             publicPath: '/dist/accessabar/',
             path: resolve(__dirname, 'public', 'dist', 'accessabar'),
-            filename: '[name].js',
+            filename: '[name].bundle.js',
             // Export options
             library: 'Accessabar', // name
+            libraryExport: 'default', // exported module
             libraryTarget: 'window', // location
         },
         module: {
