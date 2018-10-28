@@ -20,7 +20,8 @@
         "ordered-imports": false,
         "no-increment-decrement": false,
         "max-line-length": false,
-        "no-namespace": false
+        "no-namespace": false,
+        "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
