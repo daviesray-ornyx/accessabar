@@ -4,7 +4,7 @@ import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import './css';
 
 // import app
-import './app';
+import Accessabar from './app';
 
 // service worker
 OfflinePluginRuntime.install();
@@ -13,3 +13,5 @@ OfflinePluginRuntime.install();
 if (module && module.hot) {
     module.hot.accept();
 }
+
+export default Accessabar;
