@@ -1,0 +1,76 @@
+@font-face {
+    font-family: 'accessabar-fontello';
+    src: url('../fonts/accessabar-fontello.eot?94796154');
+    src: url('../fonts/accessabar-fontello.eot?94796154#iefix') format('embedded-opentype'),
+        url('../fonts/accessabar-fontello.woff2?94796154') format('woff2'),
+        url('../fonts/accessabar-fontello.woff?94796154') format('woff'),
+        url('../fonts/accessabar-fontello.ttf?94796154') format('truetype'),
+        url('../fonts/accessabar-fontello.svg?94796154#accessabar-fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        @font-face {
+            font-family: 'accessabar-fontello';
+            src: url('../font/accessabar-fontello.svg?94796154#accessabar-fontello') format('svg');
+        }
+    }
+*/
+
+[class^="ab-icon-"]:before, [class*=" ab-icon-"]:before {
+    font-family: "accessabar-fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+   
+.ab-icon-pause:before { content: '\e800'; } /* '' */
+.ab-icon-stop:before { content: '\e801'; } /* '' */
+.ab-icon-play:before { content: '\e802'; } /* '' */
+.ab-icon-plus:before { content: '\e803'; } /* '' */
+.ab-icon-minus:before { content: '\e804'; } /* '' */
+.ab-icon-font:before { content: '\e805'; } /* '' */
+.ab-icon-zoom-in:before { content: '\e806'; } /* '' */
+.ab-icon-download:before { content: '\e807'; } /* '' */
+.ab-icon-cog-alt:before { content: '\e808'; } /* '' */
+.ab-icon-cancel:before { content: '\e809'; } /* '' */
+.ab-icon-ruler:before { content: '\f044'; } /* '' */
+.ab-icon-angle-left:before { content: '\f104'; } /* '' */
+.ab-icon-angle-right:before { content: '\f105'; } /* '' */
+.ab-icon-angle-up:before { content: '\f106'; } /* '' */
+.ab-icon-angle-down:before { content: '\f107'; } /* '' */
+.ab-icon-mic:before { content: '\f130'; } /* '' */
+.ab-icon-brush:before { content: '\f1fc'; } /* '' */
+.ab-icon-audio-description:before { content: '\f29e'; } /* '' */
