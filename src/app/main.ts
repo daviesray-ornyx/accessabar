@@ -1,9 +1,9 @@
 import { View } from 'hyperapp';
 import { div } from '@hyperapp/html';
-import logo from './components/logo';
+import buttonArea from './components/button_area';
 
 const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => div({ id: 'accessabar-container' }, [
-    logo(),
+    buttonArea(),
 ]);
 
 export default mainView;
