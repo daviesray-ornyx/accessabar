@@ -54,11 +54,16 @@ class AccessabarController {
         if (!this.rendered) {
             const renderFunc = () => {
                 const containerEl = new Accessabar();
+
                 containerEl.id = 'accessabar';
                 this.bindTo.insertAdjacentElement('afterbegin', containerEl);
 
                 app(state, actions, view, containerEl);
                 this.rendered = true;
+
+                const event = new CustomEvent('accessabarLoad');
+
+                window.dispatchEvent(event);
             };
 
             if (document.readyState === 'interactive' || document.readyState === 'complete') {
@@ -71,7 +76,7 @@ class AccessabarController {
             return;
         }
 
-        const abEl = document.querySelector('#app-accessabar');
+        const abEl = document.querySelector('#accessabar');
         if (abEl) {
             abEl.classList.toggle('hide');
         }
