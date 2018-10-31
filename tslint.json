@@ -21,7 +21,8 @@
         "no-increment-decrement": false,
         "max-line-length": false,
         "no-namespace": false,
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "no-parameter-reassignment": false
     },
     "rulesDirectory": []
 }
