@@ -326,13 +326,34 @@ const settingsButton = () => {
     );
 };
 
-const testButton = () => {
-    return button('test');
+const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { abarHide: Accessabar.IActions['abarHide'] }) => {
+    return button(
+        {
+            'aria-label': 'Hide Accessabar',
+            id: 'hide',
+            onclick: () => {
+                abarHide();
+            },
+            oncreate: () => {
+                tippy('#accessabar #hide', {
+                    arrow: true,
+                    content: 'Hide Accessabar',
+                    placement: 'bottom',
+                });
+            },
+            tabIndex: 0,
+        },
+        [
+            i({
+                'aria-hidden': true,
+                className: abarHidden ? 'ab-icon-angle-down' : 'ab-icon-angle-up',
+            }),
+        ],
+    );
 };
 
 export {
     closeButton,
-    testButton,
     ttsButton,
     playButton,
     pauseButton,
@@ -346,4 +367,5 @@ export {
     srButton,
     resetButton,
     settingsButton,
+    hideButton,
 };

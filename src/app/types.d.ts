@@ -1,8 +1,10 @@
 declare namespace Accessabar {
     interface IState {
+        abarHidden: boolean;
     }
 
     interface IActions {
+        abarHide(): Accessabar.IState;
     }
 }
 
