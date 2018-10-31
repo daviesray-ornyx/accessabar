@@ -7,7 +7,7 @@ import * as Buttons from './buttons';
 const buttonArea = () => {
     return div({ id: 'button-area' }, [
         section([
-            div({ className: 'group' }, [
+            div({ className: 'group', 'aria-label': 'Sound controls' }, [
                 Buttons.playButton(),
                 Buttons.pauseButton(),
                 Buttons.stopButton(),
