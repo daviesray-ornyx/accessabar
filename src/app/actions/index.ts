@@ -19,6 +19,19 @@ const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
         abar.style.top = `-${rect.height - 2}px`;
         return { abarHidden: true };
     },
+    abarHideResize: () => ({ abarHidden }) => {
+        const abar = document.getElementById('accessabar');
+
+        if (!abar) {
+            return;
+        }
+
+        if (abarHidden) {
+            const rect = abar.getBoundingClientRect();
+
+            abar.style.top = `-${rect.height - 2}px`;
+        }
+    },
 };
 
 export default actions;

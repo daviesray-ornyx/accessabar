@@ -4,7 +4,8 @@ declare namespace Accessabar {
     }
 
     interface IActions {
-        abarHide(): Accessabar.IState;
+        abarHide(): (state: Accessabar.IState) => Accessabar.IState;
+        abarHideResize(): (state: Accessabar.IState) => unknown;
     }
 }
 
