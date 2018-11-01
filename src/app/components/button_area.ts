@@ -3,32 +3,43 @@ import {
     div,
 } from '@hyperapp/html';
 import * as Buttons from './buttons';
+import { AccessabarUtil } from '../';
 
+// Contains all the buttons in Accessabar
 const buttonArea = () => {
-    return div({ id: 'button-area' }, [
-        section([
-            div({ className: 'group', 'aria-label': 'Sound controls' }, [
-                Buttons.playButton(),
-                Buttons.pauseButton(),
-                Buttons.stopButton(),
+    return div(
+        {
+            id: 'button-area',
+            // Adds margin to body when Accessabar is added to DOM.
+            oncreate: () => {
+                AccessabarUtil.createSpace();
+            },
+        },
+        [
+            section([
+                div({ className: 'group', 'aria-label': 'Sound controls' }, [
+                    Buttons.playButton(),
+                    Buttons.pauseButton(),
+                    Buttons.stopButton(),
+                ]),
+                div({ className: 'group' }, [
+                    Buttons.ttsButton(),
+                    Buttons.incButton(),
+                    Buttons.decButton(),
+                    Buttons.textOpsButton(),
+                    Buttons.magButton(),
+                    Buttons.maskButton(),
+                    Buttons.rulerButton(),
+                    Buttons.srButton(),
+                ]),
             ]),
-            div({ className: 'group' }, [
-                Buttons.ttsButton(),
-                Buttons.incButton(),
-                Buttons.decButton(),
-                Buttons.textOpsButton(),
-                Buttons.magButton(),
-                Buttons.maskButton(),
-                Buttons.rulerButton(),
-                Buttons.srButton(),
+            section([
+                Buttons.resetButton(),
+                Buttons.settingsButton(),
+                Buttons.closeButton(),
             ]),
-        ]),
-        section([
-            Buttons.resetButton(),
-            Buttons.settingsButton(),
-            Buttons.closeButton(),
-        ]),
-    ]);
+        ],
+    );
 };
 
 export default buttonArea;
