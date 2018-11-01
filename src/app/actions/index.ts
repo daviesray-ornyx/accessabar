@@ -1,36 +1,50 @@
 import { ActionsType } from 'hyperapp';
+import { AccessabarUtil } from '../';
 
 const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
+    // Hides accessabar
     abarHide: () => ({ abarHidden }) => {
-        const abar = document.getElementById('accessabar');
+        const { mainElement } = window.abar;
 
-        if (!abar) {
+        if (!mainElement) {
             return;
         }
 
         if (abarHidden) {
-            abar.style.top = '0';
+            mainElement.style.top = '0';
+
+            AccessabarUtil.moveBody();
 
             return { abarHidden: false };
         }
 
-        const rect = abar.getBoundingClientRect();
+        // Get height of Accessabar, then push Accessabar above the window view
+        // by that height - 2px (allows a small amount of Accessabar to still show).
+        const rect = mainElement.getBoundingClientRect();
 
-        abar.style.top = `-${rect.height - 2}px`;
+        mainElement.style.top = `-${rect.height - 2}px`;
+        document.body.style.marginTop = '2px';
+
         return { abarHidden: true };
     },
-    abarHideResize: () => ({ abarHidden }) => {
-        const abar = document.getElementById('accessabar');
 
-        if (!abar) {
+    // Handle margins during resizes
+    abarResize: () => ({ abarHidden }) => {
+        const { mainElement } = window.abar;
+
+        if (!mainElement) {
             return;
         }
 
         if (abarHidden) {
-            const rect = abar.getBoundingClientRect();
+            const rect = mainElement.getBoundingClientRect();
 
-            abar.style.top = `-${rect.height - 2}px`;
+            mainElement.style.top = `-${rect.height - 2}px`;
+
+            return;
         }
+
+        AccessabarUtil.moveBody();
     },
 };
 
