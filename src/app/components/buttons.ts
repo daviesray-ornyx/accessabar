@@ -326,6 +326,7 @@ const settingsButton = () => {
     );
 };
 
+// TODO: find strongly typed alternative to Accessabar.IActions['abarHide']
 const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { abarHide: Accessabar.IActions['abarHide'] }) => {
     return button(
         {
@@ -337,9 +338,14 @@ const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { aba
             oncreate: () => {
                 tippy('#accessabar #hide', {
                     arrow: true,
-                    content: 'Hide Accessabar',
+                    content: abarHidden ? 'Show Accessabar' : 'Hide Accessabar',
                     placement: 'bottom',
                 });
+            },
+            onupdate: (el) => {
+                const { _tippy: tip } = el;
+
+                tip.setContent(abarHidden ? 'Show Accessabar' : 'Hide Accessabar');
             },
             tabIndex: 0,
         },
