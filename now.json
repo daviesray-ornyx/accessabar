@@ -5,7 +5,7 @@
         "rewrites": [
             {
                 "source": "/",
-                "destination": "/views/index.html"
+                "destination": "/example/index.html"
             }
         ]
     },
