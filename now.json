@@ -6,6 +6,10 @@
             {
                 "source": "/",
                 "destination": "/example/index.html"
+            },
+            {
+                "source": "/custom.html",
+                "destination": "/example/custom.html"
             }
         ]
     },
