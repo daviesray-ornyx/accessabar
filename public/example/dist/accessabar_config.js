@@ -1,2 +1,1 @@
-var accessabar = new Accessabar('#enable');
-accessabar.start();
+const accessabar = new Accessabar('#enable');
