@@ -70,10 +70,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
 
             if (size) {
                 // Add attribute to element to flag edits from Accessabar.
-                // If 'font-size' was set inline, it is added to 'accessabar-orig-font-style'.
+                // If 'font-size' was set inline, it is added to 'accessabar-orig-font-size'.
                 if (!el.getAttribute('accessabar-edited')) {
                     el.setAttribute('accessabar-edited', 'true');
-                    el.setAttribute('accessabar-orig-font-style', el.style.fontSize || 'none');
+                    el.setAttribute('accessabar-orig-font-size', el.style.fontSize || 'none');
                 }
 
                 el.style.fontSize = `${parseInt(size, 10) - 1}px`;
@@ -89,7 +89,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
             if (size) {
                 if (!el.getAttribute('accessabar-edited')) {
                     el.setAttribute('accessabar-edited', 'true');
-                    el.setAttribute('accessabar-orig-font-style', el.style.fontSize || 'none');
+                    el.setAttribute('accessabar-orig-font-size', el.style.fontSize || 'none');
                 }
 
                 el.style.fontSize = `${parseInt(size, 10) + 1}px`;
