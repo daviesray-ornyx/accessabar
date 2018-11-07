@@ -119,11 +119,14 @@ const stopButton = () => {
     );
 };
 
-const incButton = () => {
+const incButton = ({ incFontSize }: { incFontSize: Accessabar.IFontActions['incFontSize'] }) => {
     return button(
         {
             'aria-label': 'Increase font size',
             id: 'font-increase',
+            onclick: () => {
+                incFontSize();
+            },
             oncreate: () => {
                 tippy('#accessabar #font-increase', {
                     arrow: true,
@@ -142,11 +145,14 @@ const incButton = () => {
     );
 };
 
-const decButton = () => {
+const decButton = ({ decFontSize }: { decFontSize: Accessabar.IFontActions['decFontSize'] }) => {
     return button(
         {
             'aria-label': 'Decrease font size',
             id: 'font-decrease',
+            onclick: () => {
+                decFontSize();
+            },
             oncreate: () => {
                 tippy('#accessabar #font-decrease', {
                     arrow: true,
@@ -326,8 +332,7 @@ const settingsButton = () => {
     );
 };
 
-// TODO: find strongly typed alternative to Accessabar.IActions['abarHide']
-const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { abarHide: Accessabar.IActions['abarHide'] }) => {
+const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { abarHide: Accessabar.IHideActions['abarHide'] }) => {
     return button(
         {
             'aria-label': 'Hide Accessabar',

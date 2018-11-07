@@ -6,7 +6,7 @@ import * as Buttons from './buttons';
 import { AccessabarUtil } from '../';
 
 // Contains all the buttons in Accessabar
-const buttonArea = () => {
+const buttonArea = (actions) => {
     return div(
         {
             id: 'button-area',
@@ -24,8 +24,8 @@ const buttonArea = () => {
                 ]),
                 div({ className: 'group' }, [
                     Buttons.ttsButton(),
-                    Buttons.incButton(),
-                    Buttons.decButton(),
+                    Buttons.incButton(actions),
+                    Buttons.decButton(actions),
                     Buttons.textOpsButton(),
                     Buttons.magButton(),
                     Buttons.maskButton(),
