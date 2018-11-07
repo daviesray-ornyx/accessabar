@@ -33,6 +33,10 @@ function getParents(): Set<HTMLElement> {
             continue;
         }
 
+        if (parent.classList.contains('tippy-content')) {
+            continue;
+        }
+
         if (parentElements.has(parent)) {
             continue;
         }
