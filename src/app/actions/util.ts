@@ -2,6 +2,8 @@ import { ActionsType } from 'hyperapp';
 import { AccessabarUtil } from '../';
 
 const utilActions: ActionsType<Accessabar.IState, Accessabar.IUtilActions> = {
+    // As the viewport resizes, Accessabar will expand or compress.
+    // This function ensures Accessabar remains above the viewport if hidden.
     abarResize: () => ({ abarHidden }) => {
         const { mainElement } = window.abar;
 
