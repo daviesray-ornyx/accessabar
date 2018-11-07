@@ -1,51 +1,12 @@
 import { ActionsType } from 'hyperapp';
-import { AccessabarUtil } from '../';
+import hideActions from './hide';
+import utilActions from './util';
+import fontActions from './font';
 
 const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
-    // Hides accessabar
-    abarHide: () => ({ abarHidden }) => {
-        const { mainElement } = window.abar;
-
-        if (!mainElement) {
-            return;
-        }
-
-        if (abarHidden) {
-            mainElement.style.top = '0';
-
-            AccessabarUtil.moveBody();
-
-            return { abarHidden: false };
-        }
-
-        // Get height of Accessabar, then push Accessabar above the window view
-        // by that height - 2px (allows a small amount of Accessabar to still show).
-        const rect = mainElement.getBoundingClientRect();
-
-        mainElement.style.top = `-${rect.height - 2}px`;
-        document.body.style.marginTop = '2px';
-
-        return { abarHidden: true };
-    },
-
-    // Handle margins during resizes
-    abarResize: () => ({ abarHidden }) => {
-        const { mainElement } = window.abar;
-
-        if (!mainElement) {
-            return;
-        }
-
-        if (abarHidden) {
-            const rect = mainElement.getBoundingClientRect();
-
-            mainElement.style.top = `-${rect.height - 2}px`;
-
-            return;
-        }
-
-        AccessabarUtil.moveBody();
-    },
+    ...hideActions,
+    ...utilActions,
+    ...fontActions,
 };
 
 export default actions;
