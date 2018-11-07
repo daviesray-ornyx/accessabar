@@ -11,7 +11,7 @@ import { hideButton } from './components/buttons';
  */
 const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => div({ id: 'accessabar-container' }, [
     hideButton(state, actions),
-    buttonArea(),
+    buttonArea(actions),
 ]);
 
 export default mainView;
