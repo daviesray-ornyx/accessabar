@@ -5,29 +5,6 @@ import {
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
-const closeButton = () => {
-    return button(
-        {
-            'aria-label': 'Close Accessabar',
-            id: 'close',
-            oncreate: () => {
-                tippy('#accessabar #close', {
-                    arrow: true,
-                    content: 'Close Accessabar',
-                    placement: 'bottom',
-                });
-            },
-            tabIndex: 0,
-        },
-        [
-            i({
-                'aria-hidden': true,
-                className: 'ab-icon-cancel',
-            }),
-        ],
-    );
-};
-
 const ttsButton = () => {
     return button(
         {
@@ -45,7 +22,7 @@ const ttsButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-audio-description',
+                class: 'ab-icon-audio-description',
             }),
         ],
     );
@@ -68,7 +45,7 @@ const playButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-play',
+                class: 'ab-icon-play',
             }),
         ],
     );
@@ -91,7 +68,7 @@ const pauseButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-pause',
+                class: 'ab-icon-pause',
             }),
         ],
     );
@@ -114,7 +91,7 @@ const stopButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-stop',
+                class: 'ab-icon-stop',
             }),
         ],
     );
@@ -141,7 +118,7 @@ const incButton = ({ incFontSize, resetFontSizing }: { incFontSize: Accessabar.I
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-plus',
+                class: 'ab-icon-plus',
             }),
         ],
     );
@@ -168,7 +145,7 @@ const decButton = ({ decFontSize, resetFontSizing }: { decFontSize: Accessabar.I
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-minus',
+                class: 'ab-icon-minus',
             }),
         ],
     );
@@ -191,7 +168,7 @@ const textOpsButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-font',
+                class: 'ab-icon-font',
             }),
         ],
     );
@@ -214,7 +191,7 @@ const magButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-zoom-in',
+                class: 'ab-icon-zoom-in',
             }),
         ],
     );
@@ -237,7 +214,7 @@ const maskButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-brush',
+                class: 'ab-icon-brush',
             }),
         ],
     );
@@ -260,7 +237,7 @@ const rulerButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-ruler',
+                class: 'ab-icon-ruler',
             }),
         ],
     );
@@ -283,7 +260,7 @@ const srButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-mic',
+                class: 'ab-icon-mic',
             }),
         ],
     );
@@ -309,7 +286,7 @@ const resetButton = ({ resetAll }: { resetAll: Accessabar.IResetActions['resetAl
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-reset',
+                class: 'ab-icon-reset',
             }),
         ],
     );
@@ -332,7 +309,33 @@ const settingsButton = () => {
         [
             i({
                 'aria-hidden': true,
-                className: 'ab-icon-cog',
+                class: 'ab-icon-cog',
+            }),
+        ],
+    );
+};
+
+const closeButton = ({ closeAccessabar }) => {
+    return button(
+        {
+            'aria-label': 'Close Accessabar',
+            id: 'close',
+            onclick: () => {
+                closeAccessabar();
+            },
+            oncreate: () => {
+                tippy('#accessabar #close', {
+                    arrow: true,
+                    content: 'Close Accessabar',
+                    placement: 'bottom',
+                });
+            },
+            tabIndex: 0,
+        },
+        [
+            i({
+                'aria-hidden': true,
+                class: 'ab-icon-cancel',
             }),
         ],
     );
@@ -363,7 +366,7 @@ const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { aba
         [
             i({
                 'aria-hidden': true,
-                className: abarHidden ? 'ab-icon-angle-down' : 'ab-icon-angle-up',
+                class: abarHidden ? 'ab-icon-angle-down' : 'ab-icon-angle-up',
             }),
         ],
     );

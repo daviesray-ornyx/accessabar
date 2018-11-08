@@ -17,12 +17,12 @@ const buttonArea = (actions) => {
         },
         [
             section([
-                div({ className: 'group', 'aria-label': 'Sound controls' }, [
+                div({ class: 'group', 'aria-label': 'Sound controls' }, [
                     Buttons.playButton(),
                     Buttons.pauseButton(),
                     Buttons.stopButton(),
                 ]),
-                div({ className: 'group' }, [
+                div({ class: 'group' }, [
                     Buttons.ttsButton(),
                     Buttons.incButton(actions),
                     Buttons.decButton(actions),
@@ -36,7 +36,7 @@ const buttonArea = (actions) => {
             section([
                 Buttons.resetButton(actions),
                 Buttons.settingsButton(),
-                Buttons.closeButton(),
+                Buttons.closeButton(actions),
             ]),
         ],
     );
