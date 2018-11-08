@@ -1,0 +1,10 @@
+{
+    fontSizing: {
+        conflicts: [],
+        attrNames: {
+            orig: 'accessabar-orig-font-size',
+        },
+        editName: 'font-size',
+        disableOnClick: false,
+    },
+}
