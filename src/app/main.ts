@@ -1,7 +1,7 @@
 import { View } from 'hyperapp';
 import { div } from '@hyperapp/html';
-import buttonArea from './components/button_area';
-import { hideButton } from './components/buttons';
+import buttonArea from './components/button_area.component';
+import { hideButton } from './components/buttons.component';
 
 /**
  * Main container for all Accessabar elements

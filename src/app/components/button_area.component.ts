@@ -2,8 +2,8 @@ import {
     section,
     div,
 } from '@hyperapp/html';
-import * as Buttons from './buttons';
-import { AccessabarUtil } from '../';
+import * as Buttons from './buttons.component';
+import { AccessabarUtil } from '../util';
 
 // Contains all the buttons in Accessabar
 const buttonArea = (actions) => {
@@ -34,7 +34,7 @@ const buttonArea = (actions) => {
                 ]),
             ]),
             section([
-                Buttons.resetButton(),
+                Buttons.resetButton(actions),
                 Buttons.settingsButton(),
                 Buttons.closeButton(),
             ]),

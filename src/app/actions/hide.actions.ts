@@ -1,5 +1,5 @@
 import { ActionsType } from 'hyperapp';
-import { AccessabarUtil } from '../';
+import { AccessabarUtil } from '../util';
 
 const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
     // Hides accessabar

@@ -3,7 +3,7 @@ declare namespace Accessabar {
         abarHidden: boolean;
     }
 
-    interface IActions extends IHideActions, IUtilActions, IFontActions {
+    interface IActions extends IHideActions, IUtilActions, IFontActions, IResetActions {
 
     }
 
@@ -18,8 +18,27 @@ declare namespace Accessabar {
     interface IFontActions {
         incFontSize(): unknown;
         decFontSize(): unknown;
+        resetFontSizing(): unknown;
+    }
+
+    interface IResetActions {
+        resetAll(): unknown;
+    }
+
+    interface IConfigObject {
+        conflicts: string[];
+        attrNames: {
+            [propName: string]: string;
+        };
+        editName: string;
+        disableOnClick: boolean;
+    }
+
+    interface IConfig {
+        [propName: string]: IConfigObject;
     }
 }
 
 // Allow png files to be imported
 declare module '*.png'
+declare module '*.json5'

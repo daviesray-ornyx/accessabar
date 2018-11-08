@@ -1,5 +1,5 @@
 import { ActionsType } from 'hyperapp';
-import { AccessabarUtil } from '../';
+import { AccessabarUtil } from '../util';
 
 const utilActions: ActionsType<Accessabar.IState, Accessabar.IUtilActions> = {
     // As the viewport resizes, Accessabar will expand or compress.
