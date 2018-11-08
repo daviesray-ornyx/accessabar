@@ -3,6 +3,7 @@ import { app } from 'hyperapp';
 import state from './state';
 import actions from './actions';
 import view from './main';
+import AccessabarUtil from './util';
 
 declare global {
     // tslint:disable-next-line
@@ -24,47 +25,6 @@ class AccessabarElement extends HTMLElement {
 }
 
 customElements.define('accessabar-app', AccessabarElement);
-
-/**
- * Util functions for Accessabar.
- *
- * @class AccessabarUtil
- */
-class AccessabarUtil {
-    /**
-     * Moves the page content to accomodate for Accessabar.
-     *
-     * Note: Possibly should be moved to separate folder.
-     *
-     * @static
-     * @memberof AccessabarUtil
-     */
-    public static moveBody() {
-        const { mainElement } = window.abar;
-
-        if (mainElement) {
-            const rect = mainElement.getBoundingClientRect();
-            document.body.style.marginTop = `${rect.height}px`;
-        }
-    }
-
-    /**
-     * Checks the page is ready before moving page content.
-     *
-     * @static
-     * @returns
-     * @memberof AccessabarUtil
-     */
-    public static createSpace() {
-        if (document.readyState === 'interactive' || document.readyState === 'complete') {
-            this.moveBody();
-
-            return;
-        }
-
-        document.addEventListener('DOMContentLoaded', this.moveBody);
-    }
-}
 
 /**
  * Entry point for Accessabar.
@@ -95,6 +55,14 @@ class AccessabarController {
      * @memberof AccessabarController
      */
     public mainElement: HTMLElement;
+
+    /**
+     * Contains all applied functions
+     *
+     * @type {Map<string, object>}
+     * @memberof AccessabarController
+     */
+    public appliedFunctions: Map<string, (() => unknown)> = new Map();
 
     /**
      * Reference to hyperapp actions.
