@@ -63,7 +63,7 @@ class AccessabarUtil {
             return;
         }
 
-        const config = funcConfig[name];
+        const config: Accessabar.IConfigObject = funcConfig[name];
 
         if (!window.abar.appliedFunctions.has(name)) {
             this.handleConflicts(config);
