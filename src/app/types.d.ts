@@ -1,11 +1,17 @@
+// TODO: Make a typings folder
+
 declare namespace Accessabar {
     interface IState {
         abarHidden: boolean;
     }
 
-    interface IActions extends IHideActions, IUtilActions, IFontActions, IResetActions {
-
-    }
+    interface IActions extends
+        IHideActions,
+        IUtilActions,
+        IFontActions,
+        IResetActions,
+        ICloseActions
+    {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState) => Accessabar.IState;
@@ -25,6 +31,10 @@ declare namespace Accessabar {
         resetAll(): unknown;
     }
 
+    interface ICloseActions {
+        closeAccessabar(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+    }
+
     interface IConfigObject {
         conflicts: string[];
         attrNames: {
@@ -39,6 +49,6 @@ declare namespace Accessabar {
     }
 }
 
-// Allow png files to be imported
+// Allow png and json5 files to be imported
 declare module '*.png'
 declare module '*.json5'

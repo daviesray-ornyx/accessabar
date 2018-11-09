@@ -138,6 +138,16 @@ class AccessabarController {
         this.initEvents();
     }
 
+    public close() {
+        document.body.removeChild(this.mainElement);
+        document.body.style.marginTop = '0';
+
+        this.rendered = false;
+
+        delete this.appActions;
+        delete this.mainElement;
+    }
+
     /**
      * Handles rendering of accessabar.
      * Fires a CustomEvent after rendering accessabar if needed.
