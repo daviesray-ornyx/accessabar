@@ -6,6 +6,7 @@ const PostcssNested = require('postcss-nested');
 const PostcssEasyImport = require('postcss-easy-import');
 const PostcssSorting = require('postcss-sorting');
 const PostcssCustomMedia = require('postcss-custom-media');
+const RucksackCSS = require('rucksack-css');
 
 const config = {
     plugins: [
@@ -18,6 +19,7 @@ const config = {
         PostcssNestedProps,
         PostcssNestedAncestors,
         PostcssNested,
+        RucksackCSS,
         PostcssCustomMedia,
         PostcssFlexbugsFixes,
         PostcssPresetEnv({
