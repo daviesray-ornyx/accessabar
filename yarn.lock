@@ -8279,10 +8279,10 @@ postcss-selector-parser@^5.0.0-rc.3:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-sorting@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-sorting/-/postcss-sorting-4.0.0.tgz#abfdf41ff8f7710f66f5dc7e78a3a3cce3983c21"
-  integrity sha512-rN1USjy86i8rpr98PLVA0sYU4iZ+D1kU5vW/kKy6sZJTOm0O1HRD1JrX9KFyCtzU35XB9u3sMtLUoslKssIEoQ==
+postcss-sorting@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-sorting/-/postcss-sorting-4.0.1.tgz#4bb4eb40e07e2b74e49f6f97fd4317fa73bd65a8"
+  integrity sha512-YNRq7ChWFsLsns78zutLBWp6kvfZr/3YYf9q54P/fBpIHhf8gwbKvr5XHAt2l69SS08lfGtB8gG8m/62gsuTgw==
   dependencies:
     lodash "^4.17.4"
     postcss "^7.0.0"
