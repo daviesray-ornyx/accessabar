@@ -9,12 +9,14 @@ const ttsButton = () => {
     return button(
         {
             'aria-label': 'Enable text to speech',
+            class: 'bar-button',
             id: 'tts',
             oncreate: () => {
                 tippy('#accessabar #tts', {
                     arrow: true,
                     content: 'Text to Speech',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -32,12 +34,14 @@ const playButton = () => {
     return button(
         {
             'aria-label': 'Play',
+            class: 'bar-button',
             id: 'play',
             oncreate: () => {
                 tippy('#accessabar #play', {
                     arrow: true,
                     content: 'Play',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -55,12 +59,14 @@ const pauseButton = () => {
     return button(
         {
             'aria-label': 'Pause',
+            class: 'bar-button',
             id: 'pause',
             oncreate: () => {
                 tippy('#accessabar #pause', {
                     arrow: true,
                     content: 'Pause',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -78,12 +84,14 @@ const stopButton = () => {
     return button(
         {
             'aria-label': 'Stop',
+            class: 'bar-button',
             id: 'stop',
             oncreate: () => {
                 tippy('#accessabar #stop', {
                     arrow: true,
                     content: 'Stop',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -101,6 +109,7 @@ const incButton = ({ incFontSize, resetFontSizing }: { incFontSize: Accessabar.I
     return button(
         {
             'aria-label': 'Increase font size',
+            class: 'bar-button',
             id: 'font-increase',
             onclick: () => {
                 AccessabarUtil.applyFunction('fontSizing', resetFontSizing);
@@ -111,6 +120,7 @@ const incButton = ({ incFontSize, resetFontSizing }: { incFontSize: Accessabar.I
                     arrow: true,
                     content: 'Increase font size',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -128,6 +138,7 @@ const decButton = ({ decFontSize, resetFontSizing }: { decFontSize: Accessabar.I
     return button(
         {
             'aria-label': 'Decrease font size',
+            class: 'bar-button',
             id: 'font-decrease',
             onclick: () => {
                 AccessabarUtil.applyFunction('fontSizing', resetFontSizing);
@@ -138,6 +149,7 @@ const decButton = ({ decFontSize, resetFontSizing }: { decFontSize: Accessabar.I
                     arrow: true,
                     content: 'Decrease font size',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -155,12 +167,14 @@ const textOpsButton = () => {
     return button(
         {
             'aria-label': 'Text options',
+            class: 'bar-button',
             id: 'text-options',
             oncreate: () => {
                 tippy('#accessabar #text-options', {
                     arrow: true,
                     content: 'Text Options',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -178,12 +192,14 @@ const magButton = () => {
     return button(
         {
             'aria-label': 'Magnifier',
+            class: 'bar-button',
             id: 'magnifier',
             oncreate: () => {
                 tippy('#accessabar #magnifier', {
                     arrow: true,
                     content: 'Magnifier',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -201,12 +217,14 @@ const maskButton = () => {
     return button(
         {
             'aria-label': 'Screen Masking',
+            class: 'bar-button',
             id: 'screen-mask',
             oncreate: () => {
                 tippy('#accessabar #screen-mask', {
                     arrow: true,
                     content: 'Screen Masking',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -224,12 +242,14 @@ const rulerButton = () => {
     return button(
         {
             'aria-label': 'Reading rulers',
+            class: 'bar-button',
             id: 'rulers',
             oncreate: () => {
                 tippy('#accessabar #rulers', {
                     arrow: true,
                     content: 'Reading Rulers',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -247,12 +267,14 @@ const srButton = () => {
     return button(
         {
             'aria-label': 'Speech recognition',
+            class: 'bar-button',
             id: 'speech-recognition',
             oncreate: () => {
                 tippy('#accessabar #speech-recognition', {
                     arrow: true,
                     content: 'Speech Recognition',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -270,6 +292,7 @@ const resetButton = ({ resetAll }: { resetAll: Accessabar.IResetActions['resetAl
     return button(
         {
             'aria-label': 'Reset accessabar',
+            class: 'bar-button',
             id: 'reset',
             onclick: () => {
                 resetAll();
@@ -279,6 +302,7 @@ const resetButton = ({ resetAll }: { resetAll: Accessabar.IResetActions['resetAl
                     arrow: true,
                     content: 'Reset',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -296,12 +320,14 @@ const settingsButton = () => {
     return button(
         {
             'aria-label': 'Settings',
+            class: 'bar-button',
             id: 'settings',
             oncreate: () => {
                 tippy('#accessabar #settings', {
                     arrow: true,
                     content: 'Settings',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -319,6 +345,7 @@ const closeButton = ({ closeAccessabar }) => {
     return button(
         {
             'aria-label': 'Close Accessabar',
+            class: 'bar-button close',
             id: 'close',
             onclick: () => {
                 closeAccessabar();
@@ -328,6 +355,7 @@ const closeButton = ({ closeAccessabar }) => {
                     arrow: true,
                     content: 'Close Accessabar',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             tabIndex: 0,
@@ -345,6 +373,7 @@ const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { aba
     return button(
         {
             'aria-label': 'Hide Accessabar',
+            class: 'hide-button',
             id: 'hide',
             onclick: () => {
                 abarHide();
@@ -354,6 +383,7 @@ const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { aba
                     arrow: true,
                     content: abarHidden ? 'Show Accessabar' : 'Hide Accessabar',
                     placement: 'bottom',
+                    theme: 'ab',
                 });
             },
             onupdate: (el) => {
