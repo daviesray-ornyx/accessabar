@@ -9,7 +9,7 @@ import { hideButton } from './components/buttons.component';
  * @param {*} state
  * @param {*} actions
  */
-const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => div({ id: 'accessabar-container' }, [
+const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => div({ class: 'accessabar-container' }, [
     hideButton(state, actions),
     buttonArea(actions),
 ]);

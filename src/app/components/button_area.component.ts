@@ -9,7 +9,7 @@ import { AccessabarUtil } from '../util';
 const buttonArea = (actions) => {
     return div(
         {
-            id: 'button-area',
+            class: 'button-area',
             // Adds margin to body when Accessabar is added to DOM.
             oncreate: () => {
                 AccessabarUtil.createSpace();
