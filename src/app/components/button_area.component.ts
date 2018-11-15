@@ -6,10 +6,10 @@ import * as Buttons from './buttons.component';
 import { AccessabarUtil } from '../util';
 
 // Contains all the buttons in Accessabar
-const buttonArea = (actions) => {
+const buttonArea = (state, actions) => {
     return div(
         {
-            class: 'button-area',
+            class: 'button-area growable',
             // Adds margin to body when Accessabar is added to DOM.
             oncreate: () => {
                 AccessabarUtil.createSpace();
