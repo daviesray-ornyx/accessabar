@@ -65,7 +65,7 @@
     "postcss-nested": "4.1.0",
     "postcss-nested-ancestors": "2.0.0",
     "postcss-nested-props": "2.0.0",
-    "postcss-preset-env": "6.1.1",
+    "postcss-preset-env": "6.4.0",
     "postcss-sorting": "4.0.1",
     "resource-hints-webpack-plugin": "0.0.2",
     "rimraf": "2.6.2",
