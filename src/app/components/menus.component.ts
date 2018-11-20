@@ -4,6 +4,7 @@ import {
     span,
 } from '@hyperapp/html';
 interface IMenuComponentState {
+    menuHidden: Accessabar.IState['menuHidden'];
     menuPosX: Accessabar.IState['menuPosX'];
     menuPosY: Accessabar.IState['menuPosY'];
 }
@@ -15,12 +16,12 @@ interface IMenuComponentActions {
     stopDrag: Accessabar.IMenuActions['stopDrag'];
 }
 
-const menu = ({ menuPosX, menuPosY }: IMenuComponentState, { addMenuListener, updatePosition, startDrag, stopDrag }: IMenuComponentActions) => {
+const menu = ({ menuPosX, menuPosY, menuHidden }: IMenuComponentState, { addMenuListener, updatePosition, startDrag, stopDrag }: IMenuComponentActions) => {
     return div(
         {
-            class: 'menu draggable',
+            class: `menu draggable ${menuHidden ? 'hide' : ''}`,
             id: 'menu',
-            oncreate: (el) => {
+            oncreate: (el: HTMLElement) => {
                 updatePosition(el);
                 addMenuListener();
             },

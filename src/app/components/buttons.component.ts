@@ -5,12 +5,19 @@ import {
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
-const ttsButton = () => {
+interface ITTSButtonActions {
+    toggleMenu: Accessabar.IMenuActions['toggleMenu'];
+}
+
+const ttsButton = ({ toggleMenu }: ITTSButtonActions) => {
     return button(
         {
             'aria-label': 'Enable text to speech',
             class: 'bar-button',
             id: 'tts',
+            onclick: () => {
+                toggleMenu('tts');
+            },
             oncreate: () => {
                 tippy('#accessabar #tts', {
                     arrow: true,

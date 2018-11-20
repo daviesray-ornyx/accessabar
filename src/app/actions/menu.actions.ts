@@ -1,4 +1,5 @@
 import { ActionsType } from 'hyperapp';
+import funcConfig from '../../config/functions.config.json5';
 
 interface IDragEvent extends MouseEvent, TouchEvent {}
 
@@ -70,6 +71,26 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
+    toggleHide: () => ({ menuHidden }) => {
+        return {
+            menuHidden: !menuHidden,
+        };
+    },
+
+    hideMenu: () => {
+        return {
+            menuHidden: true,
+        };
+    },
+
+    showMenu: () => {
+        return {
+            menuHidden: false,
+            menuPosX: 50,
+            menuPosY: window.abar.mainElement.getBoundingClientRect().height,
+        };
+    },
+
     updatePosition: (el: HTMLElement) => {
         const rect = el.getBoundingClientRect();
 
@@ -102,6 +123,27 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     },
 
     stopDrag: () => ({ menuCanDrag: false }),
+
+    toggleMenu: (name: string) => ({ menuCurrent }, { hideMenu, showMenu }) => {
+        const config: Accessabar.IConfigObject = funcConfig[name];
+
+        if (!config) {
+            return;
+        }
+
+        if (name === menuCurrent) {
+            hideMenu();
+            return {
+                menuCurrent: '',
+            };
+        }
+
+        showMenu();
+
+        return {
+            menuCurrent: name,
+        };
+    },
 };
 
 export default menuActions;

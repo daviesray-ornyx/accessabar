@@ -23,7 +23,7 @@ const buttonArea = (state, actions) => {
                     Buttons.stopButton(),
                 ]),
                 div({ class: 'group' }, [
-                    Buttons.ttsButton(),
+                    Buttons.ttsButton(actions),
                     Buttons.incButton(actions),
                     Buttons.decButton(actions),
                     Buttons.textOpsButton(),
