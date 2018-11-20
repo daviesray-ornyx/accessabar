@@ -1,7 +1,7 @@
 import {
     div,
 } from '@hyperapp/html';
-import * as Menus from './menus.component';
+import menu from './menus.component';
 
 // Contains all the menus in Accessabar
 const menuArea = (state, actions) => {
@@ -10,7 +10,7 @@ const menuArea = (state, actions) => {
             class: 'menu-area',
         },
         [
-            Menus.ttsMenu(state),
+            menu(state, actions),
         ],
     );
 };
