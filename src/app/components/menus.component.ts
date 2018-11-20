@@ -19,13 +19,14 @@ const menu = ({ menuPosX, menuPosY }: IMenuComponentState, { addMenuListener, up
     return div(
         {
             class: 'menu draggable',
+            id: 'menu',
             oncreate: (el) => {
                 updatePosition(el);
                 addMenuListener();
             },
             style: {
-                left: menuPosX ? `${ menuPosX }px` : null,
-                top: menuPosY ? `${ menuPosY }px` : null,
+                left: menuPosX !== false ? `${ menuPosX }px` : null,
+                top: menuPosY !== false ? `${ menuPosY }px` : null,
             },
         },
         [

@@ -19,7 +19,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         }
     },
 
-    moveMenu: (event: IDragEvent) => ({ menuCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }) => {
+    moveMenu: (event: IDragEvent) => ({ menuCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }, { stopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
 
         const {
@@ -28,14 +28,39 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             clientY,
         } = ev;
 
-        if (!menuCanDrag || !target || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
+        const menu = document.querySelector('#accessabar #menu');
+
+        if (!menuCanDrag || !target || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
             return;
         }
 
-        const x = menuPosX + (clientX - menuMouseX);
-        const y = menuPosY + (clientY - menuMouseY);
+        const rect = menu.getBoundingClientRect();
+        const windowWidth = window.innerWidth - rect.width;
+        const windowHeight = window.innerHeight - rect.height;
+        let x = menuPosX + (clientX - menuMouseX);
+        let y = menuPosY + (clientY - menuMouseY);
 
-        // console.log(menuMouseX, menuMouseY, clientX, clientY, x, y);
+        if (x < 0) {
+            x = 0;
+            stopDrag();
+        }
+
+        if (x > windowWidth) {
+            x = windowWidth;
+            stopDrag();
+        }
+
+        if (y < 0) {
+            y = 0;
+            stopDrag();
+        }
+
+        if (y > windowHeight) {
+            y = windowHeight;
+            stopDrag();
+        }
+
+        console.log(menuMouseX, menuMouseY, clientX, clientY, x, y, windowHeight, windowWidth, rect);
 
         return {
             menuMouseX: clientX,
