@@ -105,7 +105,12 @@ const stopButton = () => {
     );
 };
 
-const incButton = ({ incFontSize, resetFontSizing }: { incFontSize: Accessabar.IFontActions['incFontSize'], resetFontSizing: Accessabar.IFontActions['resetFontSizing'] }) => {
+interface IIncButtonActions {
+    incFontSize: Accessabar.IFontActions['incFontSize'];
+    resetFontSizing: Accessabar.IFontActions['resetFontSizing'];
+}
+
+const incButton = ({ incFontSize, resetFontSizing }: IIncButtonActions) => {
     return button(
         {
             'aria-label': 'Increase font size',
@@ -134,7 +139,12 @@ const incButton = ({ incFontSize, resetFontSizing }: { incFontSize: Accessabar.I
     );
 };
 
-const decButton = ({ decFontSize, resetFontSizing }: { decFontSize: Accessabar.IFontActions['decFontSize'], resetFontSizing: Accessabar.IFontActions['resetFontSizing'] }) => {
+interface IDecButtonActions {
+    decFontSize: Accessabar.IFontActions['decFontSize'];
+    resetFontSizing: Accessabar.IFontActions['resetFontSizing'];
+}
+
+const decButton = ({ decFontSize, resetFontSizing }: IDecButtonActions) => {
     return button(
         {
             'aria-label': 'Decrease font size',
@@ -288,7 +298,11 @@ const srButton = () => {
     );
 };
 
-const resetButton = ({ resetAll }: { resetAll: Accessabar.IResetActions['resetAll'] }) => {
+interface IResetButtonActions {
+    resetAll: Accessabar.IResetActions['resetAll'];
+}
+
+const resetButton = ({ resetAll }: IResetButtonActions) => {
     return button(
         {
             'aria-label': 'Reset accessabar',
@@ -369,7 +383,15 @@ const closeButton = ({ closeAccessabar }) => {
     );
 };
 
-const hideButton = ({ abarHidden }: { abarHidden: boolean }, { abarHide }: { abarHide: Accessabar.IHideActions['abarHide'] }) => {
+interface IHideButtonActions {
+    abarHide: Accessabar.IHideActions['abarHide'];
+}
+
+interface IHideButtonState {
+    abarHidden: Accessabar.IState['abarHidden'];
+}
+
+const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonActions) => {
     return button(
         {
             'aria-label': 'Hide Accessabar',
