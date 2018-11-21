@@ -5,6 +5,7 @@ import fontActions from './font.actions';
 import resetActions from './reset.actions';
 import closeActions from './close.actions';
 import menuActions from './menu.actions';
+import ttsActions from './tts.actions';
 
 const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...hideActions,
@@ -13,6 +14,7 @@ const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...resetActions,
     ...closeActions,
     ...menuActions,
+    ...ttsActions,
 };
 
 export default actions;

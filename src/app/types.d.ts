@@ -3,6 +3,7 @@
 declare namespace Accessabar {
     interface IState {
         abarHidden: boolean;
+
         menuCanDrag: boolean;
         menuCurrent: string;
         menuPosX: number | boolean;
@@ -11,6 +12,10 @@ declare namespace Accessabar {
         menuMouseY: number;
         menuEvent: boolean;
         menuHidden: boolean;
+        menuTitle: string;
+
+        ttsHoverSpeak: boolean;
+        ttsHighlightSpeak: boolean;
     }
 
     interface IActions extends
@@ -19,7 +24,8 @@ declare namespace Accessabar {
         IFontActions,
         IResetActions,
         ICloseActions,
-        IMenuActions
+        IMenuActions,
+        ITTSActions
     {}
 
     interface IHideActions {
@@ -27,17 +33,17 @@ declare namespace Accessabar {
     }
 
     interface IUtilActions {
-        abarResize(): (state: Accessabar.IState) => unknown;
+        abarResize(): (state: Accessabar.IState) => void;
     }
 
     interface IFontActions {
-        incFontSize(): unknown;
-        decFontSize(): unknown;
-        resetFontSizing(): unknown;
+        incFontSize(): void;
+        decFontSize(): void;
+        resetFontSizing(): void;
     }
 
     interface IResetActions {
-        resetAll(): unknown;
+        resetAll(): void;
     }
 
     interface ICloseActions {
@@ -57,6 +63,11 @@ declare namespace Accessabar {
         toggleMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
+    interface ITTSActions {
+        toggleSpeakHover(): (state: Accessabar.IState) => Accessabar.IState;
+        toggleHighlightSpeak(): (state: Accessabar.IState) => Accessabar.IState;
+    }
+
     interface IConfigObject {
         conflicts: string[];
         attrNames: {
@@ -64,6 +75,9 @@ declare namespace Accessabar {
         };
         editName: string;
         disableOnClick: boolean;
+        menuOptions: {
+            title: string;
+        };
     }
 
     interface IConfig {

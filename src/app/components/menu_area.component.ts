@@ -1,7 +1,7 @@
 import {
     div,
 } from '@hyperapp/html';
-import menu from './menus.component';
+import menu from './menu.component';
 
 // Contains all the menus in Accessabar
 const menuArea = (state, actions) => {

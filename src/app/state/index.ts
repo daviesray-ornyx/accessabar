@@ -1,6 +1,7 @@
 const state: Accessabar.IState = {
     // Whether Accessabar has been hidden or not.
     abarHidden: false,
+
     // If it's possible to drag the menu (mouse button has been pressed).
     menuCanDrag: false,
     menuCurrent: '',
@@ -10,6 +11,10 @@ const state: Accessabar.IState = {
     menuMouseY: 0,
     menuPosX: false,
     menuPosY: false,
+    menuTitle: '',
+
+    ttsHighlightSpeak: false,
+    ttsHoverSpeak: true,
 };
 
 export default state;

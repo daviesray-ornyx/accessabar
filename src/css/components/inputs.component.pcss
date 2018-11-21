@@ -1,0 +1,46 @@
+#accessabar .switch {
+    display: flex;
+    height: calc(1.5rem + 2px);
+    width: calc(3rem + 2px);
+    margin-right: 0.5em;
+    border-radius: 1rem;
+    align-items: center;
+    transition: background 0.75s;
+
+    .handle {
+        margin: 4px;
+        height: 1.25em;
+        width: 1.25em;
+        border-radius: 50%;
+        background: content-box var(--shadow-grey);
+        transition: background 0.5s;
+        pointer-events: none;
+    }
+
+    &.off {
+        background: #eee;
+        justify-content: flex-start;
+    }
+
+    &.on {
+        background: var(--active-green);
+        justify-content: flex-end;
+
+        .handle {
+            background: content-box var(--near-white);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+        visibility: hidden;
+    } 
+}
+
+#accessabar .label {
+    display: flex;
+    align-items: center;
+}

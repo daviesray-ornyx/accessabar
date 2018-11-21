@@ -61,7 +61,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             stopDrag();
         }
 
-        console.log(menuMouseX, menuMouseY, clientX, clientY, x, y, windowHeight, windowWidth, rect);
+        // console.log(menuMouseX, menuMouseY, clientX, clientY, x, y, windowHeight, windowWidth, rect);
 
         return {
             menuMouseX: clientX,
@@ -131,6 +131,9 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             return;
         }
 
+        const menuOptions = config.menuOptions;
+        const title = menuOptions.title;
+
         if (name === menuCurrent) {
             hideMenu();
             return {
@@ -142,6 +145,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
         return {
             menuCurrent: name,
+            menuTitle: title,
         };
     },
 };

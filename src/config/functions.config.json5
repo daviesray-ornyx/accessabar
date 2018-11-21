@@ -7,4 +7,12 @@
         editName: 'font-size',
         disableOnClick: false,
     },
+
+    tts: {
+        conflicts: [],
+        disableOnClick: true,
+        menuOptions: {
+            title: 'Text to Speech',
+        },
+    }
 }

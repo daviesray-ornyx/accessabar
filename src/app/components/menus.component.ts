@@ -1,64 +1,39 @@
 import {
     div,
-    header,
+    section,
+    label,
     span,
 } from '@hyperapp/html';
-interface IMenuComponentState {
-    menuHidden: Accessabar.IState['menuHidden'];
-    menuPosX: Accessabar.IState['menuPosX'];
-    menuPosY: Accessabar.IState['menuPosY'];
-}
 
-interface IMenuComponentActions {
-    addMenuListener: Accessabar.IMenuActions['addMenuListener'];
-    updatePosition: Accessabar.IMenuActions['updatePosition'];
-    startDrag: Accessabar.IMenuActions['startDrag'];
-    stopDrag: Accessabar.IMenuActions['stopDrag'];
-}
-
-const menu = ({ menuPosX, menuPosY, menuHidden }: IMenuComponentState, { addMenuListener, updatePosition, startDrag, stopDrag }: IMenuComponentActions) => {
-    return div(
-        {
-            class: `menu draggable ${menuHidden ? 'hide' : ''}`,
-            id: 'menu',
-            oncreate: (el: HTMLElement) => {
-                updatePosition(el);
-                addMenuListener();
-            },
-            style: {
-                left: menuPosX !== false ? `${ menuPosX }px` : null,
-                top: menuPosY !== false ? `${ menuPosY }px` : null,
-            },
-        },
-        [
-            header(
-                {
-                    class: 'menu-header',
-                    onmousedown: (event) => {
-                        startDrag(event);
-                    },
-                    onmouseup: () => {
-                        stopDrag();
-                    },
-                    ontouchcancel: () => {
-                        stopDrag();
-                    },
-                    ontouchend: () => {
-                        stopDrag();
-                    },
-                    ontouchstart: (event) => {
-                        startDrag(event);
-                    },
+const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
+    return label({ class: 'label' }, [
+        div(
+            {
+                'aria-label': ariaLabel,
+                class: `switch ${switchState ? 'on' : 'off'}`,
+                onclick: (event) => {
+                    switchAction();
                 },
-                [
-                    span({ class: 'menu-header-text' }, 'Active Menu'),
-                ],
-            ),
-        ],
-    );
+            },
+            [
+                div({ class: 'handle' }),
+            ],
+        ),
+        span(labelText),
+    ]);
 };
 
-export default menu;
+const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    return div({ class: 'menu-content' }, [
+        section({ class: 'box flex-column' }, [
+            switchEl(state.ttsHoverSpeak, actions.toggleSpeakHover, 'Speak on hover', 'Toggle speak on hover'),
+        ]),
+        section({ class: 'box flex-column' }, [
+            switchEl(state.ttsHighlightSpeak, actions.toggleHighlightSpeak, 'Speak only highlighted', 'Toggle speak only highlighted text'),
+        ]),
+    ]);
+};
+
 export {
-    menu,
+    ttsMenu,
 };
