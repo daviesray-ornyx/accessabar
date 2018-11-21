@@ -5,38 +5,6 @@ import {
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
-interface ITTSButtonActions {
-    toggleMenu: Accessabar.IMenuActions['toggleMenu'];
-}
-
-const ttsButton = ({ toggleMenu }: ITTSButtonActions) => {
-    return button(
-        {
-            'aria-label': 'Enable text to speech',
-            class: 'bar-button',
-            id: 'tts',
-            onclick: () => {
-                toggleMenu('tts');
-            },
-            oncreate: () => {
-                tippy('#accessabar #tts', {
-                    arrow: true,
-                    content: 'Text to Speech',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            tabIndex: 0,
-        },
-        [
-            i({
-                'aria-hidden': true,
-                class: 'ab-icon-audio-description',
-            }),
-        ],
-    );
-};
-
 const playButton = () => {
     return button(
         {
@@ -107,6 +75,38 @@ const stopButton = () => {
             i({
                 'aria-hidden': true,
                 class: 'ab-icon-stop',
+            }),
+        ],
+    );
+};
+
+interface ITTSButtonActions {
+    toggleMenu: Accessabar.IMenuActions['toggleMenu'];
+}
+
+const ttsButton = ({ toggleMenu }: ITTSButtonActions) => {
+    return button(
+        {
+            'aria-label': 'Enable text to speech',
+            class: 'bar-button',
+            id: 'tts',
+            onclick: () => {
+                toggleMenu('tts');
+            },
+            oncreate: () => {
+                tippy('#accessabar #tts', {
+                    arrow: true,
+                    content: 'Text to Speech',
+                    placement: 'bottom',
+                    theme: 'ab',
+                });
+            },
+            tabIndex: 0,
+        },
+        [
+            i({
+                'aria-hidden': true,
+                class: 'ab-icon-audio-description',
             }),
         ],
     );

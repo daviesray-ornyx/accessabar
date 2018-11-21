@@ -6,6 +6,9 @@
     box-shadow: 0 2px 2px var(--shadow-grey);
 
     .menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         padding: 0.5em;
         background: var(--light-grey);
         font-size: 1rem;
@@ -21,6 +24,23 @@
         .menu-header-text {
             pointer-events: none;
             user-select: none;
+        }
+
+        /* TODO: Make button object */
+
+        .menu-close {
+            margin: 0.15em;
+            outline: none;
+            border: none;
+            background: var(--dark-red);
+            color: var(--font-colour);
+            padding: 0.25em;
+
+            &:hover, &:focus {
+                background: var(--lighter-red);
+                cursor: pointer;
+                outline: 2px solid var(--blue-focus);
+            }
         }
     }
 }

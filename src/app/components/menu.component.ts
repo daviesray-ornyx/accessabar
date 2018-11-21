@@ -2,8 +2,11 @@ import {
     div,
     header,
     span,
+    button,
+    i,
 } from '@hyperapp/html';
 import * as menus from './menus.component';
+import tippy from 'tippy.js';
 
 const menuNames = new Map([
     ['tts', menus.ttsMenu],
@@ -53,6 +56,31 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                 },
                 [
                     span({ class: 'menu-header-text' }, state.menuTitle),
+                    button(
+                        {
+                            'aria-label': 'Close menu',
+                            class: 'menu-close',
+                            id: 'menu-close',
+                            onclick: () => {
+                                actions.toggleMenu('tts');
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #menu-close', {
+                                    arrow: true,
+                                    content: 'Close Menu',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            tabIndex: 1,
+                        },
+                        [
+                            i({
+                                'aria-hidden': true,
+                                class: 'ab-icon-cancel',
+                            }),
+                        ],
+                    ),
                 ],
             ),
             menuEl(state, actions),
