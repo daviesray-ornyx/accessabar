@@ -137,6 +137,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         if (name === menuCurrent) {
             hideMenu();
             return {
+                menuActive: false,
                 menuCurrent: '',
             };
         }
@@ -144,6 +145,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         showMenu();
 
         return {
+            menuActive: true,
             menuCurrent: name,
             menuTitle: title,
         };

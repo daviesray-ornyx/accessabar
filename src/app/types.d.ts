@@ -4,6 +4,7 @@ declare namespace Accessabar {
     interface IState {
         abarHidden: boolean;
 
+        menuActive: boolean;
         menuCanDrag: boolean;
         menuCurrent: string;
         menuPosX: number | boolean;
@@ -29,7 +30,7 @@ declare namespace Accessabar {
     {}
 
     interface IHideActions {
-        abarHide(): (state: Accessabar.IState) => Accessabar.IState;
+        abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IUtilActions {
