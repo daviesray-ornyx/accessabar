@@ -43,7 +43,7 @@ declare namespace Accessabar {
     }
 
     interface IResetActions {
-        resetAll(): void;
+        resetAll(): Accessabar.IState;
     }
 
     interface ICloseActions {
