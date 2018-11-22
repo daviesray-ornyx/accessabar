@@ -81,17 +81,18 @@ const stopButton = () => {
 };
 
 interface ITTSButtonActions {
-    toggleMenu: Accessabar.IMenuActions['toggleMenu'];
+    ttsStart: Accessabar.ITTSActions['ttsStart'];
+    ttsStop: Accessabar.ITTSActions['ttsStop'];
 }
 
-const ttsButton = ({ toggleMenu }: ITTSButtonActions) => {
+const ttsButton = ({ ttsStart, ttsStop }: ITTSButtonActions) => {
     return button(
         {
             'aria-label': 'Enable text to speech',
             class: 'bar-button',
             id: 'tts',
             onclick: () => {
-                toggleMenu('tts');
+                AccessabarUtil.startFunction('tts', ttsStop, ttsStart);
             },
             oncreate: () => {
                 tippy('#accessabar #tts', {
@@ -124,8 +125,7 @@ const incButton = ({ incFontSize, resetFontSizing }: IIncButtonActions) => {
             class: 'bar-button',
             id: 'font-increase',
             onclick: () => {
-                AccessabarUtil.applyFunction('fontSizing', resetFontSizing);
-                incFontSize();
+                AccessabarUtil.startFunction('fontSizing', resetFontSizing, incFontSize);
             },
             oncreate: () => {
                 tippy('#accessabar #font-increase', {
@@ -158,8 +158,7 @@ const decButton = ({ decFontSize, resetFontSizing }: IDecButtonActions) => {
             class: 'bar-button',
             id: 'font-decrease',
             onclick: () => {
-                AccessabarUtil.applyFunction('fontSizing', resetFontSizing);
-                decFontSize();
+                AccessabarUtil.startFunction('fontSizing', resetFontSizing, decFontSize);
             },
             oncreate: () => {
                 tippy('#accessabar #font-decrease', {
