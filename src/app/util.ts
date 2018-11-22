@@ -58,22 +58,39 @@ class AccessabarUtil {
         }
     }
 
-    public static applyFunction(name: string, callback: () => unknown) {
+    public static startFunction(name: string, stopCallback: () => unknown, startCallback: () => unknown) {
         if (Object.keys(funcConfig).indexOf(name) === -1) {
             return;
         }
 
         const config: Accessabar.IConfigObject = funcConfig[name];
 
+        this.handleConflicts(config);
+
         if (!window.abar.appliedFunctions.has(name)) {
-            this.handleConflicts(config);
-            window.abar.appliedFunctions.set(name, callback);
+            window.abar.appliedFunctions.set(name, stopCallback);
+            startCallback();
             return;
         }
 
         const func = window.abar.appliedFunctions.get(name);
 
         if (config.disableOnClick && func) {
+            func();
+            window.abar.appliedFunctions.delete(name);
+        } else {
+            startCallback();
+        }
+    }
+
+    public static stopFunction(name: string) {
+        if (!window.abar.appliedFunctions.has(name)) {
+            return;
+        }
+
+        const func = window.abar.appliedFunctions.get(name);
+
+        if (func) {
             func();
             window.abar.appliedFunctions.delete(name);
         }
