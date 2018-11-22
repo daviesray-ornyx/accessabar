@@ -15,7 +15,12 @@ const state: Accessabar.IState = {
     menuTitle: '',
 
     ttsHighlightSpeak: false,
-    ttsHoverSpeak: true,
+    ttsHoverSpeak: false,
+    ttsLang: 'en',
+    ttsPitch: 1,
+    ttsRate: 1,
+    ttsVoices: [],
+    ttsVolume: 1,
 };
 
 export default state;

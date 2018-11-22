@@ -17,6 +17,11 @@ declare namespace Accessabar {
 
         ttsHoverSpeak: boolean;
         ttsHighlightSpeak: boolean;
+        ttsPitch: number;
+        ttsRate: number;
+        ttsVolume: number;
+        ttsLang: string;
+        ttsVoices: SpeechSynthesisVoice[];
     }
 
     interface IActions extends
@@ -72,7 +77,10 @@ declare namespace Accessabar {
         ttsStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsHoverStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         ttsHighlightStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
-        ttsStopCurrent(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        ttsStopCurrent(): (state: Accessabar.IState) => Accessabar.IState;
+        ttsHandleHover(event: MouseEvent): (state: Accessabar.IState) => void;
+        ttsHandleHighlight(): (state: Accessabar.IState) => void;
+        ttsUpdateVoices(): Accessabar.IState;
     }
 
     interface IConfigObject {
