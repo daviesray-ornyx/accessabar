@@ -35,7 +35,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    ttsHandleHover: (event: MouseEvent) => (state, { ttsSpeak }) => {
+    ttsHandleHover: (event: MouseEvent) => ({ ttsHoverTimeout }) => {
         const { target } = event;
         const selection = window.getSelection();
 
@@ -47,7 +47,14 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         selection.selectAllChildren((target as Node));
 
         const currentText = selection.toString();
-        ttsSpeak(currentText);
+
+        if (ttsHoverTimeout && typeof ttsHoverTimeout !== 'boolean') {
+            clearTimeout(ttsHoverTimeout);
+        }
+
+        return {
+            ttsHoverTimeout: setTimeout(window.abar.appActions.ttsSpeak.bind(null, currentText), 500),
+        };
     },
 
     ttsHandleHighlight: () => () => {
@@ -73,6 +80,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
     },
 
     ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices }) => {
+        console.log('speak');
         if (ttsVoices.length === 0) {
             return;
         }

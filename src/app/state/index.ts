@@ -16,6 +16,7 @@ const state: Accessabar.IState = {
 
     ttsHighlightSpeak: false,
     ttsHoverSpeak: false,
+    ttsHoverTimeout: false,
     ttsLang: 'en',
     ttsPitch: 1,
     ttsRate: 1,
