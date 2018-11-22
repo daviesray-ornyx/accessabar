@@ -71,7 +71,7 @@ class AccessabarController {
      * @type {Accessabar.IActions}
      * @memberof AccessabarController
      */
-    private appActions: Accessabar.IActions;
+    public appActions: Accessabar.IActions;
 
     /**
      * Set to true when Accessabar has been rendered on the page.
