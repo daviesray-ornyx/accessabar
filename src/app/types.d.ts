@@ -61,12 +61,15 @@ declare namespace Accessabar {
         updateMousePosition(event: MouseEvent): Accessabar.IState;
         startDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         stopDrag(): Accessabar.IState;
-        toggleMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        openMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        closeMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface ITTSActions {
         toggleSpeakHover(): (state: Accessabar.IState) => Accessabar.IState;
         toggleHighlightSpeak(): (state: Accessabar.IState) => Accessabar.IState;
+        ttsStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        ttsStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {
@@ -78,6 +81,7 @@ declare namespace Accessabar {
         disableOnClick: boolean;
         menuOptions: {
             title: string;
+            disableOnClose: boolean;
         };
     }
 
