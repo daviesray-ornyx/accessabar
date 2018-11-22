@@ -23,6 +23,7 @@ declare namespace Accessabar {
         ttsLang: string;
         ttsVoices: SpeechSynthesisVoice[];
         ttsHoverTimeout: NodeJS.Timeout | boolean;
+        ttsHighlightTimeout: NodeJS.Timeout | boolean;
     }
 
     interface IActions extends

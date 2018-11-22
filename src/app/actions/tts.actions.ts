@@ -57,8 +57,16 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    ttsHandleHighlight: () => () => {
-        console.log('test 2');
+    ttsHandleHighlight: () => ({ ttsHighlightTimeout }) => {
+        const currentText = window.getSelection().toString();
+
+        if (ttsHighlightTimeout && typeof ttsHighlightTimeout !== 'boolean') {
+            clearTimeout(ttsHighlightTimeout);
+        }
+
+        return {
+            ttsHighlightTimeout: setTimeout(window.abar.appActions.ttsSpeak.bind(null, currentText), 500),
+        };
     },
 
     ttsHoverStart: () => (state, { ttsStopCurrent }) => {
