@@ -14,6 +14,16 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
             ttsHoverSpeak: false,
         };
     },
+
+    ttsStart: () => (state, { openMenu }: Accessabar.IActions) => {
+        console.log('Start');
+        openMenu('tts');
+    },
+
+    ttsStop: () => (state, { closeMenu }: Accessabar.IActions) => {
+        console.log('Stop');
+        closeMenu('tts');
+    },
 };
 
 export default ttsActions;
