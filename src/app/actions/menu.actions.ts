@@ -124,7 +124,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
     stopDrag: () => ({ menuCanDrag: false }),
 
-    toggleMenu: (name: string) => ({ menuCurrent }, { hideMenu, showMenu }) => {
+    openMenu: (name: string) => ({ menuCurrent }, { showMenu }) => {
         const config: Accessabar.IConfigObject = funcConfig[name];
 
         if (!config) {
@@ -132,14 +132,10 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         }
 
         const menuOptions = config.menuOptions;
-        const title = menuOptions.title;
+        const { title } = menuOptions;
 
         if (name === menuCurrent) {
-            hideMenu();
-            return {
-                menuActive: false,
-                menuCurrent: '',
-            };
+            return;
         }
 
         showMenu();
@@ -149,6 +145,17 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             menuCurrent: name,
             menuTitle: title,
         };
+    },
+
+    closeMenu: (name: string) => ({ menuCurrent }, { hideMenu }) => {
+        if (name === menuCurrent) {
+            hideMenu();
+
+            return {
+                menuActive: false,
+                menuCurrent: '',
+            };
+        }
     },
 };
 
