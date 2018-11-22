@@ -66,10 +66,13 @@ declare namespace Accessabar {
     }
 
     interface ITTSActions {
-        toggleSpeakHover(): (state: Accessabar.IState) => Accessabar.IState;
-        toggleHighlightSpeak(): (state: Accessabar.IState) => Accessabar.IState;
+        toggleSpeakHover(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        toggleHighlightSpeak(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        ttsHoverStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        ttsHighlightStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        ttsStopCurrent(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {

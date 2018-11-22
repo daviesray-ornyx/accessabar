@@ -1,28 +1,66 @@
 import { ActionsType } from 'hyperapp';
 
 const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
-    toggleSpeakHover: () => ({ ttsHoverSpeak }) => {
+    toggleSpeakHover: () => ({ ttsHoverSpeak }, { ttsHoverStart, ttsStopCurrent }) => {
+        if (ttsHoverSpeak) {
+            ttsStopCurrent();
+        } else {
+            ttsHoverStart();
+        }
+
         return {
             ttsHighlightSpeak: false,
             ttsHoverSpeak: !ttsHoverSpeak,
         };
     },
 
-    toggleHighlightSpeak: () => ({ ttsHighlightSpeak }) => {
+    toggleHighlightSpeak: () => ({ ttsHighlightSpeak }, { ttsHighlightStart, ttsStopCurrent }) => {
+        if (ttsHighlightSpeak) {
+            ttsStopCurrent();
+        } else {
+            ttsHighlightStart();
+        }
+
         return {
             ttsHighlightSpeak: !ttsHighlightSpeak,
             ttsHoverSpeak: false,
         };
     },
 
-    ttsStart: () => (state, { openMenu }: Accessabar.IActions) => {
-        console.log('Start');
-        openMenu('tts');
+    ttsHoverStart: () => (state, { ttsStopCurrent }) => {
+        console.log('start hover');
+        ttsStopCurrent();
+
+        return;
     },
 
-    ttsStop: () => (state, { closeMenu }: Accessabar.IActions) => {
-        console.log('Stop');
+    ttsHighlightStart: () => (state, { ttsStopCurrent }) => {
+        console.log('start highlight');
+        ttsStopCurrent();
+
+        return;
+    },
+
+    ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { openMenu, ttsHighlightStart, ttsHoverStart }: Accessabar.IActions) => {
+        openMenu('tts');
+
+        if (ttsHighlightSpeak) {
+            ttsHighlightStart();
+        }
+
+        if (ttsHoverSpeak) {
+            ttsHoverStart();
+        }
+    },
+
+    ttsStop: () => (state, { closeMenu, ttsStopCurrent }: Accessabar.IActions) => {
+        ttsStopCurrent();
         closeMenu('tts');
+    },
+
+    ttsStopCurrent: () => () => {
+        console.log('stop current');
+        return;
     },
 };
 
