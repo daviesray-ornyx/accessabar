@@ -81,6 +81,7 @@ declare namespace Accessabar {
         ttsHandleHover(event: MouseEvent): (state: Accessabar.IState) => void;
         ttsHandleHighlight(): (state: Accessabar.IState) => void;
         ttsUpdateVoices(): Accessabar.IState;
+        ttsSpeak(text: string): (state: Accessabar.IState) => void;
     }
 
     interface IConfigObject {

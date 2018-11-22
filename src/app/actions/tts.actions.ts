@@ -35,7 +35,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    ttsHandleHover: (event: MouseEvent) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices }) => {
+    ttsHandleHover: (event: MouseEvent) => (state, { ttsSpeak }) => {
         const { target } = event;
         const selection = window.getSelection();
 
@@ -43,26 +43,11 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
             return;
         }
 
-        if (ttsVoices.length === 0) {
-            return;
-        }
-
         selection.removeAllRanges();
         selection.selectAllChildren((target as Node));
 
         const currentText = selection.toString();
-        const utterance = new SpeechSynthesisUtterance(currentText);
-
-        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-            window.speechSynthesis.cancel();
-        }
-
-        utterance.pitch = ttsPitch;
-        utterance.rate = ttsRate;
-        utterance.volume = ttsVolume;
-        utterance.lang = ttsLang;
-
-        window.speechSynthesis.speak(utterance);
+        ttsSpeak(currentText);
     },
 
     ttsHandleHighlight: () => () => {
@@ -85,6 +70,25 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         document.addEventListener('mouseup', highlightPassthrough);
 
         return;
+    },
+
+    ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices }) => {
+        if (ttsVoices.length === 0) {
+            return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+            window.speechSynthesis.cancel();
+        }
+
+        utterance.pitch = ttsPitch;
+        utterance.rate = ttsRate;
+        utterance.volume = ttsVolume;
+        utterance.lang = ttsLang;
+
+        window.speechSynthesis.speak(utterance);
     },
 
     ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { openMenu, ttsHighlightStart, ttsHoverStart }: Accessabar.IActions) => {
