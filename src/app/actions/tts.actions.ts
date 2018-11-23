@@ -70,7 +70,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
     },
 
     ttsHoverStart: () => (state, { ttsStopCurrent }) => {
-        console.log('start hover');
+        // console.log('start hover');
         ttsStopCurrent();
 
         document.addEventListener('mouseover', hoverPassthrough);
@@ -79,7 +79,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
     },
 
     ttsHighlightStart: () => (state, { ttsStopCurrent }) => {
-        console.log('start highlight');
+        // console.log('start highlight');
         ttsStopCurrent();
 
         document.addEventListener('mouseup', highlightPassthrough);
@@ -88,7 +88,6 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
     },
 
     ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices }) => {
-        console.log('speak');
         if (ttsVoices.length === 0) {
             return;
         }
@@ -103,6 +102,8 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         utterance.rate = ttsRate;
         utterance.volume = ttsVolume;
         utterance.lang = ttsLang;
+
+        // console.log(utterance);
 
         window.speechSynthesis.speak(utterance);
     },
@@ -126,19 +127,17 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
     },
 
     ttsStopCurrent: () => ({ ttsHighlightSpeak, ttsHoverSpeak }) => {
-        console.log('stop current');
+        // console.log('stop current');
 
         if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
             window.speechSynthesis.cancel();
         }
 
         if (ttsHighlightSpeak) {
-            console.log('yes 1');
             document.removeEventListener('mouseup', highlightPassthrough);
         }
 
         if (ttsHoverSpeak) {
-            console.log('yes 2');
             document.removeEventListener('mouseover', hoverPassthrough);
         }
     },
