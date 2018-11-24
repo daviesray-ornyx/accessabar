@@ -108,9 +108,13 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         window.speechSynthesis.speak(utterance);
     },
 
-    ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { openMenu, ttsHighlightStart, ttsHoverStart }: Accessabar.IActions) => {
+    ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { openMenu, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
         openMenu('tts');
-        window.speechSynthesis.onvoiceschanged = window.abar.appActions.ttsUpdateVoices;
+        ttsUpdateVoices();
+
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+            window.speechSynthesis.onvoiceschanged = window.abar.appActions.ttsUpdateVoices;
+        }
 
         if (ttsHighlightSpeak) {
             ttsHighlightStart();
