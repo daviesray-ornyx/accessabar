@@ -27,7 +27,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             clientY,
         } = ev;
 
-        const menu = document.querySelector('#accessabar #menu');
+        const menu = window.abar.mainElement.querySelector('#menu');
 
         if (!menuCanDrag || !target || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
             return;
@@ -86,10 +86,16 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     },
 
     showMenu: () => {
+        const bar = window.abar.mainElement.querySelector('.bar');
+
+        if (!bar) {
+            return;
+        }
+
         return {
             menuHidden: false,
             menuPosX: 50,
-            menuPosY: window.abar.mainElement.getBoundingClientRect().height,
+            menuPosY: bar.getBoundingClientRect().height,
         };
     },
 
