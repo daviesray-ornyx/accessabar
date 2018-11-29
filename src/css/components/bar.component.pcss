@@ -1,11 +1,29 @@
 #accessabar {
     font-family: var(--main-font);
-    background: var(--light-grey);
-    display: flex;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 998;
-    padding: 0.5rem;
+}
+
+#accessabar .bar {
+    grid-area: bar;
+    background: var(--light-grey);
     box-shadow: 0 2px 2px var(--shadow-grey);
+    width: 100%;
+    padding: 0.5rem;
+
+    .bar-container {
+        background: var(--near-white);
+        padding: 0.25em;
+        position: relative;
+    }
+}
+
+#accessabar .underbar {
+    grid-area: underbar;
+}
+
+#accessabar .menu-area {
+    grid-area: menu-area;
 }
