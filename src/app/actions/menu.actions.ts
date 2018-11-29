@@ -4,15 +4,13 @@ import funcConfig from '../../config/functions.config.json5';
 interface IDragEvent extends MouseEvent, TouchEvent {}
 
 const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
-    addMenuListener: () => ({ menuEvent }, { moveMenu }) => {
+    addMenuListener: () => ({ menuEvent, menuCanDrag }, { moveMenu }) => {
         if (!menuEvent) {
             document.addEventListener('mousemove', (event) => {
-                event.preventDefault();
                 moveMenu(event);
             });
 
             document.addEventListener('touchmove', (event) => {
-                event.preventDefault();
                 moveMenu(event);
             });
 
@@ -33,6 +31,10 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
         if (!menuCanDrag || !target || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
             return;
+        }
+
+        if (menuCanDrag) {
+            event.preventDefault();
         }
 
         const rect = menu.getBoundingClientRect();
