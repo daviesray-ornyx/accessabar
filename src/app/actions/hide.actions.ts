@@ -10,6 +10,12 @@ const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
             return;
         }
 
+        const bar = mainElement.querySelector('.bar');
+
+        if (!bar) {
+            return;
+        }
+
         if (abarHidden) {
             mainElement.style.top = '0';
 
@@ -24,7 +30,7 @@ const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
 
         // Get height of Accessabar, then push Accessabar above the window view
         // by that height - 2px (allows a small amount of Accessabar to still show).
-        const rect = mainElement.getBoundingClientRect();
+        const rect = bar.getBoundingClientRect();
 
         mainElement.style.top = `-${rect.height - 2}px`;
         document.body.style.marginTop = '2px';
