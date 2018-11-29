@@ -1,4 +1,6 @@
 #accessabar .hide-button {
+    grid-area: hide-button;
+    display: flex;
     outline: none;
     border: none;
     background: var(--light-grey);
@@ -7,7 +9,9 @@
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     color: var(--alt-font-colour);
-    margin-top: -1px;
+    margin-left: 0.25rem;
+    width: min-content;
+    height: 1.25rem;
 
     &:hover, &:focus {
         cursor: pointer;
