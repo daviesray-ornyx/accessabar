@@ -223,6 +223,7 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
             contentBase: './public/',
             hot: true,
             hotOnly: true,
+            host: '0.0.0.0',
             open: false,
             publicPath: 'http://localhost:8080/dist/accessabar/',
             compress: true,
