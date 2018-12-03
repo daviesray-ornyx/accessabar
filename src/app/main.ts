@@ -3,6 +3,7 @@ import { div } from '@hyperapp/html';
 import buttonArea from './components/button_area.component';
 import { hideButton } from './components/buttons.component';
 import menuArea from './components/menu_area.component';
+import ttsPrompt from './components/tts_prompt.component';
 
 const innerBar = (state, actions) => {
     return div({ class: 'bar growable' }, [
@@ -13,8 +14,9 @@ const innerBar = (state, actions) => {
 };
 
 const underBar = (state, actions) => {
-    return div({ class: 'underbar growable' }, [
+    return div({ class: 'underbar' }, [
         hideButton(state, actions),
+        ttsPrompt(state),
     ]);
 };
 
