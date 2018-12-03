@@ -25,12 +25,12 @@
     "test": "yarn ava && yarn cypress:run-all"
   },
   "devDependencies": {
-    "@babel/core": "7.1.6",
-    "@babel/plugin-proposal-class-properties": "7.1.0",
-    "@babel/plugin-proposal-decorators": "7.1.6",
-    "@babel/plugin-syntax-dynamic-import": "7.0.0",
-    "@babel/plugin-transform-runtime": "7.1.0",
-    "@babel/preset-env": "7.1.6",
+    "@babel/core": "7.2.0",
+    "@babel/plugin-proposal-class-properties": "7.2.0",
+    "@babel/plugin-proposal-decorators": "7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/plugin-transform-runtime": "7.2.0",
+    "@babel/preset-env": "7.2.0",
     "@babel/preset-typescript": "7.1.0",
     "@types/jquery": "3.3.22",
     "@types/node": "10.12.11",
@@ -87,7 +87,7 @@
     "webpack-dev-server": "3.1.10"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "7.1.5",
+    "@babel/runtime-corejs2": "7.2.0",
     "@hyperapp/html": "1.1.1",
     "hyperapp": "1.2.9",
     "normalize.css": "8.0.1",
