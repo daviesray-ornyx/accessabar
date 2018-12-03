@@ -3,18 +3,29 @@ import funcConfig from '../../config/functions.config.json5';
 
 interface IDragEvent extends MouseEvent, TouchEvent {}
 
-const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
-    addMenuListener: () => ({ menuEvent, menuCanDrag }, { moveMenu }) => {
-        if (!menuEvent) {
-            document.addEventListener('mousemove', (event) => {
-                moveMenu(event);
-            });
+function menuPassthrough(event) {
+    // console.log(event);
+    window.abar.appActions.moveMenu(event);
+}
 
-            document.addEventListener('touchmove', (event) => {
-                moveMenu(event);
-            });
+const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
+    addMenuListener: () => ({ menuEvent }) => {
+        if (!menuEvent) {
+            document.addEventListener('mousemove', menuPassthrough);
+
+            document.addEventListener('touchmove', menuPassthrough);
 
             return { menuEvent: true };
+        }
+    },
+
+    removeMenuListener: () => ({ menuEvent }) => {
+        if (menuEvent) {
+            document.removeEventListener('mousemove', menuPassthrough);
+
+            document.removeEventListener('touchmove', menuPassthrough);
+
+            return { menuEvent: false };
         }
     },
 
@@ -132,7 +143,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
     stopDrag: () => ({ menuCanDrag: false }),
 
-    openMenu: (name: string) => ({ menuCurrent }, { showMenu }) => {
+    openMenu: (name: string) => ({ menuCurrent }, { showMenu, addMenuListener }) => {
         const config: Accessabar.IConfigObject = funcConfig[name];
 
         if (!config) {
@@ -146,6 +157,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             return;
         }
 
+        addMenuListener();
         showMenu();
 
         return {
@@ -155,8 +167,10 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    closeMenu: (name: string) => ({ menuCurrent }, { hideMenu }) => {
+    closeMenu: (name: string) => ({ menuCurrent }, { hideMenu, removeMenuListener }) => {
         if (name === menuCurrent) {
+
+            removeMenuListener();
             hideMenu();
 
             return {

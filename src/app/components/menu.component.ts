@@ -29,7 +29,6 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
             id: 'menu',
             oncreate: (el: HTMLElement) => {
                 actions.updatePosition(el);
-                actions.addMenuListener();
             },
             style: {
                 left: state.menuPosX !== false ? `${ state.menuPosX }px` : null,

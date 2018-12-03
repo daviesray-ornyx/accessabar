@@ -67,7 +67,8 @@ declare namespace Accessabar {
     }
 
     interface IMenuActions {
-        addMenuListener(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        addMenuListener(): (state: Accessabar.IState) => Accessabar.IState;
+        removeMenuListener(): (state: Accessabar.IState) => Accessabar.IState;
         hideMenu(): Accessabar.IState;
         showMenu(): Accessabar.IState;
         toggleHide(): (state: Accessabar.IState) => Accessabar.IState;
