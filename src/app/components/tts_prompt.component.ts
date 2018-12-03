@@ -3,6 +3,7 @@ import {
     p,
     span,
 } from '@hyperapp/html';
+import { VNode } from 'hyperapp';
 
 interface ITTSPromptState {
     ttsVoiceActive: Accessabar.IState['ttsVoiceActive'];
@@ -12,7 +13,7 @@ interface ITTSPromptState {
 }
 
 const ttsPrompt = ({ ttsVoiceActive, ttsCurrentUtterSentences, ttsCurrentUtterSentenceIndex, ttsCurrentUtterSentenceWordIndex }: ITTSPromptState) => {
-    const wordArr: any[] = [];
+    const wordArr: VNode[] = [];
 
     if (ttsCurrentUtterSentences.length > 0) {
         for (const [index, value] of ttsCurrentUtterSentences[ttsCurrentUtterSentenceIndex].entries()) {
