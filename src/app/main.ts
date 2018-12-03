@@ -15,7 +15,9 @@ const innerBar = (state, actions) => {
 
 const underBar = (state, actions) => {
     return div({ class: 'underbar' }, [
-        hideButton(state, actions),
+        div({ class: 'hide-button-container' }, [
+            hideButton(state, actions),
+        ]),
         ttsPrompt(state),
     ]);
 };

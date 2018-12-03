@@ -1,19 +1,21 @@
-#accessabar .hide-button {
-    grid-area: hide-button;
+#accessabar .hide-button-container {
     display: flex;
-    outline: none;
-    border: none;
-    background: var(--light-grey);
-    padding: 0 0.5em;
-    box-shadow: 0 2px 2px var(--shadow-grey);
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    color: var(--alt-font-colour);
-    margin-left: 0.25rem;
-    width: min-content;
-    height: 1.25rem;
+    grid-area: hide-button;
+    align-items: flex-start;
 
-    &:hover, &:focus {
-        cursor: pointer;
+    .hide-button {
+        outline: none;
+        border: none;
+        background: var(--light-grey);
+        padding: 0 0.5em;
+        box-shadow: 0 2px 2px var(--shadow-grey);
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        color: var(--alt-font-colour);
+        margin-left: 0.25rem;
+    
+        &:hover, &:focus {
+            cursor: pointer;
+        }
     }
 }
