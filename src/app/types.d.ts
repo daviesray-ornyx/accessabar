@@ -24,6 +24,14 @@ declare namespace Accessabar {
         ttsVoices: SpeechSynthesisVoice[];
         ttsHoverTimeout: NodeJS.Timeout | boolean;
         ttsHighlightTimeout: NodeJS.Timeout | boolean;
+        ttsVoiceActive: boolean;
+        ttsCurrentUtterText: string;
+        ttsCurrentUtterWords: string[];
+        ttsCurrentUtterSentences: Array<string[]>;
+        ttsCurrentUtterSentenceIndex: number;
+        ttsCurrentUtterSentenceWordIndex: number;
+        ttsCurrentUtterWordIndex: number;
+        ttsCurrentUtterCharIndex: number;
     }
 
     interface IActions extends
@@ -84,6 +92,7 @@ declare namespace Accessabar {
         ttsHandleHighlight(): (state: Accessabar.IState) => void;
         ttsUpdateVoices(): Accessabar.IState;
         ttsSpeak(text: string): (state: Accessabar.IState) => void;
+        ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {

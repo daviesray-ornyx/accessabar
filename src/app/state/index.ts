@@ -14,6 +14,13 @@ const state: Accessabar.IState = {
     menuPosY: false,
     menuTitle: '',
 
+    ttsCurrentUtterCharIndex: 0,
+    ttsCurrentUtterSentenceIndex: 0,
+    ttsCurrentUtterSentenceWordIndex: 0,
+    ttsCurrentUtterSentences: [],
+    ttsCurrentUtterText: '',
+    ttsCurrentUtterWordIndex: 0,
+    ttsCurrentUtterWords: [],
     ttsHighlightSpeak: false,
     ttsHighlightTimeout: false,
     ttsHoverSpeak: false,
@@ -21,6 +28,7 @@ const state: Accessabar.IState = {
     ttsLang: 'en',
     ttsPitch: 1,
     ttsRate: 1,
+    ttsVoiceActive: false,
     ttsVoices: [],
     ttsVolume: 1,
 };

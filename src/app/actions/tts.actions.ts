@@ -69,6 +69,69 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
+    ttsHandlePrompt: (event: SpeechSynthesisEvent) => ({ ttsVoiceActive, ttsCurrentUtterText, ttsCurrentUtterWordIndex, ttsCurrentUtterCharIndex }) => {
+        // console.log(event);
+
+        switch (event.type) {
+        case 'start':
+            const words = event.utterance.text.split(/\s/);
+            const sentencesArr = Array(Math.ceil(words.length / 5)).fill('');
+            const sentenceChunks = sentencesArr.map((_, i) => words.slice(i * 5, i * 5 + 5));
+
+            // console.log('Chunks:', sentenceChunks);
+
+            return {
+                ttsCurrentUtterCharIndex: event.charIndex,
+                ttsCurrentUtterSentences: sentenceChunks,
+                ttsCurrentUtterText: event.utterance.text,
+                ttsCurrentUtterWords: words,
+                ttsVoiceActive: true,
+            };
+        case 'boundary':
+            if (!ttsVoiceActive) {
+                return;
+            }
+
+            if (event.name !== 'word') {
+                return;
+            }
+
+            // const { charIndex } = event;
+            // const sentence = ttsCurrentUtterText.substring(charIndex);
+            // // Match everything before fullstop, comma, speech mark, close bracket and whitespace
+            // const re = /([^\.,"\)\s]+)/;
+            // const wordArr = re.exec(sentence);
+            // const length = (wordArr || [''])[0].length;
+
+            let wordIndex = ttsCurrentUtterWordIndex;
+
+            if (event.charIndex !== ttsCurrentUtterCharIndex && event.charIndex !== 0) {
+                wordIndex++;
+            }
+
+            const sentenceIndex = Math.floor(wordIndex / 5);
+            const sentenceWordIndex = wordIndex % 5;
+
+            return {
+                ttsCurrentUtterCharIndex: event.charIndex,
+                ttsCurrentUtterSentenceIndex: sentenceIndex,
+                ttsCurrentUtterSentenceWordIndex: sentenceWordIndex,
+                ttsCurrentUtterWordIndex: wordIndex,
+            };
+        case 'end':
+            return {
+                ttsCurrentUtterCharIndex: 0,
+                ttsCurrentUtterSentences: [],
+                ttsCurrentUtterText: '',
+                ttsCurrentUtterWordIndex: 0,
+                ttsCurrentUtterWords: [],
+                ttsVoiceActive: false,
+            };
+        default:
+            return;
+        }
+    },
+
     ttsHoverStart: () => (state, { ttsStopCurrent }) => {
         // console.log('start hover');
         ttsStopCurrent();
@@ -102,6 +165,18 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         utterance.rate = ttsRate;
         utterance.volume = ttsVolume;
         utterance.lang = ttsLang;
+
+        utterance.onstart = (event) => {
+            window.abar.appActions.ttsHandlePrompt(event);
+        };
+
+        utterance.onboundary = (event) => {
+            window.abar.appActions.ttsHandlePrompt(event);
+        };
+
+        utterance.onend = (event) => {
+            window.abar.appActions.ttsHandlePrompt(event);
+        };
 
         // console.log(utterance);
 
