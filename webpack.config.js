@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { resolve } = require('path');
 // const threadLoader = require('thread-loader');
 // const { length: cpuCount } = require('os').cpus();
@@ -205,7 +206,15 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
             ...sharedPlugins,
             new Webpack.NamedModulesPlugin(),
             new Webpack.NamedChunksPlugin(),
-            ...(devServer ? [new Webpack.HotModuleReplacementPlugin()] : []),
+            ...(devServer ? [
+                new Webpack.HotModuleReplacementPlugin(),
+                new BrowserSyncPlugin({
+                    open: false,
+                    host: 'localhost',
+                    port: '8080',
+                    proxy: 'http://localhost:8090/',
+                }, { reload: false }),
+            ] : []),
             ...(dash ? [new DashboardPlugin()] : []),
         ] : [
             ...sharedPlugins,
@@ -223,9 +232,10 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
             contentBase: './public/',
             hot: true,
             hotOnly: true,
-            host: '0.0.0.0',
+            host: 'localhost',
             open: false,
             publicPath: 'http://localhost:8080/dist/accessabar/',
+            port: '8090',
             compress: true,
         },
         resolve: {
