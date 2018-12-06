@@ -6,21 +6,26 @@ import {
 } from '@hyperapp/html';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
-    return label({ class: 'label' }, [
-        div(
-            {
-                'aria-label': ariaLabel,
-                class: `switch ${switchState ? 'on' : 'off'}`,
-                onclick: (event) => {
-                    switchAction();
-                },
+    return label(
+        {
+            class: 'label',
+            onclick: (event) => {
+                switchAction();
             },
-            [
-                div({ class: 'handle' }),
-            ],
-        ),
-        span(labelText),
-    ]);
+        },
+        [
+            div(
+                {
+                    'aria-label': ariaLabel,
+                    class: `switch ${switchState ? 'on' : 'off'}`,
+                },
+                [
+                    div({ class: 'handle' }),
+                ],
+            ),
+            span(labelText),
+        ],
+    );
 };
 
 const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
