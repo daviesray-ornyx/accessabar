@@ -179,12 +179,20 @@ const decButton = ({ decFontSize, resetFontSizing }: IDecButtonActions) => {
     );
 };
 
-const textOpsButton = () => {
+interface ITextOpsActions {
+    textOpsOpen: Accessabar.ITextOptionsActions['textOpsOpen'];
+    textOpsClose: Accessabar.ITextOptionsActions['textOpsClose'];
+}
+
+const textOpsButton = ({ textOpsOpen, textOpsClose }: ITextOpsActions) => {
     return button(
         {
             'aria-label': 'Text options',
             class: 'bar-button',
             id: 'text-options',
+            onclick: () => {
+                AccessabarUtil.startFunction('textOptions', textOpsClose, textOpsOpen);
+            },
             oncreate: () => {
                 tippy('#accessabar #text-options', {
                     arrow: true,

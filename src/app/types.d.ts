@@ -32,6 +32,8 @@ declare namespace Accessabar {
         ttsCurrentUtterSentenceWordIndex: number;
         ttsCurrentUtterWordIndex: number;
         ttsCurrentUtterCharIndex: number;
+
+        textOpsInnerMenuCurrent: string;
     }
 
     interface IActions extends
@@ -94,6 +96,12 @@ declare namespace Accessabar {
         ttsUpdateVoices(): Accessabar.IState;
         ttsSpeak(text: string): (state: Accessabar.IState) => void;
         ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
+    }
+
+    interface ITextOptionsActions {
+        textOpsOpen(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        textOpsClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        textOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {

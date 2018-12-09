@@ -3,6 +3,7 @@ import {
     section,
     label,
     span,
+    button,
 } from '@hyperapp/html';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
@@ -39,6 +40,82 @@ const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     ]);
 };
 
+const textOptionsInnerFont = (state, actions) => {
+    return div('font');
+};
+
+const textOptionsInnerTextColour = (state, actions) => {
+    return div('tc');
+};
+
+const textOptionsInnerLineSpacing = (state, actions) => {
+    return div('ls');
+};
+
+const textOptionsInnerCharSpacing = (state, actions) => {
+    return div('cs');
+};
+
+const textOptionsInnerMenus = new Map([
+    ['font', textOptionsInnerFont],
+    ['text_colour', textOptionsInnerTextColour],
+    ['line_spacing', textOptionsInnerLineSpacing],
+    ['char_spacing', textOptionsInnerCharSpacing],
+]);
+
+const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    let innerMenu = div();
+
+    if (textOptionsInnerMenus.has(state.textOpsInnerMenuCurrent)) {
+        innerMenu = (textOptionsInnerMenus.get(state.textOpsInnerMenuCurrent) || textOptionsInnerFont)(state, actions);
+    }
+
+    return div({ class: 'menu-container' }, [
+        div({ class: 'menu-tabs' }, [
+            button(
+                {
+                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'font' ? 'active' : ''}`,
+                    onclick: () => {
+                        actions.textOpsSwitchInner('font');
+                    },
+                },
+                'Font',
+            ),
+            button(
+                {
+                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'text_colour' ? 'active' : ''}`,
+                    onclick: () => {
+                        actions.textOpsSwitchInner('text_colour');
+                    },
+                },
+                'Text Colour',
+            ),
+            button(
+                {
+                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'line_spacing' ? 'active' : ''}`,
+                    onclick: () => {
+                        actions.textOpsSwitchInner('line_spacing');
+                    },
+                },
+                'Line Spacing',
+            ),
+            button(
+                {
+                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'char_spacing' ? 'active' : ''}`,
+                    onclick: () => {
+                        actions.textOpsSwitchInner('char_spacing');
+                    },
+                },
+                'Character Spacing',
+            ),
+        ]),
+        div({ class: 'menu-content' }, [
+            innerMenu,
+        ]),
+    ]);
+};
+
 export {
     ttsMenu,
+    textOptionsMenu,
 };
