@@ -146,6 +146,12 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
             }
         }
     },
+
+    fontEnable: () => ({ fontActive }) => {
+        return {
+            fontActive: !fontActive,
+        };
+    },
 };
 
 export default fontActions;

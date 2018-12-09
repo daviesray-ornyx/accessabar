@@ -34,6 +34,8 @@ declare namespace Accessabar {
         ttsCurrentUtterCharIndex: number;
 
         textOpsInnerMenuCurrent: string;
+
+        fontActive: boolean;
     }
 
     interface IActions extends
@@ -58,6 +60,7 @@ declare namespace Accessabar {
         incFontSize(): void;
         decFontSize(): void;
         resetFontSizing(): void;
+        fontEnable(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IResetActions {

@@ -40,19 +40,21 @@ const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     ]);
 };
 
-const textOptionsInnerFont = (state, actions) => {
-    return div('font');
+const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    return section({ class: 'box flex-column' }, [
+        switchEl(state.fontActive, actions.fontEnable, 'Change Font', 'Change the page font'),
+    ]);
 };
 
-const textOptionsInnerTextColour = (state, actions) => {
+const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div('tc');
 };
 
-const textOptionsInnerLineSpacing = (state, actions) => {
+const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div('ls');
 };
 
-const textOptionsInnerCharSpacing = (state, actions) => {
+const textOptionsInnerCharSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div('cs');
 };
 

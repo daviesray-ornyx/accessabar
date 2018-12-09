@@ -33,6 +33,8 @@ const state: Accessabar.IState = {
     ttsVolume: 1,
 
     textOpsInnerMenuCurrent: 'font',
+
+    fontActive: false,
 };
 
 export default state;
