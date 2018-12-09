@@ -32,7 +32,7 @@ const state: Accessabar.IState = {
     ttsVoices: [],
     ttsVolume: 1,
 
-    textOpsInnerMenuCurrent: 'line_spacing',
+    textOpsInnerMenuCurrent: 'font,
 };
 
 export default state;
