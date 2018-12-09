@@ -41,8 +41,8 @@ declare namespace Accessabar {
         IResetActions,
         ICloseActions,
         IMenuActions,
-        ITTSActions
-    {}
+        ITTSActions,
+        ITextOptionsActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
