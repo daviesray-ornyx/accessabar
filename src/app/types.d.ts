@@ -36,6 +36,9 @@ declare namespace Accessabar {
         textOpsInnerMenuCurrent: string;
 
         fontActive: boolean;
+        fontColourActive: boolean;
+        fontLineSpacingActive: boolean;
+        fontCharSpacingActive: boolean;
     }
 
     interface IActions extends
@@ -61,6 +64,9 @@ declare namespace Accessabar {
         decFontSize(): void;
         resetFontSizing(): void;
         fontEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontColourEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        lineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        charSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IResetActions {

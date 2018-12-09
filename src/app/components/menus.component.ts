@@ -42,20 +42,26 @@ const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 
 const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return section({ class: 'box flex-column' }, [
-        switchEl(state.fontActive, actions.fontEnable, 'Change Font', 'Change the page font'),
+        switchEl(state.fontActive, actions.fontEnable, 'Toggle Font Type', 'Toggle the page font type'),
     ]);
 };
 
 const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div('tc');
+    return section({ class: 'box flex-column' }, [
+        switchEl(state.fontColourActive, actions.fontColourEnable, 'Toggle Text Colour', 'Toggle the page text colour'),
+    ]);
 };
 
 const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div('ls');
+    return section({ class: 'box flex-column' }, [
+        switchEl(state.fontLineSpacingActive, actions.lineSpacingEnable, 'Toggle Line Spacing', 'Toggle the page line spacing'),
+    ]);
 };
 
 const textOptionsInnerCharSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div('cs');
+    return section({ class: 'box flex-column' }, [
+        switchEl(state.fontCharSpacingActive, actions.charSpacingEnable, 'Toggle Character Spacing', 'Toggle the page character spacing'),
+    ]);
 };
 
 const textOptionsInnerMenus = new Map([

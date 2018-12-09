@@ -152,6 +152,24 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
             fontActive: !fontActive,
         };
     },
+
+    fontColourEnable: () => ({ fontColourActive }) => {
+        return {
+            fontColourActive: !fontColourActive,
+        };
+    },
+
+    lineSpacingEnable: () => ({ fontLineSpacingActive }) => {
+        return {
+            fontLineSpacingActive: !fontLineSpacingActive,
+        };
+    },
+
+    charSpacingEnable: () => ({ fontCharSpacingActive }) => {
+        return {
+            fontCharSpacingActive: !fontCharSpacingActive,
+        };
+    },
 };
 
 export default fontActions;

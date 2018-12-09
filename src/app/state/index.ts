@@ -35,6 +35,9 @@ const state: Accessabar.IState = {
     textOpsInnerMenuCurrent: 'font',
 
     fontActive: false,
+    fontCharSpacingActive: false,
+    fontColourActive: false,
+    fontLineSpacingActive: false,
 };
 
 export default state;
