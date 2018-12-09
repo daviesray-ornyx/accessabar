@@ -4,6 +4,8 @@ import {
     label,
     span,
     button,
+    ul,
+    li,
 } from '@hyperapp/html';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
@@ -43,6 +45,51 @@ const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return section({ class: 'box flex-column' }, [
         switchEl(state.fontActive, actions.fontEnable, 'Toggle Font Type', 'Toggle the page font type'),
+        div(
+            {
+                class: 'font-options',
+            },
+            [
+                div({ class: 'custom-list' }, [
+                    div(
+                        {
+                            class: 'custom-list-box',
+                            role: 'listbox',
+                        },
+                        'Item',
+                    ),
+                    ul(
+                        {
+                            class: 'custom-list-selection',
+                            role: 'list',
+                        },
+                        [
+                            li(
+                                {
+                                    class: 'custom-list-selection-item',
+                                    role: 'listitem',
+                                },
+                                'Item 2',
+                            ),
+                            li(
+                                {
+                                    class: 'custom-list-selection-item',
+                                    role: 'listitem',
+                                },
+                                'Item 3',
+                            ),
+                            li(
+                                {
+                                    class: 'custom-list-selection-item',
+                                    role: 'listitem',
+                                },
+                                'Item 4',
+                            ),
+                        ],
+                    ),
+                ]),
+            ],
+        ),
     ]);
 };
 
