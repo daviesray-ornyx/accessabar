@@ -7,6 +7,8 @@ import {
     ul,
     li,
 } from '@hyperapp/html';
+import fontConfig from '../../config/fonts.config.json5';
+import { VNode } from 'hyperapp';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
     return label(
@@ -43,6 +45,28 @@ const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 };
 
 const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    /* tslint:disable-next-line */
+    const fontList: VNode<any>[] = [];
+    const fonts = Object.entries((fontConfig as Accessabar.IFontConfig));
+
+    for (const [key, obj] of fonts) {
+        const item = li(
+            {
+                class: 'custom-list-selection-item',
+                onclick: () => {
+                    console.log(key);
+                },
+                role: 'listitem',
+                style: {
+                    fontFamily: obj.family,
+                },
+            },
+            obj.name,
+        );
+
+        fontList.push(item);
+    }
+
     return div({ class: 'flex-column' }, [
         section({ class: 'box flex-column' }, [
             switchEl(state.fontActive, actions.fontEnable, 'Toggle Font Type', 'Toggle the page font type'),
@@ -70,29 +94,7 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
                                 id: 'font-list-selection',
                                 role: 'list',
                             },
-                            [
-                                li(
-                                    {
-                                        class: 'custom-list-selection-item',
-                                        role: 'listitem',
-                                    },
-                                    'Item 2',
-                                ),
-                                li(
-                                    {
-                                        class: 'custom-list-selection-item',
-                                        role: 'listitem',
-                                    },
-                                    'Item 3',
-                                ),
-                                li(
-                                    {
-                                        class: 'custom-list-selection-item',
-                                        role: 'listitem',
-                                    },
-                                    'Item 4',
-                                ),
-                            ],
+                            fontList,
                         ),
                     ]),
                 ],
