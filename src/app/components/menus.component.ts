@@ -53,17 +53,21 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
                     class: 'font-options',
                 },
                 [
-                    div({ class: 'custom-list' }, [
+                    div({ class: 'custom-list flex flex-column' }, [
                         div(
                             {
-                                class: 'custom-list-box',
+                                class: 'custom-list-box flex',
+                                onclick: (event) => {
+                                    actions.selectToggleFontList(event);
+                                },
                                 role: 'listbox',
                             },
-                            'Item',
+                            state.fontCurrentFamily.length > 0 ? state.fontCurrentFamily : 'Select Font:',
                         ),
                         ul(
                             {
-                                class: 'custom-list-selection',
+                                class: `custom-list-selection ${state.selectFontListActive ? 'flex' : 'hide'} flex-column`,
+                                id: 'font-list-selection',
                                 role: 'list',
                             },
                             [

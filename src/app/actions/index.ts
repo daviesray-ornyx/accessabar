@@ -7,6 +7,7 @@ import closeActions from './close.actions';
 import menuActions from './menu.actions';
 import ttsActions from './tts.actions';
 import textOptionsActions from './text_options.actions';
+import selectActions from './select.actions';
 
 const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...hideActions,
@@ -17,6 +18,7 @@ const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...menuActions,
     ...ttsActions,
     ...textOptionsActions,
+    ...selectActions,
 };
 
 export default actions;

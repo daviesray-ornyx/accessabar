@@ -39,6 +39,9 @@ declare namespace Accessabar {
         fontColourActive: boolean;
         fontLineSpacingActive: boolean;
         fontCharSpacingActive: boolean;
+        fontCurrentFamily: string;
+
+        selectFontListActive: boolean;
     }
 
     interface IActions extends
@@ -49,7 +52,8 @@ declare namespace Accessabar {
         ICloseActions,
         IMenuActions,
         ITTSActions,
-        ITextOptionsActions {}
+        ITextOptionsActions,
+        ISelectActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -111,6 +115,10 @@ declare namespace Accessabar {
         textOpsOpen(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         textOpsClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         textOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
+    }
+
+    interface ISelectActions {
+        selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {
