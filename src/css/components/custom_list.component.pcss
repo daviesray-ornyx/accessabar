@@ -10,6 +10,7 @@
 
         &:hover {
             cursor: pointer;
+            user-select: none;
         }
 
         &:focus {
@@ -29,11 +30,16 @@
         padding: 0;
         margin: 0;
         list-style: none;
-        position: absolute 100% 0;
-        /* border: 2px solid var(--lighter-grey); */
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
 
         .custom-list-selection-item {
-            padding: 0.25em 0.5em;
+            display: flex;
+            align-items: center;
+            padding: 0 0.5em;
+            height: 2em;
             background: white;
             border-left: 2px solid var(--lighter-grey);
             border-right: 2px solid var(--lighter-grey);
