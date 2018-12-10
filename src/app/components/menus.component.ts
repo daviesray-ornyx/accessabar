@@ -75,7 +75,7 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
 
     return div({ class: 'flex-column' }, [
         section({ class: 'box flex-column' }, [
-            switchEl(state.fontActive, actions.fontEnable, 'Toggle Font Type', 'Toggle the page font type'),
+            switchEl(state.fontActive, actions.fontFamilyEnable, 'Toggle Font Type', 'Toggle the page font type'),
         ]),
         section({ class: 'box flex-column' }, [
             div(

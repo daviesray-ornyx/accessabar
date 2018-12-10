@@ -151,7 +151,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    fontEnable: () => ({ fontActive }, { fontChangeFamilyAll }) => {
+    fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll }) => {
         if (!fontActive) {
             fontChangeFamilyAll();
 

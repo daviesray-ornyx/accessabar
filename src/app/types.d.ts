@@ -67,7 +67,7 @@ declare namespace Accessabar {
         incFontSize(): void;
         decFontSize(): void;
         resetFontSizing(): void;
-        fontEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        fontFamilyEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontChangeFamilyAll(key?: string): (state: Accessabar.IState) => Accessabar.IState;
         fontColourEnable(): (state: Accessabar.IState) => Accessabar.IState;
         lineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
