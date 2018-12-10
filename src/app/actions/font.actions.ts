@@ -151,9 +151,9 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    fontEnable: () => ({ fontActive }, { fontChangeAll }) => {
+    fontEnable: () => ({ fontActive }, { fontChangeFamilyAll }) => {
         if (!fontActive) {
-            fontChangeAll();
+            fontChangeFamilyAll();
 
             return {
                 fontActive: true,
@@ -167,7 +167,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    fontChangeAll: (key?: string) => ({ fontActive, fontCurrentKey }) => {
+    fontChangeFamilyAll: (key?: string) => ({ fontActive, fontCurrentKey }) => {
         const currentKey: string = key || fontCurrentKey;
 
         if (currentKey.length <= 0) {
