@@ -1,9 +1,56 @@
 {
-    calibri : 'Calibri, sans-serif',
-    arial : 'Arial, sans-serif',
-    comic_sans : '"Comic Sans MS", sans-serif',
-    verdana : 'Verdana, sans-serif',
-    tahoma : 'Tahoma, sans-serif',
-    trebuchet : '"Trebuchet MS", sans-serif',
-    georgia : 'Georgia, serif',
+    opendyslexic: {
+        name: 'OpenDyslexic 3',
+        family: '"OpenDyslexic 3", sans-serif',
+    },
+
+    arial: {
+        name: 'Arial',
+        family: 'Arial, sans-serif',
+    },
+
+    comic_sans: {
+        name: 'Comic Sans',
+        family: '"Comic Sans MS", sans-serif',
+    },
+
+    helvetica: {
+        name: 'Helvetica',
+        family: 'Helvetica, sans-serif',
+    },
+
+    calibri: {
+        name: 'Calibri',
+        family: 'Calibri, sans-serif',
+    },
+
+    times_new_roman: {
+        name: 'Times New Roman',
+        family: '"Times New Roman", Times, serif',
+    },
+
+    georgia: {
+        name: 'Georgia',
+        family: 'Georgia, serif',
+    },
+
+    verdana: {
+        name: 'Verdana',
+        family: 'Verdana, sans-serif',
+    },
+
+    tahoma: {
+        name: 'Tahoma',
+        family: 'Tahoma, sans-serif',
+    },
+
+    trebuchet: {
+        name: 'Trebuchet',
+        family: '"Trebuchet MS", sans-serif',
+    },
+
+    courier: {
+        name: 'Courier',
+        family: '"Courier New", Courier, monospace',
+    },
 }
