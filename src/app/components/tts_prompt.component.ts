@@ -29,8 +29,8 @@ const ttsPrompt = ({ ttsVoiceActive, ttsCurrentUtterSentences, ttsCurrentUtterSe
         }
     }
 
-    return div({ class: `tts-prompt ${ttsVoiceActive ? '' : 'hide'}` }, [
-        p({ class: 'tts-prompt-text' }, wordArr),
+    return div({ class: `tts-prompt ${ttsVoiceActive ? 'flex' : 'hide'}` }, [
+        p({ class: 'tts-prompt-text flex' }, wordArr),
     ]);
 };
 

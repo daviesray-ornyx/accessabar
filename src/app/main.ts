@@ -15,7 +15,7 @@ const innerBar = (state, actions) => {
 
 const underBar = (state, actions) => {
     return div({ class: 'underbar' }, [
-        div({ class: 'hide-button-container' }, [
+        div({ class: 'hide-button-container flex' }, [
             hideButton(state, actions),
         ]),
         ttsPrompt(state),

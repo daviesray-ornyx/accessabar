@@ -39,7 +39,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
         [
             header(
                 {
-                    class: 'menu-header',
+                    class: 'menu-header flex',
                     onmousedown: (event) => {
                         actions.startDrag(event);
                     },
