@@ -204,6 +204,34 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
+    fontReset: (configKey: string, styleStr: string) => {
+        const parentElements = getParents();
+        const configObj: Accessabar.IConfigObject = config[configKey];
+
+        for (const el of parentElements) {
+            const abarEdited = el.getAttribute('accessabar-edited');
+
+            if (!abarEdited) {
+                continue;
+            }
+
+            const orig = el.getAttribute(configObj.attrNames.orig);
+
+            if (!orig) {
+                continue;
+            }
+
+            if (orig === 'none') {
+                el.style.setProperty(configObj.editName, null);
+            } else {
+                el.style.setProperty(configObj.editName, orig);
+            }
+
+            AccessabarUtil.pruneFuncs(el, abarEdited, configObj);
+            el.removeAttribute(configObj.attrNames.orig);
+        }
+    },
+
     lineSpacingEnable: () => ({ fontLineSpacingActive }) => {
         return {
             fontLineSpacingActive: !fontLineSpacingActive,
