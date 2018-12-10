@@ -27,7 +27,7 @@ declare namespace Accessabar {
         ttsVoiceActive: boolean;
         ttsCurrentUtterText: string;
         ttsCurrentUtterWords: string[];
-        ttsCurrentUtterSentences: Array<string[]>;
+        ttsCurrentUtterSentences: string[][];
         ttsCurrentUtterSentenceIndex: number;
         ttsCurrentUtterSentenceWordIndex: number;
         ttsCurrentUtterWordIndex: number;
@@ -139,7 +139,7 @@ declare namespace Accessabar {
     }
 
     interface IFontConfigObject {
-        name: string,
+        name: string;
         family: string;
     }
 
@@ -149,5 +149,5 @@ declare namespace Accessabar {
 }
 
 // Allow png and json5 files to be imported
-declare module '*.png'
-declare module '*.json5'
+declare module '*.png';
+declare module '*.json5';
