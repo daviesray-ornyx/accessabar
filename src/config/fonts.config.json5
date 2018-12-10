@@ -1,0 +1,9 @@
+{
+    calibri : 'Calibri, sans-serif',
+    arial : 'Arial, sans-serif',
+    comic_sans : '"Comic Sans MS", cursive, sans-serif',
+    verdana : 'Verdana, sans-serif',
+    tahoma : 'Tahoma, sans-serif',
+    trebuchet : '"Trebuchet MS", sans-serif',
+    georgia : 'Georgia, serif',
+}
