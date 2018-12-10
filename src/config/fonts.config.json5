@@ -1,7 +1,7 @@
 {
     calibri : 'Calibri, sans-serif',
     arial : 'Arial, sans-serif',
-    comic_sans : '"Comic Sans MS", cursive, sans-serif',
+    comic_sans : '"Comic Sans MS", sans-serif',
     verdana : 'Verdana, sans-serif',
     tahoma : 'Tahoma, sans-serif',
     trebuchet : '"Trebuchet MS", sans-serif',
