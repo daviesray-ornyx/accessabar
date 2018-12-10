@@ -51,6 +51,9 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
     const currentFont = state.fontCurrentKey.length > 0
         ? (fontConfig[state.fontCurrentKey].name || 'Select Font:')
         : 'Select Font:';
+    const currentFontFamily = state.fontCurrentKey.length > 0
+        ? (fontConfig[state.fontCurrentKey].family || null)
+        : null;
 
     for (const [key, obj] of fonts) {
         const item = li(
@@ -88,6 +91,9 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
                                     actions.selectToggleFontList(event);
                                 },
                                 role: 'listbox',
+                                style: {
+                                    fontFamily: currentFontFamily,
+                                },
                             },
                             currentFont,
                         ),
