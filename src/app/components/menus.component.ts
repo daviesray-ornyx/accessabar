@@ -80,7 +80,7 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
                     div({ class: 'custom-list flex flex-column' }, [
                         div(
                             {
-                                class: 'custom-list-box flex',
+                                class: `custom-list-box flex ${state.selectFontListActive ? 'active' : ''}`,
                                 onclick: (event) => {
                                     actions.selectToggleFontList(event);
                                 },
