@@ -1,6 +1,8 @@
 import { ActionsType } from 'hyperapp';
 import config from '../../config/functions.config.json5';
 import { AccessabarUtil } from '../util';
+import fontConfig from '../../config/fonts.config.json5';
+
 /**
  * Fetches and returns parents of text nodes in the document
  *
@@ -147,10 +149,31 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    fontEnable: () => ({ fontActive }) => {
+    fontEnable: () => ({ fontActive }, { fontChangeAll }) => {
+        if (!fontActive) {
+            fontChangeAll();
+
+            return {
+                fontActive: true,
+            };
+        }
+
+        // remove font changes
+
         return {
             fontActive: !fontActive,
         };
+    },
+
+    fontChangeAll: (key?: string) => ({ fontActive, fontCurrentKey }) => {
+        const currentKey: string = key || fontCurrentKey;
+
+        if (currentKey.length <= 0) {
+            return;
+        }
+
+        const currentFontFamily = fontConfig[currentKey].family || null;
+        console.log(currentFontFamily);
     },
 
     fontColourEnable: () => ({ fontColourActive }) => {

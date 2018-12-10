@@ -7,9 +7,14 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
         };
     },
 
-    selectToggleFontCurrent: (key: string) => () => {
+    selectToggleFontCurrent: (key: string) => ({ fontActive }, { fontChangeAll }: Accessabar.IActions) => {
+        if (fontActive) {
+            fontChangeAll(key);
+        }
+
         return {
             fontCurrentKey: key,
+            selectFontListActive: false,
         };
     },
 };
