@@ -137,6 +137,15 @@ declare namespace Accessabar {
     interface IConfig {
         [propName: string]: IConfigObject;
     }
+
+    interface IFontConfigObject {
+        name: string,
+        family: string;
+    }
+
+    interface IFontConfig {
+        [propName: string]: IFontConfigObject;
+    }
 }
 
 // Allow png and json5 files to be imported
