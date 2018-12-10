@@ -39,7 +39,7 @@ declare namespace Accessabar {
         fontColourActive: boolean;
         fontLineSpacingActive: boolean;
         fontCharSpacingActive: boolean;
-        fontCurrentFamily: string;
+        fontCurrentKey: string;
 
         selectFontListActive: boolean;
     }
@@ -119,6 +119,7 @@ declare namespace Accessabar {
 
     interface ISelectActions {
         selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {

@@ -48,13 +48,16 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
     /* tslint:disable-next-line */
     const fontList: VNode<any>[] = [];
     const fonts = Object.entries((fontConfig as Accessabar.IFontConfig));
+    const currentFont = state.fontCurrentKey.length > 0
+        ? (fontConfig[state.fontCurrentKey].name || 'Select Font:')
+        : 'Select Font:';
 
     for (const [key, obj] of fonts) {
         const item = li(
             {
                 class: 'custom-list-selection-item',
                 onclick: () => {
-                    console.log(key);
+                    actions.selectToggleFontCurrent(key);
                 },
                 role: 'listitem',
                 style: {
@@ -86,7 +89,7 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
                                 },
                                 role: 'listbox',
                             },
-                            state.fontCurrentFamily.length > 0 ? state.fontCurrentFamily : 'Select Font:',
+                            currentFont,
                         ),
                         ul(
                             {

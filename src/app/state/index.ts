@@ -37,7 +37,7 @@ const state: Accessabar.IState = {
     fontActive: false,
     fontCharSpacingActive: false,
     fontColourActive: false,
-    fontCurrentFamily: '',
+    fontCurrentKey: '',
     fontLineSpacingActive: false,
 
     selectFontListActive: false,
