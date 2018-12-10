@@ -87,6 +87,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
 
                     funcNames.push(fontSizing.editName);
                     el.setAttribute('accessabar-edited', funcNames.join(' '));
+                    el.setAttribute(fontSizing.attrNames.orig, el.style.fontSize || 'none');
                 }
 
                 el.style.fontSize = `${parseInt(size, 10) - 1}px`;
@@ -142,6 +143,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
 
                     funcNames.push(fontSizing.editName);
                     el.setAttribute('accessabar-edited', funcNames.join(' '));
+                    el.setAttribute(fontSizing.attrNames.orig, el.style.fontSize || 'none');
                 }
 
                 el.style.fontSize = `${parseInt(size, 10) + 1}px`;
