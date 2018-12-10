@@ -175,7 +175,27 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
 
         const currentFontFamily = fontConfig[currentKey].family || null;
-        console.log(currentFontFamily);
+        const { fontFamily }: { fontFamily: Accessabar.IConfigObject } = config;
+        const parentElements = getParents();
+
+        for (const el of parentElements) {
+            const abarEdited = el.getAttribute('accessabar-edited');
+
+            if (!abarEdited) {
+                el.setAttribute('accessabar-edited', fontFamily.editName);
+                el.setAttribute(fontFamily.attrNames.orig, el.style.fontFamily || 'none');
+            }
+
+            if (abarEdited && abarEdited.split(' ').indexOf(fontFamily.editName) === -1) {
+                const funcNames = abarEdited.split(' ');
+
+                funcNames.push(fontFamily.editName);
+                el.setAttribute('accessabar-edited', funcNames.join(' '));
+                el.setAttribute(fontFamily.attrNames.orig, el.style.fontFamily || 'none');
+            }
+
+            el.style.fontFamily = currentFontFamily;
+        }
     },
 
     fontColourEnable: () => ({ fontColourActive }) => {
