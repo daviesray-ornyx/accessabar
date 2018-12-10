@@ -8,6 +8,14 @@
         disableOnClick: false,
     },
 
+    fontFamily: {
+        conflicts: [],
+        attrNames: {
+            orig: 'accessabar-orig-font-family',
+        },
+        editName: 'font-family',
+    },
+
     tts: {
         conflicts: [],
         disableOnClick: true,
