@@ -178,6 +178,12 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
+    fontColourChange: (colour: string) => () => {
+        return {
+            fontColourCurrent: colour,
+        };
+    },
+
     fontColourEnable: () => ({ fontColourActive }) => {
         return {
             fontColourActive: !fontColourActive,

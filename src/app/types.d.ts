@@ -39,7 +39,10 @@ declare namespace Accessabar {
         fontColourActive: boolean;
         fontLineSpacingActive: boolean;
         fontCharSpacingActive: boolean;
+
         fontCurrentKey: string;
+
+        fontColourCurrent: string;
 
         selectFontListActive: boolean;
     }
@@ -70,6 +73,7 @@ declare namespace Accessabar {
         fontFamilyEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontFamilyReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontChangeFamilyAll(key?: string): (state: Accessabar.IState) => Accessabar.IState;
+        fontColourChange(colour: string): (state: Accessabar.IState) => Accessabar.IState;
         fontColourEnable(): (state: Accessabar.IState) => Accessabar.IState;
         lineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
         charSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;

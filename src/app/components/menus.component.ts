@@ -121,15 +121,78 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
             div({ class: 'text-colour-presets growable flex-column' }, [
                 span({ class: 'title' }, 'Presets'),
                 div({ class: 'colours' }, [
-                    div({ class: 'colour red' }),
-                    div({ class: 'colour blue' }),
-                    div({ class: 'colour green' }),
-                    div({ class: 'colour yellow' }),
-                    div({ class: 'colour orange' }),
-                    div({ class: 'colour purple' }),
-                    div({ class: 'colour black' }),
-                    div({ class: 'colour grey' }),
-                    div({ class: 'colour white' }),
+                    div(
+                        {
+                            class: `colour red ${state.fontColourCurrent === 'red' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('red');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour blue ${state.fontColourCurrent === 'blue' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('blue');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour green ${state.fontColourCurrent === 'green' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('green');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour yellow ${state.fontColourCurrent === 'yellow' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('yellow');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour orange ${state.fontColourCurrent === 'orange' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('orange');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour purple ${state.fontColourCurrent === 'purple' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('purple');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour black ${state.fontColourCurrent === 'black' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('black');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour grey ${state.fontColourCurrent === 'grey' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('grey');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `colour white ${state.fontColourCurrent === 'white' ? 'active' : ''}`,
+                            onclick: () => {
+                                actions.fontColourChange('white');
+                            },
+                        },
+                    ),
                 ]),
             ]),
             div({ class: 'text-colour-custom growable flex-column' }, [
