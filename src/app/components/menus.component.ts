@@ -113,8 +113,29 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
 };
 
 const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return section({ class: 'box flex-column' }, [
-        switchEl(state.fontColourActive, actions.fontColourEnable, 'Toggle Text Colour', 'Toggle the page text colour'),
+    return div({ class: 'flex-column' }, [
+        section({ class: 'box flex-column' }, [
+            switchEl(state.fontColourActive, actions.fontColourEnable, 'Toggle Text Colour', 'Toggle the page text colour'),
+        ]),
+        section({ class: 'box' }, [
+            div({ class: 'text-colour-presets growable flex-column' }, [
+                span({ class: 'title' }, 'Presets'),
+                div({ class: 'colours' }, [
+                    div({ class: 'colour red' }),
+                    div({ class: 'colour blue' }),
+                    div({ class: 'colour green' }),
+                    div({ class: 'colour yellow' }),
+                    div({ class: 'colour orange' }),
+                    div({ class: 'colour purple' }),
+                    div({ class: 'colour black' }),
+                    div({ class: 'colour grey' }),
+                    div({ class: 'colour white' }),
+                ]),
+            ]),
+            div({ class: 'text-colour-custom growable flex-column' }, [
+                span({ class: 'title' }, 'Custom'),
+            ]),
+        ]),
     ]);
 };
 
