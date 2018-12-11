@@ -94,6 +94,7 @@
     "@webcomponents/custom-elements": "1.2.1",
     "hyperapp": "1.2.9",
     "normalize.css": "8.0.1",
+    "pickr-widget": "0.3.2",
     "tippy.js": "3.3.0"
   }
 }
