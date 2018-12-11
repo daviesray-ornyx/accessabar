@@ -37,12 +37,14 @@ declare namespace Accessabar {
 
         fontActive: boolean;
         fontColourActive: boolean;
+        fontCustomActive: boolean;
         fontLineSpacingActive: boolean;
         fontCharSpacingActive: boolean;
 
         fontCurrentKey: string;
 
         fontColourCurrent: string;
+        fontColourCustomCurrent: string;
 
         selectFontListActive: boolean;
     }
@@ -133,6 +135,7 @@ declare namespace Accessabar {
 
     interface IColourActions {
         colourChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        colourCustomChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {

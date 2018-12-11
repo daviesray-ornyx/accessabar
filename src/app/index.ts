@@ -9,6 +9,7 @@ declare global {
     // tslint:disable-next-line
     interface Window {
         abar: AccessabarController;
+        pickr: any;
     }
 }
 

@@ -8,6 +8,19 @@ const colourActions: ActionsType<Accessabar.IState, Accessabar.IColourActions> =
 
         return {
             fontColourCurrent: colour,
+            fontCustomActive: false,
+        };
+    },
+
+    colourCustomChangeFont: (colour: string) => ({ fontColourActive }, { fontColourChange }: Accessabar.IActions) => {
+        if (fontColourActive) {
+            fontColourChange(colour);
+        }
+
+        return {
+            fontColourCurrent: colour,
+            fontColourCustomCurrent: colour,
+            fontCustomActive: true,
         };
     },
 };

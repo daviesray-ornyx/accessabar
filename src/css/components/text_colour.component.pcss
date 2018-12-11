@@ -74,7 +74,26 @@
 }
 
 #accessabar .text-colour-custom {
+    .custom-container {
+        justify-content: center;
+        align-items: center;
+        height: 8.5em;
+        width: 8.5em;
 
+        .custom-box {
+            height: 50%;
+            width: 50%;
+            outline: 2px solid var(--near-black);
+
+            &.active, &:hover, &:focus {
+                outline: 2px solid var(--blue-focus);
+                box-shadow:
+                    0 0 0 1px var(--blue-focus) inset,
+                    0 0 0 2px white inset;
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 #accessabar .text-colour-custom, #accessabar .text-colour-presets {

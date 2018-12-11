@@ -9,6 +9,7 @@ import {
 } from '@hyperapp/html';
 import fontConfig from '../../config/fonts.config.json5';
 import { VNode } from 'hyperapp';
+import Pickr from 'pickr-widget';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
     return label(
@@ -197,6 +198,39 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
             ]),
             div({ class: 'text-colour-custom growable flex-column' }, [
                 span({ class: 'title' }, 'Custom'),
+                div({ class: 'custom-container flex' }, [
+                    div(
+                        {
+                            class: `custom-box ${state.fontCustomActive ? 'active' : ''}`,
+                            id: 'colour-custom-box',
+                            oncreate: (el: HTMLElement) => {
+                                window.pickr = new Pickr({
+                                    components: {
+                                        hue: true,
+                                        interaction: {
+                                            clear: true,
+                                            cmyk: false,
+                                            hex: true,
+                                            hsla: false,
+                                            hsva: false,
+                                            input: true,
+                                            rgba: true,
+                                            save: true,
+                                        },
+                                        opacity: true,
+                                        preview: true,
+                                    },
+                                    el: '#colour-custom-box',
+                                    onSave: (hsva) => {
+                                        window.abar.appActions.colourCustomChangeFont(hsva.toHEX());
+                                    },
+                                    useAsButton: true,
+                                });
+                            },
+                            style: { background: state.fontColourCustomCurrent },
+                        },
+                    ),
+                ]),
             ]),
         ]),
     ]);
