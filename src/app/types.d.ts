@@ -66,12 +66,14 @@ declare namespace Accessabar {
     interface IFontActions {
         incFontSize(): void;
         decFontSize(): void;
-        resetFontSizing(): void;
+        resetFontSizing(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontFamilyEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        fontFamilyReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontChangeFamilyAll(key?: string): (state: Accessabar.IState) => Accessabar.IState;
         fontColourEnable(): (state: Accessabar.IState) => Accessabar.IState;
         lineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
         charSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontReset(configKey: string, styleStr: string): void;
     }
 
     interface IResetActions {

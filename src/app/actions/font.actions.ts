@@ -127,20 +127,24 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll }) => {
+    fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll, fontFamilyReset }) => {
         if (!fontActive) {
-            fontChangeFamilyAll();
+            AccessabarUtil.startFunction('fontFamily', fontFamilyReset, fontChangeFamilyAll);
 
             return {
                 fontActive: true,
             };
         }
 
-        // remove font changes
+        AccessabarUtil.stopFunction('fontFamily');
 
         return {
-            fontActive: !fontActive,
+            fontActive: false,
         };
+    },
+
+    fontFamilyReset: () => (state, { fontReset }) => {
+        fontReset('fontFamily', 'fontFamily');
     },
 
     fontChangeFamilyAll: (key?: string) => ({ fontActive, fontCurrentKey }) => {
