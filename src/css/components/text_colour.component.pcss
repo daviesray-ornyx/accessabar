@@ -1,0 +1,88 @@
+#accessabar .text-colour-presets {
+    .colours {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-areas:
+            "red blue green"
+            "yellow orange purple"
+            "black grey white";
+        grid-row-gap: 0.3rem;
+        grid-column-gap: 0.3rem;
+        height: 8.5em;
+        width: 8.5em;
+
+        .colour {
+            height: 100%;
+            width: 100%;
+            outline: 1px solid var(--near-black);
+
+            &.active, &:hover, &:focus {
+                outline: 2px solid var(--blue-focus);
+                box-shadow:
+                    0 0 0 1px var(--blue-focus) inset,
+                    0 0 0 2px white inset;
+                cursor: pointer;
+            }
+
+            &.red {
+                grid-area: red;
+                background: red;
+            }
+
+            &.blue {
+                grid-area: blue;
+                background: blue;
+            }
+
+            &.green {
+                grid-area: green;
+                background: green;
+            }
+
+            &.yellow {
+                grid-area: yellow;
+                background: yellow;
+            }
+
+            &.orange {
+                grid-area: orange;
+                background: orange;
+            }
+
+            &.purple {
+                grid-area: purple;
+                background: purple;
+            }
+
+            &.black {
+                grid-area: black;
+                background: black;
+            }
+
+            &.grey {
+                grid-area: grey;
+                background: grey;
+            }
+
+            &.white {
+                grid-area: white;
+                background: white;
+            }
+        }
+    }
+}
+
+#accessabar .text-colour-custom {
+
+}
+
+#accessabar .text-colour-custom, #accessabar .text-colour-presets {
+    align-items: center;
+
+    > .title {
+        text-align: center;
+        font-size: 1.15em;
+        margin: 0.5em 0;
+    }
+}
