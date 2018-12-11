@@ -95,32 +95,8 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    resetFontSizing: () => {
-        const parentElements = getParents();
-        const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
-
-        for (const el of parentElements) {
-            const abarEdited = el.getAttribute('accessabar-edited');
-
-            if (!abarEdited) {
-                continue;
-            }
-
-            const orig = el.getAttribute(fontSizing.attrNames.orig);
-
-            if (!orig) {
-                continue;
-            }
-
-            if (orig === 'none') {
-                el.style.fontSize = null;
-            } else {
-                el.style.fontSize = orig;
-            }
-
-            AccessabarUtil.pruneFuncs(el, abarEdited, fontSizing);
-            el.removeAttribute(fontSizing.attrNames.orig);
-        }
+    resetFontSizing: () => (state, { fontReset }) => {
+        fontReset('fontSizing', 'fontSize');
     },
 
     incFontSize: () => {
