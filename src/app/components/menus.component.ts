@@ -125,7 +125,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour red ${state.fontColourCurrent === 'red' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('red');
+                                actions.colourChangeFont('red');
                             },
                         },
                     ),
@@ -133,7 +133,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour blue ${state.fontColourCurrent === 'blue' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('blue');
+                                actions.colourChangeFont('blue');
                             },
                         },
                     ),
@@ -141,7 +141,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour green ${state.fontColourCurrent === 'green' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('green');
+                                actions.colourChangeFont('green');
                             },
                         },
                     ),
@@ -149,7 +149,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour yellow ${state.fontColourCurrent === 'yellow' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('yellow');
+                                actions.colourChangeFont('yellow');
                             },
                         },
                     ),
@@ -157,7 +157,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour orange ${state.fontColourCurrent === 'orange' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('orange');
+                                actions.colourChangeFont('orange');
                             },
                         },
                     ),
@@ -165,7 +165,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour purple ${state.fontColourCurrent === 'purple' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('purple');
+                                actions.colourChangeFont('purple');
                             },
                         },
                     ),
@@ -173,7 +173,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour black ${state.fontColourCurrent === 'black' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('black');
+                                actions.colourChangeFont('black');
                             },
                         },
                     ),
@@ -181,7 +181,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour grey ${state.fontColourCurrent === 'grey' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('grey');
+                                actions.colourChangeFont('grey');
                             },
                         },
                     ),
@@ -189,7 +189,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                         {
                             class: `colour white ${state.fontColourCurrent === 'white' ? 'active' : ''}`,
                             onclick: () => {
-                                actions.fontColourChange('white');
+                                actions.colourChangeFont('white');
                             },
                         },
                     ),

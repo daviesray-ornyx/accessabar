@@ -20,6 +20,15 @@
         disableOnClick: true,
     },
 
+    fontColour: {
+        conflicts: [],
+        attrNames: {
+            orig: 'accessabar-orig-font-colour',
+        },
+        editName: 'color',
+        disableOnClick: true,
+    },
+
     tts: {
         conflicts: [],
         disableOnClick: true,

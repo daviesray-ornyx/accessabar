@@ -56,7 +56,8 @@ declare namespace Accessabar {
         IMenuActions,
         ITTSActions,
         ITextOptionsActions,
-        ISelectActions {}
+        ISelectActions,
+        IColourActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -73,11 +74,12 @@ declare namespace Accessabar {
         fontFamilyEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontFamilyReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontChangeFamilyAll(key?: string): (state: Accessabar.IState) => Accessabar.IState;
-        fontColourChange(colour: string): (state: Accessabar.IState) => Accessabar.IState;
+        fontColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
         fontColourEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontColourReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         lineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
         charSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
-        fontReset(configKey: string, styleStr: string): void;
+        fontReset(configKey: string): void;
     }
 
     interface IResetActions {
@@ -127,6 +129,10 @@ declare namespace Accessabar {
     interface ISelectActions {
         selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+    }
+
+    interface IColourActions {
+        colourChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {

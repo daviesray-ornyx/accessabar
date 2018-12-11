@@ -96,7 +96,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
     },
 
     resetFontSizing: () => (state, { fontReset }) => {
-        fontReset('fontSizing', 'fontSize');
+        fontReset('fontSizing');
     },
 
     incFontSize: () => {
@@ -144,10 +144,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
     },
 
     fontFamilyReset: () => (state, { fontReset }) => {
-        fontReset('fontFamily', 'fontFamily');
+        fontReset('fontFamily');
     },
 
-    fontChangeFamilyAll: (key?: string) => ({ fontActive, fontCurrentKey }) => {
+    fontChangeFamilyAll: (key?: string) => ({ fontCurrentKey }) => {
         const currentKey: string = key || fontCurrentKey;
 
         if (currentKey.length <= 0) {
@@ -178,19 +178,58 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    fontColourChange: (colour: string) => () => {
+    fontColourChange: (colour: string) => ({ fontColourCurrent }) => {
+        const currentColour: string = colour || fontColourCurrent;
+
+        if (currentColour.length <= 0) {
+            return;
+        }
+
+        const { fontColour }: { fontColour: Accessabar.IConfigObject } = config;
+        const parentElements = getParents();
+
+        // TODO: Make loop func
+        for (const el of parentElements) {
+            const abarEdited = el.getAttribute('accessabar-edited');
+
+            if (!abarEdited) {
+                el.setAttribute('accessabar-edited', fontColour.editName);
+                el.setAttribute(fontColour.attrNames.orig, el.style.color || 'none');
+            }
+
+            if (abarEdited && abarEdited.split(' ').indexOf(fontColour.editName) === -1) {
+                const funcNames = abarEdited.split(' ');
+
+                funcNames.push(fontColour.editName);
+                el.setAttribute('accessabar-edited', funcNames.join(' '));
+                el.setAttribute(fontColour.attrNames.orig, el.style.color || 'none');
+            }
+
+            el.style.color = currentColour;
+        }
+    },
+
+    fontColourEnable: () => ({ fontColourActive }, { fontColourChange, fontColourReset }) => {
+        if (!fontColourActive) {
+            AccessabarUtil.startFunction('fontColour', fontColourReset, fontColourChange);
+
+            return {
+                fontColourActive: true,
+            };
+        }
+
+        AccessabarUtil.stopFunction('fontColour');
+
         return {
-            fontColourCurrent: colour,
+            fontColourActive: false,
         };
     },
 
-    fontColourEnable: () => ({ fontColourActive }) => {
-        return {
-            fontColourActive: !fontColourActive,
-        };
+    fontColourReset: () => (state, { fontReset }) => {
+        fontReset('fontColour');
     },
 
-    fontReset: (configKey: string, styleStr: string) => {
+    fontReset: (configKey: string) => {
         const parentElements = getParents();
         const configObj: Accessabar.IConfigObject = config[configKey];
 
