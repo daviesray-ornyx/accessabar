@@ -208,7 +208,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                                     components: {
                                         hue: true,
                                         interaction: {
-                                            clear: true,
+                                            clear: false,
                                             cmyk: false,
                                             hex: true,
                                             hsla: false,
