@@ -1,3 +1,6 @@
+// Ensure 'editName' is the same as the CSS property style
+// i.e. Font Size => font-size
+
 {
     fontSizing: {
         conflicts: [],
