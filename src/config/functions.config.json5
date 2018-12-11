@@ -17,6 +17,7 @@
             orig: 'accessabar-orig-font-family',
         },
         editName: 'font-family',
+        disableOnClick: true,
     },
 
     tts: {
