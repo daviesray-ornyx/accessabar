@@ -13,8 +13,12 @@
             user-select: none;
         }
 
+        &:focus {
+            border-color: var(--blue-focus);
+        }
+
         &.active {
-            border-bottom: 3px solid var(--light-purple);
+            border-color: var(--blue-focus);
         }
 
         &:after {
