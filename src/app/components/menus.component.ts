@@ -222,7 +222,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                                     },
                                     el: '#colour-custom-box',
                                     onSave: (hsva) => {
-                                        window.abar.appActions.colourCustomChangeFont(hsva.toHEX());
+                                        window.abar.appActions.colourCustomChangeFont(hsva.toHEX().toString());
                                     },
                                     useAsButton: true,
                                 });
