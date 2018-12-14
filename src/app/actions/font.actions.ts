@@ -93,10 +93,18 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
                 el.style.fontSize = `${parseInt(size, 10) - 1}px`;
             }
         }
+
+        return {
+            fontSizingActive: true,
+        };
     },
 
     resetFontSizing: () => (state, { fontReset }) => {
         fontReset('fontSizing');
+
+        return {
+            fontSizingActive: false,
+        };
     },
 
     incFontSize: () => {
@@ -125,6 +133,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
                 el.style.fontSize = `${parseInt(size, 10) + 1}px`;
             }
         }
+
+        return {
+            fontSizingActive: true,
+        };
     },
 
     fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll, fontFamilyReset }) => {

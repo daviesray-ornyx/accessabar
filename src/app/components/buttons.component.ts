@@ -146,6 +146,38 @@ const incButton = ({ incFontSize, resetFontSizing }: IIncButtonActions) => {
     );
 };
 
+interface IFontResetButtonState {
+    fontSizingActive: Accessabar.IState['fontSizingActive'];
+}
+
+const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
+    return button(
+        {
+            'aria-label': 'Reset font sizing',
+            class: `bar-button ${fontSizingActive ? '' : 'hide'}`,
+            id: 'font-reset',
+            onclick: () => {
+                AccessabarUtil.stopFunction('fontSizing');
+            },
+            oncreate: () => {
+                tippy('#accessabar #font-reset', {
+                    arrow: true,
+                    content: 'Reset Font Sizing',
+                    placement: 'bottom',
+                    theme: 'ab',
+                });
+            },
+            tabIndex: 0,
+        },
+        [
+            i({
+                'aria-hidden': true,
+                class: 'ab-icon-reset',
+            }),
+        ],
+    );
+};
+
 interface IDecButtonActions {
     decFontSize: Accessabar.IFontActions['decFontSize'];
     resetFontSizing: Accessabar.IFontActions['resetFontSizing'];
@@ -445,6 +477,7 @@ export {
     pauseButton,
     stopButton,
     incButton,
+    fontResetButton,
     decButton,
     textOpsButton,
     magButton,

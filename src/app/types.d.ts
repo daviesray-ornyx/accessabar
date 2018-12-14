@@ -46,6 +46,8 @@ declare namespace Accessabar {
         fontColourCurrent: string;
         fontColourCustomCurrent: string;
 
+        fontSizingActive: boolean;
+
         selectFontListActive: boolean;
     }
 
@@ -70,9 +72,9 @@ declare namespace Accessabar {
     }
 
     interface IFontActions {
-        incFontSize(): void;
-        decFontSize(): void;
-        resetFontSizing(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        incFontSize(): Accessabar.IState;
+        decFontSize(): Accessabar.IState;
+        resetFontSizing(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontFamilyEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontFamilyReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontChangeFamilyAll(key?: string): (state: Accessabar.IState) => Accessabar.IState;

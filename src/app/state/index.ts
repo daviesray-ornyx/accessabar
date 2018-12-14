@@ -42,6 +42,7 @@ const state: Accessabar.IState = {
     fontCurrentKey: '',
     fontCustomActive: false,
     fontLineSpacingActive: false,
+    fontSizingActive: false,
 
     selectFontListActive: false,
 };
