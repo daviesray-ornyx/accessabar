@@ -146,38 +146,6 @@ const incButton = ({ incFontSize, resetFontSizing }: IIncButtonActions) => {
     );
 };
 
-interface IFontResetButtonState {
-    fontSizingActive: Accessabar.IState['fontSizingActive'];
-}
-
-const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
-    return button(
-        {
-            'aria-label': 'Reset font sizing',
-            class: `bar-button warning ${fontSizingActive ? '' : 'hide'}`,
-            id: 'font-reset',
-            onclick: () => {
-                AccessabarUtil.stopFunction('fontSizing');
-            },
-            oncreate: () => {
-                tippy('#accessabar #font-reset', {
-                    arrow: true,
-                    content: 'Reset Font Sizing',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            tabIndex: 0,
-        },
-        [
-            i({
-                'aria-hidden': true,
-                class: 'ab-icon-reset',
-            }),
-        ],
-    );
-};
-
 interface IDecButtonActions {
     decFontSize: Accessabar.IFontActions['decFontSize'];
     resetFontSizing: Accessabar.IFontActions['resetFontSizing'];
@@ -206,6 +174,38 @@ const decButton = ({ decFontSize, resetFontSizing }: IDecButtonActions) => {
             i({
                 'aria-hidden': true,
                 class: 'ab-icon-minus',
+            }),
+        ],
+    );
+};
+
+interface IFontResetButtonState {
+    fontSizingActive: Accessabar.IState['fontSizingActive'];
+}
+
+const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
+    return button(
+        {
+            'aria-label': 'Reset font sizing',
+            class: `bar-button warning ${fontSizingActive ? '' : 'hide'}`,
+            id: 'font-reset',
+            onclick: () => {
+                AccessabarUtil.stopFunction('fontSizing');
+            },
+            oncreate: () => {
+                tippy('#accessabar #font-reset', {
+                    arrow: true,
+                    content: 'Reset Font Sizing',
+                    placement: 'bottom',
+                    theme: 'ab',
+                });
+            },
+            tabIndex: 0,
+        },
+        [
+            i({
+                'aria-hidden': true,
+                class: 'ab-icon-reset',
             }),
         ],
     );
