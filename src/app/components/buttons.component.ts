@@ -351,7 +351,7 @@ interface IResetButtonActions {
 const resetButton = ({ resetAll }: IResetButtonActions) => {
     return button(
         {
-            'aria-label': 'Reset accessabar',
+            'aria-label': 'Reset accessabar entirely',
             class: 'bar-button warning',
             id: 'reset',
             onclick: () => {
@@ -360,7 +360,7 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
             oncreate: () => {
                 tippy('#accessabar #reset', {
                     arrow: true,
-                    content: 'Reset',
+                    content: 'Reset All',
                     placement: 'bottom',
                     theme: 'ab',
                 });
