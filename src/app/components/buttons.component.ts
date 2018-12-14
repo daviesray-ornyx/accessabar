@@ -154,7 +154,7 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
     return button(
         {
             'aria-label': 'Reset font sizing',
-            class: `bar-button ${fontSizingActive ? '' : 'hide'}`,
+            class: `bar-button warning ${fontSizingActive ? '' : 'hide'}`,
             id: 'font-reset',
             onclick: () => {
                 AccessabarUtil.stopFunction('fontSizing');
@@ -352,7 +352,7 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     return button(
         {
             'aria-label': 'Reset accessabar',
-            class: 'bar-button',
+            class: 'bar-button warning',
             id: 'reset',
             onclick: () => {
                 resetAll();
