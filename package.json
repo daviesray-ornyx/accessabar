@@ -25,9 +25,9 @@
     "test": "yarn ava && yarn cypress:run-all"
   },
   "devDependencies": {
-    "@babel/core": "7.2.0",
+    "@babel/core": "7.2.2",
     "@babel/plugin-proposal-class-properties": "7.2.1",
-    "@babel/plugin-proposal-decorators": "7.2.0",
+    "@babel/plugin-proposal-decorators": "7.2.2",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/plugin-transform-runtime": "7.2.0",
     "@babel/preset-env": "7.2.0",
