@@ -105,8 +105,9 @@ declare namespace Accessabar {
         updateMousePosition(event: MouseEvent): Accessabar.IState;
         startDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         stopDrag(): Accessabar.IState;
+        handleMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         openMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        closeMenu(name?: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        closeMenu(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface ITTSActions {

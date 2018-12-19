@@ -183,8 +183,8 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         window.speechSynthesis.speak(utterance);
     },
 
-    ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { openMenu, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
-        openMenu('tts');
+    ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { handleMenu, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
+        handleMenu('tts');
         ttsUpdateVoices();
 
         if (window.speechSynthesis.onvoiceschanged !== undefined) {
@@ -200,9 +200,9 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         }
     },
 
-    ttsStop: () => (state, { closeMenu, ttsStopCurrent }: Accessabar.IActions) => {
+    ttsStop: () => (state, { handleMenu, ttsStopCurrent }: Accessabar.IActions) => {
         ttsStopCurrent();
-        closeMenu('tts');
+        handleMenu('tts');
     },
 
     ttsStopCurrent: () => ({ ttsHighlightSpeak, ttsHoverSpeak }) => {

@@ -1,12 +1,12 @@
 import { ActionsType } from 'hyperapp';
 
 const textOptionsActions: ActionsType<Accessabar.IState, Accessabar.ITextOptionsActions> = {
-    textOpsOpen: () => (state, { openMenu }: Accessabar.IActions) => {
-        openMenu('textOptions');
+    textOpsOpen: () => (state, { handleMenu }: Accessabar.IActions) => {
+        handleMenu('textOptions');
     },
 
-    textOpsClose: () => (state, { closeMenu }: Accessabar.IActions) => {
-        closeMenu('textOptions');
+    textOpsClose: () => (state, { handleMenu }: Accessabar.IActions) => {
+        handleMenu('textOptions');
     },
 
     textOpsSwitchInner: (current: string) => () => {

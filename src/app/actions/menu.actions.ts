@@ -143,6 +143,26 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
     stopDrag: () => ({ menuCanDrag: false }),
 
+    handleMenu: (name: string) => ({ menuCurrent, menuActive }, { openMenu, closeMenu }) => {
+        console.log(name, menuCurrent, menuActive);
+
+        if (!menuCurrent && !menuActive) {
+            openMenu(name);
+            return;
+        }
+
+        if (menuActive && menuCurrent !== name) {
+            closeMenu();
+            openMenu(name);
+            return;
+        }
+
+        if (menuActive && menuCurrent === name) {
+            closeMenu();
+            return;
+        }
+    },
+
     openMenu: (name: string) => ({ menuCurrent, menuActive }, { closeMenu, showMenu, addMenuListener }) => {
         const config: Accessabar.IConfigObject = funcConfig[name];
 
