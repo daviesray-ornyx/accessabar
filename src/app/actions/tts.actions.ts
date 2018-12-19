@@ -1,4 +1,5 @@
 import { ActionsType } from 'hyperapp';
+import AccessabarUtil from '../util';
 
 function hoverPassthrough(event) {
     window.abar.appActions.ttsHandleHover(event);
@@ -9,11 +10,11 @@ function highlightPassthrough() {
 }
 
 const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
-    toggleSpeakHover: () => ({ ttsHoverSpeak }, { ttsHoverStart, ttsStopCurrent }) => {
+    toggleSpeakHover: () => ({ ttsHoverSpeak }, { ttsHoverStart, ttsStop }) => {
         if (ttsHoverSpeak) {
-            ttsStopCurrent();
+            AccessabarUtil.stopFunction('tts');
         } else {
-            ttsHoverStart();
+            AccessabarUtil.startFunction('tts', ttsStop, ttsHoverStart);
         }
 
         return {
@@ -22,11 +23,11 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    toggleHighlightSpeak: () => ({ ttsHighlightSpeak }, { ttsHighlightStart, ttsStopCurrent }) => {
+    toggleHighlightSpeak: () => ({ ttsHighlightSpeak }, { ttsHighlightStart, ttsStop }) => {
         if (ttsHighlightSpeak) {
-            ttsStopCurrent();
+            AccessabarUtil.stopFunction('tts');
         } else {
-            ttsHighlightStart();
+            AccessabarUtil.startFunction('tts', ttsStop, ttsHighlightStart);
         }
 
         return {
