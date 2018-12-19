@@ -143,7 +143,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
     stopDrag: () => ({ menuCanDrag: false }),
 
-    openMenu: (name: string) => ({ menuCurrent }, { showMenu, addMenuListener }) => {
+    openMenu: (name: string) => ({ menuCurrent, menuActive }, { closeMenu, showMenu, addMenuListener }) => {
         const config: Accessabar.IConfigObject = funcConfig[name];
 
         if (!config) {
@@ -155,6 +155,10 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
         if (name === menuCurrent) {
             return;
+        }
+
+        if (menuActive && menuCurrent) {
+            closeMenu();
         }
 
         addMenuListener();
