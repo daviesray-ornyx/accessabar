@@ -17,7 +17,7 @@ const buttonArea = (state, actions) => {
         },
         [
             section([
-                div({ class: 'group', 'aria-label': 'Sound controls' }, [
+                div({ class: `group ${state.ttsHoverSpeak || state.ttsHighlightSpeak ? '' : 'hide'}`, 'aria-label': 'Sound controls' }, [
                     Buttons.playButton(),
                     Buttons.pauseButton(),
                     Buttons.stopButton(),
