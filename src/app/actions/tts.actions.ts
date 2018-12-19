@@ -183,26 +183,24 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         window.speechSynthesis.speak(utterance);
     },
 
-    ttsStart: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { handleMenu, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
-        handleMenu('tts');
+    ttsInit: () => ({ ttsInitiated, ttsHighlightSpeak, ttsHoverSpeak }, { handleMenu, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
+        if (ttsInitiated) {
+            return;
+        }
+
         ttsUpdateVoices();
 
         if (window.speechSynthesis.onvoiceschanged !== undefined) {
             window.speechSynthesis.onvoiceschanged = window.abar.appActions.ttsUpdateVoices;
         }
 
-        if (ttsHighlightSpeak) {
-            ttsHighlightStart();
-        }
-
-        if (ttsHoverSpeak) {
-            ttsHoverStart();
-        }
+        return {
+            ttsInitiated: true,
+        };
     },
 
     ttsStop: () => (state, { handleMenu, ttsStopCurrent }: Accessabar.IActions) => {
         ttsStopCurrent();
-        handleMenu('tts');
     },
 
     ttsStopCurrent: () => ({ ttsHighlightSpeak, ttsHoverSpeak }) => {

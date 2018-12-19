@@ -144,8 +144,6 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     stopDrag: () => ({ menuCanDrag: false }),
 
     handleMenu: (name: string) => ({ menuCurrent, menuActive }, { openMenu, closeMenu }) => {
-        console.log(name, menuCurrent, menuActive);
-
         if (!menuCurrent && !menuActive) {
             openMenu(name);
             return;

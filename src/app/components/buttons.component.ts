@@ -81,18 +81,19 @@ const stopButton = () => {
 };
 
 interface ITTSButtonActions {
-    ttsStart: Accessabar.ITTSActions['ttsStart'];
-    ttsStop: Accessabar.ITTSActions['ttsStop'];
+    handleMenu: Accessabar.IActions['handleMenu'];
+    ttsInit: Accessabar.IActions['ttsInit'];
 }
 
-const ttsButton = ({ ttsStart, ttsStop }: ITTSButtonActions) => {
+const ttsButton = ({ handleMenu, ttsInit }: ITTSButtonActions) => {
     return button(
         {
             'aria-label': 'Enable text to speech',
             class: 'bar-button',
             id: 'tts',
             onclick: () => {
-                AccessabarUtil.startFunction('tts', ttsStop, ttsStart);
+                ttsInit();
+                handleMenu('tts');
             },
             oncreate: () => {
                 tippy('#accessabar #tts', {
@@ -212,18 +213,17 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
 };
 
 interface ITextOpsActions {
-    textOpsOpen: Accessabar.ITextOptionsActions['textOpsOpen'];
-    textOpsClose: Accessabar.ITextOptionsActions['textOpsClose'];
+    handleMenu: Accessabar.IActions['handleMenu'];
 }
 
-const textOpsButton = ({ textOpsOpen, textOpsClose }: ITextOpsActions) => {
+const textOpsButton = ({ handleMenu }: ITextOpsActions) => {
     return button(
         {
             'aria-label': 'Text options',
             class: 'bar-button',
             id: 'text-options',
             onclick: () => {
-                AccessabarUtil.startFunction('textOptions', textOpsClose, textOpsOpen);
+                handleMenu('textOptions');
             },
             oncreate: () => {
                 tippy('#accessabar #text-options', {

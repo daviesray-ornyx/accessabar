@@ -70,7 +70,6 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 
                                 if (disableOnClose) {
                                     AccessabarUtil.stopFunction(state.menuCurrent);
-                                    return;
                                 }
 
                                 actions.closeMenu();

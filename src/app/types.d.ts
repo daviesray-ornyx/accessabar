@@ -15,6 +15,7 @@ declare namespace Accessabar {
         menuHidden: boolean;
         menuTitle: string;
 
+        ttsInitiated: boolean;
         ttsHoverSpeak: boolean;
         ttsHighlightSpeak: boolean;
         ttsPitch: number;
@@ -113,7 +114,7 @@ declare namespace Accessabar {
     interface ITTSActions {
         toggleSpeakHover(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         toggleHighlightSpeak(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        ttsStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        ttsInit(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsHoverStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         ttsHighlightStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
@@ -126,8 +127,6 @@ declare namespace Accessabar {
     }
 
     interface ITextOptionsActions {
-        textOpsOpen(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
-        textOpsClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         textOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
     }
 
