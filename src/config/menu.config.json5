@@ -1,0 +1,11 @@
+{
+    tts: {
+        title: 'Text to Speech',
+        disableOnClose: true,
+    },
+
+    textOptions: {
+        title: 'Text Options',
+        disableOnClose: true,
+    },
+}
