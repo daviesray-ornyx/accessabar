@@ -171,11 +171,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    closeMenu: (name: string) => ({ menuCurrent }, { hideMenu, removeMenuListener }) => {
-        if (name && name !== menuCurrent) {
-            return;
-        }
-
+    closeMenu: () => (state, { hideMenu, removeMenuListener }) => {
         removeMenuListener();
         hideMenu();
 
