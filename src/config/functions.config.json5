@@ -32,18 +32,5 @@
     tts: {
         conflicts: [],
         disableOnClick: true,
-        menuOptions: {
-            title: 'Text to Speech',
-            disableOnClose: true,
-        },
-    },
-
-    textOptions: {
-        conflicts: [],
-        disableOnClick: true,
-        menuOptions: {
-            title: 'Text Options',
-            disableOnClose: true,
-        },
     },
 }

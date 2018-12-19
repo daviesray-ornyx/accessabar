@@ -6,8 +6,6 @@ import {
     i,
 } from '@hyperapp/html';
 import * as menus from './menus.component';
-import funcConfig from '../../config/functions.config.json5';
-import { AccessabarUtil } from '../';
 import tippy from 'tippy.js';
 
 const menuNames = new Map([
@@ -64,14 +62,6 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                             class: 'menu-close',
                             id: 'menu-close',
                             onclick: () => {
-                                const config: Accessabar.IConfigObject = funcConfig[state.menuCurrent];
-                                const menuOptions = config.menuOptions;
-                                const { disableOnClose } = menuOptions;
-
-                                if (disableOnClose) {
-                                    AccessabarUtil.stopFunction(state.menuCurrent);
-                                }
-
                                 actions.closeMenu();
                             },
                             oncreate: () => {

@@ -147,10 +147,6 @@ declare namespace Accessabar {
         };
         editName: string;
         disableOnClick: boolean;
-        menuOptions: {
-            title: string;
-            disableOnClose: boolean;
-        };
     }
 
     interface IConfig {
@@ -164,6 +160,15 @@ declare namespace Accessabar {
 
     interface IFontConfig {
         [propName: string]: IFontConfigObject;
+    }
+
+    interface IMenuConfigObject {
+        title: string;
+        disableOnClose: boolean;
+    }
+
+    interface IMenuConfig {
+        [propName: string]: IMenuConfigObject;
     }
 }
 

@@ -1,5 +1,6 @@
 import { ActionsType } from 'hyperapp';
-import funcConfig from '../../config/functions.config.json5';
+import menuConfig from '../../config/menu.config.json5';
+import AccessabarUtil from '../util';
 
 interface IDragEvent extends MouseEvent, TouchEvent {}
 
@@ -162,14 +163,13 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     },
 
     openMenu: (name: string) => ({ menuCurrent, menuActive }, { closeMenu, showMenu, addMenuListener }) => {
-        const config: Accessabar.IConfigObject = funcConfig[name];
+        const config: Accessabar.IMenuConfig = menuConfig[name];
 
         if (!config) {
             return;
         }
 
-        const menuOptions = config.menuOptions;
-        const { title } = menuOptions;
+        const { title } = config;
 
         if (name === menuCurrent) {
             return;
@@ -189,7 +189,14 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    closeMenu: () => (state, { hideMenu, removeMenuListener }) => {
+    closeMenu: () => ({ menuCurrent }, { hideMenu, removeMenuListener }) => {
+        const config: Accessabar.IMenuConfig = menuConfig[menuCurrent];
+        const { disableOnClose } = config;
+
+        if (disableOnClose) {
+            AccessabarUtil.stopFunction(menuCurrent);
+        }
+
         removeMenuListener();
         hideMenu();
 
