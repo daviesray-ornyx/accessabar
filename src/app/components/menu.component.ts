@@ -73,7 +73,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                                     return;
                                 }
 
-                                actions.closeMenu(state.menuCurrent);
+                                actions.closeMenu();
                             },
                             oncreate: () => {
                                 tippy('#accessabar #menu-close', {
