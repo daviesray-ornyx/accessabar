@@ -115,7 +115,7 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
 };
 
 const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div({ class: 'flex-column' }, [
+    return div({ class: 'flex flex-column' }, [
         section({ class: 'box flex-column' }, [
             switchEl(state.fontColourActive, actions.fontColourEnable, 'Toggle Text Colour', 'Toggle the page text colour'),
         ]),
