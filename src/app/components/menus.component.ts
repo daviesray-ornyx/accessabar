@@ -6,6 +6,7 @@ import {
     button,
     ul,
     li,
+    br,
 } from '@hyperapp/html';
 import fontConfig from '../../config/fonts.config.json5';
 import { VNode } from 'hyperapp';
@@ -198,6 +199,11 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
             ]),
             div({ class: 'text-colour-custom growable flex-column' }, [
                 span({ class: 'title' }, 'Custom'),
+                span({ class: 'desc' }, [
+                    'Click the box below',
+                    br(),
+                    'to select a custom colour.',
+                ]),
                 div({ class: 'custom-container flex' }, [
                     div(
                         {
