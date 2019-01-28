@@ -6,11 +6,11 @@ interface IDragEvent extends MouseEvent, TouchEvent {}
 
 function menuPassthrough(event) {
     // console.log(event);
-    window.abar.appActions.moveMenu(event);
+    window.abar.appActions.menuMove(event);
 }
 
 const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
-    addMenuListener: () => ({ menuEvent }) => {
+    menuAddListener: () => ({ menuEvent }) => {
         if (!menuEvent) {
             document.addEventListener('mousemove', menuPassthrough);
 
@@ -20,7 +20,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         }
     },
 
-    removeMenuListener: () => ({ menuEvent }) => {
+    menuRemoveListener: () => ({ menuEvent }) => {
         if (menuEvent) {
             document.removeEventListener('mousemove', menuPassthrough);
 
@@ -30,7 +30,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         }
     },
 
-    moveMenu: (event: IDragEvent) => ({ menuCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }, { stopDrag }) => {
+    menuMove: (event: IDragEvent) => ({ menuCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }, { menuStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
 
         const {
@@ -57,22 +57,22 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
 
         if (x < 0) {
             x = 0;
-            stopDrag();
+            menuStopDrag();
         }
 
         if (x > windowWidth) {
             x = windowWidth;
-            stopDrag();
+            menuStopDrag();
         }
 
         if (y < 0) {
             y = 0;
-            stopDrag();
+            menuStopDrag();
         }
 
         if (y > windowHeight) {
             y = windowHeight;
-            stopDrag();
+            menuStopDrag();
         }
 
         // console.log(menuMouseX, menuMouseY, clientX, clientY, x, y, windowHeight, windowWidth, rect);
@@ -85,19 +85,19 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    toggleHide: () => ({ menuHidden }) => {
+    menuToggleHide: () => ({ menuHidden }) => {
         return {
             menuHidden: !menuHidden,
         };
     },
 
-    hideMenu: () => {
+    menuHide: () => {
         return {
             menuHidden: true,
         };
     },
 
-    showMenu: () => {
+    menuShow: () => {
         const bar = window.abar.mainElement.querySelector('.bar');
 
         if (!bar) {
@@ -111,7 +111,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    updatePosition: (el: HTMLElement) => {
+    menuUpdatePosition: (el: HTMLElement) => {
         const rect = el.getBoundingClientRect();
 
         return {
@@ -120,7 +120,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    updateMousePosition: (event: IDragEvent) => {
+    menuUpdateMousePosition: (event: IDragEvent) => {
         const ev = event.touches ? event.touches[0] : event;
 
         const {
@@ -134,35 +134,35 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    startDrag: (event: IDragEvent) => (state, { updateMousePosition }) => {
+    menuStartDrag: (event: IDragEvent) => (state, { menuUpdateMousePosition }) => {
         event.preventDefault();
 
-        updateMousePosition(event);
+        menuUpdateMousePosition(event);
 
         return { menuCanDrag: true };
     },
 
-    stopDrag: () => ({ menuCanDrag: false }),
+    menuStopDrag: () => ({ menuCanDrag: false }),
 
-    handleMenu: (name: string) => ({ menuCurrent, menuActive }, { openMenu, closeMenu }) => {
+    menuHandle: (name: string) => ({ menuCurrent, menuActive }, { menuOpen, menuClose }) => {
         if (!menuCurrent && !menuActive) {
-            openMenu(name);
+            menuOpen(name);
             return;
         }
 
         if (menuActive && menuCurrent !== name) {
-            closeMenu();
-            openMenu(name);
+            menuClose();
+            menuOpen(name);
             return;
         }
 
         if (menuActive && menuCurrent === name) {
-            closeMenu();
+            menuClose();
             return;
         }
     },
 
-    openMenu: (name: string) => ({ menuCurrent, menuActive }, { closeMenu, showMenu, addMenuListener }) => {
+    menuOpen: (name: string) => ({ menuCurrent, menuActive }, { menuClose, menuShow, menuAddListener }) => {
         const config: Accessabar.IMenuConfig = menuConfig[name];
 
         if (!config) {
@@ -176,11 +176,11 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         }
 
         if (menuActive && menuCurrent) {
-            closeMenu();
+            menuClose();
         }
 
-        addMenuListener();
-        showMenu();
+        menuAddListener();
+        menuShow();
 
         return {
             menuActive: true,
@@ -189,7 +189,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         };
     },
 
-    closeMenu: () => ({ menuCurrent }, { hideMenu, removeMenuListener }) => {
+    menuClose: () => ({ menuCurrent }, { menuHide, menuRemoveListener }) => {
         const config: Accessabar.IMenuConfig = menuConfig[menuCurrent];
         const { disableOnClose } = config;
 
@@ -197,8 +197,8 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             AccessabarUtil.stopFunction(menuCurrent);
         }
 
-        removeMenuListener();
-        hideMenu();
+        menuRemoveListener();
+        menuHide();
 
         return {
             menuActive: false,

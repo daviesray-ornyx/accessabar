@@ -1,5 +1,4 @@
 import { ActionsType } from 'hyperapp';
-import AccessabarUtil from '../util';
 
 function hoverPassthrough(event) {
     window.abar.appActions.ttsHandleHover(event);
@@ -10,32 +9,6 @@ function highlightPassthrough() {
 }
 
 const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
-    toggleSpeakHover: () => ({ ttsHoverSpeak }, { ttsHoverStart, ttsStop }) => {
-        if (ttsHoverSpeak) {
-            AccessabarUtil.stopFunction('tts');
-        } else {
-            AccessabarUtil.startFunction('tts', ttsStop, ttsHoverStart);
-        }
-
-        return {
-            ttsHighlightSpeak: false,
-            ttsHoverSpeak: !ttsHoverSpeak,
-        };
-    },
-
-    toggleHighlightSpeak: () => ({ ttsHighlightSpeak }, { ttsHighlightStart, ttsStop }) => {
-        if (ttsHighlightSpeak) {
-            AccessabarUtil.stopFunction('tts');
-        } else {
-            AccessabarUtil.startFunction('tts', ttsStop, ttsHighlightStart);
-        }
-
-        return {
-            ttsHighlightSpeak: !ttsHighlightSpeak,
-            ttsHoverSpeak: false,
-        };
-    },
-
     ttsHandleHover: (event: MouseEvent) => ({ ttsHoverTimeout }) => {
         const { target } = event;
         const selection = window.getSelection();
@@ -184,7 +157,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         window.speechSynthesis.speak(utterance);
     },
 
-    ttsInit: () => ({ ttsInitiated, ttsHighlightSpeak, ttsHoverSpeak }, { handleMenu, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
+    ttsInit: () => ({ ttsInitiated, ttsHighlightSpeak, ttsHoverSpeak }, { menuHandle, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
         if (ttsInitiated) {
             return;
         }
@@ -200,7 +173,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    ttsStop: () => (state, { handleMenu, ttsStopCurrent }: Accessabar.IActions) => {
+    ttsStop: () => (state, { menuHandle, ttsStopCurrent }: Accessabar.IActions) => {
         ttsStopCurrent();
     },
 

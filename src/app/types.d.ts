@@ -73,17 +73,18 @@ declare namespace Accessabar {
     }
 
     interface IFontActions {
-        incFontSize(): Accessabar.IState;
-        decFontSize(): Accessabar.IState;
-        resetFontSizing(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        fontIncSize(): Accessabar.IState;
+        fontDecSize(): Accessabar.IState;
+        fontResetSizing(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontFamilyEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         fontFamilyReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontChangeFamilyAll(key?: string): (state: Accessabar.IState) => Accessabar.IState;
         fontColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
         fontColourEnable(): (state: Accessabar.IState) => Accessabar.IState;
         fontColourReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
-        lineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontLineSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
         charSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontCharSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
         fontReset(configKey: string): void;
     }
 
@@ -96,24 +97,22 @@ declare namespace Accessabar {
     }
 
     interface IMenuActions {
-        addMenuListener(): (state: Accessabar.IState) => Accessabar.IState;
-        removeMenuListener(): (state: Accessabar.IState) => Accessabar.IState;
-        hideMenu(): Accessabar.IState;
-        showMenu(): Accessabar.IState;
-        toggleHide(): (state: Accessabar.IState) => Accessabar.IState;
-        moveMenu(event: Event): (state: Accessabar.IState) => Accessabar.IState;
-        updatePosition(el: HTMLElement): Accessabar.IState;
-        updateMousePosition(event: MouseEvent): Accessabar.IState;
-        startDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        stopDrag(): Accessabar.IState;
-        handleMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
-        openMenu(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        closeMenu(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        menuAddListener(): (state: Accessabar.IState) => Accessabar.IState;
+        menuRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
+        menuHide(): Accessabar.IState;
+        menuShow(): Accessabar.IState;
+        menuToggleHide(): (state: Accessabar.IState) => Accessabar.IState;
+        menuMove(event: Event): (state: Accessabar.IState) => Accessabar.IState;
+        menuUpdatePosition(el: HTMLElement): Accessabar.IState;
+        menuUpdateMousePosition(event: MouseEvent): Accessabar.IState;
+        menuStartDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        menuStopDrag(): Accessabar.IState;
+        menuHandle(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        menuOpen(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        menuClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface ITTSActions {
-        toggleSpeakHover(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        toggleHighlightSpeak(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsInit(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         ttsHoverStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
@@ -131,6 +130,8 @@ declare namespace Accessabar {
     }
 
     interface ISelectActions {
+        selectToggleSpeakHover(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        selectToggleHighlightSpeak(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }

@@ -1,6 +1,33 @@
 import { ActionsType } from 'hyperapp';
+import AccessabarUtil from '../util';
 
 const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> = {
+    selectToggleSpeakHover: () => ({ ttsHoverSpeak }, { ttsHoverStart, ttsStop }: Accessabar.IActions) => {
+        if (ttsHoverSpeak) {
+            AccessabarUtil.stopFunction('tts');
+        } else {
+            AccessabarUtil.startFunction('tts', ttsStop, ttsHoverStart);
+        }
+
+        return {
+            ttsHighlightSpeak: false,
+            ttsHoverSpeak: !ttsHoverSpeak,
+        };
+    },
+
+    selectToggleHighlightSpeak: () => ({ ttsHighlightSpeak }, { ttsHighlightStart, ttsStop }: Accessabar.IActions) => {
+        if (ttsHighlightSpeak) {
+            AccessabarUtil.stopFunction('tts');
+        } else {
+            AccessabarUtil.startFunction('tts', ttsStop, ttsHighlightStart);
+        }
+
+        return {
+            ttsHighlightSpeak: !ttsHighlightSpeak,
+            ttsHoverSpeak: false,
+        };
+    },
+
     selectToggleFontList: (event: Event) => ({ selectFontListActive }) => {
         return {
             selectFontListActive: !selectFontListActive,

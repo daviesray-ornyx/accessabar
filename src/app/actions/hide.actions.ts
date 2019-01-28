@@ -3,7 +3,7 @@ import { AccessabarUtil } from '../util';
 
 const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
     // Hides accessabar
-    abarHide: () => ({ abarHidden, menuActive }, { toggleHide }: Accessabar.IActions) => {
+    abarHide: () => ({ abarHidden, menuActive }, { menuToggleHide }: Accessabar.IActions) => {
         const { mainElement } = window.abar;
 
         if (!mainElement) {
@@ -22,7 +22,7 @@ const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
             AccessabarUtil.moveBody();
 
             if (menuActive) {
-                toggleHide();
+                menuToggleHide();
             }
 
             return { abarHidden: false };
@@ -36,7 +36,7 @@ const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
         document.body.style.marginTop = '2px';
 
         if (menuActive) {
-            toggleHide();
+            menuToggleHide();
         }
 
         return { abarHidden: true };

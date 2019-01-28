@@ -64,7 +64,7 @@ function getParents(): Set<HTMLElement> {
 }
 
 const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
-    decFontSize: () => {
+    fontDecSize: () => {
         const parentElements = getParents();
         const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
         // Loops over elements and changes text size for each element
@@ -99,7 +99,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    resetFontSizing: () => (state, { fontReset }) => {
+    fontResetSizing: () => (state, { fontReset }) => {
         fontReset('fontSizing');
 
         return {
@@ -107,7 +107,7 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    incFontSize: () => {
+    fontIncSize: () => {
         const parentElements = getParents();
         const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
 
