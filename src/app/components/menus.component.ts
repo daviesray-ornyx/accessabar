@@ -7,9 +7,11 @@ import {
     ul,
     li,
     br,
+    i,
 } from '@hyperapp/html';
 import fontConfig from '../../config/fonts.config.json5';
 import { VNode } from 'hyperapp';
+import tippy from 'tippy.js';
 import Pickr from 'pickr-widget';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
@@ -38,10 +40,10 @@ const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: 
 const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div({ class: 'menu-content' }, [
         section({ class: 'box flex-column' }, [
-            switchEl(state.ttsHoverSpeak, actions.toggleSpeakHover, 'Speak on hover', 'Toggle speak on hover'),
+            switchEl(state.ttsHoverSpeak, actions.selectToggleSpeakHover, 'Speak on hover', 'Toggle speak on hover'),
         ]),
         section({ class: 'box flex-column' }, [
-            switchEl(state.ttsHighlightSpeak, actions.toggleHighlightSpeak, 'Speak only highlighted', 'Toggle speak only highlighted text'),
+            switchEl(state.ttsHighlightSpeak, actions.selectToggleHighlightSpeak, 'Speak only highlighted', 'Toggle speak only highlighted text'),
         ]),
     ]);
 };
@@ -243,14 +245,69 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
 };
 
 const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return section({ class: 'box flex-column' }, [
-        switchEl(state.fontLineSpacingActive, actions.lineSpacingEnable, 'Toggle Line Spacing', 'Toggle the page line spacing'),
+    return div({ class: 'flex flex-column' }, [
+        section({ class: 'box flex-column' }, [
+            switchEl(state.fontLineSpacingActive, actions.fontLineSpacingEnable, 'Toggle Line Spacing', 'Toggle the page line spacing'),
+        ]),
+        section({ class: 'box flex-column' }, [
+            div({ class: 'counter growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease line spacing',
+                        class: 'dec bar-button',
+                        id: 'ls-dec',
+                        onclick: () => {
+                            actions.fontLineSpacingDecrement();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ls-dec', {
+                                arrow: true,
+                                content: 'Decrease',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon-minus',
+                        }),
+                    ],
+                ),
+                span({ class: 'count' }, state.fontLineSpacingCount),
+                button(
+                    {
+                        'aria-label': 'Increase line spacing',
+                        class: 'inc bar-button',
+                        id: 'ls-inc',
+                        onclick: () => {
+                            actions.fontLineSpacingIncrement();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ls-inc', {
+                                arrow: true,
+                                content: 'Increase',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
+        ]),
     ]);
 };
 
 const textOptionsInnerCharSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return section({ class: 'box flex-column' }, [
-        switchEl(state.fontCharSpacingActive, actions.charSpacingEnable, 'Toggle Character Spacing', 'Toggle the page character spacing'),
+        switchEl(state.fontCharSpacingActive, actions.fontCharSpacingEnable, 'Toggle Character Spacing', 'Toggle the page character spacing'),
     ]);
 };
 

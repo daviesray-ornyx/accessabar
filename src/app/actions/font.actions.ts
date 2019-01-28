@@ -269,13 +269,57 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    lineSpacingEnable: () => ({ fontLineSpacingActive }) => {
+    fontLineSpacingEnable: () => ({ fontLineSpacingActive }, { fontLineSpacingReset, fontLineSpacingChange }) => {
+        if (!fontLineSpacingActive) {
+            AccessabarUtil.startFunction('fontLineSpacing', fontLineSpacingReset, fontLineSpacingChange);
+
+            return {
+                fontLineSpacingActive: true,
+            };
+        }
+
+        AccessabarUtil.stopFunction('fontLineSpacing');
+
         return {
-            fontLineSpacingActive: !fontLineSpacingActive,
+            fontLineSpacingActive: false,
         };
     },
 
-    charSpacingEnable: () => ({ fontCharSpacingActive }) => {
+    fontLineSpacingIncrement: () => ({ fontLineSpacingCount, fontLineSpacingActive }, { fontLineSpacingChange }) => {
+        const nextCount = fontLineSpacingCount + 1;
+
+        if (fontLineSpacingActive) {
+            fontLineSpacingChange(nextCount);
+        }
+
+        return {
+            fontLineSpacingCount: nextCount,
+        };
+    },
+
+    fontLineSpacingDecrement: () => ({ fontLineSpacingCount, fontLineSpacingActive }, { fontLineSpacingChange }) => {
+        const nextCount = fontLineSpacingCount - 1;
+
+        if (fontLineSpacingActive) {
+            fontLineSpacingChange(nextCount);
+        }
+
+        return {
+            fontLineSpacingCount: nextCount,
+        };
+    },
+
+    fontLineSpacingChange: (count: number) => ({ fontLineSpacingCount }) => {
+        const currentCount = typeof count === 'undefined' ? fontLineSpacingCount : count;
+
+        console.log(currentCount);
+    },
+
+    fontLineSpacingReset: () => (state, { fontReset }) => {
+        fontReset('fontLineSpacing');
+    },
+
+    fontCharSpacingEnable: () => ({ fontCharSpacingActive }) => {
         return {
             fontCharSpacingActive: !fontCharSpacingActive,
         };
