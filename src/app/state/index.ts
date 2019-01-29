@@ -44,6 +44,8 @@ const state: Accessabar.IState = {
     fontCustomActive: false,
     fontLineSpacingActive: false,
     fontLineSpacingCount: 0,
+    fontLineSpacingMax: 50,
+    fontLineSpacingStep: 1,
     fontSizingActive: false,
 
     selectFontListActive: false,

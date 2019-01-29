@@ -308,8 +308,8 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    fontLineSpacingIncrement: () => ({ fontLineSpacingCount, fontLineSpacingActive }, { fontLineSpacingChange }) => {
-        const nextCount = fontLineSpacingCount + 1;
+    fontLineSpacingIncrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive }, { fontLineSpacingChange }) => {
+        const nextCount = fontLineSpacingCount + fontLineSpacingStep;
 
         if (fontLineSpacingActive) {
             fontLineSpacingChange(nextCount);
@@ -320,8 +320,8 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    fontLineSpacingDecrement: () => ({ fontLineSpacingCount, fontLineSpacingActive }, { fontLineSpacingChange }) => {
-        const nextCount = fontLineSpacingCount - 1;
+    fontLineSpacingDecrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive }, { fontLineSpacingChange }) => {
+        const nextCount = fontLineSpacingCount - fontLineSpacingStep;
 
         if (fontLineSpacingActive) {
             fontLineSpacingChange(nextCount);
@@ -332,10 +332,16 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    fontLineSpacingChange: (count: number) => ({ fontLineSpacingCount }) => {
+    fontLineSpacingChange: (count: number) => ({ fontLineSpacingCount, fontLineSpacingMax }) => {
         const currentCount = typeof count === 'undefined' ? fontLineSpacingCount : count;
 
-        console.log(currentCount);
+        if (Math.abs(currentCount) > fontLineSpacingMax) {
+            return;
+        }
+
+        const { fontLineSpacing }: { fontLineSpacing: Accessabar.IConfigObject } = config;
+
+        editLoop(fontLineSpacing, 'lineHeight', `${currentCount}px`);
     },
 
     fontLineSpacingReset: () => (state, { fontReset }) => {

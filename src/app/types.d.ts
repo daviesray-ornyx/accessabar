@@ -48,6 +48,8 @@ declare namespace Accessabar {
         fontColourCustomCurrent: string;
 
         fontLineSpacingCount: number;
+        fontLineSpacingMax: number;
+        fontLineSpacingStep: number;
 
         fontSizingActive: boolean;
 

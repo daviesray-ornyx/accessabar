@@ -29,6 +29,15 @@
         disableOnClick: true,
     },
 
+    fontLineSpacing: {
+        conflicts: [],
+        attrNames: {
+            orig: 'accessabar-orig-font-line-height',
+        },
+        editName: 'line-height',
+        disableOnClick: true,
+    },
+
     tts: {
         conflicts: [],
         disableOnClick: true,
