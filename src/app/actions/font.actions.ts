@@ -86,36 +86,42 @@ function editLoop(currentConfig, modifier, modifierValue) {
     }
 }
 
+function editLoopComputed(currentConfig, modifier, modifierStep) {
+    const parentElements = getParents();
+
+    // Loops over elements and changes text size for each element
+    for (const el of parentElements) {
+        // Get exact computed size for accurate results
+        const size = window.getComputedStyle(el)[modifier];
+
+        if (size) {
+            const abarEdited = el.getAttribute('accessabar-edited');
+
+            // Add attribute to element to flag edits from Accessabar.
+            // If 'font-size' was set inline, it is added to 'accessabar-orig-font-size'.
+            if (!abarEdited) {
+                el.setAttribute('accessabar-edited', currentConfig.editName);
+                el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
+            }
+
+            if (abarEdited && abarEdited.split(' ').indexOf(currentConfig.editName) === -1) {
+                const funcNames = abarEdited.split(' ');
+
+                funcNames.push(currentConfig.editName);
+                el.setAttribute('accessabar-edited', funcNames.join(' '));
+                el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
+            }
+
+            el.style[modifier] = `${parseInt(size, 10) + modifierStep}px`;
+        }
+    }
+}
+
 const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
     fontDecSize: () => {
-        const parentElements = getParents();
         const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
-        // Loops over elements and changes text size for each element
-        for (const el of parentElements) {
-            // Get exact computed size for accurate results
-            const size = window.getComputedStyle(el).fontSize;
 
-            if (size) {
-                const abarEdited = el.getAttribute('accessabar-edited');
-
-                // Add attribute to element to flag edits from Accessabar.
-                // If 'font-size' was set inline, it is added to 'accessabar-orig-font-size'.
-                if (!abarEdited) {
-                    el.setAttribute('accessabar-edited', fontSizing.editName);
-                    el.setAttribute(fontSizing.attrNames.orig, el.style.fontSize || 'none');
-                }
-
-                if (abarEdited && abarEdited.split(' ').indexOf(fontSizing.editName) === -1) {
-                    const funcNames = abarEdited.split(' ');
-
-                    funcNames.push(fontSizing.editName);
-                    el.setAttribute('accessabar-edited', funcNames.join(' '));
-                    el.setAttribute(fontSizing.attrNames.orig, el.style.fontSize || 'none');
-                }
-
-                el.style.fontSize = `${parseInt(size, 10) - 1}px`;
-            }
-        }
+        editLoopComputed(fontSizing, 'fontSize', -1);
 
         return {
             fontSizingActive: true,
@@ -131,31 +137,9 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
     },
 
     fontIncSize: () => {
-        const parentElements = getParents();
         const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
 
-        for (const el of parentElements) {
-            const size = window.getComputedStyle(el).fontSize;
-
-            if (size) {
-                const abarEdited = el.getAttribute('accessabar-edited');
-
-                if (!abarEdited) {
-                    el.setAttribute('accessabar-edited', fontSizing.editName);
-                    el.setAttribute(fontSizing.attrNames.orig, el.style.fontSize || 'none');
-                }
-
-                if (abarEdited && abarEdited.split(' ').indexOf(fontSizing.editName) === -1) {
-                    const funcNames = abarEdited.split(' ');
-
-                    funcNames.push(fontSizing.editName);
-                    el.setAttribute('accessabar-edited', funcNames.join(' '));
-                    el.setAttribute(fontSizing.attrNames.orig, el.style.fontSize || 'none');
-                }
-
-                el.style.fontSize = `${parseInt(size, 10) + 1}px`;
-            }
-        }
+        editLoopComputed(fontSizing, 'fontSize', 1);
 
         return {
             fontSizingActive: true,
