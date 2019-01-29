@@ -63,7 +63,7 @@ function getParents(): Set<HTMLElement> {
     return parentElements;
 }
 
-function editLoop(currentConfig, modifier, modifierValue) {
+function editLoop(currentConfig: Accessabar.IConfigObject, modifier: string, modifierValue: string | number) {
     const parentElements = getParents();
 
     for (const el of parentElements) {
@@ -86,13 +86,14 @@ function editLoop(currentConfig, modifier, modifierValue) {
     }
 }
 
-function editLoopComputed(currentConfig, modifier, modifierStep) {
+function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: string, modifierStep: number, modifierCount?: number) {
     const parentElements = getParents();
 
     // Loops over elements and changes text size for each element
     for (const el of parentElements) {
         // Get exact computed size for accurate results
-        const size = window.getComputedStyle(el)[modifier];
+        const size: string = window.getComputedStyle(el)[modifier];
+        const sizeNumeric: number = parseInt(size, 10);
 
         if (size) {
             const abarEdited = el.getAttribute('accessabar-edited');
@@ -102,6 +103,7 @@ function editLoopComputed(currentConfig, modifier, modifierStep) {
             if (!abarEdited) {
                 el.setAttribute('accessabar-edited', currentConfig.editName);
                 el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
+                el.setAttribute(currentConfig.attrNames.origComputed, size);
             }
 
             if (abarEdited && abarEdited.split(' ').indexOf(currentConfig.editName) === -1) {
@@ -112,7 +114,18 @@ function editLoopComputed(currentConfig, modifier, modifierStep) {
                 el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
             }
 
-            el.style[modifier] = `${parseInt(size, 10) + modifierStep}px`;
+            if (typeof modifierCount === 'undefined') {
+                el.style[modifier] = `${sizeNumeric + modifierStep}px`;
+                return;
+            }
+
+            const origComputed = el.getAttribute(currentConfig.attrNames.origComputed);
+
+            if (origComputed) {
+                const origComputedNumeric: number = parseInt(origComputed, 10);
+
+                el.style[modifier] = `${origComputedNumeric + (modifierStep * modifierCount)}px`;
+            }
         }
     }
 }
@@ -236,6 +249,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
 
             AccessabarUtil.pruneFuncs(el, abarEdited, configObj);
             el.removeAttribute(configObj.attrNames.orig);
+
+            if (configObj.attrNames.origComputed) {
+                el.removeAttribute(configObj.attrNames.origComputed);
+            }
         }
     },
 
@@ -255,40 +272,44 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    fontLineSpacingIncrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive }, { fontLineSpacingChange }) => {
+    fontLineSpacingIncrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive, fontLineSpacingMax }, { fontLineSpacingChange }) => {
         const nextCount = fontLineSpacingCount + fontLineSpacingStep;
 
-        if (fontLineSpacingActive) {
-            fontLineSpacingChange(nextCount);
-        }
-
-        return {
-            fontLineSpacingCount: nextCount,
-        };
-    },
-
-    fontLineSpacingDecrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive }, { fontLineSpacingChange }) => {
-        const nextCount = fontLineSpacingCount - fontLineSpacingStep;
-
-        if (fontLineSpacingActive) {
-            fontLineSpacingChange(nextCount);
-        }
-
-        return {
-            fontLineSpacingCount: nextCount,
-        };
-    },
-
-    fontLineSpacingChange: (count: number) => ({ fontLineSpacingCount, fontLineSpacingMax }) => {
-        const currentCount = typeof count === 'undefined' ? fontLineSpacingCount : count;
-
-        if (Math.abs(currentCount) > fontLineSpacingMax) {
+        if (Math.abs(nextCount) > fontLineSpacingMax) {
             return;
         }
 
+        if (fontLineSpacingActive) {
+            fontLineSpacingChange(nextCount);
+        }
+
+        return {
+            fontLineSpacingCount: nextCount,
+        };
+    },
+
+    fontLineSpacingDecrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive, fontLineSpacingMax }, { fontLineSpacingChange }) => {
+        const nextCount = fontLineSpacingCount - fontLineSpacingStep;
+
+        if (Math.abs(nextCount) > fontLineSpacingMax) {
+            return;
+        }
+
+        if (fontLineSpacingActive) {
+            fontLineSpacingChange(nextCount);
+        }
+
+        return {
+            fontLineSpacingCount: nextCount,
+        };
+    },
+
+    fontLineSpacingChange: (count: number) => ({ fontLineSpacingCount, fontLineSpacingStep }) => {
+        const currentCount = typeof count === 'undefined' ? fontLineSpacingCount : count;
+
         const { fontLineSpacing }: { fontLineSpacing: Accessabar.IConfigObject } = config;
 
-        editLoop(fontLineSpacing, 'lineHeight', `${currentCount}px`);
+        editLoopComputed(fontLineSpacing, 'lineHeight', currentCount, fontLineSpacingStep);
     },
 
     fontLineSpacingReset: () => (state, { fontReset }) => {
