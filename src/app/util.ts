@@ -96,11 +96,11 @@ class AccessabarUtil {
         }
     }
 
-    public static pruneFuncs(el: HTMLElement, abarEdited: string, fontSizing: Accessabar.IConfigObject) {
+    public static pruneFuncs(el: HTMLElement, abarEdited: string, config: Accessabar.IConfigObject) {
         const funcNames = abarEdited.split(' ') || [];
 
-        if (funcNames.indexOf(fontSizing.editName) !== -1 && funcNames.length > 1) {
-            const index = funcNames.indexOf(fontSizing.editName);
+        if (funcNames.indexOf(config.editName) !== -1 && funcNames.length > 1) {
+            const index = funcNames.indexOf(config.editName);
             funcNames.splice(index, 1);
             el.setAttribute('accessabar-edited', funcNames.join(' '));
         } else {
