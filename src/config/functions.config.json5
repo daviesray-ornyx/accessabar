@@ -6,6 +6,7 @@
         conflicts: [],
         attrNames: {
             orig: 'accessabar-orig-font-size',
+            origComputed: 'accessabar-orig-computed-font-size',
         },
         editName: 'font-size',
         disableOnClick: false,
@@ -33,6 +34,7 @@
         conflicts: [],
         attrNames: {
             orig: 'accessabar-orig-font-line-height',
+            origComputed: 'accessabar-orig-computed-font-line-height',
         },
         editName: 'line-height',
         disableOnClick: true,
