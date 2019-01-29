@@ -175,26 +175,8 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
 
         const currentFontFamily = fontConfig[currentKey].family || null;
         const { fontFamily }: { fontFamily: Accessabar.IConfigObject } = config;
-        const parentElements = getParents();
 
-        for (const el of parentElements) {
-            const abarEdited = el.getAttribute('accessabar-edited');
-
-            if (!abarEdited) {
-                el.setAttribute('accessabar-edited', fontFamily.editName);
-                el.setAttribute(fontFamily.attrNames.orig, el.style.fontFamily || 'none');
-            }
-
-            if (abarEdited && abarEdited.split(' ').indexOf(fontFamily.editName) === -1) {
-                const funcNames = abarEdited.split(' ');
-
-                funcNames.push(fontFamily.editName);
-                el.setAttribute('accessabar-edited', funcNames.join(' '));
-                el.setAttribute(fontFamily.attrNames.orig, el.style.fontFamily || 'none');
-            }
-
-            el.style.fontFamily = currentFontFamily;
-        }
+        editLoop(fontFamily, 'fontFamily', currentFontFamily);
     },
 
     fontColourChange: (colour: string) => ({ fontColourCurrent }) => {
@@ -205,27 +187,8 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
 
         const { fontColour }: { fontColour: Accessabar.IConfigObject } = config;
-        const parentElements = getParents();
 
-        // TODO: Make loop func
-        for (const el of parentElements) {
-            const abarEdited = el.getAttribute('accessabar-edited');
-
-            if (!abarEdited) {
-                el.setAttribute('accessabar-edited', fontColour.editName);
-                el.setAttribute(fontColour.attrNames.orig, el.style.color || 'none');
-            }
-
-            if (abarEdited && abarEdited.split(' ').indexOf(fontColour.editName) === -1) {
-                const funcNames = abarEdited.split(' ');
-
-                funcNames.push(fontColour.editName);
-                el.setAttribute('accessabar-edited', funcNames.join(' '));
-                el.setAttribute(fontColour.attrNames.orig, el.style.color || 'none');
-            }
-
-            el.style.color = currentColour;
-        }
+        editLoop(fontColour, 'color', currentColour);
     },
 
     fontColourEnable: () => ({ fontColourActive }, { fontColourChange, fontColourReset }) => {
