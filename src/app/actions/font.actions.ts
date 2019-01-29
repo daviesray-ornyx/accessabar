@@ -63,6 +63,29 @@ function getParents(): Set<HTMLElement> {
     return parentElements;
 }
 
+function editLoop(currentConfig, modifier, modifierValue) {
+    const parentElements = getParents();
+
+    for (const el of parentElements) {
+        const abarEdited = el.getAttribute('accessabar-edited');
+
+        if (!abarEdited) {
+            el.setAttribute('accessabar-edited', currentConfig.editName);
+            el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
+        }
+
+        if (abarEdited && abarEdited.split(' ').indexOf(currentConfig.editName) === -1) {
+            const funcNames = abarEdited.split(' ');
+
+            funcNames.push(currentConfig.editName);
+            el.setAttribute('accessabar-edited', funcNames.join(' '));
+            el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
+        }
+
+        el.style[modifier] = modifierValue;
+    }
+}
+
 const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
     fontDecSize: () => {
         const parentElements = getParents();
