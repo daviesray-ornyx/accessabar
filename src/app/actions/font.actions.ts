@@ -93,7 +93,7 @@ function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: str
     for (const el of parentElements) {
         // Get exact computed size for accurate results
         const size: string = window.getComputedStyle(el)[modifier];
-        const sizeNumeric: number = parseInt(size, 10);
+        const sizeNumeric: number = parseFloat(size);
 
         if (size) {
             const abarEdited = el.getAttribute('accessabar-edited');
@@ -122,7 +122,7 @@ function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: str
             const origComputed = el.getAttribute(currentConfig.attrNames.origComputed);
 
             if (origComputed) {
-                const origComputedNumeric: number = parseInt(origComputed, 10);
+                const origComputedNumeric: number = parseFloat(origComputed);
 
                 el.style[modifier] = `${origComputedNumeric + (modifierStep * modifierCount)}px`;
             }
