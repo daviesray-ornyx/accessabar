@@ -316,10 +316,64 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         fontReset('fontLineSpacing');
     },
 
-    fontCharSpacingEnable: () => ({ fontCharSpacingActive }) => {
+    fontLetterSpacingEnable: () => ({ fontLetterSpacingActive }, { fontLetterSpacingReset, fontLetterSpacingChange }) => {
+        if (!fontLetterSpacingActive) {
+            AccessabarUtil.startFunction('fontLetterSpacing', fontLetterSpacingReset, fontLetterSpacingChange);
+
+            return {
+                fontLetterSpacingActive: true,
+            };
+        }
+
+        AccessabarUtil.stopFunction('fontLetterSpacing');
+
         return {
-            fontCharSpacingActive: !fontCharSpacingActive,
+            fontLetterSpacingActive: false,
         };
+    },
+
+    fontLetterSpacingIncrement: () => ({ fontLetterSpacingCount, fontLetterSpacingStep, fontLetterSpacingActive, fontLetterSpacingMax }, { fontLetterSpacingChange }) => {
+        const nextCount = fontLetterSpacingCount + fontLetterSpacingStep;
+
+        if (Math.abs(nextCount) > fontLetterSpacingMax) {
+            return;
+        }
+
+        if (fontLetterSpacingActive) {
+            fontLetterSpacingChange(nextCount);
+        }
+
+        return {
+            fontLetterSpacingCount: nextCount,
+        };
+    },
+
+    fontLetterSpacingDecrement: () => ({ fontLetterSpacingCount, fontLetterSpacingStep, fontLetterSpacingActive, fontLetterSpacingMax }, { fontLetterSpacingChange }) => {
+        const nextCount = fontLetterSpacingCount - fontLetterSpacingStep;
+
+        if (Math.abs(nextCount) > fontLetterSpacingMax) {
+            return;
+        }
+
+        if (fontLetterSpacingActive) {
+            fontLetterSpacingChange(nextCount);
+        }
+
+        return {
+            fontLetterSpacingCount: nextCount,
+        };
+    },
+
+    fontLetterSpacingChange: (count: number) => ({ fontLetterSpacingCount, fontLetterSpacingStep }) => {
+        const currentCount = typeof count === 'undefined' ? fontLetterSpacingCount : count;
+
+        const { fontLetterSpacing }: { fontLetterSpacing: Accessabar.IConfigObject } = config;
+
+        editLoopComputed(fontLetterSpacing, 'letterSpacing', currentCount, fontLetterSpacingStep);
+    },
+
+    fontLetterSpacingReset: () => (state, { fontReset }) => {
+        fontReset('fontLetterSpacing');
     },
 };
 

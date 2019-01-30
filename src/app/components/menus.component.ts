@@ -305,9 +305,64 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
     ]);
 };
 
-const textOptionsInnerCharSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return section({ class: 'box flex-column' }, [
-        switchEl(state.fontCharSpacingActive, actions.fontCharSpacingEnable, 'Toggle Character Spacing', 'Toggle the page character spacing'),
+const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    return div({ class: 'flex flex-column' }, [
+        section({ class: 'box flex-column' }, [
+            switchEl(state.fontLetterSpacingActive, actions.fontLetterSpacingEnable, 'Toggle Letter Spacing', 'Toggle the page letter spacing'),
+        ]),
+        section({ class: 'box flex-column' }, [
+            div({ class: 'counter growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease letter spacing',
+                        class: 'dec bar-button',
+                        id: 'ks-dec',
+                        onclick: () => {
+                            actions.fontLetterSpacingDecrement();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ks-dec', {
+                                arrow: true,
+                                content: 'Decrease',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon-minus',
+                        }),
+                    ],
+                ),
+                span({ class: 'count' }, state.fontLetterSpacingCount),
+                button(
+                    {
+                        'aria-label': 'Increase letter spacing',
+                        class: 'inc bar-button',
+                        id: 'ks-inc',
+                        onclick: () => {
+                            actions.fontLetterSpacingIncrement();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ks-inc', {
+                                arrow: true,
+                                content: 'Increase',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
+        ]),
     ]);
 };
 
@@ -315,7 +370,7 @@ const textOptionsInnerMenus = new Map([
     ['font', textOptionsInnerFont],
     ['text_colour', textOptionsInnerTextColour],
     ['line_spacing', textOptionsInnerLineSpacing],
-    ['char_spacing', textOptionsInnerCharSpacing],
+    ['letter_spacing', textOptionsInnerLetterSpacing],
 ]);
 
 const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
@@ -356,12 +411,12 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
             ),
             button(
                 {
-                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'char_spacing' ? 'active' : ''}`,
+                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'letter_spacing' ? 'active' : ''}`,
                     onclick: () => {
-                        actions.textOpsSwitchInner('char_spacing');
+                        actions.textOpsSwitchInner('letter_spacing');
                     },
                 },
-                'Character Spacing',
+                'Letter Spacing',
             ),
         ]),
         div({ class: 'menu-content' }, [

@@ -40,7 +40,7 @@ declare namespace Accessabar {
         fontColourActive: boolean;
         fontCustomActive: boolean;
         fontLineSpacingActive: boolean;
-        fontCharSpacingActive: boolean;
+        fontLetterSpacingActive: boolean;
 
         fontCurrentKey: string;
 
@@ -50,6 +50,9 @@ declare namespace Accessabar {
         fontLineSpacingCount: number;
         fontLineSpacingMax: number;
         fontLineSpacingStep: number;
+        fontLetterSpacingCount: number;
+        fontLetterSpacingMax: number;
+        fontLetterSpacingStep: number;
 
         fontSizingActive: boolean;
 
@@ -91,7 +94,11 @@ declare namespace Accessabar {
         fontLineSpacingIncrement(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontLineSpacingDecrement(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontLineSpacingReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
-        fontCharSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontLetterSpacingEnable(): (state: Accessabar.IState) => Accessabar.IState;
+        fontLetterSpacingChange(count?: number): (state: Accessabar.IState) => Accessabar.IState;
+        fontLetterSpacingIncrement(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        fontLetterSpacingDecrement(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        fontLetterSpacingReset(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         fontReset(configKey: string): void;
     }
 

@@ -40,6 +40,16 @@
         disableOnClick: true,
     },
 
+    fontLetterSpacing: {
+        conflicts: [],
+        attrNames: {
+            orig: 'accessabar-orig-font-letter-spacing',
+            origComputed: 'accessabar-orig-computed-font-letter-spacing',
+        },
+        editName: 'letter-spacing',
+        disableOnClick: true,
+    },
+
     tts: {
         conflicts: [],
         disableOnClick: true,

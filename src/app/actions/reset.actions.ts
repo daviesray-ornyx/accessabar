@@ -14,8 +14,9 @@ const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
             ttsHoverSpeak: state.ttsHoverSpeak,
 
             fontActive: state.fontActive,
-            fontCharSpacingActive: state.fontCharSpacingActive,
             fontColourActive: state.fontColourActive,
+            fontLetterSpacingActive: state.fontLetterSpacingActive,
+            fontLetterSpacingCount: state.fontLetterSpacingCount,
             fontLineSpacingActive: state.fontLineSpacingActive,
             fontLineSpacingCount: state.fontLineSpacingCount,
 
