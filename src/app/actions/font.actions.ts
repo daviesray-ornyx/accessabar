@@ -92,7 +92,9 @@ function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: str
     // Loops over elements and changes text size for each element
     for (const el of parentElements) {
         // Get exact computed size for accurate results
-        const size: string = window.getComputedStyle(el)[modifier];
+        const computed = window.getComputedStyle(el)[modifier];
+        // fix for letter-spacing when set to normal
+        const size: string = computed === 'normal' ? '0px' : computed;
         const sizeNumeric: number = parseFloat(size);
 
         if (size) {
