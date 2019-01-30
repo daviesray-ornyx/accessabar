@@ -18,7 +18,7 @@ const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: 
     return label(
         {
             class: 'label',
-            onclick: (event) => {
+            onclick: () => {
                 switchAction();
             },
         },
