@@ -114,6 +114,7 @@ function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: str
                 funcNames.push(currentConfig.editName);
                 el.setAttribute('accessabar-edited', funcNames.join(' '));
                 el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
+                el.setAttribute(currentConfig.attrNames.origComputed, size);
             }
 
             if (typeof modifierCount === 'undefined') {
