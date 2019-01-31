@@ -8,4 +8,9 @@
         title: 'Text Options',
         disableOnClose: true,
     },
+
+    magOptions: {
+        title: 'Magnifier Options',
+        disableOnClose: true,
+    }
 }

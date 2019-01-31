@@ -2,6 +2,8 @@ const state: Accessabar.IState = {
     // Whether Accessabar has been hidden or not.
     abarHidden: false,
 
+    magActive: false,
+
     menuActive: false,
     // If it's possible to drag the menu (mouse button has been pressed).
     menuCanDrag: false,

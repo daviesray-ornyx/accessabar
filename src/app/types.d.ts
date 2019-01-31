@@ -57,6 +57,8 @@ declare namespace Accessabar {
         fontSizingActive: boolean;
 
         selectFontListActive: boolean;
+
+        magActive: boolean;
     }
 
     interface IActions extends
@@ -69,7 +71,8 @@ declare namespace Accessabar {
         ITTSActions,
         ITextOptionsActions,
         ISelectActions,
-        IColourActions {}
+        IColourActions,
+        IMagActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -153,6 +156,10 @@ declare namespace Accessabar {
     interface IColourActions {
         colourChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         colourCustomChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+    }
+
+    interface IMagActions {
+        magEnable(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {

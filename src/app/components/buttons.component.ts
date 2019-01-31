@@ -244,12 +244,19 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
     );
 };
 
-const magButton = () => {
+interface IMagActions {
+    menuHandle: Accessabar.IActions['menuHandle'];
+}
+
+const magButton = ({ menuHandle }: IMagActions) => {
     return button(
         {
             'aria-label': 'Magnifier',
             class: 'bar-button',
             id: 'magnifier',
+            onclick: () => {
+                menuHandle('magOptions');
+            },
             oncreate: () => {
                 tippy('#accessabar #magnifier', {
                     arrow: true,

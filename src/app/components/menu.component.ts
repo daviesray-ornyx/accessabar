@@ -11,6 +11,7 @@ import tippy from 'tippy.js';
 const menuNames = new Map([
     ['tts', menus.ttsMenu],
     ['textOptions', menus.textOptionsMenu],
+    ['magOptions', menus.magOptionsMenu],
 ]);
 
 const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {
