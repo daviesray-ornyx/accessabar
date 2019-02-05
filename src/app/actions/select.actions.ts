@@ -45,7 +45,13 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
         };
     },
 
-    selectToggleMagnifier: () => ({ magActive }) => {
+    selectToggleMagnifier: () => ({ magActive }, { magEnable, magStop }: Accessabar.IActions) => {
+        if (magActive) {
+            AccessabarUtil.stopFunction('magnifier');
+        } else {
+            AccessabarUtil.startFunction('magnifier', magStop, magEnable);
+        }
+
         return {
             magActive: !magActive,
         };

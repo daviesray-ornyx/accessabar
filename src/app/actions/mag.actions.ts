@@ -2,7 +2,11 @@ import { ActionsType } from 'hyperapp';
 
 const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
     magEnable: () => ({ magActive }) => {
-        return;
+        console.log('start');
+    },
+
+    magStop: () => ({ magActive }) => {
+        console.log('stop');
     },
 };
 
