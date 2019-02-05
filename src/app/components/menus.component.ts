@@ -428,7 +428,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
 const magOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div({ class: 'menu-content' }, [
         section({ class: 'box flex-column' }, [
-            switchEl(state.magActive, actions.magEnable, 'Show Magnifier', 'Show magnifier'),
+            switchEl(state.magActive, actions.selectToggleMagnifier, 'Show Magnifier', 'Show magnifier'),
         ]),
     ]);
 };

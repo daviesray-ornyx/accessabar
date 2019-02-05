@@ -44,6 +44,12 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
             selectFontListActive: false,
         };
     },
+
+    selectToggleMagnifier: () => ({ magActive }) => {
+        return {
+            magActive: !magActive,
+        };
+    },
 };
 
 export default selectActions;
