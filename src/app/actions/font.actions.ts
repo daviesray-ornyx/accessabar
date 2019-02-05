@@ -119,7 +119,7 @@ function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: str
 
             if (typeof modifierCount === 'undefined') {
                 el.style[modifier] = `${sizeNumeric + modifierStep}px`;
-                return;
+                continue;
             }
 
             const origComputed = el.getAttribute(currentConfig.attrNames.origComputed);
