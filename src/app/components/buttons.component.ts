@@ -9,8 +9,8 @@ const playButton = () => {
     return button(
         {
             'aria-label': 'Play',
-            class: 'bar-button',
-            id: 'play',
+            class: 'ab-bar-button',
+            id: 'ab-play',
             oncreate: () => {
                 tippy('#accessabar #play', {
                     arrow: true,
@@ -34,8 +34,8 @@ const pauseButton = () => {
     return button(
         {
             'aria-label': 'Pause',
-            class: 'bar-button',
-            id: 'pause',
+            class: 'ab-bar-button',
+            id: 'ab-pause',
             oncreate: () => {
                 tippy('#accessabar #pause', {
                     arrow: true,
@@ -59,8 +59,8 @@ const stopButton = () => {
     return button(
         {
             'aria-label': 'Stop',
-            class: 'bar-button',
-            id: 'stop',
+            class: 'ab-bar-button',
+            id: 'ab-stop',
             oncreate: () => {
                 tippy('#accessabar #stop', {
                     arrow: true,
@@ -89,8 +89,8 @@ const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
     return button(
         {
             'aria-label': 'Enable text to speech',
-            class: 'bar-button',
-            id: 'tts',
+            class: 'ab-bar-button',
+            id: 'ab-tts',
             onclick: () => {
                 ttsInit();
                 menuHandle('tts');
@@ -123,8 +123,8 @@ const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
     return button(
         {
             'aria-label': 'Increase font size',
-            class: 'bar-button',
-            id: 'font-increase',
+            class: 'ab-bar-button',
+            id: 'ab-font-increase',
             onclick: () => {
                 AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontIncSize);
             },
@@ -156,8 +156,8 @@ const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
     return button(
         {
             'aria-label': 'Decrease font size',
-            class: 'bar-button',
-            id: 'font-decrease',
+            class: 'ab-bar-button',
+            id: 'ab-font-decrease',
             onclick: () => {
                 AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontDecSize);
             },
@@ -188,8 +188,8 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
     return button(
         {
             'aria-label': 'Reset font sizing',
-            class: `bar-button warning ${fontSizingActive ? '' : 'hide'}`,
-            id: 'font-reset',
+            class: `ab-bar-button ab-warning ${fontSizingActive ? '' : 'ab-hide'}`,
+            id: 'ab-font-reset',
             onclick: () => {
                 AccessabarUtil.stopFunction('fontSizing');
             },
@@ -220,8 +220,8 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
     return button(
         {
             'aria-label': 'Text options',
-            class: 'bar-button',
-            id: 'text-options',
+            class: 'ab-bar-button',
+            id: 'ab-text-options',
             onclick: () => {
                 menuHandle('textOptions');
             },
@@ -252,8 +252,8 @@ const magButton = ({ menuHandle }: IMagActions) => {
     return button(
         {
             'aria-label': 'Magnifier',
-            class: 'bar-button',
-            id: 'magnifier',
+            class: 'ab-bar-button',
+            id: 'ab-magnifier',
             onclick: () => {
                 menuHandle('magOptions');
             },
@@ -280,8 +280,8 @@ const maskButton = () => {
     return button(
         {
             'aria-label': 'Screen Masking',
-            class: 'bar-button',
-            id: 'screen-mask',
+            class: 'ab-bar-button',
+            id: 'ab-screen-mask',
             oncreate: () => {
                 tippy('#accessabar #screen-mask', {
                     arrow: true,
@@ -305,8 +305,8 @@ const rulerButton = () => {
     return button(
         {
             'aria-label': 'Reading rulers',
-            class: 'bar-button',
-            id: 'rulers',
+            class: 'ab-bar-button',
+            id: 'ab-rulers',
             oncreate: () => {
                 tippy('#accessabar #rulers', {
                     arrow: true,
@@ -330,8 +330,8 @@ const srButton = () => {
     return button(
         {
             'aria-label': 'Speech recognition',
-            class: 'bar-button',
-            id: 'speech-recognition',
+            class: 'ab-bar-button',
+            id: 'ab-speech-recognition',
             oncreate: () => {
                 tippy('#accessabar #speech-recognition', {
                     arrow: true,
@@ -359,8 +359,8 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     return button(
         {
             'aria-label': 'Reset accessabar entirely',
-            class: 'bar-button warning',
-            id: 'reset',
+            class: 'ab-bar-button ab-warning',
+            id: 'ab-reset',
             onclick: () => {
                 resetAll();
             },
@@ -387,8 +387,8 @@ const settingsButton = () => {
     return button(
         {
             'aria-label': 'Settings',
-            class: 'bar-button',
-            id: 'settings',
+            class: 'ab-bar-button',
+            id: 'ab-settings',
             oncreate: () => {
                 tippy('#accessabar #settings', {
                     arrow: true,
@@ -412,8 +412,8 @@ const closeButton = ({ closeAccessabar }) => {
     return button(
         {
             'aria-label': 'Close Accessabar',
-            class: 'bar-button close',
-            id: 'close',
+            class: 'ab-bar-button ab-close',
+            id: 'ab-close',
             onclick: () => {
                 closeAccessabar();
             },
@@ -448,8 +448,8 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
     return button(
         {
             'aria-label': 'Hide Accessabar',
-            class: 'hide-button',
-            id: 'hide',
+            class: 'ab-hide-button',
+            id: 'ab-hide',
             onclick: () => {
                 abarHide();
             },

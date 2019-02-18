@@ -1,4 +1,4 @@
-#accessabar .switch {
+#accessabar .ab-switch {
     display: flex;
     height: calc(1.5rem + 2px);
     width: calc(3rem + 2px);
@@ -8,7 +8,7 @@
     align-items: center;
     transition: background 0.75s;
 
-    .handle {
+    .ab-handle {
         margin: 4px;
         height: 1.25em;
         width: 1.25em;
@@ -18,16 +18,16 @@
         pointer-events: none;
     }
 
-    &.off {
+    &.ab-off {
         background: #cfcfcf;
         justify-content: flex-start;
     }
 
-    &.on {
+    &.ab-on {
         background: var(--active-green);
         justify-content: flex-end;
 
-        .handle {
+        .ab-handle {
             background: content-box var(--near-white);
         }
     }
@@ -41,7 +41,7 @@
     }
 }
 
-#accessabar .label {
+#accessabar .ab-label {
     display: flex;
     align-items: center;
 

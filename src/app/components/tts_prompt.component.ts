@@ -18,19 +18,19 @@ const ttsPrompt = ({ ttsVoiceActive, ttsCurrentUtterSentences, ttsCurrentUtterSe
     if (ttsCurrentUtterSentences.length > 0) {
         for (const [index, value] of ttsCurrentUtterSentences[ttsCurrentUtterSentenceIndex].entries()) {
             if (index === ttsCurrentUtterSentenceWordIndex) {
-                const highlight = span({ class: 'tts-prompt-word highlight' }, value);
+                const highlight = span({ class: 'ab-tts-prompt-word ab-highlight' }, value);
                 wordArr.push(highlight);
 
                 continue;
             }
 
-            const word = span({ class: 'tts-prompt-word' }, value);
+            const word = span({ class: 'ab-tts-prompt-word' }, value);
             wordArr.push(word);
         }
     }
 
-    return div({ class: `tts-prompt ${ttsVoiceActive ? 'flex' : 'hide'}` }, [
-        p({ class: 'tts-prompt-text flex' }, wordArr),
+    return div({ class: `ab-tts-prompt ${ttsVoiceActive ? 'ab-flex' : 'ab-hide'}` }, [
+        p({ class: 'ab-tts-prompt-text ab-flex' }, wordArr),
     ]);
 };
 

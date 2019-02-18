@@ -39,7 +39,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             clientY,
         } = ev;
 
-        const menu = window.abar.mainElement.querySelector('#menu');
+        const menu = window.abar.mainElement.querySelector('#ab-menu');
 
         if (!menuCanDrag || !target || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
             return;
@@ -98,7 +98,7 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     },
 
     menuShow: () => {
-        const bar = window.abar.mainElement.querySelector('.bar');
+        const bar = window.abar.mainElement.querySelector('.ab-bar');
 
         if (!bar) {
             return;

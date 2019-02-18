@@ -6,16 +6,16 @@ import menuArea from './components/menu_area.component';
 import ttsPrompt from './components/tts_prompt.component';
 
 const innerBar = (state, actions) => {
-    return div({ class: 'bar growable' }, [
-        div({ class: 'bar-container growable' }, [
+    return div({ class: 'ab-bar ab-growable' }, [
+        div({ class: 'ab-bar-container ab-growable' }, [
             buttonArea(state, actions),
         ]),
     ]);
 };
 
 const underBar = (state, actions) => {
-    return div({ class: 'underbar' }, [
-        div({ class: 'hide-button-container flex' }, [
+    return div({ class: 'ab-underbar' }, [
+        div({ class: 'ab-hide-button-container ab-flex' }, [
             hideButton(state, actions),
         ]),
         ttsPrompt(state),
@@ -29,7 +29,7 @@ const underBar = (state, actions) => {
  * @param {*} actions
  */
 const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => {
-    return div({ class: 'bar-grid' }, [
+    return div({ class: 'ab-bar-grid' }, [
         innerBar(state, actions),
         underBar(state, actions),
         menuArea(state, actions),

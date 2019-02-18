@@ -17,7 +17,7 @@ import Pickr from 'pickr-widget';
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
     return label(
         {
-            class: 'label',
+            class: 'ab-label',
             onclick: () => {
                 switchAction();
             },
@@ -26,10 +26,10 @@ const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: 
             div(
                 {
                     'aria-label': ariaLabel,
-                    class: `switch ${switchState ? 'on' : 'off'}`,
+                    class: `ab-switch ${switchState ? 'ab-on' : 'ab-off'}`,
                 },
                 [
-                    div({ class: 'handle' }),
+                    div({ class: 'ab-handle' }),
                 ],
             ),
             span(labelText),
@@ -38,11 +38,11 @@ const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: 
 };
 
 const ttsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div({ class: 'menu-content' }, [
-        section({ class: 'box flex-column' }, [
+    return div({ class: 'ab-menu-content' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.ttsHoverSpeak, actions.selectToggleSpeakHover, 'Speak on hover', 'Toggle speak on hover'),
         ]),
-        section({ class: 'box flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.ttsHighlightSpeak, actions.selectToggleHighlightSpeak, 'Speak only highlighted', 'Toggle speak only highlighted text'),
         ]),
     ]);
@@ -62,7 +62,7 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
     for (const [key, obj] of fonts) {
         const item = li(
             {
-                class: 'custom-list-selection-item',
+                class: 'ab-custom-list-selection-item',
                 onclick: () => {
                     actions.selectToggleFontCurrent(key);
                 },
@@ -77,20 +77,20 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
         fontList.push(item);
     }
 
-    return div({ class: 'flex-column' }, [
-        section({ class: 'box flex-column' }, [
+    return div({ class: 'ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.fontActive, actions.fontFamilyEnable, 'Toggle Font Type', 'Toggle the page font type'),
         ]),
-        section({ class: 'box flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             div(
                 {
-                    class: 'font-options',
+                    class: 'ab-font-options',
                 },
                 [
-                    div({ class: 'custom-list flex flex-column' }, [
+                    div({ class: 'ab-custom-list ab-flex ab-flex-column' }, [
                         div(
                             {
-                                class: `custom-list-box flex ${state.selectFontListActive ? 'active' : ''}`,
+                                class: `ab-custom-list-box ab-flex ${state.selectFontListActive ? 'ab-active' : ''}`,
                                 onclick: (event) => {
                                     actions.selectToggleFontList(event);
                                 },
@@ -103,8 +103,8 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
                         ),
                         ul(
                             {
-                                class: `custom-list-selection ${state.selectFontListActive ? 'flex' : 'hide'} flex-column`,
-                                id: 'font-list-selection',
+                                class: `ab-custom-list-selection ${state.selectFontListActive ? 'ab-flex' : 'ab-hide'} ab-flex-column`,
+                                id: 'ab-font-list-selection',
                                 role: 'list',
                             },
                             fontList,
@@ -117,17 +117,17 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
 };
 
 const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div({ class: 'flex flex-column' }, [
-        section({ class: 'box flex-column' }, [
+    return div({ class: 'ab-flex ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.fontColourActive, actions.fontColourEnable, 'Toggle Text Colour', 'Toggle the page text colour'),
         ]),
-        section({ class: 'box' }, [
-            div({ class: 'text-colour-presets growable flex-column' }, [
-                span({ class: 'title' }, 'Presets'),
-                div({ class: 'colours' }, [
+        section({ class: 'ab-box' }, [
+            div({ class: 'ab-text-colour-presets ab-growable ab-flex-column' }, [
+                span({ class: 'ab-title' }, 'Presets'),
+                div({ class: 'ab-colours' }, [
                     div(
                         {
-                            class: `colour red ${state.fontColourCurrent === 'red' ? 'active' : ''}`,
+                            class: `ab-colour ab-red ${state.fontColourCurrent === 'red' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('red');
                             },
@@ -135,7 +135,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour blue ${state.fontColourCurrent === 'blue' ? 'active' : ''}`,
+                            class: `ab-colour ab-blue ${state.fontColourCurrent === 'blue' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('blue');
                             },
@@ -143,7 +143,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour green ${state.fontColourCurrent === 'green' ? 'active' : ''}`,
+                            class: `ab-colour ab-green ${state.fontColourCurrent === 'green' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('green');
                             },
@@ -151,7 +151,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour yellow ${state.fontColourCurrent === 'yellow' ? 'active' : ''}`,
+                            class: `ab-colour ab-yellow ${state.fontColourCurrent === 'yellow' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('yellow');
                             },
@@ -159,7 +159,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour orange ${state.fontColourCurrent === 'orange' ? 'active' : ''}`,
+                            class: `ab-colour ab-orange ${state.fontColourCurrent === 'orange' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('orange');
                             },
@@ -167,7 +167,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour purple ${state.fontColourCurrent === 'purple' ? 'active' : ''}`,
+                            class: `ab-colour ab-purple ${state.fontColourCurrent === 'purple' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('purple');
                             },
@@ -175,7 +175,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour black ${state.fontColourCurrent === 'black' ? 'active' : ''}`,
+                            class: `ab-colour ab-black ${state.fontColourCurrent === 'black' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('black');
                             },
@@ -183,7 +183,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour grey ${state.fontColourCurrent === 'grey' ? 'active' : ''}`,
+                            class: `ab-colour ab-grey ${state.fontColourCurrent === 'grey' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('grey');
                             },
@@ -191,7 +191,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                     div(
                         {
-                            class: `colour white ${state.fontColourCurrent === 'white' ? 'active' : ''}`,
+                            class: `ab-colour ab-white ${state.fontColourCurrent === 'white' ? 'ab-active' : ''}`,
                             onclick: () => {
                                 actions.colourChangeFont('white');
                             },
@@ -199,18 +199,18 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                 ]),
             ]),
-            div({ class: 'text-colour-custom growable flex-column' }, [
-                span({ class: 'title' }, 'Custom'),
-                span({ class: 'desc' }, [
+            div({ class: 'ab-text-colour-custom ab-growable ab-flex-column' }, [
+                span({ class: 'ab-title' }, 'Custom'),
+                span({ class: 'ab-desc' }, [
                     'Click the box below',
                     br(),
                     'to select a custom colour.',
                 ]),
-                div({ class: 'custom-container flex' }, [
+                div({ class: 'ab-custom-container ab-flex' }, [
                     div(
                         {
-                            class: `custom-box ${state.fontCustomActive ? 'active' : ''}`,
-                            id: 'colour-custom-box',
+                            class: `ab-custom-box ${state.fontCustomActive ? 'ab-active' : ''}`,
+                            id: 'ab-colour-custom-box',
                             oncreate: (el: HTMLElement) => {
                                 window.pickr = new Pickr({
                                     components: {
@@ -245,17 +245,17 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
 };
 
 const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div({ class: 'flex flex-column' }, [
-        section({ class: 'box flex-column' }, [
+    return div({ class: 'ab-flex ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.fontLineSpacingActive, actions.fontLineSpacingEnable, 'Toggle Line Spacing', 'Toggle the page line spacing'),
         ]),
-        section({ class: 'box flex-column' }, [
-            div({ class: 'counter growable' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
                 button(
                     {
                         'aria-label': 'Decrease line spacing',
-                        class: 'dec bar-button',
-                        id: 'ls-dec',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-ls-dec',
                         onclick: () => {
                             actions.fontLineSpacingDecrement();
                         },
@@ -275,12 +275,12 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
                         }),
                     ],
                 ),
-                span({ class: 'count' }, state.fontLineSpacingCount),
+                span({ class: 'ab-count' }, state.fontLineSpacingCount),
                 button(
                     {
                         'aria-label': 'Increase line spacing',
-                        class: 'inc bar-button',
-                        id: 'ls-inc',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-ls-inc',
                         onclick: () => {
                             actions.fontLineSpacingIncrement();
                         },
@@ -306,17 +306,17 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
 };
 
 const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div({ class: 'flex flex-column' }, [
-        section({ class: 'box flex-column' }, [
+    return div({ class: 'ab-flex ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.fontLetterSpacingActive, actions.fontLetterSpacingEnable, 'Toggle Letter Spacing', 'Toggle the page letter spacing'),
         ]),
-        section({ class: 'box flex-column' }, [
-            div({ class: 'counter growable' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
                 button(
                     {
                         'aria-label': 'Decrease letter spacing',
-                        class: 'dec bar-button',
-                        id: 'ks-dec',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-ks-dec',
                         onclick: () => {
                             actions.fontLetterSpacingDecrement();
                         },
@@ -336,12 +336,12 @@ const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Access
                         }),
                     ],
                 ),
-                span({ class: 'count' }, state.fontLetterSpacingCount),
+                span({ class: 'ab-count' }, state.fontLetterSpacingCount),
                 button(
                     {
                         'aria-label': 'Increase letter spacing',
-                        class: 'inc bar-button',
-                        id: 'ks-inc',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-ks-inc',
                         onclick: () => {
                             actions.fontLetterSpacingIncrement();
                         },
@@ -380,11 +380,11 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
         innerMenu = (textOptionsInnerMenus.get(state.textOpsInnerMenuCurrent) || textOptionsInnerFont)(state, actions);
     }
 
-    return div({ class: 'menu-container' }, [
-        div({ class: 'menu-tabs' }, [
+    return div({ class: 'ab-menu-container' }, [
+        div({ class: 'ab-menu-tabs' }, [
             button(
                 {
-                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'font' ? 'active' : ''}`,
+                    class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'font' ? 'ab-active' : ''}`,
                     onclick: () => {
                         actions.textOpsSwitchInner('font');
                     },
@@ -393,7 +393,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
             ),
             button(
                 {
-                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'text_colour' ? 'active' : ''}`,
+                    class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'text_colour' ? 'ab-active' : ''}`,
                     onclick: () => {
                         actions.textOpsSwitchInner('text_colour');
                     },
@@ -402,7 +402,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
             ),
             button(
                 {
-                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'line_spacing' ? 'active' : ''}`,
+                    class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'line_spacing' ? 'ab-active' : ''}`,
                     onclick: () => {
                         actions.textOpsSwitchInner('line_spacing');
                     },
@@ -411,7 +411,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
             ),
             button(
                 {
-                    class: `menu-tab-button ${state.textOpsInnerMenuCurrent === 'letter_spacing' ? 'active' : ''}`,
+                    class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'letter_spacing' ? 'ab-active' : ''}`,
                     onclick: () => {
                         actions.textOpsSwitchInner('letter_spacing');
                     },
@@ -419,15 +419,15 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
                 'Letter Spacing',
             ),
         ]),
-        div({ class: 'menu-content' }, [
+        div({ class: 'ab-menu-content' }, [
             innerMenu,
         ]),
     ]);
 };
 
 const magOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div({ class: 'menu-content' }, [
-        section({ class: 'box flex-column' }, [
+    return div({ class: 'ab-menu-content' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.magActive, actions.selectToggleMagnifier, 'Show Magnifier', 'Show magnifier'),
         ]),
     ]);

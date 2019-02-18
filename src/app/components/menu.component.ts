@@ -25,8 +25,8 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 
     return div(
         {
-            class: `menu draggable ${state.menuHidden ? 'hide' : ''}`,
-            id: 'menu',
+            class: `ab-menu ab-draggable ${state.menuHidden ? 'ab-hide' : ''}`,
+            id: 'ab-menu',
             oncreate: (el: HTMLElement) => {
                 actions.menuUpdatePosition(el);
             },
@@ -38,7 +38,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
         [
             header(
                 {
-                    class: 'menu-header flex',
+                    class: 'ab-menu-header ab-flex',
                     onmousedown: (event) => {
                         actions.menuStartDrag(event);
                     },
@@ -56,12 +56,12 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                     },
                 },
                 [
-                    span({ class: 'menu-header-text' }, state.menuTitle),
+                    span({ class: 'ab-menu-header-text' }, state.menuTitle),
                     button(
                         {
                             'aria-label': 'Close menu',
-                            class: 'menu-close',
-                            id: 'menu-close',
+                            class: 'ab-menu-close',
+                            id: 'ab-menu-close',
                             onclick: () => {
                                 actions.menuClose();
                             },

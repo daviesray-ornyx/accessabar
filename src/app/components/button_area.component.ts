@@ -9,7 +9,7 @@ import { AccessabarUtil } from '../util';
 const buttonArea = (state, actions) => {
     return div(
         {
-            class: 'button-area growable',
+            class: 'ab-button-area ab-growable',
             // Adds margin to body when Accessabar is added to DOM.
             oncreate: () => {
                 AccessabarUtil.createSpace();
@@ -17,12 +17,12 @@ const buttonArea = (state, actions) => {
         },
         [
             section([
-                div({ class: `group ${state.ttsHoverSpeak || state.ttsHighlightSpeak ? '' : 'hide'}`, 'aria-label': 'Sound controls' }, [
+                div({ class: `ab-group ${state.ttsHoverSpeak || state.ttsHighlightSpeak ? '' : 'ab-hide'}`, 'aria-label': 'Sound controls' }, [
                     Buttons.playButton(),
                     Buttons.pauseButton(),
                     Buttons.stopButton(),
                 ]),
-                div({ class: 'group' }, [
+                div({ class: 'ab-group' }, [
                     Buttons.ttsButton(actions),
                     Buttons.incButton(actions),
                     Buttons.decButton(actions),

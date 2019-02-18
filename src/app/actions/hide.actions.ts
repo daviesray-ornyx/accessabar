@@ -10,7 +10,7 @@ const hideActions: ActionsType<Accessabar.IState, Accessabar.IHideActions> = {
             return;
         }
 
-        const bar = mainElement.querySelector('.bar');
+        const bar = mainElement.querySelector('.ab-bar');
 
         if (!bar) {
             return;

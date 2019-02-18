@@ -6,7 +6,7 @@ import mag from './mag.component';
 
 // Contains all the menu and magnifier in Accessabar
 const menuArea = (state, actions) => {
-    return div({ class: 'menu-area' }, [
+    return div({ class: 'ab-menu-area' }, [
         menu(state, actions),
         mag(),
     ]);

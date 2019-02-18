@@ -1,5 +1,5 @@
-#accessabar .text-colour-presets {
-    .colours {
+#accessabar .ab-text-colour-presets {
+    .ab-colours {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
@@ -12,7 +12,7 @@
         height: 8.5em;
         width: 8.5em;
 
-        .colour {
+        .ab-colour {
             height: 100%;
             width: 100%;
             outline: 2px solid var(--near-black);
@@ -25,47 +25,47 @@
                 cursor: pointer;
             }
 
-            &.red {
+            &.ab-red {
                 grid-area: red;
                 background: red;
             }
 
-            &.blue {
+            &.ab-blue {
                 grid-area: blue;
                 background: blue;
             }
 
-            &.green {
+            &.ab-green {
                 grid-area: green;
                 background: green;
             }
 
-            &.yellow {
+            &.ab-yellow {
                 grid-area: yellow;
                 background: yellow;
             }
 
-            &.orange {
+            &.ab-orange {
                 grid-area: orange;
                 background: orange;
             }
 
-            &.purple {
+            &.ab-purple {
                 grid-area: purple;
                 background: purple;
             }
 
-            &.black {
+            &.ab-black {
                 grid-area: black;
                 background: black;
             }
 
-            &.grey {
+            &.ab-grey {
                 grid-area: grey;
                 background: grey;
             }
 
-            &.white {
+            &.ab-white {
                 grid-area: white;
                 background: white;
             }
@@ -73,14 +73,14 @@
     }
 }
 
-#accessabar .text-colour-custom {
-    .custom-container {
+#accessabar .ab-text-colour-custom {
+    .ab-custom-container {
         justify-content: center;
         margin-top: 1em;
         height: 8em;
         width: 8em;
 
-        .custom-box {
+        .ab-custom-box {
             height: 50%;
             width: 50%;
             outline: 2px solid var(--near-black);
@@ -96,16 +96,16 @@
     }
 }
 
-#accessabar .text-colour-custom, #accessabar .text-colour-presets {
+#accessabar .ab-text-colour-custom, #accessabar .ab-text-colour-presets {
     align-items: center;
 
-    > .title {
+    > .ab-title {
         text-align: center;
         font-size: 1.15em;
         margin: 0.5em 0;
     }
 
-    > .desc {
+    > .ab-desc {
         text-align: center;
         font-size: 0.8em;
         font-style: italic;
