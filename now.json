@@ -1,22 +1,15 @@
 {
     "name": "accessabar",
-    "type": "static",
-    "static": {
-        "rewrites": [
-            {
-                "source": "/",
-                "destination": "/example/index.html"
-            },
-            {
-                "source": "/custom.html",
-                "destination": "/example/custom.html"
-            }
-        ]
-    },
-    "scale": {
-        "bru1": {
-            "min": 1,
-            "max": "auto"
+    "routes": [
+        {
+            "src": "/",
+            "destination": "/example/index.html"
+        },
+        {
+            "src": "/custom.html",
+            "destination": "/example/custom.html"
         }
-    }
+    ],
+    "regions": ["bru"],
+    "version": 2
 }

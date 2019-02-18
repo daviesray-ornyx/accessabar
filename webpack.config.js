@@ -1,18 +1,34 @@
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { resolve } = require('path');
 // const threadLoader = require('thread-loader');
 // const { length: cpuCount } = require('os').cpus();
+
+//
+// ─── CONFIG FUNCTION ────────────────────────────────────────────────────────────
+//
+
+const config = (env) => {
+    const dev = env.mode === 'development';
+    const devServer = env.server === 'enabled';
+    const dash = env.dash === 'enabled';
+    const verbose = env.verbose === 'enabled';
+
+    const entries = {
+        accessabar: './',
+    };
+
+    /* eslint-disable no-use-before-define */
+    return mainSettings(entries, dev, devServer, dash, verbose);
+};
 
 //
 // ─── BANNERS ────────────────────────────────────────────────────────────────────
@@ -40,7 +56,7 @@ Elliott Judd <elliott.judd@hands-free.co.uk>`;
 // ─── LOADER OPTIONS ─────────────────────────────────────────────────────────────
 //
 
-// Thread loader can reduce performace for small builds, only use when needed.
+// Thread loader can reduce performance for small builds, only use when needed.
 // threadLoader.warmup({
 //     workers: cpuCount - 1,
 //     workerParallelJobs: 50,
@@ -97,33 +113,13 @@ const optLoaders = [
 // ─── MAIN CONFIG ────────────────────────────────────────────────────────────────
 //
 
-const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
+const mainSettings = (entries, dev, devServer, dash, verbose) => {
     // Plugin Options //
 
     const sharedPlugins = [
-        new Webpack.NoEmitOnErrorsPlugin(),
         new Webpack.BannerPlugin({
             banner: dev ? devBanner : prodBanner,
         }),
-        new Webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(dev),
-            },
-        }),
-        new HtmlWebpackPlugin({
-            alwaysWriteToDisk: true,
-            title: 'Accessabar',
-            meta: {
-                viewport: 'width=device-width, initial-scale=1.0',
-                'X-UA-Compatible': 'ie=edge',
-            },
-            minify: {
-                collapseWhitespace: true,
-            },
-            cache: false,
-            filename: `../../views/${pagePath}.html`,
-        }),
-        new HtmlWebpackHarddiskPlugin(),
         new ResourceHintWebpackPlugin(),
         new HardSourceWebpackPlugin({
             cacheDirectory: `${resolve(__dirname, 'node_modules', '.cache', 'hard-source')}/[confighash]`,
@@ -144,6 +140,7 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
 
     return {
         context: resolve(__dirname, 'src'),
+        entry: entries,
         output: {
             publicPath: '/dist/accessabar/',
             path: resolve(__dirname, 'public', 'dist', 'accessabar'),
@@ -204,8 +201,6 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
         },
         plugins: dev ? [
             ...sharedPlugins,
-            new Webpack.NamedModulesPlugin(),
-            new Webpack.NamedChunksPlugin(),
             ...(devServer ? [
                 new Webpack.HotModuleReplacementPlugin(),
                 new BrowserSyncPlugin({
@@ -218,9 +213,6 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
             ...(dash ? [new DashboardPlugin()] : []),
         ] : [
             ...sharedPlugins,
-            new Webpack.optimize.ModuleConcatenationPlugin(),
-            new Webpack.optimize.SideEffectsFlagPlugin(),
-            new Webpack.optimize.OccurrenceOrderPlugin(),
             new OfflinePlugin({
                 externals: [
                     '/index.html',
@@ -241,22 +233,16 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
         resolve: {
             extensions: ['.ts', '.tsx', '.js', '.json'],
         },
-        mode: 'none',
-        optimization: !dev ? {
-            minimize: true,
+        mode: dev ? 'development' : 'production',
+        optimization: {
             minimizer: [
-                new UglifyJsPlugin({
+                new TerserPlugin({
                     parallel: true,
-                    sourceMap: false,
                     cache: true,
-                    uglifyOptions: {
-                        ie8: false,
-                        ecma: 8,
-                    },
                 }),
                 new OptimizeCSSAssetsPlugin(),
             ],
-        } : {},
+        },
         stats: verbose ? 'verbose' : {
             errors: true,
             errorDetails: false,
@@ -277,26 +263,6 @@ const mainSettings = (dev, devServer, dash, verbose, pagePath) => {
             timings: false,
         },
     };
-};
-
-//
-// ─── CONFIG FUNCTION ────────────────────────────────────────────────────────────
-//
-
-const config = (env) => {
-    const dev = env.mode === 'development';
-    const devServer = env.server === 'enabled';
-    const dash = env.dash === 'enabled';
-    const verbose = env.verbose === 'enabled';
-
-    return [
-        {
-            entry: {
-                accessabar: './',
-            },
-            ...mainSettings(dev, devServer, dash, verbose, 'index'),
-        },
-    ];
 };
 
 module.exports = config;
