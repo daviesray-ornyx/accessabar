@@ -12,7 +12,7 @@ const playButton = () => {
             class: 'ab-bar-button',
             id: 'ab-play',
             oncreate: () => {
-                tippy('#accessabar #play', {
+                tippy('#accessabar #ab-play', {
                     arrow: true,
                     content: 'Play',
                     placement: 'bottom',
@@ -24,7 +24,7 @@ const playButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-play',
+                class: 'ab-icon ab-icon-play',
             }),
         ],
     );
@@ -37,7 +37,7 @@ const pauseButton = () => {
             class: 'ab-bar-button',
             id: 'ab-pause',
             oncreate: () => {
-                tippy('#accessabar #pause', {
+                tippy('#accessabar #ab-pause', {
                     arrow: true,
                     content: 'Pause',
                     placement: 'bottom',
@@ -49,7 +49,7 @@ const pauseButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-pause',
+                class: 'ab-icon ab-icon-pause',
             }),
         ],
     );
@@ -62,7 +62,7 @@ const stopButton = () => {
             class: 'ab-bar-button',
             id: 'ab-stop',
             oncreate: () => {
-                tippy('#accessabar #stop', {
+                tippy('#accessabar #ab-stop', {
                     arrow: true,
                     content: 'Stop',
                     placement: 'bottom',
@@ -74,7 +74,7 @@ const stopButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-stop',
+                class: 'ab-icon ab-icon-stop',
             }),
         ],
     );
@@ -96,7 +96,7 @@ const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
                 menuHandle('tts');
             },
             oncreate: () => {
-                tippy('#accessabar #tts', {
+                tippy('#accessabar #ab-tts', {
                     arrow: true,
                     content: 'Text to Speech',
                     placement: 'bottom',
@@ -108,7 +108,7 @@ const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-audio-description',
+                class: 'ab-icon ab-icon-tts',
             }),
         ],
     );
@@ -129,7 +129,7 @@ const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
                 AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontIncSize);
             },
             oncreate: () => {
-                tippy('#accessabar #font-increase', {
+                tippy('#accessabar #ab-font-increase', {
                     arrow: true,
                     content: 'Increase font size',
                     placement: 'bottom',
@@ -141,7 +141,7 @@ const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-plus',
+                class: 'ab-icon ab-icon-plus',
             }),
         ],
     );
@@ -162,7 +162,7 @@ const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
                 AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontDecSize);
             },
             oncreate: () => {
-                tippy('#accessabar #font-decrease', {
+                tippy('#accessabar #ab-font-decrease', {
                     arrow: true,
                     content: 'Decrease font size',
                     placement: 'bottom',
@@ -174,7 +174,7 @@ const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-minus',
+                class: 'ab-icon ab-icon-minus',
             }),
         ],
     );
@@ -194,7 +194,7 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
                 AccessabarUtil.stopFunction('fontSizing');
             },
             oncreate: () => {
-                tippy('#accessabar #font-reset', {
+                tippy('#accessabar #ab-font-reset', {
                     arrow: true,
                     content: 'Reset Font Sizing',
                     placement: 'bottom',
@@ -206,7 +206,7 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-reset',
+                class: 'ab-icon ab-icon-reset',
             }),
         ],
     );
@@ -226,7 +226,7 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
                 menuHandle('textOptions');
             },
             oncreate: () => {
-                tippy('#accessabar #text-options', {
+                tippy('#accessabar #ab-text-options', {
                     arrow: true,
                     content: 'Text Options',
                     placement: 'bottom',
@@ -238,7 +238,7 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-font',
+                class: 'ab-icon ab-icon-font',
             }),
         ],
     );
@@ -258,7 +258,7 @@ const magButton = ({ menuHandle }: IMagActions) => {
                 menuHandle('magOptions');
             },
             oncreate: () => {
-                tippy('#accessabar #magnifier', {
+                tippy('#accessabar #ab-magnifier', {
                     arrow: true,
                     content: 'Magnifier',
                     placement: 'bottom',
@@ -270,7 +270,7 @@ const magButton = ({ menuHandle }: IMagActions) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-zoom-in',
+                class: 'ab-icon ab-icon-zoom',
             }),
         ],
     );
@@ -283,7 +283,7 @@ const maskButton = () => {
             class: 'ab-bar-button',
             id: 'ab-screen-mask',
             oncreate: () => {
-                tippy('#accessabar #screen-mask', {
+                tippy('#accessabar #ab-screen-mask', {
                     arrow: true,
                     content: 'Screen Masking',
                     placement: 'bottom',
@@ -295,7 +295,7 @@ const maskButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-brush',
+                class: 'ab-icon ab-icon-palette',
             }),
         ],
     );
@@ -308,7 +308,7 @@ const rulerButton = () => {
             class: 'ab-bar-button',
             id: 'ab-rulers',
             oncreate: () => {
-                tippy('#accessabar #rulers', {
+                tippy('#accessabar #ab-rulers', {
                     arrow: true,
                     content: 'Reading Rulers',
                     placement: 'bottom',
@@ -320,7 +320,7 @@ const rulerButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-ruler',
+                class: 'ab-icon ab-icon-ruler',
             }),
         ],
     );
@@ -333,7 +333,7 @@ const srButton = () => {
             class: 'ab-bar-button',
             id: 'ab-speech-recognition',
             oncreate: () => {
-                tippy('#accessabar #speech-recognition', {
+                tippy('#accessabar #ab-speech-recognition', {
                     arrow: true,
                     content: 'Speech Recognition',
                     placement: 'bottom',
@@ -345,7 +345,7 @@ const srButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-mic',
+                class: 'ab-icon ab-icon-mic',
             }),
         ],
     );
@@ -365,7 +365,7 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
                 resetAll();
             },
             oncreate: () => {
-                tippy('#accessabar #reset', {
+                tippy('#accessabar #ab-reset', {
                     arrow: true,
                     content: 'Reset All',
                     placement: 'bottom',
@@ -377,7 +377,7 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-reset',
+                class: 'ab-icon ab-icon-reset',
             }),
         ],
     );
@@ -390,7 +390,7 @@ const settingsButton = () => {
             class: 'ab-bar-button',
             id: 'ab-settings',
             oncreate: () => {
-                tippy('#accessabar #settings', {
+                tippy('#accessabar #ab-settings', {
                     arrow: true,
                     content: 'Settings',
                     placement: 'bottom',
@@ -402,7 +402,7 @@ const settingsButton = () => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-cog',
+                class: 'ab-icon ab-icon-settings-gear',
             }),
         ],
     );
@@ -418,7 +418,7 @@ const closeButton = ({ closeAccessabar }) => {
                 closeAccessabar();
             },
             oncreate: () => {
-                tippy('#accessabar #close', {
+                tippy('#accessabar #ab-close', {
                     arrow: true,
                     content: 'Close Accessabar',
                     placement: 'bottom',
@@ -430,7 +430,7 @@ const closeButton = ({ closeAccessabar }) => {
         [
             i({
                 'aria-hidden': true,
-                class: 'ab-icon-cancel',
+                class: 'ab-icon ab-icon-cross',
             }),
         ],
     );
@@ -454,7 +454,7 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
                 abarHide();
             },
             oncreate: () => {
-                tippy('#accessabar #hide', {
+                tippy('#accessabar #ab-hide', {
                     arrow: true,
                     content: abarHidden ? 'Show Accessabar' : 'Hide Accessabar',
                     placement: 'bottom',
@@ -471,7 +471,7 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
         [
             i({
                 'aria-hidden': true,
-                class: abarHidden ? 'ab-icon-angle-down' : 'ab-icon-angle-up',
+                class: abarHidden ? 'ab-icon ab-icon-nav-down' : 'ab-icon ab-icon-nav-up',
             }),
         ],
     );

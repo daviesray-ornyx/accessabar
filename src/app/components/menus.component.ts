@@ -260,7 +260,7 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
                             actions.fontLineSpacingDecrement();
                         },
                         oncreate: () => {
-                            tippy('#accessabar #ls-dec', {
+                            tippy('#accessabar #ab-ls-dec', {
                                 arrow: true,
                                 content: 'Decrease',
                                 placement: 'bottom',
@@ -271,7 +271,7 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
                     [
                         i({
                             'aria-hidden': true,
-                            class: 'ab-icon-minus',
+                            class: 'ab-icon ab-icon-minus',
                         }),
                     ],
                 ),
@@ -285,7 +285,7 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
                             actions.fontLineSpacingIncrement();
                         },
                         oncreate: () => {
-                            tippy('#accessabar #ls-inc', {
+                            tippy('#accessabar #ab-ls-inc', {
                                 arrow: true,
                                 content: 'Increase',
                                 placement: 'bottom',
@@ -296,7 +296,7 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
                     [
                         i({
                             'aria-hidden': true,
-                            class: 'ab-icon-plus',
+                            class: 'ab-icon ab-icon-plus',
                         }),
                     ],
                 ),
@@ -321,7 +321,7 @@ const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Access
                             actions.fontLetterSpacingDecrement();
                         },
                         oncreate: () => {
-                            tippy('#accessabar #ks-dec', {
+                            tippy('#accessabar #ab-ks-dec', {
                                 arrow: true,
                                 content: 'Decrease',
                                 placement: 'bottom',
@@ -332,7 +332,7 @@ const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Access
                     [
                         i({
                             'aria-hidden': true,
-                            class: 'ab-icon-minus',
+                            class: 'ab-icon ab-icon-minus',
                         }),
                     ],
                 ),
@@ -346,7 +346,7 @@ const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Access
                             actions.fontLetterSpacingIncrement();
                         },
                         oncreate: () => {
-                            tippy('#accessabar #ks-inc', {
+                            tippy('#accessabar #ab-ks-inc', {
                                 arrow: true,
                                 content: 'Increase',
                                 placement: 'bottom',
@@ -357,7 +357,7 @@ const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Access
                     [
                         i({
                             'aria-hidden': true,
-                            class: 'ab-icon-plus',
+                            class: 'ab-icon ab-icon-plus',
                         }),
                     ],
                 ),

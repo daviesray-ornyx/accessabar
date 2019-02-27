@@ -66,7 +66,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                                 actions.menuClose();
                             },
                             oncreate: () => {
-                                tippy('#accessabar #menu-close', {
+                                tippy('#accessabar #ab-menu-close', {
                                     arrow: true,
                                     content: 'Close Menu',
                                     placement: 'bottom',
@@ -78,7 +78,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                         [
                             i({
                                 'aria-hidden': true,
-                                class: 'ab-icon-cancel',
+                                class: 'ab-icon ab-icon-cross',
                             }),
                         ],
                     ),
