@@ -11,6 +11,7 @@ interface IMagState {
     magStopDrag: Accessabar.IMagActions['magStopDrag'];
     magTranslateX: Accessabar.IState['magTranslateX'];
     magTranslateY: Accessabar.IState['magTranslateY'];
+    menuHidden: Accessabar.IState['menuHidden'];
 }
 
 interface IMagActions {
@@ -18,8 +19,8 @@ interface IMagActions {
     magStopDrag: Accessabar.IMagActions['magStopDrag'];
 }
 
-const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY }: IMagState, { magStartDrag, magStopDrag }: IMagActions) => {
-    return div({ id: 'ab-magnifier-window', class: `ab-magnifier-window ab-draggable ${magActive ? '' : 'ab-hide' }` }, [
+const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, menuHidden }: IMagState, { magStartDrag, magStopDrag }: IMagActions) => {
+    return div({ id: 'ab-magnifier-window', class: `ab-magnifier-window ab-draggable ${magActive && !menuHidden ? '' : 'ab-hide' }` }, [
         div(
             {
                 class: 'ab-drag-circle',
