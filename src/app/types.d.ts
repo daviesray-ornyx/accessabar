@@ -163,6 +163,9 @@ declare namespace Accessabar {
     interface IMagActions {
         magEnable(): (state: Accessabar.IState) => Accessabar.IState;
         magStop(): (state: Accessabar.IState) => Accessabar.IState;
+        magStartDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        magStopDrag(): Accessabar.IState;
+        magUpdateMousePosition(event: MouseEvent): Accessabar.IState;
     }
 
     interface IConfigObject {
