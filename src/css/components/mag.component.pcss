@@ -1,0 +1,33 @@
+#accessabar .ab-magnifier {
+    width: 15rem;
+    height: 10rem;
+    min-width: 10rem;
+    min-height: 8rem;
+    max-width: 15rem;
+    max-height: 10rem;
+    border: 4px solid var(--dark-grey);
+    box-shadow: 0 1px 4px var(--shadow-grey),
+        0 5px 20px var(--light-grey);
+    position: relative;
+
+    .ab-drag-circle {
+        width: 2em;
+        height: 2em;
+        position: absolute;
+        top: -1em;
+        left: calc(100% - 1em);
+        border-radius: 50%;
+        background: var(--near-white);
+        border: 2px solid var(--dark-grey);
+        color: var(--alt-font-colour);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        &:hover {
+            cursor: move;
+        }
+    }
+}
+
