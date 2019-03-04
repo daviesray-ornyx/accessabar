@@ -1,12 +1,24 @@
 import { ActionsType } from 'hyperapp';
+// import fromEvent from 'rxjs';
 
 const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
     magEnable: () => ({ magActive }) => {
-        console.log('start');
+        let pageContent = document.documentElement.outerHTML;
+        const abarEl = /<accessabar-app.+<\/accessabar-app>/;
+        const abarScripts = /<script.+src=\\".+accessabar.+<\/script>/;
+
+        pageContent = pageContent.replace(abarEl, '');
+        pageContent = pageContent.replace(abarScripts, '');
+
+        return {
+            magPageContent: pageContent,
+        };
     },
 
     magStop: () => ({ magActive }) => {
-        console.log('stop');
+        return {
+            magPageContent: '',
+        };
     },
 };
 

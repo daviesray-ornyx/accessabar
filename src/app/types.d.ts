@@ -59,6 +59,7 @@ declare namespace Accessabar {
         selectFontListActive: boolean;
 
         magActive: boolean;
+        magPageContent: string;
     }
 
     interface IActions extends

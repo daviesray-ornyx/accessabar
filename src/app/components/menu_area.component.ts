@@ -8,7 +8,7 @@ import mag from './mag.component';
 const menuArea = (state, actions) => {
     return div({ class: 'ab-menu-area' }, [
         menu(state, actions),
-        mag(),
+        mag(state),
     ]);
 };
 
