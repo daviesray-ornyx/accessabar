@@ -3,7 +3,13 @@ const state: Accessabar.IState = {
     abarHidden: false,
 
     magActive: false,
+    magCanDrag: false,
+    magMouseX: 0,
+    magMouseY: 0,
+    magMoveEvent: false,
     magPageContent: '',
+    magTranslateX: 0,
+    magTranslateY: 0,
 
     menuActive: false,
     // If it's possible to drag the menu (mouse button has been pressed).

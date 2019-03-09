@@ -4,6 +4,8 @@ import state from '../state';
 const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
     resetAll: () => {
         const resetState = {
+            magActive: state.magActive,
+
             menuMouseX: state.menuMouseX,
             menuMouseY: state.menuMouseY,
             // Reset to default position
