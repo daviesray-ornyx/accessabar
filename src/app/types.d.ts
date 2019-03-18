@@ -63,9 +63,16 @@ declare namespace Accessabar {
         magCanDrag: boolean;
         magMouseX: number;
         magMouseY: number;
+        magPosX: number;
+        magPosY: number;
+        magPageX: number;
+        magPageY: number;
+        magPageOffsetX: number;
+        magPageOffsetY: number;
         magTranslateX: number;
         magTranslateY: number;
         magMoveEvent: boolean;
+        magScale: number;
     }
 
     interface IActions extends
@@ -167,13 +174,15 @@ declare namespace Accessabar {
     }
 
     interface IMagActions {
-        magEnable(): (state: Accessabar.IState) => Accessabar.IState;
-        magStop(): (state: Accessabar.IState) => Accessabar.IState;
+        magEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        magStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         magStartDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         magStopDrag(): Accessabar.IState;
         magUpdateMousePosition(event: MouseEvent): Accessabar.IState;
         magAddListener(): (state: Accessabar.IState) => Accessabar.IState;
+        magRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
         magMove(event: Event): (state: Accessabar.IState) => Accessabar.IState;
+        magUpdatePosition(rect: ClientRect | DOMRect): Accessabar.IState;
     }
 
     interface IConfigObject {

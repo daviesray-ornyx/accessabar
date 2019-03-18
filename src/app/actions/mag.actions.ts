@@ -17,9 +17,19 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         }
     },
 
-    // finish function import
-    magMove: (event: IDragEvent) => ({ magCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }, { menuStopDrag }) => {
+    magRemoveListener: () => ({ magMoveEvent }) => {
+        if (magMoveEvent) {
+            document.removeEventListener('mousemove', magPassthrough);
+
+            document.removeEventListener('touchmove', magPassthrough);
+
+            return { menuEvent: false };
+        }
+    },
+
+    magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magPageOffsetX, magPageOffsetY, magScale }, { magStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
+        const windowBorder = 4;
 
         const {
             target,
@@ -27,53 +37,76 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             clientY,
         } = ev;
 
-        const menu = window.abar.mainElement.querySelector('#ab-menu');
+        const mag = window.abar.mainElement.querySelector('#ab-magnifier-window');
+        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
 
-        if (!menuCanDrag || !target || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
+        if (!magCanDrag || !target || !mag || !magPage || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
             return;
         }
 
-        if (menuCanDrag) {
+        if (magCanDrag) {
             event.preventDefault();
         }
 
-        const rect = menu.getBoundingClientRect();
+        const rect = mag.getBoundingClientRect();
+        const pageRect = magPage.getBoundingClientRect();
         const windowWidth = window.innerWidth - rect.width;
         const windowHeight = window.innerHeight - rect.height;
-        let x = menuPosX + (clientX - menuMouseX);
-        let y = menuPosY + (clientY - menuMouseY);
+        let x = magPosX + (clientX - magMouseX);
+        let y = magPosY + (clientY - magMouseY);
 
         if (x < 0) {
             x = 0;
-            menuStopDrag();
+            magStopDrag();
         }
 
         if (x > windowWidth) {
             x = windowWidth;
-            menuStopDrag();
+            magStopDrag();
         }
 
         if (y < 0) {
             y = 0;
-            menuStopDrag();
+            magStopDrag();
         }
 
         if (y > windowHeight) {
             y = windowHeight;
-            menuStopDrag();
+            magStopDrag();
         }
 
-        // console.log(menuMouseX, menuMouseY, clientX, clientY, x, y, windowHeight, windowWidth, rect);
+        console.log(-rect.width, -rect.height);
 
         return {
-            menuMouseX: clientX,
-            menuMouseY: clientY,
-            menuPosX: x,
-            menuPosY: y,
+            magMouseX: clientX,
+            magMouseY: clientY,
+            magPageX: -x + magPageOffsetX,
+            magPageY: -y + magPageOffsetY,
+            magPosX: x,
+            magPosY: y,
+            magTranslateX: 0,
+            magTranslateY: 0,
         };
     },
 
-    magEnable: () => ({ magActive }) => {
+    magUpdatePosition: (rect: ClientRect | DOMRect) => {
+        if (!rect) {
+            return;
+        }
+
+        const windowBorder = 4;
+        const x = -(rect.left + windowBorder);
+        const y = -(rect.top + windowBorder);
+
+        return {
+            magPageOffsetX: x,
+            magPageOffsetY: y,
+            magPageX: x,
+            magPageY: y,
+        };
+    },
+
+    magEnable: () => (state, { magAddListener }) => {
         let pageContent = document.documentElement.outerHTML;
         const abarEl = /<accessabar-app.*<\/accessabar-app>/;
         const abarScripts = /<script.*src=.*accessabar.*<\/script>/;
@@ -81,13 +114,19 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         pageContent = pageContent.replace(abarEl, '');
         pageContent = pageContent.replace(abarScripts, '');
 
+        magAddListener();
+
         return {
+            magActive: true,
             magPageContent: pageContent,
         };
     },
 
-    magStop: () => ({ magActive }) => {
+    magStop: () => (state, { magRemoveListener }) => {
+        magRemoveListener();
+
         return {
+            magActive: false,
             magPageContent: '',
         };
     },

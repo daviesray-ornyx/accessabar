@@ -11,65 +11,82 @@ interface IMagState {
     magStopDrag: Accessabar.IMagActions['magStopDrag'];
     magTranslateX: Accessabar.IState['magTranslateX'];
     magTranslateY: Accessabar.IState['magTranslateY'];
+    magScale: Accessabar.IState['magScale'];
     menuHidden: Accessabar.IState['menuHidden'];
+    magPosX: Accessabar.IState['magPosX'];
+    magPosY: Accessabar.IState['magPosY'];
+    magPageX: Accessabar.IState['magPageX'];
+    magPageY: Accessabar.IState['magPageY'];
 }
 
 interface IMagActions {
     magStartDrag: Accessabar.IMagActions['magStartDrag'];
     magStopDrag: Accessabar.IMagActions['magStopDrag'];
+    magUpdatePosition: Accessabar.IMagActions['magUpdatePosition'];
 }
 
-const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, menuHidden }: IMagState, { magStartDrag, magStopDrag }: IMagActions) => {
-    return div({ id: 'ab-magnifier-window', class: `ab-magnifier-window ab-draggable ${magActive && !menuHidden ? '' : 'ab-hide' }` }, [
-        div(
-            {
-                class: 'ab-drag-circle',
-                onmousedown: (event) => {
-                    magStartDrag(event);
-                },
-                onmouseup: () => {
-                    magStopDrag();
-                },
-                ontouchcancel: () => {
-                    magStopDrag();
-                },
-                ontouchend: () => {
-                    magStopDrag();
-                },
-                ontouchstart: (event) => {
-                    magStartDrag(event);
-                },
+const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale, menuHidden, magPosX, magPosY, magPageX, magPageY }: IMagState, { magStartDrag, magStopDrag, magUpdatePosition }: IMagActions) => {
+    return div(
+        {
+            class: `ab-magnifier-window ab-draggable ${magActive && !menuHidden ? '' : 'ab-hide' }`,
+            id: 'ab-magnifier-window',
+            style: {
+                left: `${ magPosX }px`,
+                top: `${ magPosY }px`,
             },
-            [
-                i({ class: 'ab-icon ab-icon-move' }),
-            ],
-        ),
-        div({ class: 'ab-magnifier-page-container' }, [
-            iframe(
+        },
+        [
+            div(
                 {
-                    class: 'ab-magnifier-page',
-                    id: 'ab-magnifier-page',
-                    onload: () => {
-                        const magEl = document.getElementById('ab-magnifier-window');
-                        const magPageEl = document.getElementById('ab-magnifier-page');
-
-                        if (!magEl || !magPageEl) {
-                            return;
-                        }
-
-                        if (magEl.offsetTop > 0) {
-                            magPageEl.style.top = `-${magEl.offsetTop + 4}px`;
-                            magPageEl.style.left = `-${magEl.offsetLeft + 4}px`;
-                        }
+                    class: 'ab-drag-circle',
+                    onmousedown: (event) => {
+                        magStartDrag(event);
                     },
-                    srcdoc: magPageContent,
-                    style: {
-                        transform: `translate(${magTranslateX}px, ${magTranslateY}px)`,
+                    onmouseup: () => {
+                        magStopDrag();
+                    },
+                    ontouchcancel: () => {
+                        magStopDrag();
+                    },
+                    ontouchend: () => {
+                        magStopDrag();
+                    },
+                    ontouchstart: (event) => {
+                        magStartDrag(event);
                     },
                 },
+                [
+                    i({ class: 'ab-icon ab-icon-move' }),
+                ],
             ),
-        ]),
-    ]);
+            div({ class: 'ab-magnifier-page-container' }, [
+                iframe(
+                    {
+                        class: 'ab-magnifier-page',
+                        id: 'ab-magnifier-page',
+                        onload: () => {
+                            const magEl = document.getElementById('ab-magnifier-window');
+                            const magPageEl = document.getElementById('ab-magnifier-page');
+
+                            if (!magEl || !magPageEl) {
+                                return;
+                            }
+
+                            const rect = magEl.getBoundingClientRect();
+
+                            magUpdatePosition(rect);
+                        },
+                        srcdoc: magPageContent,
+                        style: {
+                            left: `${magPageX}px`,
+                            top: `${magPageY}px`,
+                            transform: `scale(${magScale}) translate(${magTranslateX}px, ${magTranslateY}px)`,
+                        },
+                    },
+                ),
+            ]),
+        ],
+    );
 };
 
 export default mag;

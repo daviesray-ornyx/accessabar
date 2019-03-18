@@ -8,6 +8,13 @@ const state: Accessabar.IState = {
     magMouseY: 0,
     magMoveEvent: false,
     magPageContent: '',
+    magPageOffsetX: 0,
+    magPageOffsetY: 0,
+    magPageX: 0,
+    magPageY: 0,
+    magPosX: 0,
+    magPosY: 0,
+    magScale: 1.2,
     magTranslateX: 0,
     magTranslateY: 0,
 
