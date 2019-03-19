@@ -38,7 +38,7 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         } = ev;
 
         const mag = window.abar.mainElement.querySelector('#ab-magnifier-window');
-        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
+        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page-container');
 
         if (!magCanDrag || !target || !mag || !magPage || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
             return;
@@ -75,17 +75,30 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             magStopDrag();
         }
 
-        console.log(-rect.width, -rect.height);
+        // Anchor the position of the iframe to the top left corner
+        const fixedX = -x + magPageOffsetX;
+        const fixedY = -y + magPageOffsetY;
+
+        // Get the distance between the middle point of the magnifier on the normal page and scaled page
+        const pointX = x + (pageRect.width / 2);
+        const scaledPointX = pointX * magScale;
+        const distanceX = scaledPointX - pointX;
+
+        const pointY = y + (pageRect.height / 2);
+        const scaledPointY = pointY * magScale;
+        const distanceY = scaledPointY - pointY;
+
+        console.log(distanceX);
 
         return {
             magMouseX: clientX,
             magMouseY: clientY,
-            magPageX: -x + magPageOffsetX,
-            magPageY: -y + magPageOffsetY,
+            magPageX: fixedX,
+            magPageY: fixedY,
             magPosX: x,
             magPosY: y,
-            magTranslateX: 0,
-            magTranslateY: 0,
+            magTranslateX: -distanceX,
+            magTranslateY: -distanceY,
         };
     },
 

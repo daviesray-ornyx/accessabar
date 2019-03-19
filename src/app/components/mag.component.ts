@@ -59,7 +59,7 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                     i({ class: 'ab-icon ab-icon-move' }),
                 ],
             ),
-            div({ class: 'ab-magnifier-page-container' }, [
+            div({ id: 'ab-magnifier-page-container', class: 'ab-magnifier-page-container' }, [
                 iframe(
                     {
                         class: 'ab-magnifier-page',
