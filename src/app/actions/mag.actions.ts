@@ -29,7 +29,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
     magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magPageOffsetX, magPageOffsetY, magScale }, { magStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
-        const windowBorder = 4;
 
         const {
             target,
@@ -107,9 +106,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             return;
         }
 
-        const windowBorder = 4;
-        const x = -(rect.left + windowBorder);
-        const y = -(rect.top + windowBorder);
+        const x = -rect.left;
+        const y = -rect.top;
 
         return {
             magPageOffsetX: x,
