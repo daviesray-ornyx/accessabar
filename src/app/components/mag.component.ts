@@ -78,7 +78,7 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                         style: {
                             left: `${magPageX}px`,
                             top: `${magPageY}px`,
-                            transform: `scale(${magScale}) translate(${magTranslateX}px, ${magTranslateY}px)`,
+                            transform: `translate(${magTranslateX}px, ${magTranslateY}px) scale(${magScale})`,
                         },
                     },
                 ),

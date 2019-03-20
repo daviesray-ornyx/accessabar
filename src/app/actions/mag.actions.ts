@@ -85,14 +85,14 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         const scaledPointY = pointY * magScale;
         const distanceY = scaledPointY - pointY;
 
-        console.table({
-            pointX,
-            scaledPointX,
-            distanceX,
-            pointY,
-            scaledPointY,
-            distanceY,
-        });
+        // console.table({
+        //     pointX,
+        //     scaledPointX,
+        //     distanceX,
+        //     pointY,
+        //     scaledPointY,
+        //     distanceY,
+        // });
 
         return {
             magMouseX: clientX,
