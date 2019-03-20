@@ -72,7 +72,15 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                                 return;
                             }
 
+                            if (!(magPageEl instanceof HTMLIFrameElement)) {
+                                return;
+                            }
+
                             magUpdatePosition();
+
+                            if (magPageEl.contentDocument) {
+                                magPageEl.contentDocument.body.style.marginTop = null;
+                            }
                         },
                         srcdoc: magPageContent,
                         style: {
