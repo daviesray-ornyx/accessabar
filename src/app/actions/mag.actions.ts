@@ -27,7 +27,7 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         }
     },
 
-    magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magPageOffsetX, magPageOffsetY, magScale }, { magStopDrag }) => {
+    magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magScale, magBorder }, { magStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
 
         const {
@@ -37,9 +37,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         } = ev;
 
         const mag = window.abar.mainElement.querySelector('#ab-magnifier-window');
-        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page-container');
 
-        if (!magCanDrag || !target || !mag || !magPage || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
+        if (!magCanDrag || !target || !mag || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
             return;
         }
 
@@ -48,7 +47,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         }
 
         const rect = mag.getBoundingClientRect();
-        const pageRect = magPage.getBoundingClientRect();
         const windowWidth = window.innerWidth - rect.width;
         const windowHeight = window.innerHeight - rect.height;
         let x = magPosX + (clientX - magMouseX);
@@ -74,20 +72,27 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             magStopDrag();
         }
 
-        // Anchor the position of the iframe to the top left corner
-        const fixedX = -x + magPageOffsetX;
-        const fixedY = -y + magPageOffsetY;
+        // Anchor the position of the iframe to the top left corner of body
+        const fixedX = -(x + magBorder);
+        const fixedY = -(y + magBorder);
 
         // Get the distance between the middle point of the magnifier on the normal page and scaled page
-        const pointX = x + (pageRect.width / 2);
+        const pointX = x + (rect.width / 2);
         const scaledPointX = pointX * magScale;
         const distanceX = scaledPointX - pointX;
 
-        const pointY = y + (pageRect.height / 2);
+        const pointY = y + (rect.height / 2);
         const scaledPointY = pointY * magScale;
         const distanceY = scaledPointY - pointY;
 
-        console.log(distanceX);
+        console.table({
+            pointX,
+            scaledPointX,
+            distanceX,
+            pointY,
+            scaledPointY,
+            distanceY,
+        });
 
         return {
             magMouseX: clientX,
@@ -101,19 +106,10 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         };
     },
 
-    magUpdatePosition: (rect: ClientRect | DOMRect) => {
-        if (!rect) {
-            return;
-        }
-
-        const x = -rect.left;
-        const y = -rect.top;
-
+    magUpdatePosition: () => ({ magBorder }) => {
         return {
-            magPageOffsetX: x,
-            magPageOffsetY: y,
-            magPageX: x,
-            magPageY: y,
+            magPageX: -magBorder,
+            magPageY: -magBorder,
         };
     },
 

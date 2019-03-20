@@ -59,6 +59,7 @@ declare namespace Accessabar {
         selectFontListActive: boolean;
 
         magActive: boolean;
+        magBorder: number;
         magPageContent: string;
         magCanDrag: boolean;
         magMouseX: number;
@@ -182,7 +183,7 @@ declare namespace Accessabar {
         magAddListener(): (state: Accessabar.IState) => Accessabar.IState;
         magRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
         magMove(event: Event): (state: Accessabar.IState) => Accessabar.IState;
-        magUpdatePosition(rect: ClientRect | DOMRect): Accessabar.IState;
+        magUpdatePosition(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {

@@ -72,9 +72,7 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                                 return;
                             }
 
-                            const rect = magEl.getBoundingClientRect();
-
-                            magUpdatePosition(rect);
+                            magUpdatePosition();
                         },
                         srcdoc: magPageContent,
                         style: {
