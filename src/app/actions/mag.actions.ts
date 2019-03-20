@@ -37,8 +37,17 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         } = ev;
 
         const mag = window.abar.mainElement.querySelector('#ab-magnifier-window');
+        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
 
-        if (!magCanDrag || !target || !mag || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
+        if (!magCanDrag || !target || !mag || !magPage || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
+            return;
+        }
+
+        if (!(magPage instanceof HTMLIFrameElement)) {
+            return;
+        }
+
+        if (!magPage.contentDocument) {
             return;
         }
 
@@ -84,6 +93,18 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         const pointY = y + (rect.height / 2);
         const scaledPointY = pointY * magScale;
         const distanceY = scaledPointY - pointY;
+
+        if (pointY < (rect.height * 0.6)) {
+            magPage.contentDocument.body.style.marginTop = `${rect.height / 4}px`;
+        } else {
+            magPage.contentDocument.body.style.marginTop = null;
+        }
+
+        if (pointX < (rect.width * 0.6)) {
+            magPage.contentDocument.body.style.marginLeft = `${rect.width / 4}px`;
+        } else {
+            magPage.contentDocument.body.style.marginLeft = null;
+        }
 
         // console.table({
         //     pointX,

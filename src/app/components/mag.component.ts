@@ -17,6 +17,8 @@ interface IMagState {
     magPosY: Accessabar.IState['magPosY'];
     magPageX: Accessabar.IState['magPageX'];
     magPageY: Accessabar.IState['magPageY'];
+    magHeight: Accessabar.IState['magHeight'];
+    magWidth: Accessabar.IState['magWidth'];
 }
 
 interface IMagActions {
@@ -25,14 +27,16 @@ interface IMagActions {
     magUpdatePosition: Accessabar.IMagActions['magUpdatePosition'];
 }
 
-const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale, menuHidden, magPosX, magPosY, magPageX, magPageY }: IMagState, { magStartDrag, magStopDrag, magUpdatePosition }: IMagActions) => {
+const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale, menuHidden, magPosX, magPosY, magPageX, magPageY, magHeight, magWidth }: IMagState, { magStartDrag, magStopDrag, magUpdatePosition }: IMagActions) => {
     return div(
         {
             class: `ab-magnifier-window ab-draggable ${magActive && !menuHidden ? '' : 'ab-hide' }`,
             id: 'ab-magnifier-window',
             style: {
+                height: `${ magHeight }px`,
                 left: `${ magPosX }px`,
                 top: `${ magPosY }px`,
+                width: `${ magWidth }px`,
             },
         },
         [
@@ -77,10 +81,6 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                             }
 
                             magUpdatePosition();
-
-                            if (magPageEl.contentDocument) {
-                                magPageEl.contentDocument.body.style.marginTop = null;
-                            }
                         },
                         srcdoc: magPageContent,
                         style: {

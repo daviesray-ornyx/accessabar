@@ -74,6 +74,8 @@ declare namespace Accessabar {
         magTranslateY: number;
         magMoveEvent: boolean;
         magScale: number;
+        magWidth: number;
+        magHeight: number;
     }
 
     interface IActions extends
