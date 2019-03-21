@@ -94,15 +94,29 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         const scaledPointY = pointY * magScale;
         const distanceY = scaledPointY - pointY;
 
+        let pushMargin = false;
+
         if (pointY < (rect.height * 0.6)) {
+            pushMargin = true;
             magPage.contentDocument.body.style.marginTop = `${rect.height / 4}px`;
-        } else if (pointX < (rect.width * 0.6)) {
+        }
+
+        if (pointX < (rect.width * 0.6)) {
+            pushMargin = true;
             magPage.contentDocument.body.style.marginLeft = `${rect.width / 4}px`;
-        } else if (pointY > (windowHeight + (rect.height * 0.4))) {
+        }
+
+        if (pointY > (windowHeight + (rect.height * 0.4))) {
+            pushMargin = true;
             magPage.contentDocument.body.style.marginBottom = `${rect.height / 4}px`;
-        } else if (pointX > (windowWidth + (rect.width * 0.4))) {
+        }
+
+        if (pointX > (windowWidth + (rect.width * 0.4))) {
+            pushMargin = true;
             magPage.contentDocument.body.style.marginRight = `${rect.width / 4}px`;
-        } else {
+        }
+
+        if (!pushMargin) {
             magPage.contentDocument.body.style.marginTop = null;
             magPage.contentDocument.body.style.marginRight = null;
             magPage.contentDocument.body.style.marginBottom = null;
