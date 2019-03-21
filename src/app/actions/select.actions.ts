@@ -51,10 +51,6 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
         } else {
             AccessabarUtil.startFunction('magnifier', magStop, magEnable);
         }
-
-        return {
-            magActive: !magActive,
-        };
     },
 };
 
