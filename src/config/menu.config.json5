@@ -9,7 +9,7 @@
         disableOnClose: true,
     },
 
-    magOptions: {
+    magnifier: {
         title: 'Magnifier Options',
         disableOnClose: true,
     }

@@ -255,7 +255,7 @@ const magButton = ({ menuHandle }: IMagActions) => {
             class: 'ab-bar-button',
             id: 'ab-magnifier',
             onclick: () => {
-                menuHandle('magOptions');
+                menuHandle('magnifier');
             },
             oncreate: () => {
                 tippy('#accessabar #ab-magnifier', {

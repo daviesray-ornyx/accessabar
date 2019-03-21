@@ -425,7 +425,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
     ]);
 };
 
-const magOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+const magMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div({ class: 'ab-menu-content' }, [
         section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.magActive, actions.selectToggleMagnifier, 'Show Magnifier', 'Show magnifier'),
@@ -436,5 +436,5 @@ const magOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) 
 export {
     ttsMenu,
     textOptionsMenu,
-    magOptionsMenu,
+    magMenu,
 };
