@@ -96,13 +96,16 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
         if (pointY < (rect.height * 0.6)) {
             magPage.contentDocument.body.style.marginTop = `${rect.height / 4}px`;
+        } else if (pointX < (rect.width * 0.6)) {
+            magPage.contentDocument.body.style.marginLeft = `${rect.width / 4}px`;
+        } else if (pointY > (windowHeight + (rect.height * 0.4))) {
+            magPage.contentDocument.body.style.marginBottom = `${rect.height / 4}px`;
+        } else if (pointX > (windowWidth + (rect.width * 0.4))) {
+            magPage.contentDocument.body.style.marginRight = `${rect.width / 4}px`;
         } else {
             magPage.contentDocument.body.style.marginTop = null;
-        }
-
-        if (pointX < (rect.width * 0.6)) {
-            magPage.contentDocument.body.style.marginLeft = `${rect.width / 4}px`;
-        } else {
+            magPage.contentDocument.body.style.marginRight = null;
+            magPage.contentDocument.body.style.marginBottom = null;
             magPage.contentDocument.body.style.marginLeft = null;
         }
 
