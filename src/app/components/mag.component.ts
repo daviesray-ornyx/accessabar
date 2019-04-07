@@ -69,17 +69,6 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                         class: 'ab-magnifier-page',
                         id: 'ab-magnifier-page',
                         onload: () => {
-                            const magEl = document.getElementById('ab-magnifier-window');
-                            const magPageEl = document.getElementById('ab-magnifier-page');
-
-                            if (!magEl || !magPageEl) {
-                                return;
-                            }
-
-                            if (!(magPageEl instanceof HTMLIFrameElement)) {
-                                return;
-                            }
-
                             magUpdatePosition();
                         },
                         srcdoc: magPageContent,
