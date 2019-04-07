@@ -1,5 +1,3 @@
-// TODO: Make a typings folder
-
 declare namespace Accessabar {
     interface IState {
         abarHidden: boolean;
@@ -73,7 +71,10 @@ declare namespace Accessabar {
         magTranslateX: number;
         magTranslateY: number;
         magMoveEvent: boolean;
-        magScale: number;
+        magScale: string;
+        magScaleMax: number;
+        magScaleMin: number;
+        magScaleStep: number;
         magWidth: number;
         magHeight: number;
     }
@@ -136,7 +137,7 @@ declare namespace Accessabar {
         menuHide(): Accessabar.IState;
         menuShow(): Accessabar.IState;
         menuToggleHide(): (state: Accessabar.IState) => Accessabar.IState;
-        menuMove(event: Event): (state: Accessabar.IState) => Accessabar.IState;
+        menuMove(event: MouseEvent): (state: Accessabar.IState) => Accessabar.IState;
         menuUpdatePosition(el: HTMLElement): Accessabar.IState;
         menuUpdateMousePosition(event: MouseEvent): Accessabar.IState;
         menuStartDrag(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -184,8 +185,10 @@ declare namespace Accessabar {
         magUpdateMousePosition(event: MouseEvent): Accessabar.IState;
         magAddListener(): (state: Accessabar.IState) => Accessabar.IState;
         magRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
-        magMove(event: Event): (state: Accessabar.IState) => Accessabar.IState;
+        magMove(event: MouseEvent): (state: Accessabar.IState) => Accessabar.IState;
         magUpdatePosition(): (state: Accessabar.IState) => Accessabar.IState;
+        magScaleIncrease(): (state: Accessabar.IState) => Accessabar.IState;
+        magScaleDecrease(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {
@@ -217,6 +220,11 @@ declare namespace Accessabar {
 
     interface IMenuConfig {
         [propName: string]: IMenuConfigObject;
+    }
+
+    interface IMagMouseUpdate {
+        clientX: number;
+        clientY: number;
     }
 }
 
