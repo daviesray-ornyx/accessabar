@@ -34,14 +34,13 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         const ev = event.touches ? event.touches[0] : event;
 
         const {
-            target,
             clientX,
             clientY,
         } = ev;
 
         const menu = window.abar.mainElement.querySelector('#ab-menu');
 
-        if (!menuCanDrag || !target || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
+        if (!menuCanDrag || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
             return;
         }
 
