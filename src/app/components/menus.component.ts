@@ -13,6 +13,8 @@ import fontConfig from '../../config/fonts.config.json5';
 import { VNode } from 'hyperapp';
 import tippy from 'tippy.js';
 import Pickr from 'pickr-widget';
+import BigNumber from 'bignumber.js';
+
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
     return label(
@@ -429,6 +431,61 @@ const magMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return div({ class: 'ab-menu-content' }, [
         section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.magActive, actions.selectToggleMagnifier, 'Show Magnifier', 'Show magnifier'),
+        ]),
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease magnifier zoom',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-mag-scale-dec',
+                        onclick: () => {
+                            actions.magScaleDecrease();
+                            actions.magUpdatePosition();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-mag-scale-dec', {
+                                arrow: true,
+                                content: 'Decrease Zoom',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-minus',
+                        }),
+                    ],
+                ),
+                span({ class: 'ab-count' }, `${new BigNumber(state.magScale).times(100)}%`),
+                button(
+                    {
+                        'aria-label': 'Increase magnifier zoom',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-mag-scale-inc',
+                        onclick: () => {
+                            actions.magScaleIncrease();
+                            actions.magUpdatePosition();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-mag-scale-inc', {
+                                arrow: true,
+                                content: 'Increase Zoom',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
         ]),
     ]);
 };
