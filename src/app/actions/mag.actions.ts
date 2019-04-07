@@ -1,4 +1,5 @@
 import { ActionsType } from 'hyperapp';
+import BigNumber from 'bignumber.js';
 // import fromEvent from 'rxjs';
 
 interface IDragEvent extends MouseEvent, TouchEvent {}
@@ -27,11 +28,42 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         }
     },
 
+    magScaleIncrease: () => ({ magScale, magScaleMax, magScaleStep }) => {
+        const pScale = new BigNumber(magScale);
+
+        if (pScale.plus(magScaleStep).gt(magScaleMax)) {
+            return;
+        }
+
+        const pScaleAdd = pScale.plus(magScaleStep).toFixed(1);
+
+        console.log(pScaleAdd);
+
+        return {
+            magScale: pScaleAdd,
+        };
+    },
+
+    magScaleDecrease: () => ({ magScale, magScaleMin, magScaleStep }) => {
+        const pScale = new BigNumber(magScale);
+
+        if (pScale.minus(magScaleStep).lt(magScaleMin)) {
+            return;
+        }
+
+        const pScaleSub = pScale.minus(magScaleStep).toFixed(1);
+
+        console.log(pScaleSub);
+
+        return {
+            magScale: pScaleSub,
+        };
+    },
+
     magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magScale, magBorder }, { magStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
 
         const {
-            target,
             clientX,
             clientY,
         } = ev;
@@ -39,7 +71,7 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         const mag = window.abar.mainElement.querySelector('#ab-magnifier-window');
         const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
 
-        if (!magCanDrag || !target || !mag || !magPage || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
+        if (!magCanDrag || !mag || !magPage || typeof magPosX === 'boolean' || typeof magPosY === 'boolean') {
             return;
         }
 
