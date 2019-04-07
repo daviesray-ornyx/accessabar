@@ -117,14 +117,16 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         const fixedX = -(x + magBorder);
         const fixedY = -(y + magBorder);
 
+        const pScale = new BigNumber(magScale);
+
         // Get the distance between the middle point of the magnifier on the normal page and scaled page
         const pointX = x + (rect.width / 2);
-        const scaledPointX = pointX * magScale;
-        const distanceX = scaledPointX - pointX;
+        const scaledPointX = pScale.times(pointX);
+        const distanceX = scaledPointX.minus(pointX).toNumber();
 
         const pointY = y + (rect.height / 2);
-        const scaledPointY = pointY * magScale;
-        const distanceY = scaledPointY - pointY;
+        const scaledPointY = pScale.times(pointY);
+        const distanceY = scaledPointY.minus(pointY).toNumber();
 
         let pushMargin = false;
 
