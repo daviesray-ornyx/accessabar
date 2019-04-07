@@ -178,10 +178,52 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         };
     },
 
-    magUpdatePosition: () => ({ magBorder }) => {
+    magUpdatePosition: () => ({ magBorder, magScale, magPosX, magPosY }) => {
+        const magEl = document.getElementById('ab-magnifier-window');
+        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
+
+        if (!magEl || !magPage) {
+            return;
+        }
+
+        if (!(magPage instanceof HTMLIFrameElement)) {
+            return;
+        }
+
+        if (!magPage.contentDocument) {
+            return;
+        }
+
+        const elRect = magEl.getBoundingClientRect();
+
+        if (magPosX === 0 && magPosY === 0) {
+            // mag glass loads in the top left corner
+            magPage.contentDocument.body.style.marginTop = `${elRect.height / 4}px`;
+            magPage.contentDocument.body.style.marginLeft = `${elRect.width / 4}px`;
+
+            console.log(magPosY);
+
+            return {
+                magPageX: -magBorder,
+                magPageY: -magBorder,
+                magTranslateX: -(elRect.width / 4),
+                magTranslateY: -(elRect.height / 4),
+            };
+        }
+
+        const pScale = new BigNumber(magScale);
+
+        const pointX = magPosX + (elRect.width / 2);
+        const scaledPointX = pScale.times(pointX);
+        const distanceX = scaledPointX.minus(pointX).toNumber();
+
+        const pointY = magPosY + (elRect.height / 2);
+        const scaledPointY = pScale.times(pointY);
+        const distanceY = scaledPointY.minus(pointY).toNumber();
+
         return {
-            magPageX: -magBorder,
-            magPageY: -magBorder,
+            magTranslateX: -distanceX,
+            magTranslateY: -distanceY,
         };
     },
 
@@ -207,6 +249,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         return {
             magActive: false,
             magPageContent: '',
+            magPosX: 0,
+            magPosY: 0,
         };
     },
 
