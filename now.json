@@ -1,15 +1,5 @@
 {
     "name": "accessabar",
-    "routes": [
-        {
-            "src": "/",
-            "destination": "/example/index.html"
-        },
-        {
-            "src": "/custom.html",
-            "destination": "/example/custom.html"
-        }
-    ],
-    "regions": ["bru"],
+    "regions": ["lhr"],
     "version": 2
 }
