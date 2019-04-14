@@ -5,8 +5,7 @@ nav#context-menu {
     display: flex;
     flex-direction: column;
     padding: 0.5em 1em;
-    margin: 0.25em;
-    border: 1px dashed #c0c0c0;
+    border-left: 4px solid #666;
     max-width: 12em;
     align-self: flex-start;
 }
@@ -17,17 +16,16 @@ nav#context-menu #accessabar-button {
 }
 
 nav#context-menu #accessabar-button a {
-    background: #1f2625;
-    border: 2.5px solid #009688;
-    color: white;
-    padding: 0.5em;
-    font-size: 1.05em;
+    background: #c7e8d5;
+    color: #004921;
+    padding: 1em;
+    font-size: 1em;
     font-family: 'Catamaran', sans-serif;
     white-space: nowrap;
 }
 
 nav#context-menu #accessabar-button a:hover {
-    background: #273130;
+    background: #b9d8c6;
     cursor: pointer;
 }
 
@@ -37,7 +35,7 @@ nav#context-menu #menu {
 }
 
 nav#context-menu #menu a {
-    color: #0027ff;
+    color: #3e4da0;
     text-decoration: none;
     font-weight: 300;
 }
