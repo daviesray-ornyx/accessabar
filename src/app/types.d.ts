@@ -77,6 +77,10 @@ declare namespace Accessabar {
         magScaleStep: number;
         magWidth: number;
         magHeight: number;
+
+        maskActive: boolean;
+        maskOpacity: string;
+        maskColour: string;
     }
 
     interface IActions extends
