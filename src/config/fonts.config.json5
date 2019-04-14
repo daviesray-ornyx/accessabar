@@ -6,7 +6,7 @@
 
     arial: {
         name: 'Arial',
-        family: 'Arial, sans-serif',
+        family: '"Arial", sans-serif',
     },
 
     comic_sans: {
@@ -16,12 +16,12 @@
 
     helvetica: {
         name: 'Helvetica',
-        family: 'Helvetica, sans-serif',
+        family: '"Helvetica", sans-serif',
     },
 
     calibri: {
         name: 'Calibri',
-        family: 'Calibri, sans-serif',
+        family: '"Calibri", sans-serif',
     },
 
     times_new_roman: {
@@ -31,17 +31,17 @@
 
     georgia: {
         name: 'Georgia',
-        family: 'Georgia, serif',
+        family: '"Georgia", serif',
     },
 
     verdana: {
         name: 'Verdana',
-        family: 'Verdana, sans-serif',
+        family: '"Verdana", sans-serif',
     },
 
     tahoma: {
         name: 'Tahoma',
-        family: 'Tahoma, sans-serif',
+        family: '"Tahoma", sans-serif',
     },
 
     trebuchet: {
@@ -51,6 +51,11 @@
 
     courier: {
         name: 'Courier',
-        family: '"Courier New", Courier, monospace',
+        family: '"Courier New", "Courier", monospace',
+    },
+
+    bodoni_bt: {
+        name: 'Bodoni BT',
+        family: '"Bodoni BT", serif',
     },
 }
