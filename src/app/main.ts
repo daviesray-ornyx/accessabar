@@ -4,6 +4,7 @@ import buttonArea from './components/button_area.component';
 import { hideButton } from './components/buttons.component';
 import menuArea from './components/menu_area.component';
 import ttsPrompt from './components/tts_prompt.component';
+import funcArea from './components/function_area.component';
 
 const innerBar = (state, actions) => {
     return div({ class: 'ab-bar ab-growable' }, [
@@ -32,6 +33,7 @@ const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) 
     return div({ class: 'ab-bar-grid' }, [
         innerBar(state, actions),
         underBar(state, actions),
+        funcArea(state, actions),
         menuArea(state, actions),
     ]);
 };
