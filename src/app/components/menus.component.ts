@@ -277,7 +277,10 @@ const textOptionsInnerLineSpacing = (state: Accessabar.IState, actions: Accessab
                         }),
                     ],
                 ),
-                span({ class: 'ab-count' }, state.fontLineSpacingCount),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Spacing'),
+                    span({ class: 'ab-count' }, state.fontLineSpacingCount),
+                ]),
                 button(
                     {
                         'aria-label': 'Increase line spacing',
@@ -338,7 +341,10 @@ const textOptionsInnerLetterSpacing = (state: Accessabar.IState, actions: Access
                         }),
                     ],
                 ),
-                span({ class: 'ab-count' }, state.fontLetterSpacingCount),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Spacing'),
+                    span({ class: 'ab-count' }, state.fontLetterSpacingCount),
+                ]),
                 button(
                     {
                         'aria-label': 'Increase letter spacing',
@@ -459,7 +465,10 @@ const magMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                         }),
                     ],
                 ),
-                span({ class: 'ab-count' }, `${new BigNumber(state.magScale).times(100)}%`),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Zoom'),
+                    span({ class: 'ab-count' }, `${new BigNumber(state.magScale).times(100)}%`),
+                ]),
                 button(
                     {
                         'aria-label': 'Increase magnifier zoom',
