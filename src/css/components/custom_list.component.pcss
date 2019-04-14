@@ -38,16 +38,33 @@
         top: 100%;
         right: 0;
         left: 0;
+        height: 12em;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        border-left: 2px solid var(--lighter-grey);
+        border-bottom: 2px solid var(--lighter-grey);
+        scrollbar-color: var(--dark-grey) #dedede;
+        scrollbar-width: auto;
+
+        &::-webkit-scrollbar {
+            background: #dedede;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--dark-grey);
+        }
 
         .ab-custom-list-selection-item {
             display: flex;
             align-items: center;
-            padding: 0 0.5em;
-            height: 2em;
+            padding: 0.5em;
             background: white;
-            border-left: 2px solid var(--lighter-grey);
             border-right: 2px solid var(--lighter-grey);
             border-bottom: 2px solid var(--lighter-grey);
+
+            &:last-child {
+                border-bottom: none;
+            }
 
             &:hover {
                 cursor: pointer;
