@@ -67,7 +67,6 @@
     "rimraf": "2.6.3",
     "rucksack-css": "1.0.2",
     "sass-loader": "7.1.0",
-    "serve": "11.0.0",
     "source-map-loader": "0.2.4",
     "stylelint": "9.10.1",
     "stylelint-config-recommended": "2.1.0",
@@ -91,6 +90,7 @@
     "normalize.css": "8.0.1",
     "pickr-widget": "0.3.2",
     "rxjs": "6.4.0",
-    "tippy.js": "3.4.1"
+    "tippy.js": "3.4.1",
+    "serve": "11.0.0"
   }
 }
