@@ -15,7 +15,6 @@ import tippy from 'tippy.js';
 import Pickr from 'pickr-widget';
 import BigNumber from 'bignumber.js';
 
-
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
     return label(
         {
