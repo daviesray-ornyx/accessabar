@@ -19,7 +19,6 @@
     "cypress:run-all": "cypress run",
     "ava": "ava",
     "test": "yarn ava && yarn cypress:run-all",
-    "start": "yarn serve",
     "serve": "serve ./public/"
   },
   "devDependencies": {
