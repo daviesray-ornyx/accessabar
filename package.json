@@ -18,7 +18,9 @@
     "cypress": "cypress open",
     "cypress:run-all": "cypress run",
     "ava": "ava",
-    "test": "yarn ava && yarn cypress:run-all"
+    "test": "yarn ava && yarn cypress:run-all",
+    "run": "yarn serve",
+    "serve": "serve ./public/"
   },
   "devDependencies": {
     "@babel/core": "7.2.2",
@@ -66,6 +68,7 @@
     "rimraf": "2.6.3",
     "rucksack-css": "1.0.2",
     "sass-loader": "7.1.0",
+    "serve": "11.0.0",
     "source-map-loader": "0.2.4",
     "stylelint": "9.10.1",
     "stylelint-config-recommended": "2.1.0",
