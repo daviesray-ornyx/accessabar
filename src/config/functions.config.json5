@@ -59,4 +59,9 @@
         conflicts: [],
         disableOnClick: true,
     },
+
+    overlay: {
+        conflicts: [],
+        disableOnClick: true,
+    },
 }
