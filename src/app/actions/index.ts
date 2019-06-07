@@ -6,10 +6,10 @@ import resetActions from './reset.actions';
 import closeActions from './close.actions';
 import menuActions from './menu.actions';
 import ttsActions from './tts.actions';
-import textOptionsActions from './text_options.actions';
 import selectActions from './select.actions';
 import colourActions from './colour.actions';
 import magActions from './mag.actions';
+import maskActions from './mask.actions';
 
 const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...hideActions,
@@ -19,10 +19,10 @@ const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...closeActions,
     ...menuActions,
     ...ttsActions,
-    ...textOptionsActions,
     ...selectActions,
     ...colourActions,
     ...magActions,
+    ...maskActions,
 };
 
 export default actions;
