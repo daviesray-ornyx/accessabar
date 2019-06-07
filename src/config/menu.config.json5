@@ -12,5 +12,10 @@
     magnifier: {
         title: 'Magnifier Options',
         disableOnClose: true,
-    }
+    },
+
+    masking: {
+        title: 'Screen Masking Options',
+        disableOnClose: true,
+    },
 }

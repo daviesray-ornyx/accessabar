@@ -60,7 +60,7 @@
         disableOnClick: true,
     },
 
-    overlay: {
+    masking: {
         conflicts: [],
         disableOnClick: true,
     },
