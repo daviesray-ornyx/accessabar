@@ -4,15 +4,15 @@ import {
 
 interface IMaskState {
     maskActive: Accessabar.IState['maskActive'];
-    maskColour: Accessabar.IState['maskColour'];
+    maskColourCurrent: Accessabar.IState['maskColourCurrent'];
     maskOpacity: Accessabar.IState['maskOpacity'];
 }
 
-const mask = ({ maskActive, maskColour, maskOpacity }: IMaskState) => {
+const mask = ({ maskActive, maskColourCurrent, maskOpacity }: IMaskState) => {
     return div({
         class: `ab-mask ${maskActive ? '' : 'ab-hide'}`,
         style: {
-            background: maskColour,
+            background: maskColourCurrent,
             opacity: maskOpacity,
         },
     });
