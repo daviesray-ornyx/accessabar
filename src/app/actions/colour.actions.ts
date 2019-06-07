@@ -23,6 +23,21 @@ const colourActions: ActionsType<Accessabar.IState, Accessabar.IColourActions> =
             fontCustomActive: true,
         };
     },
+
+    colourChangeMask: (colour: string) => ({ maskActive }, { maskColourChange }: Accessabar.IActions) => {
+        return {
+            maskColourCurrent: colour,
+            maskCustomActive: false,
+        };
+    },
+
+    colourCustomChangeMask: (colour: string) => ({ maskActive }, { maskColourChange }: Accessabar.IActions) => {
+        return {
+            maskColourCurrent: colour,
+            maskColourCustomCurrent: colour,
+            maskCustomActive: true,
+        };
+    },
 };
 
 export default colourActions;
