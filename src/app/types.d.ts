@@ -79,8 +79,10 @@ declare namespace Accessabar {
         magHeight: number;
 
         maskActive: boolean;
+        maskCustomActive: boolean;
         maskOpacity: string;
-        maskColour: string;
+        maskColourCurrent: string;
+        maskColourCustomCurrent: string;
     }
 
     interface IActions extends
@@ -91,10 +93,10 @@ declare namespace Accessabar {
         ICloseActions,
         IMenuActions,
         ITTSActions,
-        ITextOptionsActions,
         ISelectActions,
         IColourActions,
-        IMagActions {}
+        IMagActions,
+        IMaskActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -149,6 +151,7 @@ declare namespace Accessabar {
         menuHandle(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         menuOpen(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         menuClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        menuTextOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface ITTSActions {
@@ -164,21 +167,20 @@ declare namespace Accessabar {
         ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
     }
 
-    interface ITextOptionsActions {
-        textOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
-    }
-
     interface ISelectActions {
         selectToggleSpeakHover(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleHighlightSpeak(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMagnifier(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        selectToggleMask(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IColourActions {
         colourChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         colourCustomChangeFont(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        colourChangeMask(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        colourCustomChangeMask(colour: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IMagActions {
@@ -193,6 +195,12 @@ declare namespace Accessabar {
         magUpdatePosition(): (state: Accessabar.IState) => Accessabar.IState;
         magScaleIncrease(): (state: Accessabar.IState) => Accessabar.IState;
         magScaleDecrease(): (state: Accessabar.IState) => Accessabar.IState;
+    }
+
+    interface IMaskActions {
+        maskEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        maskStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        maskColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {

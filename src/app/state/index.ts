@@ -25,7 +25,9 @@ const state: Accessabar.IState = {
     magWidth: 400,
 
     maskActive: false,
-    maskColour: '',
+    maskColourCurrent: '',
+    maskColourCustomCurrent: '#fff',
+    maskCustomActive: false,
     maskOpacity: '0.3',
 
     menuActive: false,
