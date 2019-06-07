@@ -1,4 +1,4 @@
-#accessabar .ab-text-colour-presets {
+#accessabar .ab-colour-presets {
     .ab-colours {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -17,7 +17,7 @@
             width: 100%;
             outline: 2px solid var(--near-black);
 
-            &.active, &:hover, &:focus {
+            &.ab-active, &:hover, &:focus {
                 outline: 2px solid var(--blue-focus);
                 box-shadow:
                     0 0 0 1px var(--blue-focus) inset,
@@ -73,7 +73,7 @@
     }
 }
 
-#accessabar .ab-text-colour-custom {
+#accessabar .ab-colour-custom {
     .ab-custom-container {
         justify-content: center;
         margin-top: 1em;
@@ -85,7 +85,7 @@
             width: 50%;
             outline: 2px solid var(--near-black);
 
-            &.active, &:hover, &:focus {
+            &.ab-active, &:hover, &:focus {
                 outline: 2px solid var(--blue-focus);
                 box-shadow:
                     0 0 0 1px var(--blue-focus) inset,
@@ -96,8 +96,9 @@
     }
 }
 
-#accessabar .ab-text-colour-custom, #accessabar .ab-text-colour-presets {
+#accessabar .ab-colour-custom, #accessabar .ab-colour-presets {
     align-items: center;
+    padding: 0 1em;
 
     > .ab-title {
         text-align: center;
