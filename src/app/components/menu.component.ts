@@ -12,6 +12,7 @@ const menuNames = new Map([
     ['tts', menus.ttsMenu],
     ['textOptions', menus.textOptionsMenu],
     ['magnifier', menus.magMenu],
+    ['masking', menus.maskMenu],
 ]);
 
 const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {

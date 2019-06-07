@@ -123,7 +123,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
             switchEl(state.fontColourActive, actions.fontColourEnable, 'Toggle Text Colour', 'Toggle the page text colour'),
         ]),
         section({ class: 'ab-box' }, [
-            div({ class: 'ab-text-colour-presets ab-growable ab-flex-column' }, [
+            div({ class: 'ab-colour-presets ab-growable ab-flex-column' }, [
                 span({ class: 'ab-title' }, 'Presets'),
                 div({ class: 'ab-colours' }, [
                     div(
@@ -200,7 +200,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     ),
                 ]),
             ]),
-            div({ class: 'ab-text-colour-custom ab-growable ab-flex-column' }, [
+            div({ class: 'ab-colour-custom ab-growable ab-flex-column' }, [
                 span({ class: 'ab-title' }, 'Custom'),
                 span({ class: 'ab-desc' }, [
                     'Click the box below',
@@ -211,7 +211,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                     div(
                         {
                             class: `ab-custom-box ${state.fontCustomActive ? 'ab-active' : ''}`,
-                            id: 'ab-colour-custom-box',
+                            id: 'ab-font-colour-custom-box',
                             oncreate: (el: HTMLElement) => {
                                 window.pickr = new Pickr({
                                     components: {
@@ -229,7 +229,7 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                                         opacity: true,
                                         preview: true,
                                     },
-                                    el: '#ab-colour-custom-box',
+                                    el: '#ab-font-colour-custom-box',
                                     onSave: (hsva) => {
                                         window.abar.appActions.colourCustomChangeFont(hsva.toHEX().toString());
                                     },
@@ -393,7 +393,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
                 {
                     class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'font' ? 'ab-active' : ''}`,
                     onclick: () => {
-                        actions.textOpsSwitchInner('font');
+                        actions.menuTextOpsSwitchInner('font');
                     },
                 },
                 'Font',
@@ -402,7 +402,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
                 {
                     class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'text_colour' ? 'ab-active' : ''}`,
                     onclick: () => {
-                        actions.textOpsSwitchInner('text_colour');
+                        actions.menuTextOpsSwitchInner('text_colour');
                     },
                 },
                 'Text Colour',
@@ -411,7 +411,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
                 {
                     class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'line_spacing' ? 'ab-active' : ''}`,
                     onclick: () => {
-                        actions.textOpsSwitchInner('line_spacing');
+                        actions.menuTextOpsSwitchInner('line_spacing');
                     },
                 },
                 'Line Spacing',
@@ -420,7 +420,7 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
                 {
                     class: `ab-menu-tab-button ${state.textOpsInnerMenuCurrent === 'letter_spacing' ? 'ab-active' : ''}`,
                     onclick: () => {
-                        actions.textOpsSwitchInner('letter_spacing');
+                        actions.menuTextOpsSwitchInner('letter_spacing');
                     },
                 },
                 'Letter Spacing',
@@ -498,8 +498,142 @@ const magMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     ]);
 };
 
+const maskMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    return div({ class: 'ab-menu-content' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            switchEl(state.maskActive, actions.selectToggleMask, 'Show Screen Mask', 'Show screen mask'),
+        ]),
+        section({ class: 'ab-box' }, [
+            div({ class: 'ab-colour-presets ab-growable ab-flex-column' }, [
+                span({ class: 'ab-title' }, 'Presets'),
+                div({ class: 'ab-colours' }, [
+                    div(
+                        {
+                            class: `ab-colour ab-red ${state.maskColourCurrent === 'red' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('red');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-blue ${state.maskColourCurrent === 'blue' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('blue');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-green ${state.maskColourCurrent === 'green' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('green');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-yellow ${state.maskColourCurrent === 'yellow' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('yellow');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-orange ${state.maskColourCurrent === 'orange' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('orange');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-purple ${state.maskColourCurrent === 'purple' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('purple');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-black ${state.maskColourCurrent === 'black' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('black');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-grey ${state.maskColourCurrent === 'grey' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('grey');
+                            },
+                        },
+                    ),
+                    div(
+                        {
+                            class: `ab-colour ab-white ${state.maskColourCurrent === 'white' ? 'ab-active' : ''}`,
+                            onclick: () => {
+                                actions.colourChangeMask('white');
+                            },
+                        },
+                    ),
+                ]),
+            ]),
+            div({ class: 'ab-colour-custom ab-growable ab-flex-column' }, [
+                span({ class: 'ab-title' }, 'Custom'),
+                span({ class: 'ab-desc' }, [
+                    'Click the box below',
+                    br(),
+                    'to select a custom colour.',
+                ]),
+                div({ class: 'ab-custom-container ab-flex' }, [
+                    div(
+                        {
+                            class: `ab-custom-box ${state.maskCustomActive ? 'ab-active' : ''}`,
+                            id: 'ab-mask-colour-custom-box',
+                            oncreate: (el: HTMLElement) => {
+                                window.pickr = new Pickr({
+                                    components: {
+                                        hue: true,
+                                        interaction: {
+                                            clear: false,
+                                            cmyk: false,
+                                            hex: true,
+                                            hsla: false,
+                                            hsva: false,
+                                            input: true,
+                                            rgba: true,
+                                            save: true,
+                                        },
+                                        opacity: true,
+                                        preview: true,
+                                    },
+                                    el: '#ab-mask-colour-custom-box',
+                                    onSave: (hsva) => {
+                                        window.abar.appActions.colourCustomChangeMask(hsva.toHEX().toString());
+                                    },
+                                    useAsButton: true,
+                                });
+                            },
+                            style: { background: state.maskColourCustomCurrent },
+                        },
+                    ),
+                ]),
+            ]),
+        ]),
+    ]);
+};
+
+//
+// const rulerOptionsInnerMenus = new Map([
+//     ['', textOptionsInnerFont],
+// ]);
+
 export {
     ttsMenu,
     textOptionsMenu,
     magMenu,
+    maskMenu,
 };
