@@ -204,6 +204,12 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             menuCurrent: '',
         };
     },
+
+    menuTextOpsSwitchInner: (current: string) => () => {
+        return {
+            textOpsInnerMenuCurrent: current,
+        };
+    },
 };
 
 export default menuActions;
