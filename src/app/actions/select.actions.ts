@@ -52,6 +52,14 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
             AccessabarUtil.startFunction('magnifier', magStop, magEnable);
         }
     },
+
+    selectToggleMask: () => ({ maskActive }, { maskEnable, maskStop }: Accessabar.IActions) => {
+        if (maskActive) {
+            AccessabarUtil.stopFunction('magnifier');
+        } else {
+            AccessabarUtil.startFunction('magnifier', maskStop, maskEnable);
+        }
+    },
 };
 
 export default selectActions;
