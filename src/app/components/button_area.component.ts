@@ -29,7 +29,7 @@ const buttonArea = (state, actions) => {
                     Buttons.fontResetButton(state),
                     Buttons.textOpsButton(actions),
                     Buttons.magButton(actions),
-                    Buttons.maskButton(),
+                    Buttons.maskButton(actions),
                     Buttons.rulerButton(),
                     Buttons.srButton(),
                 ]),

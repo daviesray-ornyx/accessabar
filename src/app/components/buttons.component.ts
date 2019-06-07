@@ -276,12 +276,19 @@ const magButton = ({ menuHandle }: IMagActions) => {
     );
 };
 
-const maskButton = () => {
+interface IMaskActions {
+    menuHandle: Accessabar.IActions['menuHandle'];
+}
+
+const maskButton = ({ menuHandle }: IMaskActions) => {
     return button(
         {
             'aria-label': 'Screen Masking',
             class: 'ab-bar-button',
             id: 'ab-screen-mask',
+            onclick: () => {
+                menuHandle('masking');
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-screen-mask', {
                     arrow: true,
