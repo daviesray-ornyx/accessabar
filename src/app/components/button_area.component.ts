@@ -30,7 +30,7 @@ const buttonArea = (state, actions) => {
                     Buttons.textOpsButton(actions),
                     Buttons.magButton(actions),
                     Buttons.maskButton(actions),
-                    Buttons.rulerButton(),
+                    Buttons.rulerButton(actions),
                     Buttons.srButton(),
                 ]),
             ]),
