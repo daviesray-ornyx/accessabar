@@ -3,7 +3,7 @@ import {
 } from '@hyperapp/html';
 
 const rulerReadingBar = (state) => {
-    return div({ class: 'reading-ruler' });
+    return div({ class: 'ab-reading-ruler' });
 };
 
 export default rulerReadingBar;
