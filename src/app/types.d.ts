@@ -86,6 +86,8 @@ declare namespace Accessabar {
         maskOpacityStep: number;
         maskOpacityMin: number;
         maskOpacityMax: number;
+
+        rulerOpsInnerMenuCurrent: string;
     }
 
     interface IActions extends
@@ -155,6 +157,7 @@ declare namespace Accessabar {
         menuOpen(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         menuClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         menuTextOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
+        menuRulerOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface ITTSActions {
