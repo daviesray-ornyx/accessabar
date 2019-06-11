@@ -682,14 +682,47 @@ const maskMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     ]);
 };
 
-//
-// const rulerOptionsInnerMenus = new Map([
-//     ['', textOptionsInnerFont],
-// ]);
+const rulerOptionsInnerReading = (state, actions) => {
+    return div({ class: 'ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            switchEl(state.rulerReadingActive, actions.selectToggleReadingRuler, 'Toggle Reading Ruler', 'Toggle the reading ruler'),
+        ]),
+    ]);
+};
+
+const rulerOptionsInnerMenus = new Map([
+    ['reading', rulerOptionsInnerReading],
+]);
+
+const rulerOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    let innerMenu = div();
+
+    if (rulerOptionsInnerMenus.has(state.rulerOpsInnerMenuCurrent)) {
+        innerMenu = (rulerOptionsInnerMenus.get(state.rulerOpsInnerMenuCurrent) || rulerOptionsInnerReading)(state, actions);
+    }
+
+    return div({ class: 'ab-menu-container' }, [
+        div({ class: 'ab-menu-tabs' }, [
+            button(
+                {
+                    class: `ab-menu-tab-button ${state.rulerOpsInnerMenuCurrent === 'reading' ? 'ab-active' : ''}`,
+                    onclick: () => {
+                        actions.menuRulerOpsSwitchInner('reading');
+                    },
+                },
+                'Reading',
+            ),
+        ]),
+        div({ class: 'ab-menu-content' }, [
+            innerMenu,
+        ]),
+    ]);
+};
 
 export {
     ttsMenu,
     textOptionsMenu,
     magMenu,
     maskMenu,
+    rulerOptionsMenu,
 };

@@ -18,4 +18,9 @@
         title: 'Screen Masking Options',
         disableOnClose: true,
     },
+
+    rulerOptions: {
+        title: 'Ruler Options',
+        disableOnClose: true
+    },
 }
