@@ -83,6 +83,9 @@ const state: Accessabar.IState = {
     fontSizingActive: false,
 
     rulerOpsInnerMenuCurrent: 'reading',
+
+    rulerReadingActive: false,
+
     selectFontListActive: false,
 };
 

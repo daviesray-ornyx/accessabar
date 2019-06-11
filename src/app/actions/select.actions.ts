@@ -60,6 +60,14 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
             AccessabarUtil.startFunction('magnifier', maskStop, maskEnable);
         }
     },
+
+    selectToggleReadingRuler: () => ({ rulerReadingActive }, { rulerReadingEnable, rulerReadingStop }: Accessabar.IActions) => {
+        if (rulerReadingActive) {
+            AccessabarUtil.stopFunction('rulerReading');
+        } else {
+            AccessabarUtil.startFunction('rulerReading', rulerReadingStop, rulerReadingEnable);
+        }
+    },
 };
 
 export default selectActions;
