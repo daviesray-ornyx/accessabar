@@ -29,6 +29,9 @@ const state: Accessabar.IState = {
     maskColourCustomCurrent: '#fff',
     maskCustomActive: false,
     maskOpacity: '0.3',
+    maskOpacityMax: 0.95,
+    maskOpacityMin: 0.05,
+    maskOpacityStep: 0.05,
 
     menuActive: false,
     // If it's possible to drag the menu (mouse button has been pressed).

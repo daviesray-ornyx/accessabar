@@ -623,6 +623,62 @@ const maskMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                 ]),
             ]),
         ]),
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease mask opacity',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-mask-opacity-dec',
+                        onclick: () => {
+                            actions.maskDecreaseOpacity();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-mask-opacity-dec', {
+                                arrow: true,
+                                content: 'Decrease Mask Opacity',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-minus',
+                        }),
+                    ],
+                ),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Opacity'),
+                    span({ class: 'ab-count' }, `${new BigNumber(state.maskOpacity).times(100)}%`),
+                ]),
+                button(
+                    {
+                        'aria-label': 'Increase mask opacity',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-mask-opacity-inc',
+                        onclick: () => {
+                            actions.maskIncreaseOpacity();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-mask-opacity-inc', {
+                                arrow: true,
+                                content: 'Increase Zoom',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
+        ]),
     ]);
 };
 

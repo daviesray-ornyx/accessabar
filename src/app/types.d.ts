@@ -83,6 +83,9 @@ declare namespace Accessabar {
         maskOpacity: string;
         maskColourCurrent: string;
         maskColourCustomCurrent: string;
+        maskOpacityStep: number;
+        maskOpacityMin: number;
+        maskOpacityMax: number;
     }
 
     interface IActions extends
@@ -201,6 +204,9 @@ declare namespace Accessabar {
         maskEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         maskStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         maskColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
+        maskDecreaseOpacity(): (state: Accessabar.IState) => Accessabar.IState;
+        maskIncreaseOpacity(): (state: Accessabar.IState) => Accessabar.IState;
+    }
     }
 
     interface IConfigObject {

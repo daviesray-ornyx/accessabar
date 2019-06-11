@@ -1,4 +1,5 @@
 import { ActionsType } from 'hyperapp';
+import BigNumber from 'bignumber.js';
 
 const maskActions: ActionsType<Accessabar.IState, Accessabar.IMaskActions> = {
     maskEnable: () => ({ maskActive }) => {
@@ -26,6 +27,30 @@ const maskActions: ActionsType<Accessabar.IState, Accessabar.IMaskActions> = {
 
         return {
             maskColourCurrent: colour,
+        };
+    },
+
+    maskDecreaseOpacity: () => ({ maskOpacity, maskOpacityStep, maskOpacityMin }) => {
+        const newOpacity = new BigNumber(maskOpacity).minus(maskOpacityStep);
+
+        if (newOpacity.isLessThan(maskOpacityMin)) {
+            return;
+        }
+
+        return {
+            maskOpacity: newOpacity.toString(),
+        };
+    },
+
+    maskIncreaseOpacity: () => ({ maskOpacity, maskOpacityStep, maskOpacityMax }) => {
+        const newOpacity = new BigNumber(maskOpacity).plus(maskOpacityStep);
+
+        if (newOpacity.isGreaterThan(maskOpacityMax)) {
+            return;
+        }
+
+        return {
+            maskOpacity: newOpacity.toString(),
         };
     },
 };
