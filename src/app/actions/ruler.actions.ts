@@ -123,6 +123,30 @@ const rulerActions: ActionsType<Accessabar.IState, Accessabar.IRulerActions> = {
             rulerPinholeOpacity: newOpacity.toString(),
         };
     },
+
+    rulerPinholeSizeInc: () => ({ rulerPinholeCentreHeight, rulerPinholeCentreHeightStep, rulerPinholeCentreHeightMax }) => {
+        const newSize = rulerPinholeCentreHeight + rulerPinholeCentreHeightStep;
+
+        if (newSize > rulerPinholeCentreHeightMax) {
+            return;
+        }
+
+        return {
+            rulerPinholeCentreHeight: newSize,
+        };
+    },
+
+    rulerPinholeSizeDec: () => ({ rulerPinholeCentreHeight, rulerPinholeCentreHeightStep, rulerPinholeCentreHeightMin }) => {
+        const newSize = rulerPinholeCentreHeight - rulerPinholeCentreHeightStep;
+
+        if (newSize < rulerPinholeCentreHeightMin) {
+            return;
+        }
+
+        return {
+            rulerPinholeCentreHeight: newSize,
+        };
+    },
 };
 
 export default rulerActions;

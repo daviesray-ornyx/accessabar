@@ -104,6 +104,9 @@ declare namespace Accessabar {
         rulerPinholeOpacityMax: number;
         rulerPinholeOpacityStep: number;
         rulerPinholeCentreHeight: number;
+        rulerPinholeCentreHeightMax: number;
+        rulerPinholeCentreHeightMin: number;
+        rulerPinholeCentreHeightStep: number;
         rulerPinholeColourCurrent: string;
         rulerPinholeColourCustomCurrent: string;
         rulerPinholeCustomActive: boolean;
@@ -245,6 +248,8 @@ declare namespace Accessabar {
         rulerPinholeStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         rulerPinholeOpacityInc(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerPinholeSizeInc(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerPinholeSizeDec(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {
