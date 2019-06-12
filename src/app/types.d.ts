@@ -90,6 +90,14 @@ declare namespace Accessabar {
         rulerOpsInnerMenuCurrent: string;
 
         rulerReadingActive: boolean;
+        rulerReadingOffset: number;
+        rulerReadingOpacity: string;
+        rulerReadingOpacityMin: number;
+        rulerReadingOpacityMax: number;
+        rulerReadingOpacityStep: number;
+        rulerEventActive: boolean;
+        rulerMouseX: number;
+        rulerMouseY: number;
     }
 
     interface IActions extends
@@ -218,6 +226,11 @@ declare namespace Accessabar {
     interface IRulerActions {
         rulerReadingEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         rulerReadingStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerReadingOpacityInc(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerReadingOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerAddListener(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerMove(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {
@@ -245,6 +258,7 @@ declare namespace Accessabar {
     interface IMenuConfigObject {
         title: string;
         disableOnClose: boolean;
+        disableFunctions: string[];
     }
 
     interface IMenuConfig {
