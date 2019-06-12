@@ -189,11 +189,16 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     },
 
     menuClose: () => ({ menuCurrent }, { menuHide, menuRemoveListener }) => {
-        const config: Accessabar.IMenuConfig = menuConfig[menuCurrent];
-        const { disableOnClose } = config;
+        const config: Accessabar.IMenuConfigObject = menuConfig[menuCurrent];
+        const {
+            disableOnClose,
+            disableFunctions,
+        } = config;
 
-        if (disableOnClose) {
-            AccessabarUtil.stopFunction(menuCurrent);
+        if (disableOnClose && disableFunctions && disableFunctions.length > 0) {
+            for (const func of disableFunctions) {
+                AccessabarUtil.stopFunction(func);
+            }
         }
 
         menuRemoveListener();
