@@ -747,6 +747,8 @@ const rulerOptionsInnerReading = (state, actions) => {
 };
 
 const rulerOptionsInnerPinhole = (state, actions) => {
+    const size = state.rulerPinholeCentreHeight / state.rulerPinholeCentreHeightStep;
+
     return div({ class: 'ab-flex-column' }, [
         section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.rulerPinholeActive, actions.selectTogglePinholeRuler, 'Toggle Pinhole Ruler', 'Toggle the pinhole ruler'),
@@ -793,6 +795,62 @@ const rulerOptionsInnerPinhole = (state, actions) => {
                             tippy('#accessabar #ab-ruler-pinhole-opacity-inc', {
                                 arrow: true,
                                 content: 'Increase Ruler Opacity',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
+        ]),
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease pinhole ruler size',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-pinhole-ruler-size-dec',
+                        onclick: () => {
+                            actions.rulerPinholeSizeDec();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-pinhole-ruler-size-dec', {
+                                arrow: true,
+                                content: 'Decrease Ruler Size',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-minus',
+                        }),
+                    ],
+                ),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Size'),
+                    span({ class: 'ab-count' }, size),
+                ]),
+                button(
+                    {
+                        'aria-label': 'Increase pinhole ruler size',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-pinhole-ruler-size-inc',
+                        onclick: () => {
+                            actions.rulerPinholeSizeInc();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-ruler-pinhole-size-inc', {
+                                arrow: true,
+                                content: 'Increase Ruler Size',
                                 placement: 'bottom',
                                 theme: 'ab',
                             });
