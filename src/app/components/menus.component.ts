@@ -753,62 +753,62 @@ const rulerOptionsInnerPinhole = (state, actions) => {
         section({ class: 'ab-box ab-flex-column' }, [
             switchEl(state.rulerPinholeActive, actions.selectTogglePinholeRuler, 'Toggle Pinhole Ruler', 'Toggle the pinhole ruler'),
         ]),
-        section({ class: 'ab-box ab-flex-column' }, [
-            div({ class: 'ab-counter ab-growable' }, [
-                button(
-                    {
-                        'aria-label': 'Decrease pinhole ruler opacity',
-                        class: 'ab-dec ab-bar-button',
-                        id: 'ab-pinhole-ruler-opacity-dec',
-                        onclick: () => {
-                            actions.rulerPinholeOpacityDec();
-                        },
-                        oncreate: () => {
-                            tippy('#accessabar #ab-pinhole-ruler-opacity-dec', {
-                                arrow: true,
-                                content: 'Decrease Ruler Opacity',
-                                placement: 'bottom',
-                                theme: 'ab',
-                            });
-                        },
-                    },
-                    [
-                        i({
-                            'aria-hidden': true,
-                            class: 'ab-icon ab-icon-minus',
-                        }),
-                    ],
-                ),
-                div({ class: 'ab-count-container' }, [
-                    span({ class: 'ab-count-header' }, 'Opacity'),
-                    span({ class: 'ab-count' }, `${new BigNumber(state.rulerPinholeOpacity).times(100)}%`),
-                ]),
-                button(
-                    {
-                        'aria-label': 'Increase pinhole ruler opacity',
-                        class: 'ab-inc ab-bar-button',
-                        id: 'ab-pinhole-ruler-opacity-inc',
-                        onclick: () => {
-                            actions.rulerPinholeOpacityInc();
-                        },
-                        oncreate: () => {
-                            tippy('#accessabar #ab-ruler-pinhole-opacity-inc', {
-                                arrow: true,
-                                content: 'Increase Ruler Opacity',
-                                placement: 'bottom',
-                                theme: 'ab',
-                            });
-                        },
-                    },
-                    [
-                        i({
-                            'aria-hidden': true,
-                            class: 'ab-icon ab-icon-plus',
-                        }),
-                    ],
-                ),
-            ]),
-        ]),
+        // section({ class: 'ab-box ab-flex-column' }, [
+        //     div({ class: 'ab-counter ab-growable' }, [
+        //         button(
+        //             {
+        //                 'aria-label': 'Decrease pinhole ruler opacity',
+        //                 class: 'ab-dec ab-bar-button',
+        //                 id: 'ab-pinhole-ruler-opacity-dec',
+        //                 onclick: () => {
+        //                     actions.rulerPinholeOpacityDec();
+        //                 },
+        //                 oncreate: () => {
+        //                     tippy('#accessabar #ab-pinhole-ruler-opacity-dec', {
+        //                         arrow: true,
+        //                         content: 'Decrease Ruler Opacity',
+        //                         placement: 'bottom',
+        //                         theme: 'ab',
+        //                     });
+        //                 },
+        //             },
+        //             [
+        //                 i({
+        //                     'aria-hidden': true,
+        //                     class: 'ab-icon ab-icon-minus',
+        //                 }),
+        //             ],
+        //         ),
+        //         div({ class: 'ab-count-container' }, [
+        //             span({ class: 'ab-count-header' }, 'Opacity'),
+        //             span({ class: 'ab-count' }, `${new BigNumber(state.rulerPinholeOpacity).times(100)}%`),
+        //         ]),
+        //         button(
+        //             {
+        //                 'aria-label': 'Increase pinhole ruler opacity',
+        //                 class: 'ab-inc ab-bar-button',
+        //                 id: 'ab-pinhole-ruler-opacity-inc',
+        //                 onclick: () => {
+        //                     actions.rulerPinholeOpacityInc();
+        //                 },
+        //                 oncreate: () => {
+        //                     tippy('#accessabar #ab-ruler-pinhole-opacity-inc', {
+        //                         arrow: true,
+        //                         content: 'Increase Ruler Opacity',
+        //                         placement: 'bottom',
+        //                         theme: 'ab',
+        //                     });
+        //                 },
+        //             },
+        //             [
+        //                 i({
+        //                     'aria-hidden': true,
+        //                     class: 'ab-icon ab-icon-plus',
+        //                 }),
+        //             ],
+        //         ),
+        //     ]),
+        // ]),
         section({ class: 'ab-box ab-flex-column' }, [
             div({ class: 'ab-counter ab-growable' }, [
                 button(
