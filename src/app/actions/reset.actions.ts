@@ -5,6 +5,7 @@ const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
     resetAll: () => {
         const resetState = {
             magActive: state.magActive,
+            magScale: state.magScale,
 
             menuMouseX: state.menuMouseX,
             menuMouseY: state.menuMouseY,
