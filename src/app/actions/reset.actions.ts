@@ -4,8 +4,21 @@ import state from '../state';
 const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
     resetAll: () => {
         const resetState = {
+            fontActive: state.fontActive,
+            fontColourActive: state.fontColourActive,
+            fontColourCurrent: state.fontColourCurrent,
+            fontColourCustomCurrent: state.fontColourCustomCurrent,
+            fontLetterSpacingActive: state.fontLetterSpacingActive,
+            fontLetterSpacingCount: state.fontLetterSpacingCount,
+            fontLineSpacingActive: state.fontLineSpacingActive,
+            fontLineSpacingCount: state.fontLineSpacingCount,
+
             magActive: state.magActive,
             magScale: state.magScale,
+
+            maskColourCurrent: state.maskColourCurrent,
+            maskColourCustomCurrent: state.maskColourCustomCurrent,
+            maskOpacity: state.maskOpacity,
 
             menuMouseX: state.menuMouseX,
             menuMouseY: state.menuMouseY,
@@ -15,15 +28,6 @@ const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
 
             ttsHighlightSpeak: state.ttsHighlightSpeak,
             ttsHoverSpeak: state.ttsHoverSpeak,
-
-            fontActive: state.fontActive,
-            fontColourActive: state.fontColourActive,
-            fontLetterSpacingActive: state.fontLetterSpacingActive,
-            fontLetterSpacingCount: state.fontLetterSpacingCount,
-            fontLineSpacingActive: state.fontLineSpacingActive,
-            fontLineSpacingCount: state.fontLineSpacingCount,
-
-            maskOpacity: state.maskOpacity,
 
             selectFontListActive: state.selectFontListActive,
         };
