@@ -23,6 +23,8 @@ const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
             fontLineSpacingActive: state.fontLineSpacingActive,
             fontLineSpacingCount: state.fontLineSpacingCount,
 
+            maskOpacity: state.maskOpacity,
+
             selectFontListActive: state.selectFontListActive,
         };
 
