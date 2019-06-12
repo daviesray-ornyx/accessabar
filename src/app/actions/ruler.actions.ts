@@ -24,6 +24,22 @@ const rulerActions: ActionsType<Accessabar.IState, Accessabar.IRulerActions> = {
         };
     },
 
+    rulerPinholeEnable: () => (_, { rulerAddListener }) => {
+        rulerAddListener();
+
+        return {
+            rulerPinholeActive: true,
+        };
+    },
+
+    rulerPinholeStop: () => (_, { rulerRemoveListener }) => {
+        rulerRemoveListener();
+
+        return {
+            rulerPinholeActive: false,
+        };
+    },
+
     rulerAddListener: () => ({ rulerEventActive }) => {
         if (!rulerEventActive) {
             document.addEventListener('mousemove', rulerPassthrough);
@@ -81,6 +97,54 @@ const rulerActions: ActionsType<Accessabar.IState, Accessabar.IRulerActions> = {
 
         return {
             rulerReadingOpacity: newOpacity.toString(),
+        };
+    },
+
+    rulerPinholeOpacityInc: () => ({ rulerPinholeOpacity, rulerPinholeOpacityStep, rulerPinholeOpacityMax }) => {
+        const newOpacity = new BigNumber(rulerPinholeOpacity).plus(rulerPinholeOpacityStep);
+
+        if (newOpacity.isGreaterThan(rulerPinholeOpacityMax)) {
+            return;
+        }
+
+        return {
+            rulerPinholeOpacity: newOpacity.toString(),
+        };
+    },
+
+    rulerPinholeOpacityDec: () => ({ rulerPinholeOpacity, rulerPinholeOpacityStep, rulerPinholeOpacityMin }) => {
+        const newOpacity = new BigNumber(rulerPinholeOpacity).minus(rulerPinholeOpacityStep);
+
+        if (newOpacity.isLessThan(rulerPinholeOpacityMin)) {
+            return;
+        }
+
+        return {
+            rulerPinholeOpacity: newOpacity.toString(),
+        };
+    },
+
+    rulerPinholeSizeInc: () => ({ rulerPinholeCentreHeight, rulerPinholeCentreHeightStep, rulerPinholeCentreHeightMax }) => {
+        const newSize = rulerPinholeCentreHeight + rulerPinholeCentreHeightStep;
+
+        if (newSize > rulerPinholeCentreHeightMax) {
+            return;
+        }
+
+        return {
+            rulerPinholeCentreHeight: newSize,
+        };
+    },
+
+    rulerPinholeSizeDec: () => ({ rulerPinholeCentreHeight, rulerPinholeCentreHeightStep, rulerPinholeCentreHeightMin }) => {
+        const newSize = rulerPinholeCentreHeight - rulerPinholeCentreHeightStep;
+
+        if (newSize < rulerPinholeCentreHeightMin) {
+            return;
+        }
+
+        return {
+            rulerPinholeCentreHeight: newSize,
         };
     },
 };
