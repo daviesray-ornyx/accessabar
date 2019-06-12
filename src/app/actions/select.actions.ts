@@ -68,6 +68,14 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
             AccessabarUtil.startFunction('rulerReading', rulerReadingStop, rulerReadingEnable);
         }
     },
+
+    selectTogglePinholeRuler: () => ({ rulerPinholeActive }, { rulerPinholeEnable, rulerPinholeStop }: Accessabar.IActions) => {
+        if (rulerPinholeActive) {
+            AccessabarUtil.stopFunction('rulerPinhole');
+        } else {
+            AccessabarUtil.startFunction('rulerPinhole', rulerPinholeStop, rulerPinholeEnable);
+        }
+    },
 };
 
 export default selectActions;

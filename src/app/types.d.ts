@@ -98,6 +98,15 @@ declare namespace Accessabar {
         rulerEventActive: boolean;
         rulerMouseX: number;
         rulerMouseY: number;
+        rulerPinholeActive: boolean;
+        rulerPinholeOpacity: string;
+        rulerPinholeOpacityMin: number;
+        rulerPinholeOpacityMax: number;
+        rulerPinholeOpacityStep: number;
+        rulerPinholeCentreHeight: number;
+        rulerPinholeColourCurrent: string;
+        rulerPinholeColourCustomCurrent: string;
+        rulerPinholeCustomActive: boolean;
     }
 
     interface IActions extends
@@ -192,6 +201,7 @@ declare namespace Accessabar {
         selectToggleMagnifier(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMask(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleReadingRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        selectTogglePinholeRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IColourActions {
@@ -231,6 +241,10 @@ declare namespace Accessabar {
         rulerAddListener(): (state: Accessabar.IState) => Accessabar.IState;
         rulerRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
         rulerMove(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerPinholeEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerPinholeStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerPinholeOpacityInc(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerPinholeOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IConfigObject {

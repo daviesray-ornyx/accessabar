@@ -68,7 +68,16 @@
     },
 
     rulerReading: {
-        conflicts: [],
+        conflicts: [
+            'rulerPinhole',
+        ],
         disableOnClick: true,
-    }
+    },
+
+    rulerPinhole: {
+        conflicts: [
+            'rulerReading',
+        ],
+        disableOnClick: true,
+    },
 }

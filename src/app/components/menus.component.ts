@@ -746,8 +746,73 @@ const rulerOptionsInnerReading = (state, actions) => {
     ]);
 };
 
+const rulerOptionsInnerPinhole = (state, actions) => {
+    return div({ class: 'ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            switchEl(state.rulerPinholeActive, actions.selectTogglePinholeRuler, 'Toggle Pinhole Ruler', 'Toggle the pinhole ruler'),
+        ]),
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease pinhole ruler opacity',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-pinhole-ruler-opacity-dec',
+                        onclick: () => {
+                            actions.rulerPinholeOpacityDec();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-pinhole-ruler-opacity-dec', {
+                                arrow: true,
+                                content: 'Decrease Ruler Opacity',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-minus',
+                        }),
+                    ],
+                ),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Opacity'),
+                    span({ class: 'ab-count' }, `${new BigNumber(state.rulerPinholeOpacity).times(100)}%`),
+                ]),
+                button(
+                    {
+                        'aria-label': 'Increase pinhole ruler opacity',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-pinhole-ruler-opacity-inc',
+                        onclick: () => {
+                            actions.rulerPinholeOpacityInc();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-ruler-pinhole-opacity-inc', {
+                                arrow: true,
+                                content: 'Increase Ruler Opacity',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
+        ]),
+    ]);
+};
+
 const rulerOptionsInnerMenus = new Map([
     ['reading', rulerOptionsInnerReading],
+    ['pinhole', rulerOptionsInnerPinhole],
 ]);
 
 const rulerOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
@@ -767,6 +832,15 @@ const rulerOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions
                     },
                 },
                 'Reading',
+            ),
+            button(
+                {
+                    class: `ab-menu-tab-button ${state.rulerOpsInnerMenuCurrent === 'pinhole' ? 'ab-active' : ''}`,
+                    onclick: () => {
+                        actions.menuRulerOpsSwitchInner('pinhole');
+                    },
+                },
+                'Pinhole',
             ),
         ]),
         div({ class: 'ab-menu-content' }, [
