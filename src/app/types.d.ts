@@ -86,6 +86,18 @@ declare namespace Accessabar {
         maskOpacityStep: number;
         maskOpacityMin: number;
         maskOpacityMax: number;
+
+        rulerOpsInnerMenuCurrent: string;
+
+        rulerReadingActive: boolean;
+        rulerReadingOffset: number;
+        rulerReadingOpacity: string;
+        rulerReadingOpacityMin: number;
+        rulerReadingOpacityMax: number;
+        rulerReadingOpacityStep: number;
+        rulerEventActive: boolean;
+        rulerMouseX: number;
+        rulerMouseY: number;
     }
 
     interface IActions extends
@@ -99,7 +111,8 @@ declare namespace Accessabar {
         ISelectActions,
         IColourActions,
         IMagActions,
-        IMaskActions {}
+        IMaskActions,
+        IRulerActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -155,6 +168,7 @@ declare namespace Accessabar {
         menuOpen(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         menuClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         menuTextOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
+        menuRulerOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface ITTSActions {
@@ -177,6 +191,7 @@ declare namespace Accessabar {
         selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMagnifier(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMask(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        selectToggleReadingRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IColourActions {
@@ -207,6 +222,15 @@ declare namespace Accessabar {
         maskDecreaseOpacity(): (state: Accessabar.IState) => Accessabar.IState;
         maskIncreaseOpacity(): (state: Accessabar.IState) => Accessabar.IState;
     }
+
+    interface IRulerActions {
+        rulerReadingEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerReadingStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerReadingOpacityInc(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerReadingOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerAddListener(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerMove(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IConfigObject {
@@ -234,6 +258,7 @@ declare namespace Accessabar {
     interface IMenuConfigObject {
         title: string;
         disableOnClose: boolean;
+        disableFunctions: string[];
     }
 
     interface IMenuConfig {

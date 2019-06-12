@@ -210,6 +210,12 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             textOpsInnerMenuCurrent: current,
         };
     },
+
+    menuRulerOpsSwitchInner: (current: string) => () => {
+        return {
+            rulerOpsInnerMenuCurrent: current,
+        };
+    },
 };
 
 export default menuActions;

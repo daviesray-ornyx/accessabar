@@ -56,7 +56,9 @@
     },
 
     magnifier: {
-        conflicts: [],
+        conflicts: [
+            'rulerReading',
+        ],
         disableOnClick: true,
     },
 
@@ -64,4 +66,9 @@
         conflicts: [],
         disableOnClick: true,
     },
+
+    rulerReading: {
+        conflicts: [],
+        disableOnClick: true,
+    }
 }

@@ -682,14 +682,103 @@ const maskMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     ]);
 };
 
-//
-// const rulerOptionsInnerMenus = new Map([
-//     ['', textOptionsInnerFont],
-// ]);
+const rulerOptionsInnerReading = (state, actions) => {
+    return div({ class: 'ab-flex-column' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            switchEl(state.rulerReadingActive, actions.selectToggleReadingRuler, 'Toggle Reading Ruler', 'Toggle the reading ruler'),
+        ]),
+        section({ class: 'ab-box ab-flex-column' }, [
+            div({ class: 'ab-counter ab-growable' }, [
+                button(
+                    {
+                        'aria-label': 'Decrease reading ruler opacity',
+                        class: 'ab-dec ab-bar-button',
+                        id: 'ab-reading-ruler-opacity-dec',
+                        onclick: () => {
+                            actions.rulerReadingOpacityDec();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-reading-ruler-opacity-dec', {
+                                arrow: true,
+                                content: 'Decrease Ruler Opacity',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-minus',
+                        }),
+                    ],
+                ),
+                div({ class: 'ab-count-container' }, [
+                    span({ class: 'ab-count-header' }, 'Opacity'),
+                    span({ class: 'ab-count' }, `${new BigNumber(state.rulerReadingOpacity).times(100)}%`),
+                ]),
+                button(
+                    {
+                        'aria-label': 'Increase reading ruler opacity',
+                        class: 'ab-inc ab-bar-button',
+                        id: 'ab-reading-ruler-opacity-inc',
+                        onclick: () => {
+                            actions.rulerReadingOpacityInc();
+                        },
+                        oncreate: () => {
+                            tippy('#accessabar #ab-ruler-reading-opacity-inc', {
+                                arrow: true,
+                                content: 'Increase Ruler Opacity',
+                                placement: 'bottom',
+                                theme: 'ab',
+                            });
+                        },
+                    },
+                    [
+                        i({
+                            'aria-hidden': true,
+                            class: 'ab-icon ab-icon-plus',
+                        }),
+                    ],
+                ),
+            ]),
+        ]),
+    ]);
+};
+
+const rulerOptionsInnerMenus = new Map([
+    ['reading', rulerOptionsInnerReading],
+]);
+
+const rulerOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    let innerMenu = div();
+
+    if (rulerOptionsInnerMenus.has(state.rulerOpsInnerMenuCurrent)) {
+        innerMenu = (rulerOptionsInnerMenus.get(state.rulerOpsInnerMenuCurrent) || rulerOptionsInnerReading)(state, actions);
+    }
+
+    return div({ class: 'ab-menu-container' }, [
+        div({ class: 'ab-menu-tabs' }, [
+            button(
+                {
+                    class: `ab-menu-tab-button ${state.rulerOpsInnerMenuCurrent === 'reading' ? 'ab-active' : ''}`,
+                    onclick: () => {
+                        actions.menuRulerOpsSwitchInner('reading');
+                    },
+                },
+                'Reading',
+            ),
+        ]),
+        div({ class: 'ab-menu-content' }, [
+            innerMenu,
+        ]),
+    ]);
+};
 
 export {
     ttsMenu,
     textOptionsMenu,
     magMenu,
     maskMenu,
+    rulerOptionsMenu,
 };

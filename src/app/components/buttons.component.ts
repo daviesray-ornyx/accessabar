@@ -308,12 +308,19 @@ const maskButton = ({ menuHandle }: IMaskActions) => {
     );
 };
 
-const rulerButton = () => {
+interface IRulerActions {
+    menuHandle: Accessabar.IActions['menuHandle'];
+}
+
+const rulerButton = ({ menuHandle }: IRulerActions) => {
     return button(
         {
             'aria-label': 'Reading rulers',
             class: 'ab-bar-button',
             id: 'ab-rulers',
+            onclick: () => {
+                menuHandle('rulerOptions');
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-rulers', {
                     arrow: true,

@@ -82,6 +82,18 @@ const state: Accessabar.IState = {
     fontLineSpacingStep: 1,
     fontSizingActive: false,
 
+    rulerOpsInnerMenuCurrent: 'reading',
+
+    rulerEventActive: false,
+    rulerMouseX: 0,
+    rulerMouseY: 0,
+    rulerReadingActive: false,
+    rulerReadingOffset: 8,
+    rulerReadingOpacity: '0.9',
+    rulerReadingOpacityMax: 1,
+    rulerReadingOpacityMin: 0.2,
+    rulerReadingOpacityStep: 0.05,
+
     selectFontListActive: false,
 };
 
