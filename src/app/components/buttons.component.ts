@@ -5,7 +5,7 @@ import {
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
-const playButton = () => {
+const playButton = (actions) => {
     return button(
         {
             'aria-label': 'Play',
@@ -30,7 +30,7 @@ const playButton = () => {
     );
 };
 
-const pauseButton = () => {
+const pauseButton = (actions) => {
     return button(
         {
             'aria-label': 'Pause',
@@ -55,7 +55,7 @@ const pauseButton = () => {
     );
 };
 
-const stopButton = () => {
+const stopButton = (actions) => {
     return button(
         {
             'aria-label': 'Stop',
@@ -340,7 +340,7 @@ const rulerButton = ({ menuHandle }: IRulerActions) => {
     );
 };
 
-const srButton = () => {
+const srButton = (actions) => {
     return button(
         {
             'aria-label': 'Speech recognition',
@@ -397,7 +397,7 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     );
 };
 
-const settingsButton = () => {
+const settingsButton = (actions) => {
     return button(
         {
             'aria-label': 'Settings',
@@ -422,7 +422,11 @@ const settingsButton = () => {
     );
 };
 
-const closeButton = ({ closeAccessabar }) => {
+interface ICloseActions {
+    closeAccessabar: Accessabar.IActions['closeAccessabar'];
+}
+
+const closeButton = ({ closeAccessabar }: ICloseActions) => {
     return button(
         {
             'aria-label': 'Close Accessabar',

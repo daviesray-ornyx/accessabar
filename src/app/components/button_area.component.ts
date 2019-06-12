@@ -18,9 +18,9 @@ const buttonArea = (state, actions) => {
         [
             section([
                 div({ class: `ab-group ${state.ttsHoverSpeak || state.ttsHighlightSpeak ? '' : 'ab-hide'}`, 'aria-label': 'Sound controls' }, [
-                    Buttons.playButton(),
-                    Buttons.pauseButton(),
-                    Buttons.stopButton(),
+                    Buttons.playButton(actions),
+                    Buttons.pauseButton(actions),
+                    Buttons.stopButton(actions),
                 ]),
                 div({ class: 'ab-group' }, [
                     Buttons.ttsButton(actions),
@@ -31,12 +31,12 @@ const buttonArea = (state, actions) => {
                     Buttons.magButton(actions),
                     Buttons.maskButton(actions),
                     Buttons.rulerButton(actions),
-                    Buttons.srButton(),
+                    Buttons.srButton(actions),
                 ]),
             ]),
             section([
                 Buttons.resetButton(actions),
-                Buttons.settingsButton(),
+                Buttons.settingsButton(actions),
                 Buttons.closeButton(actions),
             ]),
         ],
