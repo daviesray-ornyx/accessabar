@@ -26,6 +26,10 @@ const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
             menuPosX: 50,
             menuPosY: window.abar.mainElement.getBoundingClientRect().height,
 
+            rulerPinholeCentreHeight: state.rulerPinholeCentreHeight,
+            rulerPinholeOpacity: state.rulerPinholeOpacity,
+            rulerReadingOpacity: state.rulerReadingOpacity,
+
             ttsHighlightSpeak: state.ttsHighlightSpeak,
             ttsHoverSpeak: state.ttsHoverSpeak,
 
