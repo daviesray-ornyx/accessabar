@@ -288,6 +288,12 @@ declare namespace Accessabar {
         clientX: number;
         clientY: number;
     }
+
+    interface IAccessabarConfig {
+        enableButton: string;
+        bindTo?: string;
+    }
+
 }
 
 // Allow png and json5 files to be imported

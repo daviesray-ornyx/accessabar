@@ -1,1 +1,3 @@
-const accessabar = new Accessabar('#enable-accessabar');
+const accessabar = new Accessabar({
+    enableButton: '#enable-accessabar',
+});

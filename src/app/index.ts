@@ -93,7 +93,7 @@ class AccessabarController {
      *
      * @memberof AccessabarController
      */
-    constructor(enableButton: string, bindTo: string = 'body') {
+    constructor({ enableButton, bindTo = 'body' }: Accessabar.IAccessabarConfig) {
         if (!enableButton) {
             throw new Error('[Accessabar] Error: no id given for button');
         }
