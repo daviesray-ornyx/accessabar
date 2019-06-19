@@ -24,6 +24,6 @@ Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`
 </html>
 ```
 
-## Adding via Node Module
+## Adding via ES6 Module
 > Coming Soon
 
