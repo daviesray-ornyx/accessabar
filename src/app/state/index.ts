@@ -107,6 +107,9 @@ const state: Accessabar.IState = {
     rulerReadingOpacityStep: 0.05,
 
     selectFontListActive: false,
+
+    srActive: false,
+    srRuntime: false,
 };
 
 export default state;

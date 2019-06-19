@@ -34,4 +34,10 @@
             'rulerReading'
         ],
     },
+
+    speechRecognition: {
+        title: 'Speech Recognition',
+        disableOnClose: true,
+        disableFunctions: [],
+    },
 }

@@ -14,6 +14,7 @@ const menuNames = new Map([
     ['magnifier', menus.magMenu],
     ['masking', menus.maskMenu],
     ['rulerOptions', menus.rulerOptionsMenu],
+    ['speechRecognition', menus.srMenu],
 ]);
 
 const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {

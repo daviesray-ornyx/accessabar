@@ -340,12 +340,19 @@ const rulerButton = ({ menuHandle }: IRulerActions) => {
     );
 };
 
-const srButton = (actions) => {
+interface ISRActions {
+    menuHandle: Accessabar.IActions['menuHandle'];
+}
+
+const srButton = ({ menuHandle }: ISRActions) => {
     return button(
         {
             'aria-label': 'Speech recognition',
             class: 'ab-bar-button',
             id: 'ab-speech-recognition',
+            onclick: () => {
+                menuHandle('speechRecognition');
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-speech-recognition', {
                     arrow: true,
