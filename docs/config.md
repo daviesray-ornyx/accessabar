@@ -7,7 +7,6 @@ Configuration options are currently limited, but will be expanded over time.
 ```javascript
 const accessabar = new Accessabar({
     enableButton: '#enable-accessabar',
-    bindTo: 'body',
 });
 ```
 
