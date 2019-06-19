@@ -1,4 +1,11 @@
 # Building Accessabar
+## Getting the source
+Clone the source from GitHub:
+```
+git clone git@github.com:HandsFree/accessabar.git
+cd accessabar
+```
+
 ## Dependencies
 All that's needed is an up to date version of [Yarn](https://yarnpkg.com/) to install all the dependencies. 
 
