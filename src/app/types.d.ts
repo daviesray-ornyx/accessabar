@@ -264,7 +264,9 @@ declare namespace Accessabar {
         srDisable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         srHandleResult(event: SpeechRecognitionEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srAddEvents(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        srOutput(str: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
     }
+
     interface IConfigObject {
         conflicts: string[];
         attrNames: {

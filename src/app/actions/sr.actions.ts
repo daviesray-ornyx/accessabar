@@ -63,8 +63,42 @@ const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
         srRuntime.onresult = srHandleResult;
     },
 
-    srHandleResult: (event: SpeechRecognitionEvent) => () => {
-        console.log(event);
+    srHandleResult: (event: SpeechRecognitionEvent) => (_, { srOutput }) => {
+        const finalSentence: string[] = [];
+
+        for (const alt of event.results[event.results.length - 1]) {
+            finalSentence.push(alt.transcript);
+        }
+
+        srOutput(finalSentence.join(''));
+    },
+
+    srOutput: (str: string) => () => {
+        const active = document.activeElement;
+
+        if (!active) {
+            return;
+        }
+
+        switch (active.nodeName) {
+        case 'INPUT':
+        case 'TEXTAREA':
+        case 'SELECT':
+            active.textContent += str;
+            break;
+        default:
+            if (active.hasAttribute('contenteditable') && active.getAttribute('contenteditable')) {
+                active.textContent += str;
+            }
+
+            break;
+        }
+
+        console.log(active);
+
+        const selection = getSelection();
+        selection.selectAllChildren(active);
+        selection.collapseToEnd();
     },
 };
 
