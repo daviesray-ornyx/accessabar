@@ -230,10 +230,12 @@ const textOptionsInnerTextColour = (state: Accessabar.IState, actions: Accessaba
                                         preview: true,
                                     },
                                     el: '#ab-font-colour-custom-box',
-                                    onSave: (hsva) => {
-                                        window.abar.appActions.colourCustomChangeFont(hsva.toHEX().toString());
-                                    },
+                                    theme: 'nano',
                                     useAsButton: true,
+                                });
+
+                                window.pickr.on('save', (hsva) => {
+                                    window.abar.appActions.colourCustomChangeFont(hsva.toHEXA().toString());
                                 });
                             },
                             style: { background: state.fontColourCustomCurrent },
@@ -611,10 +613,12 @@ const maskMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                                         preview: true,
                                     },
                                     el: '#ab-mask-colour-custom-box',
-                                    onSave: (hsva) => {
-                                        window.abar.appActions.colourCustomChangeMask(hsva.toHEX().toString());
-                                    },
+                                    theme: 'nano',
                                     useAsButton: true,
+                                });
+
+                                window.pickr.on('save', (hsva) => {
+                                    window.abar.appActions.colourCustomChangeMask(hsva.toHEXA().toString());
                                 });
                             },
                             style: { background: state.maskColourCustomCurrent },
