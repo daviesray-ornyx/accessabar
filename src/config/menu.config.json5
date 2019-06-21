@@ -37,7 +37,7 @@
 
     speechRecognition: {
         title: 'Speech Recognition',
-        disableOnClose: true,
+        disableOnClose: false,
         disableFunctions: [
             'speechRecognition',
         ],
