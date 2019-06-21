@@ -1,7 +1,7 @@
 {
     tts: {
         title: 'Text to Speech',
-        disableOnClose: true,
+        disableOnClose: false,
         disableFunctions: [
             'tts',
         ],
