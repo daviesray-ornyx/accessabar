@@ -110,6 +110,9 @@ declare namespace Accessabar {
         rulerPinholeColourCurrent: string;
         rulerPinholeColourCustomCurrent: string;
         rulerPinholeCustomActive: boolean;
+
+        srActive: boolean;
+        srRuntime: SpeechRecognition | boolean;
     }
 
     interface IActions extends
@@ -124,7 +127,8 @@ declare namespace Accessabar {
         IColourActions,
         IMagActions,
         IMaskActions,
-        IRulerActions {}
+        IRulerActions,
+        ISRActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -205,6 +209,7 @@ declare namespace Accessabar {
         selectToggleMask(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleReadingRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectTogglePinholeRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        selectToggleSpeechRecognition(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IColourActions {
@@ -250,6 +255,16 @@ declare namespace Accessabar {
         rulerPinholeOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeSizeInc(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeSizeDec(): (state: Accessabar.IState) => Accessabar.IState;
+    }
+
+    interface ISRActions {
+        srInitRuntime(): Accessabar.IState;
+        srStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        srEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        srDisable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        srHandleResult(event: SpeechRecognitionEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        srAddEvents(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        srOutput(str: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
     }
 
     interface IConfigObject {

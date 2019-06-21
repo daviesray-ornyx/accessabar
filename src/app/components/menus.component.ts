@@ -907,10 +907,19 @@ const rulerOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions
     ]);
 };
 
+const srMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    return div({ class: 'ab-menu-content' }, [
+        section({ class: 'ab-box ab-flex-column' }, [
+            switchEl(state.srActive, actions.selectToggleSpeechRecognition, 'Activate Speech Recognition', 'Activate Speech Recognition'),
+        ]),
+    ]);
+};
+
 export {
     ttsMenu,
     textOptionsMenu,
     magMenu,
     maskMenu,
     rulerOptionsMenu,
+    srMenu,
 };

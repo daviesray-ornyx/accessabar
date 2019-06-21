@@ -76,6 +76,14 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
             AccessabarUtil.startFunction('rulerPinhole', rulerPinholeStop, rulerPinholeEnable);
         }
     },
+
+    selectToggleSpeechRecognition: () => ({ srActive }, { srEnable, srDisable }: Accessabar.IActions) => {
+        if (srActive) {
+            AccessabarUtil.stopFunction('speechRecognition');
+        } else {
+            AccessabarUtil.startFunction('speechRecognition', srDisable, srEnable);
+        }
+    },
 };
 
 export default selectActions;

@@ -80,4 +80,9 @@
         ],
         disableOnClick: true,
     },
+
+    speechRecognition: {
+        conflicts: [],
+        disableOnClick: true,
+    }
 }
