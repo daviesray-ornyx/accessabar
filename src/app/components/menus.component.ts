@@ -12,7 +12,7 @@ import {
 import fontConfig from '../../config/fonts.config.json5';
 import { VNode } from 'hyperapp';
 import tippy from 'tippy.js';
-import Pickr from 'pickr-widget';
+import Pickr from '@simonwep/pickr';
 import BigNumber from 'bignumber.js';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
