@@ -84,13 +84,13 @@
   "dependencies": {
     "@babel/runtime-corejs2": "7.2.0",
     "@hyperapp/html": "1.1.1",
+    "@simonwep/pickr": "1.0.1",
     "@webcomponents/custom-elements": "1.2.1",
     "bignumber.js": "8.1.1",
     "hyperapp": "1.2.9",
     "normalize.css": "8.0.1",
-    "pickr-widget": "0.3.2",
     "rxjs": "6.4.0",
-    "tippy.js": "3.4.1",
-    "serve": "11.0.0"
+    "serve": "11.0.0",
+    "tippy.js": "3.4.1"
   }
 }
