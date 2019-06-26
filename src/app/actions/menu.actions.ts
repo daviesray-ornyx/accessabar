@@ -54,27 +54,51 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
         let x = menuPosX + (clientX - menuMouseX);
         let y = menuPosY + (clientY - menuMouseY);
 
+        let menuMoveXAllowed = true;
+        let menuMoveYAllowed = true;
+
         if (x < 0) {
             x = 0;
-            menuStopDrag();
+            menuMoveXAllowed = false;
         }
 
         if (x > windowWidth) {
             x = windowWidth;
-            menuStopDrag();
+            menuMoveXAllowed = false;
         }
 
         if (y < 0) {
             y = 0;
-            menuStopDrag();
+            menuMoveYAllowed = false;
         }
 
         if (y > windowHeight) {
             y = windowHeight;
-            menuStopDrag();
+            menuMoveYAllowed = false;
         }
 
-        // console.log(menuMouseX, menuMouseY, clientX, clientY, x, y, windowHeight, windowWidth, rect);
+        if (!menuMoveYAllowed && !menuMoveXAllowed) {
+            return {
+                menuPosX: x,
+                menuPosY: y,
+            };
+        }
+
+        if (!menuMoveXAllowed) {
+            return {
+                menuMouseY: clientY,
+                menuPosX: x,
+                menuPosY: y,
+            };
+        }
+
+        if (!menuMoveYAllowed) {
+            return {
+                menuMouseX: clientX,
+                menuPosX: x,
+                menuPosY: y,
+            };
+        }
 
         return {
             menuMouseX: clientX,
