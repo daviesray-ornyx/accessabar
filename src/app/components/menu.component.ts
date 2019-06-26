@@ -45,15 +45,6 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                     onmousedown: (event) => {
                         actions.menuStartDrag(event);
                     },
-                    onmouseup: () => {
-                        actions.menuStopDrag();
-                    },
-                    ontouchcancel: () => {
-                        actions.menuStopDrag();
-                    },
-                    ontouchend: () => {
-                        actions.menuStopDrag();
-                    },
                     ontouchstart: (event) => {
                         actions.menuStartDrag(event);
                     },

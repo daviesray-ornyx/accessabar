@@ -5,16 +5,22 @@ import AccessabarUtil from '../util';
 interface IDragEvent extends MouseEvent, TouchEvent {}
 
 function menuPassthrough(event) {
-    // console.log(event);
     window.abar.appActions.menuMove(event);
+}
+
+function menuDragPassthrough() {
+    window.abar.appActions.menuStopDrag();
 }
 
 const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     menuAddListener: () => ({ menuEvent }) => {
         if (!menuEvent) {
             document.addEventListener('mousemove', menuPassthrough);
-
             document.addEventListener('touchmove', menuPassthrough);
+
+            document.addEventListener('mouseup', menuDragPassthrough);
+            document.addEventListener('touchcancel', menuDragPassthrough);
+            document.addEventListener('touchend', menuDragPassthrough);
 
             return { menuEvent: true };
         }
@@ -23,8 +29,11 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     menuRemoveListener: () => ({ menuEvent }) => {
         if (menuEvent) {
             document.removeEventListener('mousemove', menuPassthrough);
-
             document.removeEventListener('touchmove', menuPassthrough);
+
+            document.removeEventListener('mouseup', menuDragPassthrough);
+            document.removeEventListener('touchcancel', menuDragPassthrough);
+            document.removeEventListener('touchend', menuDragPassthrough);
 
             return { menuEvent: false };
         }
