@@ -93,17 +93,15 @@ class AccessabarController {
      *
      * @memberof AccessabarController
      */
-    constructor({ enableButton, bindTo = 'body' }: Accessabar.IAccessabarConfig) {
-        if (!enableButton) {
-            throw new Error('[Accessabar] Error: no id given for button');
-        }
+    constructor({ enableButton = '', bindTo = 'body' }: Accessabar.IAccessabarConfig) {
+        if (enableButton) {
+            const buttonEl = document.querySelector(String(enableButton));
+            if (!buttonEl) {
+                throw Error('[Accessabar] Error: Cannot find element with the given id');
+            }
 
-        const buttonEl = document.querySelector(String(enableButton));
-        if (!buttonEl) {
-            throw Error('[Accessabar] Error: Cannot find element with the given id');
+            this.buttonElement = buttonEl;
         }
-
-        this.buttonElement = buttonEl;
 
         const bindEl = document.querySelector(String(bindTo));
         if (!bindEl) {
@@ -209,7 +207,9 @@ class AccessabarController {
      * @memberof AccessabarController
      */
     public initEnableButton() {
-        this.buttonElement.addEventListener('click', this.open.bind(this));
+        if (this.buttonElement) {
+            this.buttonElement.addEventListener('click', this.open.bind(this));
+        }
     }
 
     /**
