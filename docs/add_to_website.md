@@ -1,7 +1,7 @@
 # Adding to a Website
 If Accessabar was built from source, copy the `./public/dist/accessabar` folder to an accessible place within the website's directory.
 
-## Adding via HTML
+## Adding to the HTML
 Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`.
 
 ```html
@@ -23,7 +23,4 @@ Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`
   </body>
 </html>
 ```
-
-## Adding via ES6 Module
-> Coming Soon
 

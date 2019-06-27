@@ -2,6 +2,51 @@
 There are three main install options:
 <!-- tabs:start -->
 
+#### ** CDN **
+
+The quickest way to add Accessabar to a website is via a CDN.
+
+Add the script and CSS files to the website:
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@handsfree/accessabar/public/dist/accessabar/app.css">
+<script src="https://cdn.jsdelivr.net/npm/@handsfree/accessabar/public/dist/accessabar/accessabar.bundle.js"></script>
+```
+
+Configure Accessabar by adding a script to the website:
+```javascript
+const accessabar = new Accessabar({
+    // Selector matching element that enables Accessabar.
+    enableButton: '#enable-accessabar',
+});
+```
+
+Accessabar will open when `enableButton` is clicked.
+
+#### ** ES6 Module **
+
+Install the package `@handsfree/accessabar`:
+```
+yarn add @handsfree/accessabar
+```
+
+Import Accessabar:
+```javascript
+import '@handsfree/accessabar/public/dist/accessabar/app.css';
+import Accessabar from '@handsfree/accessabar';
+
+const accessabar = new Accessabar({
+    // Selector matching element that enables Accessabar.
+    // Not needed if opening manually.
+    enableButton: '#enable-accessabar',
+});
+
+// Manually open
+accessabar.open();
+
+// Manually close
+accessabar.close();
+```
+
 #### ** From Source **
 > In depth instructions [here](build.md)
 
@@ -18,7 +63,7 @@ yarn build
 
 Files are outputted to `./public/dist/accessabar`. Copy the accessabar folder to the website folder.
 
-Add the script and css files:
+Add the script and CSS files to the website:
 ```html
 <link rel="stylesheet" href="path/to/accessabar/app.css">
 <script src="path/to/accessabar/accessabar.bundle.js"></script>
@@ -27,16 +72,11 @@ Add the script and css files:
 Configure Accessabar by adding a script to the website:
 ```javascript
 const accessabar = new Accessabar({
+    // Selector matching element that enables Accessabar.
     enableButton: '#enable-accessabar',
 });
 ```
 
-#### ** unpkg.com **
-
-> Coming Soon
-
-#### ** ES6 Module **
-
-> Coming Soon
+Accessabar will open when `enableButton` is clicked.
 
 <!-- tabs:end -->

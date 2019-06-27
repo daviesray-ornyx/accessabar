@@ -23,12 +23,12 @@ Default | Type | Optional
 --- | --- | ---
 `undefined` | `string` | No
 
-Query selector for the element that opens Accessabar when clicked.
+Selector for the element that opens Accessabar when clicked.
 
 ### bindTo
 Default | Type | Optional
 --- | --- | ---
 `body` | `string` | Yes
 
-Query selector for the element Accessabar will bind to. Accessabar will be placed inside this element as the first child.
+Selector for the element Accessabar will bind to. Accessabar will be placed inside this element as the first child.
 
