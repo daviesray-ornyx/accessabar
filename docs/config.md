@@ -21,9 +21,10 @@ const accessabar = new Accessabar({
 ### enableButton
 Default | Type | Optional
 --- | --- | ---
-`undefined` | `string` | No
+`undefined` | `string` | Yes
 
 Selector for the element that opens Accessabar when clicked.
+If this option is not provided, then Accessabar must be opened manually.
 
 ### bindTo
 Default | Type | Optional
