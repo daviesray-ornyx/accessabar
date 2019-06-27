@@ -13,24 +13,6 @@ const { resolve } = require('path');
 // const { length: cpuCount } = require('os').cpus();
 
 //
-// ─── CONFIG FUNCTION ────────────────────────────────────────────────────────────
-//
-
-const config = (env) => {
-    const dev = env.mode === 'development';
-    const devServer = env.server === 'enabled';
-    const dash = env.dash === 'enabled';
-    const verbose = env.verbose === 'enabled';
-
-    const entries = {
-        accessabar: './',
-    };
-
-    /* eslint-disable no-use-before-define */
-    return mainSettings(entries, dev, devServer, dash, verbose);
-};
-
-//
 // ─── BANNERS ────────────────────────────────────────────────────────────────────
 //
 
@@ -86,7 +68,7 @@ const imageFileLoader = {
     },
 };
 
-const fontFileLoader = {
+let fontFileLoader = {
     loader: 'file-loader',
     options: {
         outputPath: 'fonts/',
@@ -108,6 +90,35 @@ const optLoaders = [
     //     },
     // },
 ];
+
+//
+// ─── CONFIG FUNCTION ────────────────────────────────────────────────────────────
+//
+
+const config = (env) => {
+    const dev = env.mode === 'development';
+    const devServer = env.server === 'enabled';
+    const dash = env.dash === 'enabled';
+    const verbose = env.verbose === 'enabled';
+
+    const entries = {
+        accessabar: './',
+    };
+
+    if (env.npm && env.npm === 'enabled') {
+        fontFileLoader = {
+            loader: 'file-loader',
+            options: {
+                emitFile: false,
+                name: '[name].[ext]',
+                publicPath: 'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/fonts/',
+            },
+        };
+    }
+
+    /* eslint-disable no-use-before-define */
+    return mainSettings(entries, dev, devServer, dash, verbose);
+};
 
 //
 // ─── MAIN CONFIG ────────────────────────────────────────────────────────────────
