@@ -8,8 +8,8 @@ The quickest way to add Accessabar to a website is via a CDN.
 
 Add the script and CSS files to the website:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@handsfree/accessabar/public/dist/accessabar/app.css">
-<script src="https://cdn.jsdelivr.net/npm/@handsfree/accessabar/public/dist/accessabar/accessabar.bundle.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@handsfree/accessabar@latest/public/dist/accessabar/app.css">
+<script src="https://cdn.jsdelivr.net/npm/@handsfree/accessabar@latest/public/dist/accessabar/accessabar.bundle.js"></script>
 ```
 
 Configure Accessabar by adding a script to the website:
