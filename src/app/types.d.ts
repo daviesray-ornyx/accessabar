@@ -305,7 +305,7 @@ declare namespace Accessabar {
     }
 
     interface IAccessabarConfig {
-        enableButton: string;
+        enableButton?: string;
         bindTo?: string;
     }
 

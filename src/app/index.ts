@@ -93,7 +93,7 @@ class AccessabarController {
      *
      * @memberof AccessabarController
      */
-    constructor({ enableButton = '', bindTo = 'body' }: Accessabar.IAccessabarConfig) {
+    constructor({ enableButton = '', bindTo = 'body' }: Accessabar.IAccessabarConfig = {}) {
         if (enableButton) {
             const buttonEl = document.querySelector(String(enableButton));
             if (!buttonEl) {
