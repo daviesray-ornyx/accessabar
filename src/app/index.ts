@@ -75,6 +75,14 @@ class AccessabarController {
     public appActions: Accessabar.IActions;
 
     /**
+     * Position of Accessabar on the page.
+     *
+     * @type string
+     * @memberOf AccessabarController
+     */
+    public position: string;
+
+    /**
      * Set to true when Accessabar has been rendered on the page.
      *
      * @private
@@ -85,15 +93,18 @@ class AccessabarController {
     /**
      * Creates an instance of AccessabarController.
      *
-     * @param {string} enableButton
-     * Query selector string for element that enables Accessabar
+     * @param {string} enableButton = ''
+     * Optional; Query selector string for element that enables Accessabar
      *
-     * @param {string} [bindTo='body']
+     * @param {string} bindTo = 'body'
      * Optional; Query selector for element Accessabar will bind to (be inside).
+     *
+     * @param {string} position = 'top'
+     * Optional; Position of Accessabar.
      *
      * @memberof AccessabarController
      */
-    constructor({ enableButton = '', bindTo = 'body' }: Accessabar.IAccessabarConfig = {}) {
+    constructor({ enableButton = '', bindTo = 'body', position = 'top' }: Accessabar.IAccessabarConfig = {}) {
         if (enableButton) {
             const buttonEl = document.querySelector(String(enableButton));
             if (!buttonEl) {
@@ -109,6 +120,14 @@ class AccessabarController {
         }
 
         this.bindTo = bindEl;
+
+        const positions = new Set(['top', 'bottom']);
+
+        if (!positions.has(position)) {
+            throw Error(`[Accessabar] Error: The given position '${position}' is not valid. Options are: top, bottom.`);
+        }
+
+        this.position = position;
 
         // Allows easy access during runtime to separate parts of the code
         window.abar = this;
@@ -157,7 +176,7 @@ class AccessabarController {
     public toggleShow() {
         if (!this.rendered) {
             const renderFunc = () => {
-                const containerEl = new AccessabarElement();
+                const containerEl = this.setContainerStyle(new AccessabarElement());
 
                 containerEl.id = 'accessabar';
                 this.mainElement = containerEl;
@@ -199,6 +218,26 @@ class AccessabarController {
 
         this.mainElement.classList.add('hide');
         document.body.style.marginTop = '0';
+    }
+
+    /**
+     * Sets the dynamic styles of the container element.
+     *
+     * @param containerEl
+     */
+
+    public setContainerStyle(containerEl: AccessabarElement) {
+        switch (this.position) {
+        default:
+        case 'top':
+            containerEl.style.top = '0';
+            break;
+        case 'bottom':
+            containerEl.style.bottom = '0';
+            break;
+        }
+
+        return containerEl;
     }
 
     /**
