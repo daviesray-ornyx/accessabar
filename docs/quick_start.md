@@ -13,11 +13,20 @@ Add the script and CSS files to the website:
 ```
 
 Configure Accessabar by adding a script to the website:
-```javascript
-const accessabar = new Accessabar({
-    // Selector matching element that enables Accessabar.
-    enableButton: '#enable-accessabar',
-});
+```html
+<body>
+
+    <!-- PAGE CONTENT -->
+    
+    <button id="enable-accessabar">Enable Accessabar</button>
+
+    <script>
+        const accessabar = new Accessabar({
+            // Selector matching element that enables Accessabar.
+            enableButton: '#enable-accessabar',
+        });
+    </script>
+</body>
 ```
 
 Accessabar will open when `enableButton` is clicked.
@@ -70,11 +79,20 @@ Add the script and CSS files to the website:
 ```
 
 Configure Accessabar by adding a script to the website:
-```javascript
-const accessabar = new Accessabar({
-    // Selector matching element that enables Accessabar.
-    enableButton: '#enable-accessabar',
-});
+```html
+<body>
+
+    <!-- PAGE CONTENT -->
+    
+    <button id="enable-accessabar">Enable Accessabar</button>
+
+    <script>
+        const accessabar = new Accessabar({
+            // Selector matching element that enables Accessabar.
+            enableButton: '#enable-accessabar',
+        });
+    </script>
+</body>
 ```
 
 Accessabar will open when `enableButton` is clicked.
