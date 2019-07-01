@@ -308,6 +308,7 @@ declare namespace Accessabar {
         enableButton?: string;
         bindTo?: string;
         position?: string;
+        moveBody?: boolean;
     }
 
 }
