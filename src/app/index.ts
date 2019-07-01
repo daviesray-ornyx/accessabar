@@ -152,6 +152,11 @@ class AccessabarController {
         }
 
         this.position = position;
+
+        // -- moveBody --
+        if (typeof moveBody === 'boolean') {
+            this.moveBody = moveBody;
+        }
     }
 
     /**
@@ -221,7 +226,9 @@ class AccessabarController {
             this.mainElement.classList.remove('hide');
         }
 
-        AccessabarUtil.moveBody();
+        if (this.moveBody) {
+            AccessabarUtil.moveBody();
+        }
     }
 
     /**
