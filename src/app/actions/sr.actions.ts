@@ -95,8 +95,11 @@ const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
         }
 
         const selection = getSelection();
-        selection.selectAllChildren(active);
-        selection.collapseToEnd();
+
+        if (selection) {
+            selection.selectAllChildren(active);
+            selection.collapseToEnd();
+        }
     },
 };
 
