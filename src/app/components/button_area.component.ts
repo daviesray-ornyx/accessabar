@@ -10,9 +10,11 @@ const buttonArea = (state, actions) => {
     return div(
         {
             class: 'ab-button-area ab-growable',
-            // Adds margin to body when Accessabar is added to DOM.
             oncreate: () => {
-                AccessabarUtil.createSpace();
+                if (window.abar.moveBody) {
+                    // Adds margin to body when Accessabar is added to DOM.
+                    AccessabarUtil.createSpace();
+                }
             },
         },
         [

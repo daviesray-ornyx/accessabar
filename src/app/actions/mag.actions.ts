@@ -201,8 +201,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             magPage.contentDocument.body.style.marginTop = `${elRect.height / 4}px`;
             magPage.contentDocument.body.style.marginLeft = `${elRect.width / 4}px`;
 
-            console.log(magPosY);
-
             return {
                 magPageX: -magBorder,
                 magPageY: -magBorder,

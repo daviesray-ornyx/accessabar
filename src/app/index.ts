@@ -83,6 +83,17 @@ class AccessabarController {
     public position: string;
 
     /**
+     * If enabled, the margin top of the documents body
+     * will equal Accessabar's height. This in effect will move the pages content
+     * down in order to make space for Accessabar.
+     *
+     * @type boolean
+     * @memberOf AccessabarController
+     */
+
+    public moveBody: boolean;
+
+    /**
      * Set to true when Accessabar has been rendered on the page.
      *
      * @private
@@ -102,9 +113,18 @@ class AccessabarController {
      * @param {string} position = 'top'
      * Optional; Position of Accessabar.
      *
+     * @param {boolean} moveBody = true
+     * Optional; If enabled, the margin top of the documents body
+     * will equal Accessabar's height. This in effect will move the pages content
+     * down in order to make space for Accessabar.
+     *
      * @memberof AccessabarController
      */
-    constructor({ enableButton = '', bindTo = 'body', position = 'top' }: Accessabar.IAccessabarConfig = {}) {
+    constructor({ enableButton = '', bindTo = 'body', position = 'top', moveBody = true }: Accessabar.IAccessabarConfig = {}) {
+        // Allows easy access during runtime to separate parts of the code
+        window.abar = this;
+
+        // -- enableButton --
         if (enableButton) {
             const buttonEl = document.querySelector(String(enableButton));
             if (!buttonEl) {
@@ -112,8 +132,11 @@ class AccessabarController {
             }
 
             this.buttonElement = buttonEl;
+
+            this.initEnableButton();
         }
 
+        // -- bindTo
         const bindEl = document.querySelector(String(bindTo));
         if (!bindEl) {
             throw Error('[Accessabar] Error: Cannot find element to bind to with the given id');
@@ -121,6 +144,7 @@ class AccessabarController {
 
         this.bindTo = bindEl;
 
+        // -- position --
         const positions = new Set(['top', 'bottom']);
 
         if (!positions.has(position)) {
@@ -129,19 +153,10 @@ class AccessabarController {
 
         this.position = position;
 
-        // Allows easy access during runtime to separate parts of the code
-        window.abar = this;
-
-        this.init();
-    }
-
-    /**
-     * Initialises Accessabar; all setup code is started here.
-     *
-     * @memberof AccessabarController
-     */
-    public init() {
-        this.initEnableButton();
+        // -- moveBody --
+        if (typeof moveBody === 'boolean') {
+            this.moveBody = moveBody;
+        }
     }
 
     /**
@@ -202,22 +217,6 @@ class AccessabarController {
 
             return;
         }
-
-        // hide Accessabar if enable button is clicked
-        if (!this.mainElement) {
-            return;
-        }
-
-        if (this.mainElement.classList.contains('hide')) {
-            this.mainElement.classList.remove('hide');
-
-            AccessabarUtil.moveBody();
-
-            return;
-        }
-
-        this.mainElement.classList.add('hide');
-        document.body.style.marginTop = '0';
     }
 
     /**
