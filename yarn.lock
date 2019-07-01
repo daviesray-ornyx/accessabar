@@ -801,10 +801,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@simonwep/pickr@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.0.1.tgz#c8c9e4f9f772193fc1ec0f4b0de2b39721733e81"
-  integrity sha512-Y2w4xDBcdtNXE7bonofSwE441q04mBPkloLAlIYqWKwxsPbrAAUrapHwkWCZybVkJ8/wH0o0B/rpfTS/bHQ+lQ==
+"@simonwep/pickr@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.2.0.tgz#9fead37efe53e0afa89185a2a43177ac0d6b1d79"
+  integrity sha512-pdJ5jVVHFe4NBEXkbLvgT35Rz8ximd03dJEL2K5XkvEE2IKCsvwln32jJBOf59R/38CCquURgCm8fdcDohzytQ==
 
 "@types/anymatch@*":
   version "1.3.1"
