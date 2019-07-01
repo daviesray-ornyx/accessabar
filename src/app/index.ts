@@ -121,6 +121,10 @@ class AccessabarController {
      * @memberof AccessabarController
      */
     constructor({ enableButton = '', bindTo = 'body', position = 'top', moveBody = true }: Accessabar.IAccessabarConfig = {}) {
+        // Allows easy access during runtime to separate parts of the code
+        window.abar = this;
+
+        // -- enableButton --
         if (enableButton) {
             const buttonEl = document.querySelector(String(enableButton));
             if (!buttonEl) {
@@ -128,8 +132,11 @@ class AccessabarController {
             }
 
             this.buttonElement = buttonEl;
+
+            this.initEnableButton();
         }
 
+        // -- bindTo
         const bindEl = document.querySelector(String(bindTo));
         if (!bindEl) {
             throw Error('[Accessabar] Error: Cannot find element to bind to with the given id');
@@ -137,6 +144,7 @@ class AccessabarController {
 
         this.bindTo = bindEl;
 
+        // -- position --
         const positions = new Set(['top', 'bottom']);
 
         if (!positions.has(position)) {
@@ -144,20 +152,6 @@ class AccessabarController {
         }
 
         this.position = position;
-
-        // Allows easy access during runtime to separate parts of the code
-        window.abar = this;
-
-        this.init();
-    }
-
-    /**
-     * Initialises Accessabar; all setup code is started here.
-     *
-     * @memberof AccessabarController
-     */
-    public init() {
-        this.initEnableButton();
     }
 
     /**
