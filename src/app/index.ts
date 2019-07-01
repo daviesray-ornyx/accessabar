@@ -113,9 +113,14 @@ class AccessabarController {
      * @param {string} position = 'top'
      * Optional; Position of Accessabar.
      *
+     * @param {boolean} moveBody = true
+     * Optional; If enabled, the margin top of the documents body
+     * will equal Accessabar's height. This in effect will move the pages content
+     * down in order to make space for Accessabar.
+     *
      * @memberof AccessabarController
      */
-    constructor({ enableButton = '', bindTo = 'body', position = 'top' }: Accessabar.IAccessabarConfig = {}) {
+    constructor({ enableButton = '', bindTo = 'body', position = 'top', moveBody = true }: Accessabar.IAccessabarConfig = {}) {
         if (enableButton) {
             const buttonEl = document.querySelector(String(enableButton));
             if (!buttonEl) {
