@@ -203,21 +203,15 @@ class AccessabarController {
             return;
         }
 
-        // hide Accessabar if enable button is clicked
         if (!this.mainElement) {
             return;
         }
 
         if (this.mainElement.classList.contains('hide')) {
             this.mainElement.classList.remove('hide');
-
-            AccessabarUtil.moveBody();
-
-            return;
         }
 
-        this.mainElement.classList.add('hide');
-        document.body.style.marginTop = '0';
+        AccessabarUtil.moveBody();
     }
 
     /**
