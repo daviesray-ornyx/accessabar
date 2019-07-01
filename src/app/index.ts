@@ -234,6 +234,8 @@ class AccessabarController {
         case 'bottom':
             containerEl.style.bottom = '0';
             break;
+        case 'none':
+            break;
         }
 
         return containerEl;
