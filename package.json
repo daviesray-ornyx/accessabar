@@ -24,13 +24,13 @@
     "serve": "serve ./public/"
   },
   "devDependencies": {
-    "@babel/core": "7.2.2",
-    "@babel/plugin-proposal-class-properties": "7.2.3",
-    "@babel/plugin-proposal-decorators": "7.2.3",
+    "@babel/core": "7.4.5",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/plugin-proposal-decorators": "7.4.4",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/plugin-transform-runtime": "7.2.0",
-    "@babel/preset-env": "7.2.3",
-    "@babel/preset-typescript": "7.1.0",
+    "@babel/plugin-transform-runtime": "7.4.4",
+    "@babel/preset-env": "7.4.5",
+    "@babel/preset-typescript": "7.3.3",
     "@types/jquery": "3.3.30",
     "@types/node": "10.14.10",
     "@types/webpack": "4.4.23",
@@ -84,7 +84,7 @@
     "webpack-dev-server": "3.1.14"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "7.2.0",
+    "@babel/runtime-corejs2": "7.4.5",
     "@hyperapp/html": "1.1.1",
     "@simonwep/pickr": "1.2.0",
     "@webcomponents/custom-elements": "1.2.4",
