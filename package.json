@@ -32,7 +32,7 @@
     "@babel/preset-env": "7.2.3",
     "@babel/preset-typescript": "7.1.0",
     "@types/jquery": "3.3.30",
-    "@types/node": "10.12.18",
+    "@types/node": "10.14.10",
     "@types/webpack": "4.4.23",
     "@types/webpack-env": "1.13.6",
     "autoprefixer": "9.4.5",
