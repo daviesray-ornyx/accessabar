@@ -198,12 +198,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
         if (magPosX === 0 && magPosY === 0) {
             // mag glass loads in the top left corner
-            if (window.abar.moveBody) {
-                magPage.contentDocument.body.style.marginTop = `${elRect.height / 4}px`;
-                magPage.contentDocument.body.style.marginLeft = `${elRect.width / 4}px`;
-            }
-
-            console.log(magPosY);
+            magPage.contentDocument.body.style.marginTop = `${elRect.height / 4}px`;
+            magPage.contentDocument.body.style.marginLeft = `${elRect.width / 4}px`;
 
             return {
                 magPageX: -magBorder,
