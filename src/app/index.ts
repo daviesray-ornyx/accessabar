@@ -83,6 +83,17 @@ class AccessabarController {
     public position: string;
 
     /**
+     * If enabled, the margin top of the documents body
+     * will equal Accessabar's height. This in effect will move the pages content
+     * down in order to make space for Accessabar.
+     *
+     * @type boolean
+     * @memberOf AccessabarController
+     */
+
+    public moveBody: boolean;
+
+    /**
      * Set to true when Accessabar has been rendered on the page.
      *
      * @private
