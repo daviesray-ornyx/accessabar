@@ -17,6 +17,10 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
             return;
         }
 
+        if (!selection) {
+            return;
+        }
+
         selection.removeAllRanges();
         selection.selectAllChildren((target as Node));
 
@@ -32,7 +36,13 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
     },
 
     ttsHandleHighlight: () => ({ ttsHighlightTimeout }) => {
-        const currentText = window.getSelection().toString();
+        const selection = window.getSelection();
+
+        if (!selection) {
+            return;
+        }
+
+        const currentText = selection.toString();
 
         if (ttsHighlightTimeout && typeof ttsHighlightTimeout !== 'boolean') {
             clearTimeout(ttsHighlightTimeout);
