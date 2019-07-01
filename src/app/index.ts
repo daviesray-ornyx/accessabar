@@ -217,18 +217,6 @@ class AccessabarController {
 
             return;
         }
-
-        if (!this.mainElement) {
-            return;
-        }
-
-        if (this.mainElement.classList.contains('hide')) {
-            this.mainElement.classList.remove('hide');
-        }
-
-        if (this.moveBody) {
-            AccessabarUtil.moveBody();
-        }
     }
 
     /**
