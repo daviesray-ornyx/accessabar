@@ -145,7 +145,7 @@ class AccessabarController {
         this.bindTo = bindEl;
 
         // -- position --
-        const positions = new Set(['top', 'bottom']);
+        const positions = new Set(['top', 'bottom', 'none']);
 
         if (!positions.has(position)) {
             throw Error(`[Accessabar] Error: The given position '${position}' is not valid. Options are: top, bottom.`);
