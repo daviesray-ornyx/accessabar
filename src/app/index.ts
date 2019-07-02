@@ -39,7 +39,7 @@ class AccessabarController {
      * @type string
      * @memberOf AccessabarController
      */
-    public version: string = '0.8.8';
+    public version: string = '0.8.9';
 
     /**
      * Element in webpage that activate Accessabar.
