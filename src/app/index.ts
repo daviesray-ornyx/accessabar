@@ -242,9 +242,11 @@ class AccessabarController {
         switch (this.position) {
         default:
         case 'top':
+            containerEl.style.position = 'fixed';
             containerEl.style.top = '0';
             break;
         case 'bottom':
+            containerEl.style.position = 'fixed';
             containerEl.style.bottom = '0';
             break;
         case 'none':
