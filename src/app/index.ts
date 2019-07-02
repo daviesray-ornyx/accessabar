@@ -34,6 +34,13 @@ customElements.define('accessabar-app', AccessabarElement);
  */
 class AccessabarController {
     /**
+     * Version number of Accessabar
+     *
+     * @type string
+     * @memberOf AccessabarController
+     */
+    public version: string = '0.8.7';
+    /**
      * Element in webpage that activate Accessabar.
      *
      * @type {Element}
