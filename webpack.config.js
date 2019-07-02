@@ -225,9 +225,8 @@ const mainSettings = (entries, dev, devServer, dash, verbose) => {
         ] : [
             ...sharedPlugins,
             new OfflinePlugin({
-                externals: [
-                    '/index.html',
-                ],
+                autoUpdate: true,
+                relativePaths: true,
             }),
         ],
         devtool: dev ? 'inline-source-map' : false,
