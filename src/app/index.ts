@@ -34,12 +34,13 @@ customElements.define('accessabar-app', AccessabarElement);
  */
 class AccessabarController {
     /**
-     * Version number of Accessabar
+     * Version number of Accessabar.
      *
      * @type string
      * @memberOf AccessabarController
      */
     public version: string = '0.8.7';
+
     /**
      * Element in webpage that activate Accessabar.
      *
@@ -65,7 +66,7 @@ class AccessabarController {
     public mainElement: HTMLElement;
 
     /**
-     * Contains all applied functions
+     * Contains all applied functions.
      *
      * @type {Map<string, object>}
      * @memberof AccessabarController
@@ -112,7 +113,7 @@ class AccessabarController {
      * Creates an instance of AccessabarController.
      *
      * @param {string} enableButton = ''
-     * Optional; Query selector string for element that enables Accessabar
+     * Optional; Query selector string for element that enables Accessabar.
      *
      * @param {string} bindTo = 'body'
      * Optional; Query selector for element Accessabar will bind to (be inside).
