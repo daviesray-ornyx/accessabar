@@ -1,5 +1,8 @@
 import { View } from 'hyperapp';
-import { div } from '@hyperapp/html';
+import {
+    div,
+    span,
+} from '@hyperapp/html';
 import buttonArea from './components/button_area.component';
 import { hideButton } from './components/buttons.component';
 import menuArea from './components/menu_area.component';
@@ -8,6 +11,9 @@ import funcArea from './components/function_area.component';
 
 const innerBar = (state, actions) => {
     return div({ class: 'ab-bar ab-growable' }, [
+        div({ class: 'ab-logo' }, [
+            span({ class: 'ab-logo-text' }, 'Accessabar'),
+        ]),
         div({ class: 'ab-bar-container ab-growable' }, [
             buttonArea(state, actions),
         ]),
