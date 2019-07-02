@@ -1,4 +1,14 @@
 {
+    sylexiad_sans: {
+        name: 'Sylexiad Sans',
+        family: '"Sylexiad Sans", sans-serif',
+    },
+
+    sylexiad_serif: {
+        name: 'Sylexiad Serif',
+        family: '"Sylexiad Serif", sans-serif',
+    },
+
     opendyslexic: {
         name: 'OpenDyslexic 3',
         family: '"OpenDyslexic 3", sans-serif',
