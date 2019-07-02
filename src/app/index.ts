@@ -113,14 +113,14 @@ class AccessabarController {
      * @param {string} position = 'top'
      * Optional; Position of Accessabar.
      *
-     * @param {boolean} moveBody = true
+     * @param {boolean} moveBody
      * Optional; If enabled, the margin top of the documents body
      * will equal Accessabar's height. This in effect will move the pages content
      * down in order to make space for Accessabar.
      *
      * @memberof AccessabarController
      */
-    constructor({ enableButton = '', bindTo = 'body', position = 'top', moveBody = true }: Accessabar.IAccessabarConfig = {}) {
+    constructor({ enableButton = '', bindTo = 'body', position = 'top', moveBody }: Accessabar.IAccessabarConfig = {}) {
         // Allows easy access during runtime to separate parts of the code
         window.abar = this;
 
@@ -137,7 +137,8 @@ class AccessabarController {
         }
 
         // -- bindTo
-        const bindEl = document.querySelector(String(bindTo));
+        const strBindTo = String(bindTo);
+        const bindEl = document.querySelector(strBindTo);
         if (!bindEl) {
             throw Error('[Accessabar] Error: Cannot find element to bind to with the given id');
         }
@@ -154,8 +155,20 @@ class AccessabarController {
         this.position = position;
 
         // -- moveBody --
-        if (typeof moveBody === 'boolean') {
+        switch (typeof moveBody) {
+        default:
+        case 'undefined':
+            if (strBindTo === 'body') {
+                this.moveBody = true;
+                break;
+            }
+
+            this.moveBody = false;
+            break;
+
+        case 'boolean':
             this.moveBody = moveBody;
+            break;
         }
     }
 
