@@ -197,6 +197,10 @@ class AccessabarController {
             this.mainElement.parentElement.removeChild(this.mainElement);
         }
 
+        if (this.moveBody) {
+            document.body.style.marginTop = '0';
+        }
+
         this.rendered = false;
 
         delete this.appActions;
