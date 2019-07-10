@@ -21,7 +21,8 @@
     "cypress:run-all": "cypress run",
     "ava": "ava",
     "test": "ava && cypress run",
-    "serve": "serve ./public/"
+    "serve": "serve ./public/",
+    "now-build": "yarn bp"
   },
   "devDependencies": {
     "@babel/core": "7.4.5",

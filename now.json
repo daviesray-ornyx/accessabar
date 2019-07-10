@@ -1,4 +1,11 @@
 {
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@now/static-build",
+            "config": { "distDir": "./public/dist" }
+        }
+    ],
     "name": "accessabar",
     "regions": ["lhr"],
     "version": 2
