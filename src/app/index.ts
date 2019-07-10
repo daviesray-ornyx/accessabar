@@ -193,8 +193,9 @@ class AccessabarController {
     }
 
     public close() {
-        document.body.removeChild(this.mainElement);
-        document.body.style.marginTop = '0';
+        if (this.mainElement.parentElement) {
+            this.mainElement.parentElement.removeChild(this.mainElement);
+        }
 
         this.rendered = false;
 
