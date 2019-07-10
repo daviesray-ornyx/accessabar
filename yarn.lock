@@ -786,11 +786,6 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
-"@hyperapp/html@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@hyperapp/html/-/html-1.1.1.tgz#8040666e8f935eed95f2034f443cc8768866d992"
-  integrity sha512-jRlz/ED0y/pAseqAwKlJxdy78Lf7AEeykOGeYxnGE1TY0tF4SgVW53Sh72QJoGWZmrgtcHN6wKPZAmEenDCsgQ==
-
 "@most/multicast@^1.2.5":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@most/multicast/-/multicast-1.3.0.tgz#e01574840df634478ac3fabd164c6e830fb3b966"

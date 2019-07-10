@@ -1,12 +1,10 @@
-import {
-    button,
-    i,
-} from '@hyperapp/html';
+import { h } from 'hyperapp';
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
 const playButton = (actions) => {
-    return button(
+    return h(
+        'ab-play-button',
         {
             'aria-label': 'Play',
             class: 'ab-bar-button',
@@ -22,7 +20,7 @@ const playButton = (actions) => {
             tabIndex: 0,
         },
         [
-            i({
+            h('ab-icon', {
                 'aria-hidden': true,
                 class: 'ab-icon ab-icon-play',
             }),
@@ -31,7 +29,8 @@ const playButton = (actions) => {
 };
 
 const pauseButton = (actions) => {
-    return button(
+    return h(
+        'ab-pause-button',
         {
             'aria-label': 'Pause',
             class: 'ab-bar-button',
@@ -47,7 +46,7 @@ const pauseButton = (actions) => {
             tabIndex: 0,
         },
         [
-            i({
+            h('ab-icon', {
                 'aria-hidden': true,
                 class: 'ab-icon ab-icon-pause',
             }),
@@ -56,7 +55,8 @@ const pauseButton = (actions) => {
 };
 
 const stopButton = (actions) => {
-    return button(
+    return h(
+        'ab-stop-button',
         {
             'aria-label': 'Stop',
             class: 'ab-bar-button',
@@ -72,7 +72,7 @@ const stopButton = (actions) => {
             tabIndex: 0,
         },
         [
-            i({
+            h('ab-icon',{
                 'aria-hidden': true,
                 class: 'ab-icon ab-icon-stop',
             }),

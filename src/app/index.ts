@@ -220,6 +220,7 @@ class AccessabarController {
                 const containerEl = this.setContainerStyle(new AccessabarElement());
 
                 containerEl.id = 'accessabar';
+                containerEl.setAttribute('aria-label', 'Accessabar');
                 this.mainElement = containerEl;
                 this.bindTo.insertAdjacentElement('afterbegin', containerEl);
 
