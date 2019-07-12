@@ -1838,11 +1838,6 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.0.0.tgz#23c0df14f6a88077f5f986c0d167ec03c3d5537c"
   integrity sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
 
-blessed@^0.1.81:
-  version "0.1.81"
-  resolved "https://registry.yarnpkg.com/blessed/-/blessed-0.1.81.tgz#f962d687ec2c369570ae71af843256e6d0ca1129"
-  integrity sha1-+WLWh+wsNpVwrnGvhDJW5tDKESk=
-
 blob@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.5.tgz#d680eeef25f8cd91ad533f5b01eed48e64caf683"
@@ -4949,7 +4944,7 @@ handle-thing@^2.0.0:
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
   integrity sha512-d4sze1JNC454Wdo2fkuyzCr6aHcbL6PGGuFAz0Li/NcOm1tCHGnWDRmJP85dh9IhQErTc2svWFEX5xHIOo//kQ==
 
-handlebars@^4.0.11:
+handlebars@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.2.tgz#b6b37c1ced0306b221e094fc7aca3ec23b131b67"
   integrity sha512-nvfrjqvt9xQ8Z/w0ijewdD/vvWDTOweBUm96NTr66Wfvo1mJenBLwcYmPs3TIBP5ruzYGD7Hx/DaM9RmhroGPw==
@@ -5439,7 +5434,7 @@ inquirer@^6.2.2:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-inspectpack@^4.0.0:
+inspectpack@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/inspectpack/-/inspectpack-4.2.1.tgz#8e1893feb5293458c9d587cb2a8ec70be2e79dd4"
   integrity sha512-3kraYZ9tfxNYXzBsRTNvluj1oJKlJ6wkD+TZ6Vk9CNI1SZcQ5H/9yskuq1Yzha1Cn/wEX/Qw+g+tSLIP5iGXhg==
@@ -6999,6 +6994,11 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
+
+neo-blessed@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/neo-blessed/-/neo-blessed-0.2.0.tgz#30f9495fdd104494402b62c6273a9c9b82de4f2b"
+  integrity sha512-C2kC4K+G2QnNQFXUIxTQvqmrdSIzGTX1ZRKeDW6ChmvPRw8rTkTEJzbEQHiHy06d36PCl/yMOCjquCRV8SpSQw==
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -11315,18 +11315,18 @@ webpack-cli@3.3.5:
     v8-compile-cache "2.0.3"
     yargs "13.2.4"
 
-webpack-dashboard@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-dashboard/-/webpack-dashboard-2.1.0.tgz#b5f0ffec686a5a7efa36f4757eee79acb273fd9f"
-  integrity sha512-psG8JInvWSGEreLX9wbaWZq2hsf2cxUYYwUyOTtzcommLOqJ/z0B9JD/cJNN/bNZNbS3XidgEqwKsqFd3BQpnQ==
+webpack-dashboard@3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/webpack-dashboard/-/webpack-dashboard-3.0.7.tgz#bee819049d8c2f9017ebf7ea59b043b10db1a9ca"
+  integrity sha512-73qT3mtiUqRdWdQPjKSHbfzidEOO7XmnG5j8cZSzASsyoNTz7LbIvGTbodHpeCkZRV71r0YVQW+mqhQMCABJJw==
   dependencies:
-    blessed "^0.1.81"
     commander "^2.15.1"
     cross-spawn "^6.0.5"
     filesize "^3.6.1"
-    handlebars "^4.0.11"
-    inspectpack "^4.0.0"
+    handlebars "^4.1.2"
+    inspectpack "^4.2.1"
     most "^1.7.3"
+    neo-blessed "^0.2.0"
     socket.io "^2.1.1"
     socket.io-client "^2.1.1"
 
