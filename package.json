@@ -71,7 +71,7 @@
     "rucksack-css": "1.0.2",
     "sass-loader": "7.1.0",
     "source-map-loader": "0.2.4",
-    "stylelint": "9.10.1",
+    "stylelint": "10.1.0",
     "stylelint-config-recommended": "2.1.0",
     "terser-webpack-plugin": "1.2.2",
     "thread-loader": "2.1.2",
