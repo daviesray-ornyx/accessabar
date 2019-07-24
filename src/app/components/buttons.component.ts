@@ -2,9 +2,24 @@ import { h } from 'hyperapp';
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
+function handleButtonNavigation(event) {
+    const {
+        code,
+        target,
+    } = event;
+
+    if (!code || !target) {
+        return;
+    }
+
+    if (code === 'Enter' || code === 'Space') {
+        target.click();
+    }
+}
+
 const playButton = (actions) => {
     return h(
-        'ab-play-button',
+        'ab-bar-play-button',
         {
             'aria-label': 'Play',
             class: 'ab-bar-button',
