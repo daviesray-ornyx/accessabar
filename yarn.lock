@@ -1012,10 +1012,10 @@
     "@nodelib/fs.scandir" "2.1.1"
     fastq "^1.6.0"
 
-"@simonwep/pickr@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.2.3.tgz#3ab48fecee33e39d0bba785d27e669ea25177eda"
-  integrity sha512-sazEiLZBOR4U+D39tEXFELx/g8gefgMi1TBke5wVJm5HMuanQvmMmx+Cn+Gw7kow9oHStbQ6zQhkS2sQCs5EEg==
+"@simonwep/pickr@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@simonwep/pickr/-/pickr-1.2.4.tgz#7bca5d3090f643df48e1b3cee00fc43f50adcd57"
+  integrity sha512-9NO0WlxHJnxpTH1a0kqLpHMpWArd4+UO+NKOI2FKrloqStg+C6AJJgOQor9P1EKJ1yueUNEI+DSba+hYe5LoSA==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
