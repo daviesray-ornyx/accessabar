@@ -1,9 +1,3 @@
-import {
-    div,
-    i,
-    iframe,
-} from '@hyperapp/html';
-
 interface IMagState {
     magActive: Accessabar.IState['magActive'];
     magPageContent: Accessabar.IState['magPageContent'];
