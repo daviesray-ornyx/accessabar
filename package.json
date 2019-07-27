@@ -89,7 +89,7 @@
     "@hyperapp/html": "1.1.1",
     "@simonwep/pickr": "1.2.4",
     "@webcomponents/custom-elements": "1.2.4",
-    "bignumber.js": "8.1.1",
+    "bignumber.js": "9.0.0",
     "hyperapp": "2.0.0",
     "normalize.css": "8.0.1",
     "rxjs": "6.4.0",
