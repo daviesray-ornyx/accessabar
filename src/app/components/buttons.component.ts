@@ -382,11 +382,15 @@ const maskButton = ({ menuCurrent }: IMaskButtonState, { menuHandle }: IMaskButt
     );
 };
 
-interface IRulerActions {
+interface IRulerButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const rulerButton = ({ menuHandle }: IRulerActions) => {
+interface IRulerButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const rulerButton = ({ menuCurrent }: IRulerButtonState, { menuHandle }: IRulerButtonActions) => {
     return h(
         'ab-bar-ruler-button',
         {
@@ -394,7 +398,7 @@ const rulerButton = ({ menuHandle }: IRulerActions) => {
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Reading rulers',
-            'aria-pressed': 'false',
+            'aria-pressed': menuCurrent === 'rulerOptions' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-rulers',
             onclick: () => {
