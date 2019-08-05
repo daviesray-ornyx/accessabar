@@ -253,11 +253,15 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
     );
 };
 
-interface ITextOpsActions {
+interface ITextOpsButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
+interface ITextOpsButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const textOpsButton = ({ menuCurrent }: ITextOpsButtonState, { menuHandle }: ITextOpsButtonActions) => {
     return h(
         'ab-bar-text-options-button',
         {
@@ -265,7 +269,7 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Text options',
-            'aria-pressed': 'false',
+            'aria-pressed': menuCurrent === 'textOptions' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-text-options',
             onclick: () => {
