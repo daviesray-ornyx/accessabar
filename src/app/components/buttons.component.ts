@@ -38,7 +38,7 @@ const playButton = (actions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-play',
             }),
         ],
@@ -207,7 +207,7 @@ const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-minus',
             }),
         ],
@@ -242,7 +242,7 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-reset',
             }),
         ],
@@ -281,7 +281,7 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-font',
             }),
         ],
@@ -320,7 +320,7 @@ const magButton = ({ menuHandle }: IMagActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-zoom',
             }),
         ],
@@ -359,7 +359,7 @@ const maskButton = ({ menuHandle }: IMaskActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-palette',
             }),
         ],
@@ -398,7 +398,7 @@ const rulerButton = ({ menuHandle }: IRulerActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-ruler',
             }),
         ],
@@ -437,7 +437,7 @@ const srButton = ({ menuHandle }: ISRActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-mic',
             }),
         ],
@@ -475,7 +475,7 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-reset',
             }),
         ],
@@ -507,7 +507,7 @@ const settingsButton = (actions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-settings-gear',
             }),
         ],
@@ -546,7 +546,7 @@ const closeButton = ({ closeAccessabar }: ICloseActions) => {
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-cross',
             }),
         ],
@@ -591,7 +591,7 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
         },
         [
             h('ab-icon', {
-                'aria-hidden': true,
+                'aria-hidden': 'true',
                 class: abarHidden ? 'ab-icon ab-icon-nav-down' : 'ab-icon ab-icon-nav-up',
             }),
         ],
