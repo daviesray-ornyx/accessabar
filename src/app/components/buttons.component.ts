@@ -425,11 +425,15 @@ const rulerButton = ({ menuCurrent }: IRulerButtonState, { menuHandle }: IRulerB
     );
 };
 
-interface ISRActions {
+interface ISRButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const srButton = ({ menuHandle }: ISRActions) => {
+interface ISRButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const srButton = ({ menuCurrent }: ISRButtonState, { menuHandle }: ISRButtonActions) => {
     return h(
         'ab-bar-sr-button',
         {
@@ -437,7 +441,7 @@ const srButton = ({ menuHandle }: ISRActions) => {
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Speech recognition',
-            'aria-pressed': 'false',
+            'aria-pressed': menuCurrent === 'speechRecognition' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-speech-recognition',
             onclick: () => {
