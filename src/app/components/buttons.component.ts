@@ -476,9 +476,6 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     return h(
         'ab-bar-reset-button',
         {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
             'aria-label': 'Reset accessabar entirely',
             class: 'ab-bar-button ab-warning',
             id: 'ab-reset',
@@ -510,15 +507,15 @@ const settingsButton = (actions) => {
     return h(
         'ab-bar-settings-button',
         {
-            'aria-controls': 'ab-menu',
+            'aria-controls': 'ab-settings',
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Settings',
             'aria-pressed': 'false',
             class: 'ab-bar-button',
-            id: 'ab-settings',
+            id: 'ab-settings-button',
             oncreate: () => {
-                tippy('#accessabar #ab-settings', {
+                tippy('#accessabar #ab-settings-button', {
                     arrow: true,
                     content: 'Settings',
                     placement: 'bottom',
@@ -546,11 +543,7 @@ const closeButton = ({ closeAccessabar }: ICloseActions) => {
     return h(
         'ab-bar-close-button',
         {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
             'aria-label': 'Close Accessabar',
-            'aria-pressed': 'false',
             class: 'ab-bar-button ab-close',
             id: 'ab-close',
             onclick: () => {
