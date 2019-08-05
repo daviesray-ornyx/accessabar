@@ -296,11 +296,15 @@ const textOpsButton = ({ menuCurrent }: ITextOpsButtonState, { menuHandle }: ITe
     );
 };
 
-interface IMagActions {
+interface IMagButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const magButton = ({ menuHandle }: IMagActions) => {
+interface IMagButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const magButton = ({ menuCurrent }: IMagButtonState, { menuHandle }: IMagButtonActions) => {
     return h(
         'ab-bar-mag-button',
         {
@@ -308,7 +312,7 @@ const magButton = ({ menuHandle }: IMagActions) => {
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Magnifier',
-            'aria-pressed': 'false',
+            'aria-pressed': menuCurrent === 'magnifier' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-magnifier',
             onclick: () => {
