@@ -106,7 +106,11 @@ interface ITTSButtonActions {
     ttsInit: Accessabar.IActions['ttsInit'];
 }
 
-const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
+interface ITTSButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const ttsButton = ({ menuCurrent }: ITTSButtonState, { menuHandle, ttsInit }: ITTSButtonActions) => {
     return h(
         'ab-bar-tts-button',
         {
@@ -114,7 +118,7 @@ const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Enable text to speech',
-            'aria-pressed': 'false',
+            'aria-pressed': menuCurrent === 'tts' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-tts',
             onclick: () => {

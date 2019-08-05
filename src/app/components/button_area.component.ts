@@ -24,7 +24,7 @@ const buttonArea = (state, actions) => {
                     Buttons.stopButton(actions),
                 ]),
                 h('ab-button-group', { class: 'ab-group' }, [
-                    Buttons.ttsButton(actions),
+                    Buttons.ttsButton(state, actions),
                     Buttons.incButton(actions),
                     Buttons.decButton(actions),
                     Buttons.fontResetButton(state),
