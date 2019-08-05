@@ -632,4 +632,5 @@ export {
     resetButton,
     settingsButton,
     hideButton,
+    handleButtonNavigation,
 };

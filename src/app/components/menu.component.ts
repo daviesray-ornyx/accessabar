@@ -1,10 +1,5 @@
-import {
-    div,
-    header,
-    span,
-    button,
-    i,
-} from '@hyperapp/html';
+import { h } from 'hyperapp';
+import { handleButtonNavigation } from './buttons.component';
 import * as menus from './menus.component';
 import tippy from 'tippy.js';
 
@@ -18,7 +13,7 @@ const menuNames = new Map([
 ]);
 
 const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return div();
+    return h('ab-placeholder');
 };
 
 const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
@@ -26,8 +21,10 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
         ? menuNames.get(state.menuCurrent) || placeholderEl
         : placeholderEl;
 
-    return div(
+    return h(
+        'ab-menu',
         {
+            'aria-label': `${state.menuTitle} Menu`,
             class: `ab-menu ab-draggable ${state.menuHidden ? 'ab-hide' : ''}`,
             id: 'ab-menu',
             oncreate: (el: HTMLElement) => {
@@ -39,8 +36,10 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
             },
         },
         [
-            header(
+            h(
+                'ab-menu-header',
                 {
+                    'aria-label': 'Hold left mouse button to drag the menu',
                     class: 'ab-menu-header ab-flex',
                     onmousedown: (event) => {
                         actions.menuStartDrag(event);
@@ -50,8 +49,9 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                     },
                 },
                 [
-                    span({ class: 'ab-menu-header-text' }, state.menuTitle),
-                    button(
+                    h('ab-menu-header-text', { class: 'ab-menu-header-text' }, state.menuTitle),
+                    h(
+                        'ab-menu-close-button',
                         {
                             'aria-label': 'Close menu',
                             class: 'ab-menu-close',
@@ -67,11 +67,13 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                                     theme: 'ab',
                                 });
                             },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
                             tabIndex: 1,
                         },
                         [
-                            i({
-                                'aria-hidden': true,
+                            h('ab-icon', {
+                                'aria-hidden': 'true',
                                 class: 'ab-icon ab-icon-cross',
                             }),
                         ],
