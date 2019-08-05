@@ -1,22 +1,12 @@
-import {
-    div,
-    section,
-    label,
-    span,
-    button,
-    ul,
-    li,
-    br,
-    i,
-} from '@hyperapp/html';
 import fontConfig from '../../config/fonts.config.json5';
-import { VNode } from 'hyperapp';
+import { VNode, h } from 'hyperapp';
 import tippy from 'tippy.js';
 import Pickr from '@simonwep/pickr';
 import BigNumber from 'bignumber.js';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
-    return label(
+    return h(
+        'ab-switch-label',
         {
             class: 'ab-label',
             onclick: () => {
@@ -24,16 +14,19 @@ const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: 
             },
         },
         [
-            div(
+            h(
+                'ab-switch',
                 {
+                    'aria-checked': switchState ? 'true' : 'false',
                     'aria-label': ariaLabel,
                     class: `ab-switch ${switchState ? 'ab-on' : 'ab-off'}`,
+                    role: 'switch',
                 },
                 [
-                    div({ class: 'ab-handle' }),
+                    h('ab-switch-handle', { class: 'ab-handle' }),
                 ],
             ),
-            span(labelText),
+            h('ab-switch-label-text', labelText),
         ],
     );
 };
