@@ -90,7 +90,7 @@
     "@simonwep/pickr": "1.2.6",
     "@webcomponents/custom-elements": "1.2.4",
     "bignumber.js": "9.0.0",
-    "hyperapp": "2.0.0",
+    "hyperapp": "2.0.1",
     "normalize.css": "8.0.1",
     "rxjs": "6.4.0",
     "serve": "11.0.0",
