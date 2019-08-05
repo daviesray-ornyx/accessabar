@@ -339,11 +339,15 @@ const magButton = ({ menuCurrent }: IMagButtonState, { menuHandle }: IMagButtonA
     );
 };
 
-interface IMaskActions {
+interface IMaskButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const maskButton = ({ menuHandle }: IMaskActions) => {
+interface IMaskButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const maskButton = ({ menuCurrent }: IMaskButtonState, { menuHandle }: IMaskButtonActions) => {
     return h(
         'ab-bar-mask-button',
         {
@@ -351,7 +355,7 @@ const maskButton = ({ menuHandle }: IMaskActions) => {
             'aria-expanded': 'false',
             'aria-haspopup': 'true',
             'aria-label': 'Screen Masking',
-            'aria-pressed': 'false',
+            'aria-pressed': menuCurrent === 'masking' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-screen-mask',
             onclick: () => {
