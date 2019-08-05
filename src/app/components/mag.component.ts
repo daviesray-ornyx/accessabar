@@ -1,3 +1,5 @@
+import { h } from 'hyperapp';
+
 interface IMagState {
     magActive: Accessabar.IState['magActive'];
     magPageContent: Accessabar.IState['magPageContent'];
@@ -22,8 +24,10 @@ interface IMagActions {
 }
 
 const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale, menuHidden, magPosX, magPosY, magPageX, magPageY, magHeight, magWidth }: IMagState, { magStartDrag, magStopDrag, magUpdatePosition }: IMagActions) => {
-    return div(
+    return h(
+        'ab-mag-window',
         {
+            'aria-label': 'Magnifier window. Move by holding down the left mouse button and dragging',
             class: `ab-magnifier-window ab-draggable ${magActive && !menuHidden ? '' : 'ab-hide' }`,
             id: 'ab-magnifier-window',
             style: {
@@ -34,8 +38,10 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
             },
         },
         [
-            div(
+            h(
+                'ab-mag-drag-circle',
                 {
+                    'aria-label': 'Move the magnifier by holding the left mouse button and dragging',
                     class: 'ab-drag-circle',
                     onmousedown: (event) => {
                         magStartDrag(event);
@@ -54,26 +60,35 @@ const mag = ({ magPageContent, magActive, magTranslateX, magTranslateY, magScale
                     },
                 },
                 [
-                    i({ class: 'ab-icon ab-icon-move' }),
+                    h('ab-icon', { 'aria-hidden': 'true', class: 'ab-icon ab-icon-move' }),
                 ],
             ),
-            div({ id: 'ab-magnifier-page-container', class: 'ab-magnifier-page-container' }, [
-                iframe(
-                    {
-                        class: 'ab-magnifier-page',
-                        id: 'ab-magnifier-page',
-                        onload: () => {
-                            magUpdatePosition();
+            h(
+                'ab-mag-page-container',
+                {
+                    class: 'ab-magnifier-page-container',
+                    id: 'ab-magnifier-page-container',
+                },
+                [
+                    h(
+                        'iframe',
+                        {
+                            'aria-hidden': 'true',
+                            class: 'ab-magnifier-page',
+                            id: 'ab-magnifier-page',
+                            onload: () => {
+                                magUpdatePosition();
+                            },
+                            srcdoc: magPageContent,
+                            style: {
+                                left: `${magPageX}px`,
+                                top: `${magPageY}px`,
+                                transform: `translate(${magTranslateX}px, ${magTranslateY}px) scale(${magScale})`,
+                            },
                         },
-                        srcdoc: magPageContent,
-                        style: {
-                            left: `${magPageX}px`,
-                            top: `${magPageY}px`,
-                            transform: `translate(${magTranslateX}px, ${magTranslateY}px) scale(${magScale})`,
-                        },
-                    },
-                ),
-            ]),
+                    ),
+                ],
+            ),
         ],
     );
 };
