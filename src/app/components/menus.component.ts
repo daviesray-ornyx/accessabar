@@ -27,7 +27,7 @@ const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: 
                     h('ab-switch-handle', { class: 'ab-handle' }),
                 ],
             ),
-            h('ab-switch-label-text', labelText),
+            h('ab-switch-label-text', {}, labelText),
         ],
     );
 };
