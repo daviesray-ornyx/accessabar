@@ -17,7 +17,8 @@ const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) =
 };
 
 const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    const menuEl = menuNames.has(state.menuCurrent)
+    // TODO: remove any type
+    const menuEl: any = menuNames.has(state.menuCurrent)
         ? menuNames.get(state.menuCurrent) || placeholderEl
         : placeholderEl;
 
