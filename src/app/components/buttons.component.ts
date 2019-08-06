@@ -582,8 +582,9 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
     return h(
         'ab-hide-button',
         {
+            'aria-controls': 'accessabar',
             'aria-label': 'Hide Accessabar',
-            'aria-pressed': 'false',
+            'aria-pressed': abarHidden ? 'true' : 'false',
             class: 'ab-hide-button',
             id: 'ab-hide',
             onclick: () => {
