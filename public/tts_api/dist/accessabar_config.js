@@ -1,5 +1,9 @@
 const accessabar = new Accessabar();
 
 function playText() {
-    alert('hello');
+    const customElText = document.getElementById('custom-text').textContent;
+
+    accessabar.speakText(customElText);
 }
+
+accessabar.open();
