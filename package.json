@@ -25,13 +25,13 @@
     "now-build": "yarn bp"
   },
   "devDependencies": {
-    "@babel/core": "7.5.5",
+    "@babel/core": "7.6.0",
     "@babel/plugin-proposal-class-properties": "7.5.5",
-    "@babel/plugin-proposal-decorators": "7.4.4",
+    "@babel/plugin-proposal-decorators": "7.6.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/preset-env": "7.5.5",
-    "@babel/preset-typescript": "7.3.3",
+    "@babel/plugin-transform-runtime": "7.6.0",
+    "@babel/preset-env": "7.6.0",
+    "@babel/preset-typescript": "7.6.0",
     "@types/jquery": "3.3.31",
     "@types/node": "10.14.10",
     "@types/webpack": "4.39.1",
@@ -85,7 +85,7 @@
     "webpack-dev-server": "3.8.0"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "7.5.5",
+    "@babel/runtime-corejs2": "7.6.0",
     "@hyperapp/html": "1.1.1",
     "@simonwep/pickr": "1.4.1",
     "@webcomponents/custom-elements": "1.2.4",
