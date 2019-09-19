@@ -88,7 +88,7 @@
     "@babel/runtime-corejs2": "7.6.0",
     "@hyperapp/html": "1.1.1",
     "@simonwep/pickr": "1.4.2",
-    "@webcomponents/custom-elements": "1.2.4",
+    "@webcomponents/custom-elements": "1.3.0",
     "bignumber.js": "9.0.0",
     "hyperapp": "2.0.1",
     "normalize.css": "8.0.1",
