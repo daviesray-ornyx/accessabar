@@ -93,7 +93,7 @@
     "hyperapp": "2.0.1",
     "normalize.css": "8.0.1",
     "rxjs": "6.5.3",
-    "serve": "11.1.0",
+    "serve": "11.2.0",
     "tippy.js": "3.4.1"
   }
 }
