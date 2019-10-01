@@ -94,6 +94,6 @@
     "normalize.css": "8.0.1",
     "rxjs": "6.5.3",
     "serve": "11.2.0",
-    "tippy.js": "5.0.0"
+    "tippy.js": "5.0.1"
   }
 }
