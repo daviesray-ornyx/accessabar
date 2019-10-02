@@ -1,6 +1,4 @@
-import {
-    div,
-} from '@hyperapp/html';
+import { h } from 'hyperapp';
 
 interface IMaskState {
     maskActive: Accessabar.IState['maskActive'];
@@ -9,7 +7,8 @@ interface IMaskState {
 }
 
 const mask = ({ maskActive, maskColourCurrent, maskOpacity }: IMaskState) => {
-    return div({
+    return h('ab-mask', {
+        'aria-hidden': 'true',
         class: `ab-mask ${maskActive ? '' : 'ab-hide'}`,
         style: {
             background: maskColourCurrent,

@@ -1,8 +1,4 @@
-import { View } from 'hyperapp';
-import {
-    div,
-    span,
-} from '@hyperapp/html';
+import { View, h } from 'hyperapp';
 import buttonArea from './components/button_area.component';
 import { hideButton } from './components/buttons.component';
 import menuArea from './components/menu_area.component';
@@ -10,19 +6,19 @@ import ttsPrompt from './components/tts_prompt.component';
 import funcArea from './components/function_area.component';
 
 const innerBar = (state, actions) => {
-    return div({ class: 'ab-bar ab-growable' }, [
-        div({ class: 'ab-logo' }, [
-            span({ class: 'ab-logo-text' }, 'Accessabar'),
+    return h('ab-inner-bar', { class: 'ab-bar ab-growable' }, [
+        h('ab-logo', { class: 'ab-logo', 'aria-label': 'Accessabar logo' }, [
+            h('ab-logo-text', { class: 'ab-logo-text', 'aria-label': 'Accessabar logo text' }, 'Accessabar'),
         ]),
-        div({ class: 'ab-bar-container ab-growable' }, [
+        h('ab-button-area-container', { class: 'ab-bar-container ab-growable' }, [
             buttonArea(state, actions),
         ]),
     ]);
 };
 
 const underBar = (state, actions) => {
-    return div({ class: 'ab-underbar' }, [
-        div({ class: 'ab-hide-button-container ab-flex' }, [
+    return h('ab-underbar', { class: 'ab-underbar' }, [
+        h('ab-hide-button-container', { class: 'ab-hide-button-container ab-flex' }, [
             hideButton(state, actions),
         ]),
         ttsPrompt(state),
@@ -36,7 +32,7 @@ const underBar = (state, actions) => {
  * @param {*} actions
  */
 const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) => {
-    return div({ class: 'ab-bar-grid' }, [
+    return h('ab-grid', { class: 'ab-bar-grid' }, [
         innerBar(state, actions),
         underBar(state, actions),
         funcArea(state, actions),

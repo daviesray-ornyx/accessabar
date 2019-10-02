@@ -1,12 +1,25 @@
-import {
-    button,
-    i,
-} from '@hyperapp/html';
+import { h } from 'hyperapp';
 import tippy from 'tippy.js';
 import { AccessabarUtil } from '../util';
 
+function handleButtonNavigation(event) {
+    const {
+        code,
+        target,
+    } = event;
+
+    if (!code || !target) {
+        return;
+    }
+
+    if (code === 'Enter' || code === 'Space') {
+        target.click();
+    }
+}
+
 const playButton = (actions) => {
-    return button(
+    return h(
+        'ab-bar-play-button',
         {
             'aria-label': 'Play',
             class: 'ab-bar-button',
@@ -19,11 +32,13 @@ const playButton = (actions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-play',
             }),
         ],
@@ -31,7 +46,8 @@ const playButton = (actions) => {
 };
 
 const pauseButton = (actions) => {
-    return button(
+    return h(
+        'ab-bar-pause-button',
         {
             'aria-label': 'Pause',
             class: 'ab-bar-button',
@@ -44,11 +60,13 @@ const pauseButton = (actions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-pause',
             }),
         ],
@@ -56,7 +74,8 @@ const pauseButton = (actions) => {
 };
 
 const stopButton = (actions) => {
-    return button(
+    return h(
+        'ab-bar-stop-button',
         {
             'aria-label': 'Stop',
             class: 'ab-bar-button',
@@ -69,11 +88,13 @@ const stopButton = (actions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-stop',
             }),
         ],
@@ -85,10 +106,19 @@ interface ITTSButtonActions {
     ttsInit: Accessabar.IActions['ttsInit'];
 }
 
-const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
-    return button(
+interface ITTSButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const ttsButton = ({ menuCurrent }: ITTSButtonState, { menuHandle, ttsInit }: ITTSButtonActions) => {
+    return h(
+        'ab-bar-tts-button',
         {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Enable text to speech',
+            'aria-pressed': menuCurrent === 'tts' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-tts',
             onclick: () => {
@@ -103,11 +133,13 @@ const ttsButton = ({ menuHandle, ttsInit }: ITTSButtonActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-tts',
             }),
         ],
@@ -120,7 +152,8 @@ interface IIncButtonActions {
 }
 
 const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
-    return button(
+    return h(
+        'ab-bar-inc-button',
         {
             'aria-label': 'Increase font size',
             class: 'ab-bar-button',
@@ -136,11 +169,13 @@ const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-plus',
             }),
         ],
@@ -153,7 +188,8 @@ interface IDecButtonActions {
 }
 
 const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
-    return button(
+    return h(
+        'ab-bar-dec-button',
         {
             'aria-label': 'Decrease font size',
             class: 'ab-bar-button',
@@ -169,11 +205,13 @@ const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-minus',
             }),
         ],
@@ -185,7 +223,8 @@ interface IFontResetButtonState {
 }
 
 const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
-    return button(
+    return h(
+        'ab-bar-font-reset-button',
         {
             'aria-label': 'Reset font sizing',
             class: `ab-bar-button ab-warning ${fontSizingActive ? '' : 'ab-hide'}`,
@@ -201,25 +240,36 @@ const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-reset',
             }),
         ],
     );
 };
 
-interface ITextOpsActions {
+interface ITextOpsButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
-    return button(
+interface ITextOpsButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const textOpsButton = ({ menuCurrent }: ITextOpsButtonState, { menuHandle }: ITextOpsButtonActions) => {
+    return h(
+        'ab-bar-text-options-button',
         {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Text options',
+            'aria-pressed': menuCurrent === 'textOptions' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-text-options',
             onclick: () => {
@@ -233,25 +283,36 @@ const textOpsButton = ({ menuHandle }: ITextOpsActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-font',
             }),
         ],
     );
 };
 
-interface IMagActions {
+interface IMagButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const magButton = ({ menuHandle }: IMagActions) => {
-    return button(
+interface IMagButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const magButton = ({ menuCurrent }: IMagButtonState, { menuHandle }: IMagButtonActions) => {
+    return h(
+        'ab-bar-mag-button',
         {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Magnifier',
+            'aria-pressed': menuCurrent === 'magnifier' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-magnifier',
             onclick: () => {
@@ -265,25 +326,36 @@ const magButton = ({ menuHandle }: IMagActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-zoom',
             }),
         ],
     );
 };
 
-interface IMaskActions {
+interface IMaskButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const maskButton = ({ menuHandle }: IMaskActions) => {
-    return button(
+interface IMaskButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const maskButton = ({ menuCurrent }: IMaskButtonState, { menuHandle }: IMaskButtonActions) => {
+    return h(
+        'ab-bar-mask-button',
         {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Screen Masking',
+            'aria-pressed': menuCurrent === 'masking' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-screen-mask',
             onclick: () => {
@@ -297,25 +369,36 @@ const maskButton = ({ menuHandle }: IMaskActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-palette',
             }),
         ],
     );
 };
 
-interface IRulerActions {
+interface IRulerButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const rulerButton = ({ menuHandle }: IRulerActions) => {
-    return button(
+interface IRulerButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const rulerButton = ({ menuCurrent }: IRulerButtonState, { menuHandle }: IRulerButtonActions) => {
+    return h(
+        'ab-bar-ruler-button',
         {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Reading rulers',
+            'aria-pressed': menuCurrent === 'rulerOptions' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-rulers',
             onclick: () => {
@@ -329,25 +412,36 @@ const rulerButton = ({ menuHandle }: IRulerActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-ruler',
             }),
         ],
     );
 };
 
-interface ISRActions {
+interface ISRButtonActions {
     menuHandle: Accessabar.IActions['menuHandle'];
 }
 
-const srButton = ({ menuHandle }: ISRActions) => {
-    return button(
+interface ISRButtonState {
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const srButton = ({ menuCurrent }: ISRButtonState, { menuHandle }: ISRButtonActions) => {
+    return h(
+        'ab-bar-sr-button',
         {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Speech recognition',
+            'aria-pressed': menuCurrent === 'speechRecognition' ? 'true' : 'false',
             class: 'ab-bar-button',
             id: 'ab-speech-recognition',
             onclick: () => {
@@ -361,11 +455,13 @@ const srButton = ({ menuHandle }: ISRActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-mic',
             }),
         ],
@@ -377,7 +473,8 @@ interface IResetButtonActions {
 }
 
 const resetButton = ({ resetAll }: IResetButtonActions) => {
-    return button(
+    return h(
+        'ab-bar-reset-button',
         {
             'aria-label': 'Reset accessabar entirely',
             class: 'ab-bar-button ab-warning',
@@ -393,11 +490,13 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-reset',
             }),
         ],
@@ -405,24 +504,31 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
 };
 
 const settingsButton = (actions) => {
-    return button(
+    return h(
+        'ab-bar-settings-button',
         {
+            'aria-controls': 'ab-settings',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
             'aria-label': 'Settings',
+            'aria-pressed': 'false',
             class: 'ab-bar-button',
-            id: 'ab-settings',
+            id: 'ab-settings-button',
             oncreate: () => {
-                tippy('#accessabar #ab-settings', {
+                tippy('#accessabar #ab-settings-button', {
                     arrow: true,
                     content: 'Settings',
                     placement: 'bottom',
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-settings-gear',
             }),
         ],
@@ -434,7 +540,8 @@ interface ICloseActions {
 }
 
 const closeButton = ({ closeAccessabar }: ICloseActions) => {
-    return button(
+    return h(
+        'ab-bar-close-button',
         {
             'aria-label': 'Close Accessabar',
             class: 'ab-bar-button ab-close',
@@ -450,11 +557,13 @@ const closeButton = ({ closeAccessabar }: ICloseActions) => {
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-cross',
             }),
         ],
@@ -470,9 +579,12 @@ interface IHideButtonState {
 }
 
 const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonActions) => {
-    return button(
+    return h(
+        'ab-hide-button',
         {
+            'aria-controls': 'accessabar',
             'aria-label': 'Hide Accessabar',
+            'aria-pressed': abarHidden ? 'true' : 'false',
             class: 'ab-hide-button',
             id: 'ab-hide',
             onclick: () => {
@@ -486,16 +598,18 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
                     theme: 'ab',
                 });
             },
+            onkeydown: handleButtonNavigation,
             onupdate: (el) => {
                 const { _tippy: tip } = el;
 
                 tip.setContent(abarHidden ? 'Show Accessabar' : 'Hide Accessabar');
             },
+            role: 'button',
             tabIndex: 0,
         },
         [
-            i({
-                'aria-hidden': true,
+            h('ab-icon', {
+                'aria-hidden': 'true',
                 class: abarHidden ? 'ab-icon ab-icon-nav-down' : 'ab-icon ab-icon-nav-up',
             }),
         ],
@@ -519,4 +633,5 @@ export {
     resetButton,
     settingsButton,
     hideButton,
+    handleButtonNavigation,
 };

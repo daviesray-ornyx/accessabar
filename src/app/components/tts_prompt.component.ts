@@ -1,9 +1,4 @@
-import {
-    div,
-    p,
-    span,
-} from '@hyperapp/html';
-import { VNode } from 'hyperapp';
+import { VNode, h } from 'hyperapp';
 
 interface ITTSPromptState {
     ttsVoiceActive: Accessabar.IState['ttsVoiceActive'];
@@ -18,19 +13,19 @@ const ttsPrompt = ({ ttsVoiceActive, ttsCurrentUtterSentences, ttsCurrentUtterSe
     if (ttsCurrentUtterSentences.length > 0) {
         for (const [index, value] of ttsCurrentUtterSentences[ttsCurrentUtterSentenceIndex].entries()) {
             if (index === ttsCurrentUtterSentenceWordIndex) {
-                const highlight = span({ class: 'ab-tts-prompt-word ab-highlight' }, value);
+                const highlight = h('ab-tts-prompt-word', { class: 'ab-tts-prompt-word ab-highlight' }, value);
                 wordArr.push(highlight);
 
                 continue;
             }
 
-            const word = span({ class: 'ab-tts-prompt-word' }, value);
+            const word = h('ab-tts-prompt-word', { class: 'ab-tts-prompt-word' }, value);
             wordArr.push(word);
         }
     }
 
-    return div({ class: `ab-tts-prompt ${ttsVoiceActive ? 'ab-flex' : 'ab-hide'}` }, [
-        p({ class: 'ab-tts-prompt-text ab-flex' }, wordArr),
+    return h('ab-tts-prompt', { class: `ab-tts-prompt ${ttsVoiceActive ? 'ab-flex' : 'ab-hide'}`, role: 'marquee' }, [
+        h('ab-tts-prompt-text', { class: 'ab-tts-prompt-text ab-flex' }, wordArr),
     ]);
 };
 
