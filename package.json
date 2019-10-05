@@ -36,7 +36,7 @@
     "@types/node": "10.14.10",
     "@types/webpack": "4.39.2",
     "@types/webpack-env": "1.14.0",
-    "autoprefixer": "9.6.1",
+    "autoprefixer": "9.6.2",
     "ava": "2.4.0",
     "babel-eslint": "10.0.3",
     "babel-loader": "8.0.6",
