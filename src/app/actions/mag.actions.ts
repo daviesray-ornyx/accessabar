@@ -158,7 +158,7 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
         // Testing magePage scroll
         window.onscroll = () => {
-            magPage.contentWindow.scroll(0, window.scrollY+50);
+            if (magPage.contentWindow !== null) magPage.contentWindow.scroll(0, window.scrollY);
         };
 
         // console.table({
