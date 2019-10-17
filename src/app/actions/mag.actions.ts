@@ -60,7 +60,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
     },
 
     magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magScale, magBorder }, { magStopDrag }) => {
-        console.log('mag move');
         const ev = event.touches ? event.touches[0] : event;
 
         const {
@@ -157,6 +156,11 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             magPage.contentDocument.body.style.marginLeft = null;
         }
 
+        // Testing magePage scroll
+        window.onscroll = () => {
+            magPage.contentWindow.scroll(0, window.scrollY+50);
+        };
+
         // console.table({
         //     pointX,
         //     scaledPointX,
@@ -179,7 +183,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
     },
 
     magUpdatePosition: () => ({ magBorder, magScale, magPosX, magPosY }) => {
-        console.log('update');
         const magEl = document.getElementById('ab-magnifier-window');
         const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
 
@@ -254,7 +257,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
     },
 
     magUpdateMousePosition: (event: IDragEvent) => {
-        console.log('update mouse pos');
         const ev = event.touches ? event.touches[0] : event;
 
         const {
