@@ -156,10 +156,17 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
             magPage.contentDocument.body.style.marginLeft = null;
         }
 
-        // Testing magePage scroll
+        // magPage scroll with window
         window.onscroll = () => {
             if (magPage.contentWindow !== null) magPage.contentWindow.scroll(0, window.scrollY);
         };
+
+        // window scroll with magPage
+        if (magPage.contentWindow !== null) {
+            magPage.contentWindow.onscroll = () => {
+                if (magPage.contentWindow !== null) window.scroll(0, magPage.contentWindow.scrollY);
+            };
+        }
 
         // console.table({
         //     pointX,
