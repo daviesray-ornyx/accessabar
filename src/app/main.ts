@@ -8,7 +8,7 @@ import funcArea from './components/function_area.component';
 const innerBar = (state, actions) => {
     return h('ab-inner-bar', { class: 'ab-bar ab-growable' }, [
         h('ab-logo', { class: 'ab-logo', 'aria-label': 'Accessabar logo' }, [
-            h('ab-logo-text', { class: 'ab-logo-text', 'aria-label': 'Accessabar logo text' }, 'Accessabar'),
+            h('ab-logo-img', { class: 'ab-logo-img', alt: 'Accessabar Logo' }),
         ]),
         h('ab-button-area-container', { class: 'ab-bar-container ab-growable' }, [
             buttonArea(state, actions),
