@@ -61,7 +61,7 @@ const cssLoader = {
     },
 };
 
-const imageFileLoader = {
+let imageFileLoader = {
     loader: 'file-loader',
     options: {
         outputPath: 'images/',
@@ -112,6 +112,15 @@ const config = (env) => {
                 emitFile: false,
                 name: '[name].[ext]',
                 publicPath: 'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/fonts/',
+            },
+        };
+
+        imageFileLoader = {
+            loader: 'file-loader',
+            options: {
+                emitFile: false,
+                name: '[name].[ext]',
+                publicPath: 'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/images/',
             },
         };
     }
