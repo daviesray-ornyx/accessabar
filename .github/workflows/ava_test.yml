@@ -9,7 +9,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2-beta
-      - name: Yarn commands
+      - name: Install deps
+        uses: Borales/actions-yarn@v2.1.0
+        with:
+          cmd: install
+      - name: Test
         uses: Borales/actions-yarn@v2.1.0
         with:
           cmd: test
