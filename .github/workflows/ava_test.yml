@@ -7,7 +7,9 @@ jobs:
     name: Ava Test
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub Action for Yarn
+      - name: Checkout repo
+        uses: actions/checkout@v2-beta
+      - name: Yarn commands
         uses: Borales/actions-yarn@v2.1.0
         with:
-          cmd: ava
+          cmd: test
