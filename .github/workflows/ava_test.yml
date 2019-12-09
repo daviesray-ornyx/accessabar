@@ -1,0 +1,14 @@
+name: Accessabar Test (Ava)
+
+on: [push]
+
+jobs:
+  build:
+    name: Ava Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: GitHub Action for Yarn
+        uses: Borales/actions-yarn@v2.1.0
+        with:
+          cmd: ava
