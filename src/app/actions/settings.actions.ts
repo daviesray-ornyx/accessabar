@@ -6,6 +6,12 @@ const settingsActions: ActionsType<Accessabar.IState, Accessabar.ISettingsAction
             settingsHidden: false,
         };
     },
+
+    settingsClose: () => ({ settingsHidden }) => {
+        return {
+            settingsHidden: true,
+        };
+    },
 };
 
 export default settingsActions;

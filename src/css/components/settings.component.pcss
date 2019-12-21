@@ -12,6 +12,23 @@
     background: var(--near-white);
 }
 
-#accessabar .ab-settings-logo {
+#accessabar .ab-settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     grid-area: header;
+}
+
+#accessabar .ab-settings-close-button {
+    margin-right: 2em;
+    padding: 1em;
+    background: var(--dark-grey);
+    color: var(--font-colour);
+    line-height: 0;
+
+    &:hover, &:focus {
+        background: var(--lighter-red);
+        cursor: pointer;
+        outline: 2px solid var(--blue-focus);
+    }
 }

@@ -272,6 +272,7 @@ declare namespace Accessabar {
 
     interface ISettingsActions {
         settingsOpen(): Accessabar.IState;
+        settingsClose(): Accessabar.IState;
     }
 
     interface IConfigObject {
