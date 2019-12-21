@@ -503,7 +503,11 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     );
 };
 
-const settingsButton = (actions) => {
+interface ISettingsButtonActions {
+    settingsOpen: Accessabar.IActions['settingsOpen'];
+}
+
+const settingsButton = ({ settingsOpen }: ISettingsButtonActions) => {
     return h(
         'ab-bar-settings-button',
         {
@@ -514,6 +518,9 @@ const settingsButton = (actions) => {
             'aria-pressed': 'false',
             class: 'ab-bar-button',
             id: 'ab-settings-button',
+            onclick: () => {
+                settingsOpen();
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-settings-button', {
                     arrow: true,
