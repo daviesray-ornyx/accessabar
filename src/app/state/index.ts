@@ -108,6 +108,8 @@ const state: Accessabar.IState = {
 
     selectFontListActive: false,
 
+    settingsHidden: true,
+
     srActive: false,
     srRuntime: false,
 };

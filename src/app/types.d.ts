@@ -113,6 +113,8 @@ declare namespace Accessabar {
 
         srActive: boolean;
         srRuntime: SpeechRecognition | boolean;
+
+        settingsHidden: boolean;
     }
 
     interface IActions extends
