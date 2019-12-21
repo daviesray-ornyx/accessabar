@@ -130,7 +130,8 @@ declare namespace Accessabar {
         IMagActions,
         IMaskActions,
         IRulerActions,
-        ISRActions {}
+        ISRActions,
+        ISettingsActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -267,6 +268,10 @@ declare namespace Accessabar {
         srHandleResult(event: SpeechRecognitionEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srAddEvents(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srOutput(str: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+    }
+
+    interface ISettingsActions {
+        settingsOpen(): Accessabar.IState;
     }
 
     interface IConfigObject {
