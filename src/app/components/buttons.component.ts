@@ -516,10 +516,10 @@ const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen
         'ab-bar-settings-button',
         {
             'aria-controls': 'ab-settings',
-            'aria-expanded': String(settingsHidden),
+            'aria-expanded': String(!settingsHidden),
             'aria-haspopup': 'true',
             'aria-label': 'Settings',
-            'aria-pressed': 'false',
+            'aria-pressed': String(!settingsHidden),
             class: 'ab-bar-button',
             id: 'ab-settings-button',
             onclick: () => {
