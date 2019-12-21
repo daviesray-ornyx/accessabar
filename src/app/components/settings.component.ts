@@ -27,9 +27,16 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
     ]);
 };
 
+const settingsTTSSection = () => {
+    return h('ab-settings-section', { class: 'ab-settings-section' }, [
+        h('ab-settings-section-title', { class: 'ab-settings-section-header' }, 'Text To Speech'),
+    ]);
+};
+
 const settingsMenu = (state, actions) => {
     return h('ab-settings-menu', { id: 'ab-settings', class: `ab-settings ${state.settingsHidden ? 'ab-hide' : ''}`, 'aria-label': 'Accessabar settings' }, [
         settingsHeader(state, actions),
+        settingsTTSSection(),
     ]);
 };
 

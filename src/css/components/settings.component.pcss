@@ -1,7 +1,7 @@
 #accessabar .ab-settings {
     display: grid;
-    grid-template-rows: 10rem 100%;
-    grid-template-areas: "header" "page";
+    grid-template-columns: 1fr 1020px 1fr;
+    grid-template-rows: 10rem 1fr;
     position: absolute;
     top: 0;
     left: 0;
@@ -16,7 +16,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    grid-area: header;
+    grid-area: 1 / 1 / 1 / 4;
 }
 
 #accessabar .ab-settings-close-button {
@@ -31,4 +31,8 @@
         cursor: pointer;
         outline: 2px solid var(--blue-focus);
     }
+}
+
+#accessabar .ab-settings-section {
+    display: flex;
 }
