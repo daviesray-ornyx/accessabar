@@ -29,7 +29,7 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
 
 const settingsTTSSection = () => {
     return h('ab-settings-section', { class: 'ab-settings-section' }, [
-        h('ab-settings-section-title', { class: 'ab-settings-section-header' }, 'Text To Speech'),
+        h('ab-settings-section-title', { class: 'ab-settings-section-title' }, 'Text To Speech'),
     ]);
 };
 
