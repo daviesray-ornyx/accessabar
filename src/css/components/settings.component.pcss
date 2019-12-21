@@ -1,6 +1,6 @@
 #accessabar .ab-settings {
     display: grid;
-    grid-template-columns: 1fr 1020px 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 10rem 1fr;
     position: absolute;
     top: 0;
@@ -10,6 +10,12 @@
     max-width: 100vw;
     z-index: 2140000015;
     background: var(--near-white);
+}
+
+@media (--for-desktop-up) {
+    #accessabar .ab-settings {
+        grid-template-columns: 1fr 1020px 1fr;
+    }
 }
 
 #accessabar .ab-settings-header {
@@ -35,4 +41,22 @@
 
 #accessabar .ab-settings-section {
     display: flex;
+    grid-area: 2 / 1;
+}
+
+@media (--for-desktop-up) {
+    #accessabar .ab-settings-section {
+        grid-area: 2 / 2;
+    }
+}
+
+
+@media (--for-phone-only) {
+    #accessabar .ab-settings-logo {
+        display: none;
+    }
+
+    #accessabar .ab-settings-header {
+        justify-content: flex-end;
+    }
 }
