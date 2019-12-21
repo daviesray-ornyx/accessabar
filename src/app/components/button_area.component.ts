@@ -37,7 +37,7 @@ const buttonArea = (state, actions) => {
             ]),
             h('ab-button-section', {},  [
                 Buttons.resetButton(actions),
-                Buttons.settingsButton(actions),
+                Buttons.settingsButton(state, actions),
                 Buttons.closeButton(actions),
             ]),
         ],

@@ -503,16 +503,20 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     );
 };
 
+interface ISettingsButtonState {
+    settingsHidden: Accessabar.IState['settingsHidden'];
+}
+
 interface ISettingsButtonActions {
     settingsOpen: Accessabar.IActions['settingsOpen'];
 }
 
-const settingsButton = ({ settingsOpen }: ISettingsButtonActions) => {
+const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen }: ISettingsButtonActions) => {
     return h(
         'ab-bar-settings-button',
         {
             'aria-controls': 'ab-settings',
-            'aria-expanded': 'false',
+            'aria-expanded': String(settingsHidden),
             'aria-haspopup': 'true',
             'aria-label': 'Settings',
             'aria-pressed': 'false',
