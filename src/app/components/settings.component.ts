@@ -11,11 +11,11 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
                 'aria-controls': 'ab-settings',
                 'aria-label': 'Close Settings',
                 'aria-pressed': String(settingsHidden),
-                'aria-role': 'button',
                 class: 'ab-settings-close-button',
                 onclick: () => {
                     settingsClose();
                 },
+                role: 'button',
             },
             [
                 h('ab-icon', {
