@@ -29,7 +29,7 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
     ]);
 };
 
-const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName }, { settingsToggleTTSList, ttsChangeVoice, ttsChangeVolume, ttsVolume }) => {
+const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName, ttsVolume }, { settingsToggleTTSList, ttsChangeVoice, ttsChangeVolume }) => {
     const factoryCfg: Accessabar.IListItem[] = [];
     let customListVoices = h('ab-custom-list', {}, []);
 
@@ -75,6 +75,7 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
                 min: '0',
                 max: '1',
                 step: '0.05',
+                value: ttsVolume,
             }),
         ]),
     ]);
