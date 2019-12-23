@@ -7,14 +7,15 @@
     "jsRules": {},
     "rules": {
         "indent": [
-            true, 
-            "spaces", 
+            true,
+            "spaces",
             4
         ],
         "ter-indent": [
             true,
             4
         ],
+        "object-literal-sort-keys": false,
         "import-name": false,
         "no-console": false,
         "ordered-imports": false,
