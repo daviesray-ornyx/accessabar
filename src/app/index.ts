@@ -207,6 +207,19 @@ class AccessabarController {
         delete this.mainElement;
     }
 
+    public speakText(str: string) {
+        const cleanStr = String(str);
+
+        if (cleanStr.length < 1) {
+            return;
+        }
+
+        console.log(`[Accessabar] Speaking ${cleanStr}`);
+
+        this.appActions.ttsInit();
+        this.appActions.ttsSpeak(cleanStr);
+    }
+
     /**
      * Handles rendering of accessabar.
      * Fires a CustomEvent after rendering accessabar if needed.

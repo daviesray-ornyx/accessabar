@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Catamaran|Yantramanav:300');
+
+#page-container {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+#editor-container {
+    height: 20em;
+}
+
+#edit-menu {
+    display: flex;
+    padding: 1em 0;
+    justify-content: flex-end;
+}
+
+#edit-done, #play-text {
+    outline: none;
+    border: 1px solid #d6d6d6;
+    background: #eeeeee;
+    padding: 0.5em 1em;
+}
+
+#edit-done:hover, #play-text:hover {
+    background: #dedede;
+    cursor: pointer;
+}
+
+#custom-text {
+    padding: 2em;
+    border: 2px solid #333;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+@media (max-width: 599px) {
+    #page-container {
+        padding: 1em;
+    }
+
+    #editor-container {
+        height: 10em;
+    }
+}
