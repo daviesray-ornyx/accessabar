@@ -134,7 +134,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         return;
     },
 
-    ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices }) => {
+    ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices, ttsVoice }) => {
         if (ttsVoices.length === 0) {
             return;
         }
@@ -149,6 +149,10 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         utterance.rate = ttsRate;
         utterance.volume = ttsVolume;
         utterance.lang = ttsLang;
+
+        if (ttsVoice) {
+            utterance.voice = ttsVoice;
+        }
 
         utterance.onstart = (event) => {
             window.abar.appActions.ttsHandlePrompt(event);
@@ -183,16 +187,8 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    ttsStop: () => (state, { menuHandle, ttsStopCurrent }: Accessabar.IActions) => {
+    ttsStop: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { ttsStopCurrent }: Accessabar.IActions) => {
         ttsStopCurrent();
-    },
-
-    ttsStopCurrent: () => ({ ttsHighlightSpeak, ttsHoverSpeak }) => {
-        // console.log('stop current');
-
-        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-            window.speechSynthesis.cancel();
-        }
 
         if (ttsHighlightSpeak) {
             document.removeEventListener('mouseup', highlightPassthrough);
@@ -203,11 +199,40 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         }
     },
 
+    ttsStopCurrent: () => () => {
+        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+            window.speechSynthesis.cancel();
+        }
+    },
+
+    ttsResumeCurrent: () => () => {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+    },
+
+    ttsPauseCurrent: () => () => {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.pause();
+        }
+    },
+
     ttsUpdateVoices: () => {
         const ttsVoices = window.speechSynthesis.getVoices();
 
         return {
             ttsVoices,
+        };
+    },
+
+    ttsChangeVoice: (key: number) => ({ ttsVoices }) => {
+        if (!ttsVoices || ttsVoices.length < 1) {
+            return;
+        }
+
+        return {
+            ttsCurrentVoiceName: ttsVoices[key].name,
+            ttsVoice: ttsVoices[key],
         };
     },
 };

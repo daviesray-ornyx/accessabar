@@ -20,6 +20,9 @@ declare namespace Accessabar {
         ttsRate: number;
         ttsVolume: number;
         ttsLang: string;
+        ttsVoice?: SpeechSynthesisVoice;
+        ttsVoiceListActive: boolean;
+        ttsCurrentVoiceName: string;
         ttsVoices: SpeechSynthesisVoice[];
         ttsHoverTimeout: NodeJS.Timeout | boolean;
         ttsHighlightTimeout: NodeJS.Timeout | boolean;
@@ -113,6 +116,8 @@ declare namespace Accessabar {
 
         srActive: boolean;
         srRuntime: SpeechRecognition | boolean;
+
+        settingsHidden: boolean;
     }
 
     interface IActions extends
@@ -128,7 +133,8 @@ declare namespace Accessabar {
         IMagActions,
         IMaskActions,
         IRulerActions,
-        ISRActions {}
+        ISRActions,
+        ISettingsActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -193,11 +199,14 @@ declare namespace Accessabar {
         ttsHoverStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         ttsHighlightStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         ttsStopCurrent(): (state: Accessabar.IState) => Accessabar.IState;
+        ttsResumeCurrent(): (state: Accessabar.IState) => Accessabar.IState;
+        ttsPauseCurrent(): (state: Accessabar.IState) => Accessabar.IState;
         ttsHandleHover(event: MouseEvent): (state: Accessabar.IState) => void;
         ttsHandleHighlight(): (state: Accessabar.IState) => void;
         ttsUpdateVoices(): Accessabar.IState;
         ttsSpeak(text: string): (state: Accessabar.IState) => void;
         ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
+        ttsChangeVoice(key: number): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface ISelectActions {
@@ -267,6 +276,12 @@ declare namespace Accessabar {
         srOutput(str: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
     }
 
+    interface ISettingsActions {
+        settingsOpen(): Accessabar.IState;
+        settingsClose(): Accessabar.IState;
+        settingsToggleTTSList(): Accessabar.IState;
+    }
+
     interface IConfigObject {
         conflicts: string[];
         attrNames: {
@@ -311,6 +326,11 @@ declare namespace Accessabar {
         moveBody?: boolean;
     }
 
+    interface IListItem {
+        name: string;
+        key: string | number;
+        action(key: IListItem['key']): unknown;
+    }
 }
 
 // Allow png and json5 files to be imported

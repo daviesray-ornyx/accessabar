@@ -17,13 +17,20 @@ function handleButtonNavigation(event) {
     }
 }
 
-const playButton = (actions) => {
+interface IPlayButtonActions {
+    ttsResumeCurrent: Accessabar.IActions['ttsResumeCurrent'];
+}
+
+const playButton = ({ ttsResumeCurrent }: IPlayButtonActions) => {
     return h(
         'ab-bar-play-button',
         {
             'aria-label': 'Play',
             class: 'ab-bar-button',
             id: 'ab-play',
+            onclick: () => {
+                ttsResumeCurrent();
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-play', {
                     arrow: true,
@@ -45,13 +52,20 @@ const playButton = (actions) => {
     );
 };
 
-const pauseButton = (actions) => {
+interface IPauseButtonActions {
+    ttsPauseCurrent: Accessabar.IActions['ttsPauseCurrent'];
+}
+
+const pauseButton = ({ ttsPauseCurrent }: IPauseButtonActions) => {
     return h(
         'ab-bar-pause-button',
         {
             'aria-label': 'Pause',
             class: 'ab-bar-button',
             id: 'ab-pause',
+            onclick: () => {
+                ttsPauseCurrent();
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-pause', {
                     arrow: true,
@@ -73,13 +87,20 @@ const pauseButton = (actions) => {
     );
 };
 
-const stopButton = (actions) => {
+interface IStopButtonActions {
+    ttsStopCurrent: Accessabar.IActions['ttsStopCurrent'];
+}
+
+const stopButton = ({ ttsStopCurrent }: IStopButtonActions) => {
     return h(
         'ab-bar-stop-button',
         {
             'aria-label': 'Stop',
             class: 'ab-bar-button',
             id: 'ab-stop',
+            onclick: () => {
+                ttsStopCurrent();
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-stop', {
                     arrow: true,
@@ -503,17 +524,28 @@ const resetButton = ({ resetAll }: IResetButtonActions) => {
     );
 };
 
-const settingsButton = (actions) => {
+interface ISettingsButtonState {
+    settingsHidden: Accessabar.IState['settingsHidden'];
+}
+
+interface ISettingsButtonActions {
+    settingsOpen: Accessabar.IActions['settingsOpen'];
+}
+
+const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen }: ISettingsButtonActions) => {
     return h(
         'ab-bar-settings-button',
         {
             'aria-controls': 'ab-settings',
-            'aria-expanded': 'false',
+            'aria-expanded': String(!settingsHidden),
             'aria-haspopup': 'true',
             'aria-label': 'Settings',
-            'aria-pressed': 'false',
+            'aria-pressed': String(!settingsHidden),
             class: 'ab-bar-button',
             id: 'ab-settings-button',
+            onclick: () => {
+                settingsOpen();
+            },
             oncreate: () => {
                 tippy('#accessabar #ab-settings-button', {
                     arrow: true,

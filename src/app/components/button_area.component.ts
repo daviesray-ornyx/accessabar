@@ -19,8 +19,8 @@ const buttonArea = (state, actions) => {
         [
             h('ab-button-section', {},  [
                 h('ab-button-group', { class: `ab-group ${state.ttsHoverSpeak || state.ttsHighlightSpeak ? '' : 'ab-hide'}`, 'aria-label': 'Sound controls' }, [
-                    Buttons.playButton(actions),
-                    Buttons.pauseButton(actions),
+                    // Buttons.playButton(actions),
+                    // Buttons.pauseButton(actions),
                     Buttons.stopButton(actions),
                 ]),
                 h('ab-button-group', { class: 'ab-group' }, [
@@ -37,7 +37,7 @@ const buttonArea = (state, actions) => {
             ]),
             h('ab-button-section', {},  [
                 Buttons.resetButton(actions),
-                Buttons.settingsButton(actions),
+                Buttons.settingsButton(state, actions),
                 Buttons.closeButton(actions),
             ]),
         ],

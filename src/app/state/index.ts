@@ -52,6 +52,7 @@ const state: Accessabar.IState = {
     ttsCurrentUtterText: '',
     ttsCurrentUtterWordIndex: 0,
     ttsCurrentUtterWords: [],
+    ttsCurrentVoiceName: 'Click to choose voice',
     ttsHighlightSpeak: false,
     ttsHighlightTimeout: false,
     ttsHoverSpeak: false,
@@ -60,7 +61,9 @@ const state: Accessabar.IState = {
     ttsLang: 'en',
     ttsPitch: 1,
     ttsRate: 1,
+    ttsVoice: undefined,
     ttsVoiceActive: false,
+    ttsVoiceListActive: false,
     ttsVoices: [],
     ttsVolume: 1,
 
@@ -107,6 +110,8 @@ const state: Accessabar.IState = {
     rulerReadingOpacityStep: 0.05,
 
     selectFontListActive: false,
+
+    settingsHidden: true,
 
     srActive: false,
     srRuntime: false,

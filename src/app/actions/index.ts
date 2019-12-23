@@ -12,6 +12,7 @@ import magActions from './mag.actions';
 import maskActions from './mask.actions';
 import rulerActions from './ruler.actions';
 import srActions from './sr.actions';
+import settingsActions from './settings.actions';
 
 const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...hideActions,
@@ -27,6 +28,7 @@ const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...maskActions,
     ...rulerActions,
     ...srActions,
+    ...settingsActions,
 };
 
 export default actions;

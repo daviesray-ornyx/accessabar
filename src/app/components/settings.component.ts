@@ -1,0 +1,74 @@
+import { h } from 'hyperapp';
+import { customList, customListItemFactory } from './custom_list.component';
+
+const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
+    return h('ab-settings-header', { class: 'ab-settings-header' }, [
+        h('ab-logo', { class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Accessabar logo' }, [
+            h('ab-logo-img', { class: 'ab-logo-img', alt: 'Accessabar Logo' }),
+        ]),
+        h(
+            'ab-settings-close-button',
+            {
+                'aria-controls': 'ab-settings',
+                'aria-label': 'Close Settings',
+                'aria-pressed': String(settingsHidden),
+                class: 'ab-settings-close-button',
+                onclick: () => {
+                    settingsClose();
+                },
+                role: 'button',
+            },
+            [
+                h('ab-icon', {
+                    'aria-hidden': 'true',
+                    class: 'ab-icon ab-icon-cross',
+                }),
+            ],
+        ),
+    ]);
+};
+
+const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName }, { settingsToggleTTSList, ttsChangeVoice }) => {
+    const factoryCfg: Accessabar.IListItem[] = [];
+    let customListVoices = h('ab-custom-list', {}, []);
+
+    if (ttsVoices && ttsVoices.length > 0) {
+        for (const [key, obj] of ttsVoices.entries()) {
+            factoryCfg.push({
+                key,
+                name: obj.name,
+                action: ttsChangeVoice,
+            });
+        }
+
+        const listItems = customListItemFactory(factoryCfg);
+        const customListObj = {
+            listItems,
+            active: ttsVoiceListActive,
+            currentItem: ttsCurrentVoiceName,
+            openList: settingsToggleTTSList,
+        };
+
+        customListVoices = customList(customListObj);
+    }
+
+    return h('ab-settings-section', { class: 'ab-settings-section' }, [
+        h('ab-settings-section-title', { class: 'ab-settings-section-title' }, 'Text To Speech'),
+        h('ab-settings-tts-lang', { class: 'ab-settings-section-group' }, [
+            h('ab-setting-title', { class: 'ab-setting-title' }, 'Voice'),
+            customListVoices,
+        ]),
+    ]);
+};
+
+const settingsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+    return h('ab-settings-menu', { id: 'ab-settings', class: `ab-settings ${state.settingsHidden ? 'ab-hide' : ''}`, 'aria-label': 'Accessabar settings' }, [
+        settingsHeader(state, actions),
+        settingsTTSSection(state, actions),
+    ]);
+};
+
+export default settingsMenu;
+export {
+    settingsMenu,
+};
