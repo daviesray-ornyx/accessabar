@@ -37,7 +37,10 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
             factoryCfg.push({
                 key,
                 name: obj.name,
-                action: ttsChangeVoice,
+                action: (actionKey) => {
+                    ttsChangeVoice(actionKey);
+                    settingsToggleTTSList();
+                },
             });
         }
 
