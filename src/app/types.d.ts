@@ -20,6 +20,9 @@ declare namespace Accessabar {
         ttsRate: number;
         ttsVolume: number;
         ttsLang: string;
+        ttsVoice?: SpeechSynthesisVoice;
+        ttsVoiceListActive: boolean;
+        ttsCurrentVoiceName: string;
         ttsVoices: SpeechSynthesisVoice[];
         ttsHoverTimeout: NodeJS.Timeout | boolean;
         ttsHighlightTimeout: NodeJS.Timeout | boolean;
@@ -201,6 +204,7 @@ declare namespace Accessabar {
         ttsUpdateVoices(): Accessabar.IState;
         ttsSpeak(text: string): (state: Accessabar.IState) => void;
         ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
+        ttsChangeVoice(key: number): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface ISelectActions {
@@ -273,6 +277,7 @@ declare namespace Accessabar {
     interface ISettingsActions {
         settingsOpen(): Accessabar.IState;
         settingsClose(): Accessabar.IState;
+        settingsToggleTTSList(): Accessabar.IState;
     }
 
     interface IConfigObject {
@@ -319,6 +324,11 @@ declare namespace Accessabar {
         moveBody?: boolean;
     }
 
+    interface IListItem {
+        name: string;
+        key: string | number;
+        action(key: IListItem['key']): unknown;
+    }
 }
 
 // Allow png and json5 files to be imported

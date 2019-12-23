@@ -12,6 +12,12 @@ const settingsActions: ActionsType<Accessabar.IState, Accessabar.ISettingsAction
             settingsHidden: true,
         };
     },
+
+    settingsToggleTTSList: () => ({ ttsVoiceListActive }) => {
+        return {
+            ttsVoiceListActive: !ttsVoiceListActive,
+        };
+    },
 };
 
 export default settingsActions;

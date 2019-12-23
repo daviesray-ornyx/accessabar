@@ -4,7 +4,7 @@ interface ICustomList {
     currentItem: string;
     listItems: VNode[];
     active: boolean;
-    openList(event: MouseEvent): never;
+    openList(): never;
 }
 
 const customList = ({ listItems, active, openList, currentItem }: ICustomList) => {
@@ -14,8 +14,8 @@ const customList = ({ listItems, active, openList, currentItem }: ICustomList) =
             {
                 class: `ab-custom-list-box ab-flex ${active ? 'ab-active' : ''}`,
                 id: 'ab-custom-list-box',
-                onclick: (event) => {
-                    openList(event);
+                onclick: () => {
+                    openList();
                 },
             },
             currentItem,
@@ -33,7 +33,30 @@ const customList = ({ listItems, active, openList, currentItem }: ICustomList) =
     ]);
 };
 
+const customListItemFactory = (listItems: Accessabar.IListItem[]): VNode[] => {
+    const list: VNode[] = [];
+
+    for (const obj of listItems) {
+        const item = h(
+            'ab-custom-list-selection-item',
+            {
+                class: 'ab-custom-list-selection-item',
+                onclick: () => {
+                    obj.action(obj.key);
+                },
+                role: 'option',
+            },
+            obj.name,
+        );
+
+        list.push(item);
+    }
+
+    return list;
+};
+
 export default customList;
 export {
     customList,
+    customListItemFactory,
 };

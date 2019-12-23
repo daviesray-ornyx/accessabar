@@ -134,7 +134,7 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         return;
     },
 
-    ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices }) => {
+    ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices, ttsVoice }) => {
         if (ttsVoices.length === 0) {
             return;
         }
@@ -149,6 +149,10 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         utterance.rate = ttsRate;
         utterance.volume = ttsVolume;
         utterance.lang = ttsLang;
+
+        if (ttsVoice) {
+            utterance.voice = ttsVoice;
+        }
 
         utterance.onstart = (event) => {
             window.abar.appActions.ttsHandlePrompt(event);
@@ -208,6 +212,17 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
 
         return {
             ttsVoices,
+        };
+    },
+
+    ttsChangeVoice: (key: number) => ({ ttsVoices }) => {
+        if (!ttsVoices || ttsVoices.length < 1) {
+            return;
+        }
+
+        return {
+            ttsCurrentVoiceName: ttsVoices[key].name,
+            ttsVoice: ttsVoices[key],
         };
     },
 };
