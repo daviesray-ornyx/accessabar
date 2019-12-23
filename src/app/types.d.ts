@@ -199,6 +199,8 @@ declare namespace Accessabar {
         ttsHoverStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         ttsHighlightStart(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         ttsStopCurrent(): (state: Accessabar.IState) => Accessabar.IState;
+        ttsResumeCurrent(): (state: Accessabar.IState) => Accessabar.IState;
+        ttsPauseCurrent(): (state: Accessabar.IState) => Accessabar.IState;
         ttsHandleHover(event: MouseEvent): (state: Accessabar.IState) => void;
         ttsHandleHighlight(): (state: Accessabar.IState) => void;
         ttsUpdateVoices(): Accessabar.IState;

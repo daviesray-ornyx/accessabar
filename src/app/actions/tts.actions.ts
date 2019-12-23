@@ -187,16 +187,8 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         };
     },
 
-    ttsStop: () => (state, { menuHandle, ttsStopCurrent }: Accessabar.IActions) => {
+    ttsStop: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { ttsStopCurrent }: Accessabar.IActions) => {
         ttsStopCurrent();
-    },
-
-    ttsStopCurrent: () => ({ ttsHighlightSpeak, ttsHoverSpeak }) => {
-        // console.log('stop current');
-
-        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-            window.speechSynthesis.cancel();
-        }
 
         if (ttsHighlightSpeak) {
             document.removeEventListener('mouseup', highlightPassthrough);
@@ -204,6 +196,24 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
 
         if (ttsHoverSpeak) {
             document.removeEventListener('mouseover', hoverPassthrough);
+        }
+    },
+
+    ttsStopCurrent: () => () => {
+        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+            window.speechSynthesis.cancel();
+        }
+    },
+
+    ttsResumeCurrent: () => () => {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+    },
+
+    ttsPauseCurrent: () => () => {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.pause();
         }
     },
 
