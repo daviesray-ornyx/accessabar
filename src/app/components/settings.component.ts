@@ -6,6 +6,7 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
         h('ab-logo', { class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Accessabar logo' }, [
             h('ab-logo-img', { class: 'ab-logo-img', alt: 'Accessabar Logo' }),
         ]),
+        h('ab-settings-header-title', { class: 'ab-settings-header-title' }, 'Settings'),
         h(
             'ab-settings-close-button',
             {
