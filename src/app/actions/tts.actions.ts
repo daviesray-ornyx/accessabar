@@ -1,4 +1,5 @@
 import { ActionsType } from 'hyperapp';
+import BigNumber from 'bignumber.js';
 
 function hoverPassthrough(event) {
     window.abar.appActions.ttsHandleHover(event);
@@ -145,9 +146,9 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
             window.speechSynthesis.cancel();
         }
 
-        utterance.pitch = ttsPitch;
-        utterance.rate = ttsRate;
-        utterance.volume = ttsVolume;
+        utterance.pitch = new BigNumber(ttsPitch).toNumber();
+        utterance.rate = new BigNumber(ttsRate).toNumber();
+        utterance.volume = new BigNumber(ttsVolume).toNumber();
         utterance.lang = ttsLang;
 
         if (ttsVoice) {
@@ -233,6 +234,12 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
         return {
             ttsCurrentVoiceName: ttsVoices[key].name,
             ttsVoice: ttsVoices[key],
+        };
+    },
+
+    ttsChangeVolume: (volume: string) => {
+        return {
+            ttsVolume: volume,
         };
     },
 };

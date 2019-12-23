@@ -16,9 +16,9 @@ declare namespace Accessabar {
         ttsInitiated: boolean;
         ttsHoverSpeak: boolean;
         ttsHighlightSpeak: boolean;
-        ttsPitch: number;
-        ttsRate: number;
-        ttsVolume: number;
+        ttsPitch: string;
+        ttsRate: string;
+        ttsVolume: string;
         ttsLang: string;
         ttsVoice?: SpeechSynthesisVoice;
         ttsVoiceListActive: boolean;
@@ -207,6 +207,7 @@ declare namespace Accessabar {
         ttsSpeak(text: string): (state: Accessabar.IState) => void;
         ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
         ttsChangeVoice(key: number): (state: Accessabar.IState) => Accessabar.IState;
+        ttsChangeVolume(volume: string): Accessabar.IState;
     }
 
     interface ISelectActions {

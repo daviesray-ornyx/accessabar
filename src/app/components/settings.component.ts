@@ -6,6 +6,7 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
         h('ab-logo', { class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Accessabar logo' }, [
             h('ab-logo-img', { class: 'ab-logo-img', alt: 'Accessabar Logo' }),
         ]),
+        h('ab-settings-header-title', { class: 'ab-settings-header-title' }, 'Settings'),
         h(
             'ab-settings-close-button',
             {
@@ -28,7 +29,7 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
     ]);
 };
 
-const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName }, { settingsToggleTTSList, ttsChangeVoice }) => {
+const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName }, { settingsToggleTTSList, ttsChangeVoice, ttsChangeVolume, ttsVolume }) => {
     const factoryCfg: Accessabar.IListItem[] = [];
     let customListVoices = h('ab-custom-list', {}, []);
 
@@ -37,7 +38,10 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
             factoryCfg.push({
                 key,
                 name: obj.name,
-                action: ttsChangeVoice,
+                action: (actionKey) => {
+                    ttsChangeVoice(actionKey);
+                    settingsToggleTTSList();
+                },
             });
         }
 
@@ -54,9 +58,24 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
 
     return h('ab-settings-section', { class: 'ab-settings-section' }, [
         h('ab-settings-section-title', { class: 'ab-settings-section-title' }, 'Text To Speech'),
-        h('ab-settings-tts-lang', { class: 'ab-settings-section-group' }, [
+        h('ab-settings-tts-voice', { class: 'ab-settings-section-group' }, [
             h('ab-setting-title', { class: 'ab-setting-title' }, 'Voice'),
             customListVoices,
+        ]),
+        h('ab-settings-tts-volume', { class: 'ab-settings-section-group' }, [
+            h('ab-setting-title', { class: 'ab-setting-title' }, 'Volume'),
+            h('input', {
+                class: 'ab-range',
+                type: 'range',
+                onchange: (ev) => {
+                    if (ev.target) {
+                        ttsChangeVolume(ev.target.value);
+                    }
+                },
+                min: '0',
+                max: '1',
+                step: '0.05',
+            }),
         ]),
     ]);
 };

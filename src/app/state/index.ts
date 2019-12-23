@@ -59,13 +59,13 @@ const state: Accessabar.IState = {
     ttsHoverTimeout: false,
     ttsInitiated: false,
     ttsLang: 'en',
-    ttsPitch: 1,
-    ttsRate: 1,
+    ttsPitch: '1',
+    ttsRate: '1',
     ttsVoice: undefined,
     ttsVoiceActive: false,
     ttsVoiceListActive: false,
     ttsVoices: [],
-    ttsVolume: 1,
+    ttsVolume: '1',
 
     textOpsInnerMenuCurrent: 'font',
 
