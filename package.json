@@ -91,7 +91,7 @@
     "bignumber.js": "9.0.0",
     "hyperapp": "1.2.10",
     "normalize.css": "8.0.1",
-    "rxjs": "6.5.3",
+    "rxjs": "6.5.4",
     "serve": "11.2.0",
     "tippy.js": "5.1.2"
   }
