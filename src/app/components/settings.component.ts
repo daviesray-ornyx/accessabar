@@ -31,7 +31,7 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
 
 const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName, ttsVolume }, { settingsToggleTTSList, ttsChangeVoice, ttsChangeVolume }) => {
     const factoryCfg: Accessabar.IListItem[] = [];
-    let customListVoices = h('ab-custom-list', {}, []);
+    let customListVoices = h('ab-setting-placeholder', { class: 'ab-setting-placeholder' }, ['Please open Text to Speech to choose a voice.']);
 
     if (ttsVoices && ttsVoices.length > 0) {
         for (const [key, obj] of ttsVoices.entries()) {
