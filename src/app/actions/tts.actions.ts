@@ -242,6 +242,18 @@ const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
             ttsVolume: volume,
         };
     },
+
+    ttsChangeRate: (rate: string) => {
+        return {
+            ttsRate: rate,
+        };
+    },
+
+    ttsChangePitch: (pitch: string) => {
+        return {
+            ttsPitch: pitch,
+        };
+    },
 };
 
 export default ttsActions;

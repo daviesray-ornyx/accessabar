@@ -29,9 +29,9 @@ const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
     ]);
 };
 
-const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName, ttsVolume }, { settingsToggleTTSList, ttsChangeVoice, ttsChangeVolume }) => {
+const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName, ttsVolume, ttsRate, ttsPitch }, { settingsToggleTTSList, ttsChangeVoice, ttsChangeVolume, ttsChangeRate, ttsChangePitch }) => {
     const factoryCfg: Accessabar.IListItem[] = [];
-    let customListVoices = h('ab-custom-list', {}, []);
+    let customListVoices = h('ab-setting-placeholder', { class: 'ab-setting-placeholder' }, ['Please open Text to Speech to choose a voice.']);
 
     if (ttsVoices && ttsVoices.length > 0) {
         for (const [key, obj] of ttsVoices.entries()) {
@@ -51,6 +51,7 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
             active: ttsVoiceListActive,
             currentItem: ttsCurrentVoiceName,
             openList: settingsToggleTTSList,
+            customListID: 'ab-custom-list-tts-voices',
         };
 
         customListVoices = customList(customListObj);
@@ -63,8 +64,9 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
             customListVoices,
         ]),
         h('ab-settings-tts-volume', { class: 'ab-settings-section-group' }, [
-            h('ab-setting-title', { class: 'ab-setting-title' }, 'Volume'),
+            h('ab-setting-title', { id: 'ab-setting-title-volume' , class: 'ab-setting-title' }, 'Volume'),
             h('input', {
+                'aria-labelledby': 'ab-setting-title-volume',
                 class: 'ab-range',
                 type: 'range',
                 onchange: (ev) => {
@@ -76,6 +78,40 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
                 max: '1',
                 step: '0.05',
                 value: ttsVolume,
+            }),
+        ]),
+        h('ab-settings-tts-rate', { class: 'ab-settings-section-group' }, [
+            h('ab-setting-title', { id: 'ab-setting-title-speed', class: 'ab-setting-title' }, 'Speed'),
+            h('input', {
+                'aria-labelledby': 'ab-setting-title-speed',
+                class: 'ab-range',
+                type: 'range',
+                onchange: (ev) => {
+                    if (ev.target) {
+                        ttsChangeRate(ev.target.value);
+                    }
+                },
+                min: '0',
+                max: '1',
+                step: '0.05',
+                value: ttsRate,
+            }),
+        ]),
+        h('ab-settings-tts-pitch', { class: 'ab-settings-section-group' }, [
+            h('ab-setting-title', { id: 'ab-setting-title-pitch', class: 'ab-setting-title' }, 'Pitch'),
+            h('input', {
+                'aria-labelledby': 'ab-setting-title-pitch',
+                class: 'ab-range',
+                type: 'range',
+                onchange: (ev) => {
+                    if (ev.target) {
+                        ttsChangePitch(ev.target.value);
+                    }
+                },
+                min: '0',
+                max: '1',
+                step: '0.05',
+                value: ttsPitch,
             }),
         ]),
     ]);

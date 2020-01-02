@@ -208,6 +208,8 @@ declare namespace Accessabar {
         ttsHandlePrompt(event: SpeechSynthesisEvent): (state: Accessabar.IState) => Accessabar.IState;
         ttsChangeVoice(key: number): (state: Accessabar.IState) => Accessabar.IState;
         ttsChangeVolume(volume: string): Accessabar.IState;
+        ttsChangeRate(rate: string): Accessabar.IState;
+        ttsChangePitch(pitch: string): Accessabar.IState;
     }
 
     interface ISelectActions {

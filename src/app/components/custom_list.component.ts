@@ -4,16 +4,17 @@ interface ICustomList {
     currentItem: string;
     listItems: VNode[];
     active: boolean;
+    customListID: string;
     openList(): never;
 }
 
-const customList = ({ listItems, active, openList, currentItem }: ICustomList) => {
+const customList = ({ listItems, active, openList, currentItem, customListID }: ICustomList) => {
     return h('ab-custom-list', { class: 'ab-custom-list ab-flex ab-flex-column' }, [
         h(
             'ab-custom-list-box',
             {
                 class: `ab-custom-list-box ab-flex ${active ? 'ab-active' : ''}`,
-                id: 'ab-custom-list-box',
+                id: customListID,
                 onclick: () => {
                     openList();
                 },
@@ -23,9 +24,8 @@ const customList = ({ listItems, active, openList, currentItem }: ICustomList) =
         h(
             'ab-custom-list-selection',
             {
-                'aria-labelledby': 'ab-custom-list-box',
+                'aria-labelledby': customListID,
                 class: `ab-custom-list-selection ${active ? 'ab-flex' : 'ab-hide'} ab-flex-column`,
-                id: 'ab-font-list-selection',
                 role: 'listbox',
             },
             listItems,
