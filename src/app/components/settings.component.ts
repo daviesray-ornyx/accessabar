@@ -51,6 +51,7 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
             active: ttsVoiceListActive,
             currentItem: ttsCurrentVoiceName,
             openList: settingsToggleTTSList,
+            customListID: 'ab-custom-list-tts-voices',
         };
 
         customListVoices = customList(customListObj);
