@@ -5,9 +5,6 @@
   "author": "Elliott Judd <elliott.judd@hands-free.co.uk>",
   "license": "AGPL-3.0-or-later",
   "main": "public/dist/accessabar/accessabar.bundle.js",
-  "engines": {
-    "node": "12.x"
-  },
   "scripts": {
     "prepare": "rimraf \"./public/dist/accessabar/*\" \"./node_modules/.cache/*\" && webpack --env.mode=\"production\" --env.npm=\"enabled\"",
     "build": "webpack --env.mode=\"production\"",
