@@ -1,11 +1,5 @@
 {
-    "builds": [
-        {
-            "src": "package.json",
-            "use": "@now/static-build",
-            "config": { "distDir": "./public" }
-        }
-    ],
+    "scope": "handsfree",
     "name": "accessabar",
     "regions": ["lhr"],
     "version": 2
