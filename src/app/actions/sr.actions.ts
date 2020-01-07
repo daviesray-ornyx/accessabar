@@ -84,7 +84,7 @@ const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
         case 'INPUT':
         case 'TEXTAREA':
         case 'SELECT':
-            active.textContent += str;
+            (active as HTMLInputElement).value += str;
             break;
         default:
             if (active.hasAttribute('contenteditable') && active.getAttribute('contenteditable')) {
