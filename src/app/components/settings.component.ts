@@ -57,7 +57,7 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
         customListVoices = customList(customListObj);
     }
 
-    return h('ab-settings-section', { class: 'ab-settings-section' }, [
+    return [
         h('ab-settings-section-title', { class: 'ab-settings-section-title' }, 'Text To Speech'),
         h('ab-settings-tts-voice', { class: 'ab-settings-section-group' }, [
             h('ab-setting-title', { class: 'ab-setting-title' }, 'Voice'),
@@ -114,13 +114,22 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
                 value: ttsPitch,
             }),
         ]),
-    ]);
+    ];
+};
+
+const settingsSRSection = (state, actions) => {
+    return [
+        h('ab-settings-section-title', { class: 'ab-settings-section-title' }, 'Speech Recognition'),
+    ];
 };
 
 const settingsMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     return h('ab-settings-menu', { id: 'ab-settings', class: `ab-settings ${state.settingsHidden ? 'ab-hide' : ''}`, 'aria-label': 'Accessabar settings' }, [
         settingsHeader(state, actions),
-        settingsTTSSection(state, actions),
+        h('ab-settings-section', { class: 'ab-settings-section' }, [
+            ...settingsTTSSection(state, actions),
+            ...settingsSRSection(state, actions),
+        ]),
     ]);
 };
 
