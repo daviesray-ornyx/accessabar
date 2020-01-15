@@ -1,4 +1,5 @@
 import { ActionsType } from 'hyperapp';
+import ISO6391 from 'iso-639-1';
 
 declare var webkitSpeechRecognition: {
     prototype: SpeechRecognition;
@@ -100,6 +101,13 @@ const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
             selection.selectAllChildren(active);
             selection.collapseToEnd();
         }
+    },
+
+    srChangeLang: (lang: string) => {
+        return {
+            srLang: lang,
+            srLangName: ISO6391.getNativeName(lang),
+        };
     },
 };
 

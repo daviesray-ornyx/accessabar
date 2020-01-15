@@ -1,5 +1,6 @@
 import { h } from 'hyperapp';
 import { customList, customListItemFactory } from './custom_list.component';
+import ISO6391 from 'iso-639-1';
 
 const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
     return h('ab-settings-header', { class: 'ab-settings-header' }, [
@@ -117,9 +118,37 @@ const settingsTTSSection = ({ ttsVoices, ttsVoiceListActive, ttsCurrentVoiceName
     ];
 };
 
-const settingsSRSection = (state, actions) => {
+const settingsSRSection = ({ srLangListActive, srLangName }, { srChangeLang, settingsToggleSRLangList }) => {
+    const factoryCfg: Accessabar.IListItem[] = [];
+    const langKeys = ISO6391.getAllCodes();
+
+    for (const key of langKeys) {
+        factoryCfg.push({
+            key,
+            name: ISO6391.getNativeName(key),
+            action: (actionKey) => {
+                srChangeLang(actionKey);
+                settingsToggleSRLangList();
+            },
+        });
+    }
+
+    const listItems = customListItemFactory(factoryCfg);
+    const customListObj = {
+        listItems,
+        active: srLangListActive,
+        currentItem: srLangName,
+        openList: settingsToggleSRLangList,
+        customListID: 'ab-custom-list-sr-langs',
+    };
+    const langListEl = customList(customListObj);
+
     return [
         h('ab-settings-section-title', { class: 'ab-settings-section-title' }, 'Speech Recognition'),
+        h('ab-settings-sr-lang', { class: 'ab-settings-section-group' }, [
+            h('ab-setting-title', { class: 'ab-setting-title' }, 'Language'),
+            langListEl,
+        ]),
     ];
 };
 

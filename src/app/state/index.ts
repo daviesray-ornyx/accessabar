@@ -115,6 +115,8 @@ const state: Accessabar.IState = {
 
     srActive: false,
     srLang: 'en',
+    srLangName: 'English',
+    srLangListActive: false,
     srRuntime: false,
 };
 

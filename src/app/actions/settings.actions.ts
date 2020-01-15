@@ -18,6 +18,12 @@ const settingsActions: ActionsType<Accessabar.IState, Accessabar.ISettingsAction
             ttsVoiceListActive: !ttsVoiceListActive,
         };
     },
+
+    settingsToggleSRLangList: () => ({ srLangListActive }) => {
+        return {
+            srLangListActive: !srLangListActive,
+        };
+    },
 };
 
 export default settingsActions;

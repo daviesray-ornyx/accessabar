@@ -117,6 +117,8 @@ declare namespace Accessabar {
         srActive: boolean;
         srRuntime: SpeechRecognition | boolean;
         srLang: string;
+        srLangName: string;
+        srLangListActive: boolean;
 
         settingsHidden: boolean;
     }
@@ -278,12 +280,14 @@ declare namespace Accessabar {
         srHandleResult(event: SpeechRecognitionEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srAddEvents(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srOutput(str: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
+        srChangeLang(lang: string): Accessabar.IState;
     }
 
     interface ISettingsActions {
         settingsOpen(): Accessabar.IState;
         settingsClose(): Accessabar.IState;
         settingsToggleTTSList(): Accessabar.IState;
+        settingsToggleSRLangList(): Accessabar.IState;
     }
 
     interface IConfigObject {
