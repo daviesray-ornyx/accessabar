@@ -116,6 +116,7 @@ declare namespace Accessabar {
 
         srActive: boolean;
         srRuntime: SpeechRecognition | boolean;
+        srLang: string;
 
         settingsHidden: boolean;
     }

@@ -22,12 +22,12 @@ const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
         };
     },
 
-    srStart: () => ({ srRuntime }, { srAddEvents }) => {
+    srStart: () => ({ srRuntime, srLang }, { srAddEvents }) => {
         if (typeof srRuntime === 'boolean') {
             return;
         }
 
-        srRuntime.lang = 'en-GB';
+        srRuntime.lang = srLang;
         // srRuntime.interimResults = true;
         srRuntime.continuous = true;
 
