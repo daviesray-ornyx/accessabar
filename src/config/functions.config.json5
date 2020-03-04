@@ -84,5 +84,10 @@
     speechRecognition: {
         conflicts: [],
         disableOnClick: true,
-    }
+    },
+    pageTranslation: {
+        conflicts: [],
+        editName: 'page-translation',
+        disableOnClick: false,
+    },
 }

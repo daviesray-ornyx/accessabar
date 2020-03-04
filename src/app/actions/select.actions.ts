@@ -34,6 +34,12 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
         };
     },
 
+    selectToggleLanguageList: (event: Event) => ({ selectLanguageListActive }) => {
+        return {
+            selectLanguageListActive: !selectLanguageListActive,
+        };
+    },
+
     selectToggleFontCurrent: (key: string) => ({ fontActive }, { fontChangeFamilyAll }: Accessabar.IActions) => {
         if (fontActive) {
             fontChangeFamilyAll(key);
@@ -42,6 +48,20 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
         return {
             fontCurrentKey: key,
             selectFontListActive: false,
+        };
+    },
+
+    selectToggleLanguageCurrent: (key: string) => ({ languageActive }, { languageChangeAll }: Accessabar.IActions) => {
+        
+        // if (languageActive) {
+        //     languageChangeAll(key);
+        // }
+
+        languageChangeAll(key);
+
+        return {
+            languageCurrentKey: key,
+            selectLanguageListActive: false,
         };
     },
 

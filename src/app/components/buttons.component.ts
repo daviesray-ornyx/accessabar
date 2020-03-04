@@ -484,10 +484,57 @@ const srButton = ({ menuCurrent }: ISRButtonState, { menuHandle }: ISRButtonActi
             h('ab-icon', {
                 'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-mic',
+                style: {
+                    background:'#000000',
+                    color: '#ffffff' 
+                }
             }),
         ],
     );
 };
+
+interface IPTButtonActions{
+    menuHandle: Accessabar.IActions['menuHandle'];
+}
+
+interface IPTButtonState{
+    menuCurrent: Accessabar.IState['menuCurrent'];
+}
+
+const ptButton = ({menuCurrent}: IPTButtonState, {menuHandle}: IPTButtonActions) => {
+    return h(
+        'ab-bar-pt-button',
+        {
+            'aria-controls': 'ab-menu',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true',
+            'aria-label': 'Page Translation',
+            'aria-pressed': menuCurrent === 'pageTranslate' ? true : false,
+            class: 'ab-bar-button',
+            id: 'ab-page-translate',
+            onclick: () => {
+                menuHandle('pageTranslate');
+            },
+            oncreate: () => {
+                tippy('#accessabar #ab-page-translate', { 
+                    arrow: true,
+                    content: 'Page Translation',
+                    placement: 'bottom',
+                    theme: 'ab'
+                }); 
+            },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+            tabindex: 0, 
+        },
+        [
+            h('ab-icon', {
+                'aria-hidden': 'true',
+                class: 'ab-icon ab-icon-translate'
+            }),
+        ]
+    );
+}
 
 interface IResetButtonActions {
     resetAll: Accessabar.IResetActions['resetAll'];
@@ -662,6 +709,7 @@ export {
     maskButton,
     rulerButton,
     srButton,
+    ptButton,
     resetButton,
     settingsButton,
     hideButton,
