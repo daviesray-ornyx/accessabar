@@ -5,7 +5,7 @@ import ISO6391 from 'iso-639-1';
 const settingsHeader = ({ settingsHidden }, { settingsClose }) => {
     return h('ab-settings-header', { class: 'ab-settings-header' }, [
         h('ab-logo', { class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Accessabar logo' }, [
-            h('ab-logo-img', { class: 'ab-logo-img', alt: 'Accessabar Logo' }),
+            h('ab-logo-img', { class: 'ab-logo-img-word', alt: 'Accessabar Logo' }),
         ]),
         h('ab-settings-header-title', { class: 'ab-settings-header-title' }, 'Settings'),
         h(
