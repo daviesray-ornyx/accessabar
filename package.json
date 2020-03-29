@@ -34,7 +34,7 @@
     "@babel/preset-typescript": "7.9.0",
     "@types/jquery": "3.3.34",
     "@types/node": "10.14.10",
-    "@types/webpack": "4.41.8",
+    "@types/webpack": "4.41.9",
     "@types/webpack-env": "1.15.1",
     "autoprefixer": "9.7.5",
     "ava": "2.4.0",
