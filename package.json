@@ -90,7 +90,7 @@
     "@webcomponents/custom-elements": "1.4.1",
     "bignumber.js": "9.0.0",
     "hyperapp": "1.2.10",
-    "iso-639-1": "2.1.0",
+    "iso-639-1": "2.1.1",
     "normalize.css": "8.0.1",
     "rxjs": "6.5.4",
     "serve": "11.3.0",
