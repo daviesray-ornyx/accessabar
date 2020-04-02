@@ -137,7 +137,8 @@ declare namespace Accessabar {
         IMaskActions,
         IRulerActions,
         ISRActions,
-        ISettingsActions {}
+        ISettingsActions,
+        IApiActions {}
 
     interface IHideActions {
         abarHide(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -288,6 +289,11 @@ declare namespace Accessabar {
         settingsClose(): Accessabar.IState;
         settingsToggleTTSList(): Accessabar.IState;
         settingsToggleSRLangList(): Accessabar.IState;
+    }
+
+    interface IApiActions {
+        apiAceOpened(): void;
+        apiAceClosed(): void;
     }
 
     interface IConfigObject {
