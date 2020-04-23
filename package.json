@@ -35,7 +35,7 @@
     "@types/jquery": "3.3.35",
     "@types/node": "10.14.10",
     "@types/webpack": "4.41.12",
-    "@types/webpack-env": "1.15.1",
+    "@types/webpack-env": "1.15.2",
     "autoprefixer": "9.7.6",
     "ava": "2.4.0",
     "babel-eslint": "10.1.0",
