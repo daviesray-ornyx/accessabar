@@ -32,7 +32,7 @@
     "@babel/plugin-transform-runtime": "7.9.0",
     "@babel/preset-env": "7.9.5",
     "@babel/preset-typescript": "7.9.0",
-    "@types/jquery": "3.3.35",
+    "@types/jquery": "3.3.36",
     "@types/node": "10.14.10",
     "@types/webpack": "4.41.12",
     "@types/webpack-env": "1.15.2",
