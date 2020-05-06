@@ -1,8 +1,6 @@
 import { ActionsType } from 'hyperapp';
 import languageConfig from '../../config/language.config.json5';
-
-const https = require('https');
-
+import https from 'https';
 
 /**
  * Fetches and returns parents of text nodes in the document
@@ -64,11 +62,10 @@ function getParents(): Set<HTMLElement> {
     return parentElements;
 }
 
-
 const languageActions: ActionsType<Accessabar.IState, Accessabar.ILanguageActions> = {
     /**
      * Translates all text on the page to a specified language
-     * 
+     *
      */
     languageChangeAll: (key?: string) => ({ languageCurrentKey }) => {
         const currentKey: string = key || languageCurrentKey;
@@ -78,7 +75,7 @@ const languageActions: ActionsType<Accessabar.IState, Accessabar.ILanguageAction
 
         const currentLanguageCode = languageConfig[currentKey].code || null;
         const dataFormat = "html";
-        const parentElements = getParents(); 
+        const parentElements = getParents();
 
         parentElements.forEach(element => {
             let elementTextContent = element.textContent;
@@ -93,17 +90,17 @@ const languageActions: ActionsType<Accessabar.IState, Accessabar.ILanguageAction
                 'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }
-            
+
             const req = https.request(options, res => {
                 if(res.statusCode != 200)
-                    return; 
+                    return;
                 res.on('data', d => {
                     const jsonData = JSON.parse(d);
                     element.textContent = jsonData.text;
                 })
-            })                        
+            })
             req.end();
-        });                  
+        });
     },
 };
 

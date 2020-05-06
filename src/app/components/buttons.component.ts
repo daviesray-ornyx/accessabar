@@ -484,10 +484,6 @@ const srButton = ({ menuCurrent }: ISRButtonState, { menuHandle }: ISRButtonActi
             h('ab-icon', {
                 'aria-hidden': 'true',
                 class: 'ab-icon ab-icon-mic',
-                style: {
-                    background:'#000000',
-                    color: '#ffffff' 
-                }
             }),
         ],
     );
@@ -501,7 +497,7 @@ interface IPTButtonState{
     menuCurrent: Accessabar.IState['menuCurrent'];
 }
 
-const ptButton = ({menuCurrent}: IPTButtonState, {menuHandle}: IPTButtonActions) => {
+const ptButton = ({ menuCurrent }: IPTButtonState, { menuHandle }: IPTButtonActions) => {
     return h(
         'ab-bar-pt-button',
         {
@@ -516,25 +512,25 @@ const ptButton = ({menuCurrent}: IPTButtonState, {menuHandle}: IPTButtonActions)
                 menuHandle('pageTranslate');
             },
             oncreate: () => {
-                tippy('#accessabar #ab-page-translate', { 
+                tippy('#accessabar #ab-page-translate', {
                     arrow: true,
                     content: 'Page Translation',
                     placement: 'bottom',
-                    theme: 'ab'
-                }); 
+                    theme: 'ab',
+                });
             },
             onkeydown: handleButtonNavigation,
             role: 'button',
-            tabindex: 0, 
+            tabindex: 0,
         },
         [
             h('ab-icon', {
                 'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-translate'
+                class: 'ab-icon ab-icon-translate',
             }),
-        ]
+        ],
     );
-}
+};
 
 interface IResetButtonActions {
     resetAll: Accessabar.IResetActions['resetAll'];

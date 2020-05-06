@@ -236,7 +236,6 @@ declare namespace Accessabar {
         selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleLanguageList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        //selectToggleLanguageCurrent
         selectToggleLanguageCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMagnifier(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMask(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
@@ -299,10 +298,6 @@ declare namespace Accessabar {
         srAddEvents(): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srOutput(str: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         srChangeLang(lang: string): Accessabar.IState;
-    }
-
-    interface IGTActions {
-        gtStart: (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface ISettingsActions {

@@ -9,7 +9,6 @@ const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { resolve } = require('path');
-const Dotenv = require('dotenv-webpack');
 // const threadLoader = require('thread-loader');
 // const { length: cpuCount } = require('os').cpus();
 
@@ -157,13 +156,7 @@ const mainSettings = (entries, dev, devServer, dash, verbose) => {
         new MiniCssExtractPlugin({
             filename: 'app.css',
         }),
-        new Dotenv({
-            path: './.env', // Path to .env file (this is the default)
-            safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
-        })
     ];
-
-    
 
     return {
         context: resolve(__dirname, 'src'),
