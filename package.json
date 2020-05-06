@@ -37,7 +37,7 @@
     "@types/webpack": "4.41.12",
     "@types/webpack-env": "1.15.2",
     "autoprefixer": "9.7.6",
-    "ava": "2.4.0",
+    "ava": "3.8.1",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.1.0",
     "browser-sync": "2.26.7",
