@@ -1,9 +1,11 @@
 import fontConfig from '../../config/fonts.config.json5';
+import languageConfig from '../../config/language.config.json5';
 import { handleButtonNavigation } from './buttons.component';
 import { VNode, h } from 'hyperapp';
 import tippy from 'tippy.js';
 import Pickr from '@simonwep/pickr';
 import BigNumber from 'bignumber.js';
+//import { Script } from 'vm';
 
 const switchEl = (switchState: boolean, switchAction: () => unknown, labelText: string, ariaLabel: string) => {
     return h(
@@ -1164,6 +1166,77 @@ const srMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     ]);
 };
 
+const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
+
+
+    /* tslint:disable-next-line */
+    const languageList: VNode<any>[] = [];
+    const languages = Object.entries((languageConfig as Accessabar.ILanguageConfig));
+    const currentLanguage = state.languageCurrentKey.length > 0
+        ? (languageConfig[state.languageCurrentKey].name || 'Select Language:   ')
+        : 'Select Language:    ';
+    
+    for (const [key, obj] of languages) {
+        const item = h(
+            'ab-custom-list-selection-item',
+            {
+                class: 'ab-custom-list-selection-item',
+                onclick: () => {
+                    actions.selectToggleLanguageCurrent(key);
+                },
+                role: 'option',                
+            },
+            obj.name,
+        );
+
+        languageList.push(item);
+    }
+
+    return h('ab-page-translate-options-inner-menu-font', { class: 'ab-flex-column' }, [
+        h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
+            //switchEl(state.languageActive, actions.languageEnable, 'Toggle Language', 'Toggle the page language'),
+        ]),
+        h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
+            h(
+                'ab-page-translate-options-menu',
+                {
+                    class: 'ab-font-options',
+                },
+                [
+                    h('ab-custom-list', { class: 'ab-custom-list ab-flex ab-flex-column' }, [
+                        h(
+                            'ab-custom-list-box',
+                            {
+                                class: `ab-custom-list-box ab-flex ab-active`,
+                                id: 'ab-custom-list-box',
+                                onclick: (event) => {
+                                    actions.selectToggleLanguageList(event);
+                                },
+                                style: {
+                                    
+                                },
+                            },
+                            currentLanguage,
+                        ),
+                        h(
+                            'ab-custom-list-selection',
+                            {
+                                'aria-labelledby': 'ab-custom-list-box',
+                                class: `ab-custom-list-selection ${state.selectLanguageListActive ? 'ab-flex' : 'ab-hide'} ab-flex-column`,
+                                id: 'ab-language-list-selection',
+                                role: 'listbox',
+                            },
+                            languageList,
+                        ),
+                    ]),
+                ],
+            ),
+        ]),
+    ]);
+        
+}
+
+
 export {
     ttsMenu,
     textOptionsMenu,
@@ -1171,4 +1244,5 @@ export {
     maskMenu,
     rulerOptionsMenu,
     srMenu,
+    ptMenu,
 };

@@ -33,6 +33,7 @@ const buttonArea = (state, actions) => {
                     Buttons.maskButton(state, actions),
                     Buttons.rulerButton(state, actions),
                     Buttons.srButton(state, actions),
+                    Buttons.ptButton(state, actions),
                 ]),
             ]),
             h('ab-button-section', {},  [

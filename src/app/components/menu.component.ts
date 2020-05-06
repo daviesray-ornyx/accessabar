@@ -10,6 +10,7 @@ const menuNames = new Map([
     ['masking', menus.maskMenu],
     ['rulerOptions', menus.rulerOptionsMenu],
     ['speechRecognition', menus.srMenu],
+    ['pageTranslate', menus.ptMenu],
 ]);
 
 const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {
@@ -21,7 +22,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     const menuEl: any = menuNames.has(state.menuCurrent)
         ? menuNames.get(state.menuCurrent) || placeholderEl
         : placeholderEl;
-
+    
     return h(
         'ab-menu',
         {

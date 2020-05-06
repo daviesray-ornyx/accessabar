@@ -85,6 +85,12 @@ const state: Accessabar.IState = {
     fontLineSpacingStep: 1,
     fontSizingActive: false,
 
+    // Language state
+    languageActive: false,
+
+    languageCurrentKey: '',
+    selectLanguageListActive: false,
+
     rulerOpsInnerMenuCurrent: 'reading',
 
     rulerEventActive: false,
