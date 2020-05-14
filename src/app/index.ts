@@ -191,7 +191,7 @@ class AccessabarController {
         // start events
         this.initEvents();
 
-        this.appActions.apiAceOpened();
+        this.appActions.apiSendEvent('AceOpened');
     }
 
     public close() {

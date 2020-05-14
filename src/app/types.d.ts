@@ -308,8 +308,7 @@ declare namespace Accessabar {
     }
 
     interface IApiActions {
-        apiAceOpened(): void;
-        apiAceClosed(): void;
+        apiSendEvent(eventType: string): void;
     }
 
     interface IConfigObject {

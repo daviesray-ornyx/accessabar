@@ -612,10 +612,10 @@ const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen
 
 interface ICloseActions {
     closeAccessabar: Accessabar.IActions['closeAccessabar'];
-    apiAceClosed: Accessabar.IActions['apiAceClosed'];
+    apiSendEvent: Accessabar.IActions['apiSendEvent'];
 }
 
-const closeButton = ({ closeAccessabar, apiAceClosed }: ICloseActions) => {
+const closeButton = ({ closeAccessabar, apiSendEvent }: ICloseActions) => {
     return h(
         'ab-bar-close-button',
         {
@@ -624,7 +624,7 @@ const closeButton = ({ closeAccessabar, apiAceClosed }: ICloseActions) => {
             id: 'ab-close',
             onclick: () => {
                 closeAccessabar();
-                apiAceClosed();
+                apiSendEvent('AceClosed');
             },
             oncreate: () => {
                 tippy('#accessabar #ab-close', {

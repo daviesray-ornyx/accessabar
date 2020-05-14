@@ -16,8 +16,14 @@ async function handleRequest(link, req) {
 }
 
 const apiActions: ActionsType<Accessabar.IState, Accessabar.IApiActions> = {
-    apiAceOpened: async () => {
+    apiSendEvent: async (eventType: string) => {
         if (!localStorage) {
+            return;
+        }
+
+        const host = location.hostname;
+
+        if (host === 'localhost' || host === '') {
             return;
         }
 
@@ -31,40 +37,9 @@ const apiActions: ActionsType<Accessabar.IState, Accessabar.IApiActions> = {
         }
 
         const data = {
+            host,
             user: userID,
-            type: 'AceOpened',
-            host: location.hostname,
-        };
-
-        const req = {
-            body: JSON.stringify(data),
-            method: 'POST',
-            mode: 'cors',
-            redirect: 'follow',
-            headers: { 'Content-Type': 'application/json' },
-        };
-
-        await handleRequest('https://ace-ctrl.acetoolbar.com/api/v1/event/add', req);
-    },
-
-    apiAceClosed: async () => {
-        if (!localStorage) {
-            return;
-        }
-
-        let userID = localStorage.getItem('ace_user');
-
-        if (!userID) {
-            const newID = uuidv4();
-            localStorage.setItem('ace_user', newID);
-
-            userID = newID;
-        }
-
-        const data = {
-            user: userID,
-            type: 'AceClosed',
-            host: location.hostname,
+            type: eventType.trim(),
         };
 
         const req = {
