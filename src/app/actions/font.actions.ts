@@ -162,9 +162,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         };
     },
 
-    fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll, fontFamilyReset }) => {
+    fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll, fontFamilyReset, apiSendEvent }: Accessabar.IActions) => {
         if (!fontActive) {
             AccessabarUtil.startFunction('fontFamily', fontFamilyReset, fontChangeFamilyAll);
+            apiSendEvent('AceFontType_On');
 
             return {
                 fontActive: true,
@@ -207,9 +208,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         editLoop(fontColour, 'color', currentColour);
     },
 
-    fontColourEnable: () => ({ fontColourActive }, { fontColourChange, fontColourReset }) => {
+    fontColourEnable: () => ({ fontColourActive }, { fontColourChange, fontColourReset, apiSendEvent }: Accessabar.IActions) => {
         if (!fontColourActive) {
             AccessabarUtil.startFunction('fontColour', fontColourReset, fontColourChange);
+            apiSendEvent('AceFontColour_On');
 
             return {
                 fontColourActive: true,
@@ -259,9 +261,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         }
     },
 
-    fontLineSpacingEnable: () => ({ fontLineSpacingActive }, { fontLineSpacingReset, fontLineSpacingChange }) => {
+    fontLineSpacingEnable: () => ({ fontLineSpacingActive }, { fontLineSpacingReset, fontLineSpacingChange, apiSendEvent }: Accessabar.IActions) => {
         if (!fontLineSpacingActive) {
             AccessabarUtil.startFunction('fontLineSpacing', fontLineSpacingReset, fontLineSpacingChange);
+            apiSendEvent('AceFontLineSpacing_On');
 
             return {
                 fontLineSpacingActive: true,
@@ -319,9 +322,10 @@ const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
         fontReset('fontLineSpacing');
     },
 
-    fontLetterSpacingEnable: () => ({ fontLetterSpacingActive }, { fontLetterSpacingReset, fontLetterSpacingChange }) => {
+    fontLetterSpacingEnable: () => ({ fontLetterSpacingActive }, { fontLetterSpacingReset, fontLetterSpacingChange, apiSendEvent }: Accessabar.IActions) => {
         if (!fontLetterSpacingActive) {
             AccessabarUtil.startFunction('fontLetterSpacing', fontLetterSpacingReset, fontLetterSpacingChange);
+            apiSendEvent('AceFontLetterSpacing_On');
 
             return {
                 fontLetterSpacingActive: true,

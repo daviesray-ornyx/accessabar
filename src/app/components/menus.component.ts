@@ -50,8 +50,8 @@ const textOptionsInnerFont = (state: Accessabar.IState, actions: Accessabar.IAct
     const fontList: VNode<any>[] = [];
     const fonts = Object.entries((fontConfig as Accessabar.IFontConfig));
     const currentFont = state.fontCurrentKey.length > 0
-        ? (fontConfig[state.fontCurrentKey].name || 'Select Font:')
-        : 'Select Font:';
+        ? (fontConfig[state.fontCurrentKey].name || 'Select Font')
+        : 'Select Font';
     const currentFontFamily = state.fontCurrentKey.length > 0
         ? (fontConfig[state.fontCurrentKey].family || null)
         : null;
@@ -1173,9 +1173,9 @@ const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     const languageList: VNode<any>[] = [];
     const languages = Object.entries((languageConfig as Accessabar.ILanguageConfig));
     const currentLanguage = state.languageCurrentKey.length > 0
-        ? (languageConfig[state.languageCurrentKey].name || 'Select Language:   ')
-        : 'Select Language:    ';
-    
+        ? (languageConfig[state.languageCurrentKey].name || 'Select Language')
+        : 'Select Language';
+
     for (const [key, obj] of languages) {
         const item = h(
             'ab-custom-list-selection-item',
@@ -1184,7 +1184,7 @@ const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                 onclick: () => {
                     actions.selectToggleLanguageCurrent(key);
                 },
-                role: 'option',                
+                role: 'option',
             },
             obj.name,
         );
@@ -1194,7 +1194,7 @@ const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 
     return h('ab-page-translate-options-inner-menu-font', { class: 'ab-flex-column' }, [
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
-            //switchEl(state.languageActive, actions.languageEnable, 'Toggle Language', 'Toggle the page language'),
+            switchEl(state.languageActive, actions.selectTogglePageTranslation, 'Toggle Language', 'Toggle the page language'),
         ]),
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
             h(
@@ -1213,7 +1213,7 @@ const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                                     actions.selectToggleLanguageList(event);
                                 },
                                 style: {
-                                    
+
                                 },
                             },
                             currentLanguage,
@@ -1233,9 +1233,8 @@ const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
             ),
         ]),
     ]);
-        
-}
 
+};
 
 export {
     ttsMenu,

@@ -85,6 +85,7 @@
         conflicts: [],
         disableOnClick: true,
     },
+
     pageTranslation: {
         conflicts: [],
         editName: 'page-translation',

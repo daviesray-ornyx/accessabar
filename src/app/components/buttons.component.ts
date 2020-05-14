@@ -170,9 +170,10 @@ const ttsButton = ({ menuCurrent }: ITTSButtonState, { menuHandle, ttsInit }: IT
 interface IIncButtonActions {
     fontIncSize: Accessabar.IFontActions['fontIncSize'];
     fontResetSizing: Accessabar.IFontActions['fontResetSizing'];
+    apiSendEvent: Accessabar.IApiActions['apiSendEvent'];
 }
 
-const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
+const incButton = ({ fontIncSize, fontResetSizing, apiSendEvent }: IIncButtonActions) => {
     return h(
         'ab-bar-inc-button',
         {
@@ -181,6 +182,7 @@ const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
             id: 'ab-font-increase',
             onclick: () => {
                 AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontIncSize);
+                apiSendEvent('AceFontSizeInc');
             },
             oncreate: () => {
                 tippy('#accessabar #ab-font-increase', {
@@ -206,9 +208,10 @@ const incButton = ({ fontIncSize, fontResetSizing }: IIncButtonActions) => {
 interface IDecButtonActions {
     fontDecSize: Accessabar.IFontActions['fontDecSize'];
     fontResetSizing: Accessabar.IFontActions['fontResetSizing'];
+    apiSendEvent: Accessabar.IApiActions['apiSendEvent'];
 }
 
-const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
+const decButton = ({ fontDecSize, fontResetSizing, apiSendEvent }: IDecButtonActions) => {
     return h(
         'ab-bar-dec-button',
         {
@@ -217,6 +220,7 @@ const decButton = ({ fontDecSize, fontResetSizing }: IDecButtonActions) => {
             id: 'ab-font-decrease',
             onclick: () => {
                 AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontDecSize);
+                apiSendEvent('AceFontSizeDec');
             },
             oncreate: () => {
                 tippy('#accessabar #ab-font-decrease', {
