@@ -8,12 +8,38 @@ function magPassthrough(event) {
     window.abar.appActions.magMove(event);
 }
 
+function magPassthroughScroll(event) {
+    window.abar.appActions.magScroll(event);
+}
+
+function getScrollOffsets() {
+    var doc = document, w = window;
+    var x, y, docEl;
+    
+    if ( typeof w.pageYOffset === 'number' ) {
+        x = w.pageXOffset;
+        y = w.pageYOffset;
+    } else {
+        docEl = (doc.compatMode && doc.compatMode === 'CSS1Compat')?
+                doc.documentElement: doc.body;
+        x = docEl.scrollLeft;
+        y = docEl.scrollTop;
+    }
+    return {x:x, y:y};
+}
+
+
 const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
     magAddListener: () => ({ magMoveEvent }) => {
+        // Disable scrolling on magPage        
         if (!magMoveEvent) {
+            //disableMagPageScroll();
+            
+            // Add the relevant event listeners
             document.addEventListener('mousemove', magPassthrough);
             document.addEventListener('touchmove', magPassthrough);
-
+            // Need to add page scroll listener
+            document.addEventListener('scroll', magPassthroughScroll);
             return { menuEvent: true };
         }
     },
@@ -24,6 +50,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
             document.removeEventListener('touchmove', magPassthrough);
 
+            document.removeEventListener('scroll', magPassthrough);
+            
             return { menuEvent: false };
         }
     },
@@ -53,8 +81,6 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
         const pScaleSub = pScale.minus(magScaleStep).toFixed(1);
 
-        console.log(pScaleSub);
-
         return {
             magScale: pScaleSub,
         };
@@ -62,6 +88,11 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
 
     magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magScale, magBorder }, { magStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
+        
+        // see what the event is. Handle all possible options up in magAddListener
+        //console.log(ev)
+
+        // ab-icon will be used to position clientX and clientY
 
         const {
             clientX,
@@ -90,8 +121,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         const rect = mag.getBoundingClientRect();
         const windowWidth = window.innerWidth - rect.width;
         const windowHeight = window.innerHeight - rect.height;
-        let x = magPosX + (clientX - magMouseX);
-        let y = magPosY + (clientY - magMouseY);
+        let x = magPosX + (clientX - magMouseX);////
+        let y = magPosY + (clientY - magMouseY);////
 
         if (x < 0) {
             x = 0;
@@ -167,8 +198,8 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         // });
 
         return {
-            magMouseX: clientX,
-            magMouseY: clientY,
+            magMouseX: clientX, ////
+            magMouseY: clientY, ////
             magPageX: fixedX,
             magPageY: fixedY,
             magPosX: x,
@@ -178,6 +209,24 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         };
     },
 
+    magScroll: (event) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magScale, magBorder }, { magStopDrag }) => {
+        // We already know that this is a scroll event. Magnifier window does not move from it's current position, except for the back window being magnified
+        // ab-icon will be used to position clientX and clientY
+        const scrollOffsets = getScrollOffsets();
+        
+        const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page') as HTMLIFrameElement;
+                
+        if(!magPage || !magPage.contentWindow){
+            return;
+        }
+
+        // convert string to BigNumber
+        const pixelScaling = parseInt(magScale) || 1;
+        // Ensure that scaling is taken into consideration
+        magPage.contentWindow.scrollTo(scrollOffsets.x * pixelScaling, scrollOffsets.y * pixelScaling);
+        return {};
+    },
+    
     magUpdatePosition: () => ({ magBorder, magScale, magPosX, magPosY }) => {
         const magEl = document.getElementById('ab-magnifier-window');
         const magPage = window.abar.mainElement.querySelector('#ab-magnifier-page');
@@ -233,8 +282,11 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         pageContent = pageContent.replace(abarEl, '');
         pageContent = pageContent.replace(abarScripts, '');
 
+        
         magAddListener();
 
+        
+        
         return {
             magActive: true,
             magPageContent: pageContent,
@@ -266,17 +318,53 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         };
     },
 
-    magStartDrag: (event: IDragEvent) => (state, { magUpdateMousePosition }) => {
+    magUpdateSize: (event: IDragEvent)=> (state, {}) => {
+
+        const mag = window.abar.mainElement.querySelector('#ab-magnifier-window') as HTMLElement;;
+        if(mag == null){
+            console.log('Null val');
+            return;
+        }
+        if(document == null || document.defaultView == null){
+            return;
+        }
+        var newWidth = parseInt(document.defaultView.getComputedStyle(mag).width, 10);
+        var newHeight =  parseInt(document.defaultView.getComputedStyle(mag).height, 10);
+        //  var startWidth = parseInt(mag.style.width);
+        // //  var startHeight = parseInt(mag.style.height);
+        // console.log('resize');
+        // console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
+
+        return{
+            magWidth: newWidth,
+            magHeight: newHeight,
+        }
+    },
+    
+    magStartDrag: (event: IDragEvent) => (state, { magUpdateMousePosition, magUpdateSize }) => {
         event.preventDefault();
-
-        magUpdateMousePosition(event);
-
-        return {
-            magCanDrag: true,
-        };
+        // Check if this is a drag or resize event
+        var x = event.target as HTMLElement; 
+        if(x == null){
+            return;
+        }
+        
+        if(x.tagName == 'AB-MAG-RESIZE-ICON'){ // Wrong target to track events on
+            return {
+                magCanDrag: false,
+            }; 
+        }
+        else{
+            magUpdateMousePosition(event);      
+            return {
+                magCanDrag: true,
+            };       
+        }  
+             
     },
 
-    magStopDrag: () => ({ magCanDrag: false }),
+    magStopDrag: () => ({ magCanDrag: false, magCanResize: false }),
+
 };
 
 export default magActions;
