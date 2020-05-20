@@ -190,6 +190,8 @@ class AccessabarController {
         this.toggleShow();
         // start events
         this.initEvents();
+
+        this.appActions.apiAceOpened();
     }
 
     public close() {

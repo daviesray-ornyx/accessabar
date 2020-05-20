@@ -616,22 +616,24 @@ const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen
 
 interface ICloseActions {
     closeAccessabar: Accessabar.IActions['closeAccessabar'];
+    apiAceClosed: Accessabar.IActions['apiAceClosed'];
 }
 
-const closeButton = ({ closeAccessabar }: ICloseActions) => {
+const closeButton = ({ closeAccessabar, apiAceClosed }: ICloseActions) => {
     return h(
         'ab-bar-close-button',
         {
-            'aria-label': 'Close Accessabar',
+            'aria-label': 'Close ACE',
             class: 'ab-bar-button ab-close',
             id: 'ab-close',
             onclick: () => {
                 closeAccessabar();
+                apiAceClosed();
             },
             oncreate: () => {
                 tippy('#accessabar #ab-close', {
                     arrow: true,
-                    content: 'Close Accessabar',
+                    content: 'Close ACE',
                     placement: 'bottom',
                     theme: 'ab',
                 });
@@ -662,7 +664,7 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
         'ab-hide-button',
         {
             'aria-controls': 'accessabar',
-            'aria-label': 'Hide Accessabar',
+            'aria-label': 'Hide ACE',
             'aria-pressed': abarHidden ? 'true' : 'false',
             class: 'ab-hide-button',
             id: 'ab-hide',
@@ -672,7 +674,7 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
             oncreate: () => {
                 tippy('#accessabar #ab-hide', {
                     arrow: true,
-                    content: abarHidden ? 'Show Accessabar' : 'Hide Accessabar',
+                    content: abarHidden ? 'Show ACE' : 'Hide ACE',
                     placement: 'bottom',
                     theme: 'ab',
                 });
@@ -681,7 +683,7 @@ const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonA
             onupdate: (el) => {
                 const { _tippy: tip } = el;
 
-                tip.setContent(abarHidden ? 'Show Accessabar' : 'Hide Accessabar');
+                tip.setContent(abarHidden ? 'Show ACE' : 'Hide ACE');
             },
             role: 'button',
             tabIndex: 0,

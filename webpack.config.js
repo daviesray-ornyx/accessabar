@@ -264,7 +264,6 @@ const mainSettings = (entries, dev, devServer, dash, verbose) => {
             minimizer: [
                 new TerserPlugin({
                     parallel: true,
-                    cache: true,
                 }),
                 new OptimizeCSSAssetsPlugin(),
             ],
