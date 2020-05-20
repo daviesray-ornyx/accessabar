@@ -24,9 +24,14 @@ interface IRulerPinholeState {
     rulerPinholeOpacity: Accessabar.IState['rulerPinholeOpacity'];
     rulerMouseY: Accessabar.IState['rulerMouseY'];
     rulerPinholeActive: Accessabar.IState['rulerPinholeActive'];
+    
+    rulerPinholeMaskColourCurrent: Accessabar.IState['rulerPinholeMaskColourCurrent'],
+    rulerPinholeMaskColourCustomCurrent: Accessabar.IState['rulerPinholeMaskColourCustomCurrent'],
+    rulerPinholeMaskCustomActive: Accessabar.IState['rulerPinholeMaskCustomActive'],
 }
 
-const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpacity, rulerPinholeActive }: IRulerPinholeState) => {
+const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpacity, 
+    rulerPinholeActive, rulerPinholeMaskColourCurrent,}: IRulerPinholeState) => {
     const height = new BigNumber(window.innerHeight);
     const handleHeight1 = new BigNumber(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
     const handleHeight2 = height.minus(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
@@ -36,7 +41,9 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
             'aria-hidden': 'true',
             class: 'ab-pinhole-ruler-handle ab-top',
             style: {
-                height: `${handleHeight1}px`,
+                background: rulerPinholeMaskColourCurrent,
+                opacity: rulerPinholeOpacity,
+                height: `${handleHeight1}px`,                
             },
         }),
         h('ab-pinhole-ruler-centre', {
@@ -44,7 +51,6 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
             class: 'ab-pinhole-ruler-centre',
             style: {
                 height: `${rulerPinholeCentreHeight}px`,
-                opacity: rulerPinholeOpacity,
                 top: `${new BigNumber(rulerMouseY).plus(rulerPinholeCentreHeight / 2)}px`,
             },
         }),
@@ -52,6 +58,8 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
             'aria-hidden': 'true',
             class: 'ab-pinhole-ruler-handle ab-bottom',
             style: {
+                background: rulerPinholeMaskColourCurrent,
+                opacity: rulerPinholeOpacity,
                 height: `${handleHeight2}px`,
             },
         }),

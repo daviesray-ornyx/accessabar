@@ -38,6 +38,22 @@ const colourActions: ActionsType<Accessabar.IState, Accessabar.IColourActions> =
             maskCustomActive: true,
         };
     },
+
+    // Pinhole mask color change
+    colourChangePinholeMask: (colour: string) => ({ maskActive }, { maskColourChange }: Accessabar.IActions) => {
+        return {
+            rulerPinholeMaskColourCurrent: colour,
+            rulerPinholeMaskCustomActive: false,
+        };
+    },
+
+    colourCustomChangePinholeMask: (colour: string) => ({ maskActive }, { maskColourChange }: Accessabar.IActions) => {
+        return {
+            rulerPinholeMaskColourCurrent: colour,
+            rulerPinholeMaskColourCustomCurrent: colour,
+            rulerPinholeMaskCustomActive: true,
+        };
+    },
 };
 
 export default colourActions;

@@ -23,6 +23,9 @@ const state: Accessabar.IState = {
     magTranslateX: 0,
     magTranslateY: 0,
     magWidth: 400,
+    magCanResize: false,
+    magResizeStartX: 0,
+    magResizeStartY: 0,
 
     maskActive: false,
     maskColourCurrent: '',
@@ -101,9 +104,11 @@ const state: Accessabar.IState = {
     rulerPinholeCentreHeightMax: 144,
     rulerPinholeCentreHeightMin: 12,
     rulerPinholeCentreHeightStep: 12,
-    rulerPinholeColourCurrent: '',
-    rulerPinholeColourCustomCurrent: '#fff',
-    rulerPinholeCustomActive: false,
+    
+    rulerPinholeMaskColourCurrent: '#000',
+    rulerPinholeMaskColourCustomCurrent: '#000',
+    rulerPinholeMaskCustomActive: false,
+
     rulerPinholeOpacity: '0.6',
     rulerPinholeOpacityMax: 0.9,
     rulerPinholeOpacityMin: 0.2,
