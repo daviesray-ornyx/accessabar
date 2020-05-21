@@ -953,7 +953,7 @@ const rulerOptionsInnerPinhole = (state, actions) => {
 
     return h('ab-ruler-options-inner-menu-pinhole', { class: 'ab-flex-column' }, [
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
-            switchEl(state.rulerPinholeActive, actions.selectTogglePinholeRuler, 'Toggle Pinhole Ruler', 'Toggle the pinhole ruler'),
+            switchEl(state.rulerPinholeActive, actions.selectTogglePinholeRuler, 'Toggle Pinhole', 'Toggle the pinhole ruler'),
         ]),
         // Masked outer section color
         h('ab-inner-menu-section', { class: 'ab-box' }, [
