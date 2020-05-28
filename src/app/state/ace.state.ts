@@ -1,7 +1,28 @@
-const state: Accessabar.IState = {
-    // Whether Accessabar has been hidden or not.
-    abarHidden: false,
+const toolbarState = {
+    aceHidden: false,
+};
 
+const fontState = {
+    fontActive: false,
+    fontColourActive: false,
+    fontColourCurrent: '',
+    fontColourCustomCurrent: '#fff',
+    fontCurrentKey: '',
+    fontCustomActive: false,
+    fontLetterSpacingActive: false,
+    fontLetterSpacingCount: 0,
+    fontLetterSpacingMax: 50,
+    fontLetterSpacingStep: 1,
+    fontLineSpacingActive: false,
+    fontLineSpacingCount: 0,
+    fontLineSpacingMax: 50,
+    fontLineSpacingStep: 1,
+    fontSizingActive: false,
+    textOpsInnerMenuCurrent: 'font',
+    selectFontListActive: false,
+};
+
+const magState = {
     magActive: false,
     magBorder: 4,
     magCanDrag: false,
@@ -23,7 +44,9 @@ const state: Accessabar.IState = {
     magTranslateX: 0,
     magTranslateY: 0,
     magWidth: 400,
+};
 
+const maskState = {
     maskActive: false,
     maskColourCurrent: '',
     maskColourCustomCurrent: '#fff',
@@ -32,9 +55,10 @@ const state: Accessabar.IState = {
     maskOpacityMax: 0.95,
     maskOpacityMin: 0.05,
     maskOpacityStep: 0.05,
+};
 
+const menuState = {
     menuActive: false,
-    // If it's possible to drag the menu (mouse button has been pressed).
     menuCanDrag: false,
     menuCurrent: '',
     menuEvent: false,
@@ -44,55 +68,10 @@ const state: Accessabar.IState = {
     menuPosX: false,
     menuPosY: false,
     menuTitle: '',
+};
 
-    ttsCurrentUtterCharIndex: 0,
-    ttsCurrentUtterSentenceIndex: 0,
-    ttsCurrentUtterSentenceWordIndex: 0,
-    ttsCurrentUtterSentences: [],
-    ttsCurrentUtterText: '',
-    ttsCurrentUtterWordIndex: 0,
-    ttsCurrentUtterWords: [],
-    ttsCurrentVoiceName: 'Click to choose voice',
-    ttsHighlightSpeak: false,
-    ttsHighlightTimeout: false,
-    ttsHoverSpeak: false,
-    ttsHoverTimeout: false,
-    ttsInitiated: false,
-    ttsLang: 'en',
-    ttsPitch: '1',
-    ttsRate: '1',
-    ttsVoice: undefined,
-    ttsVoiceActive: false,
-    ttsVoiceListActive: false,
-    ttsVoices: [],
-    ttsVolume: '1',
-
-    textOpsInnerMenuCurrent: 'font',
-
-    fontActive: false,
-    fontColourActive: false,
-    fontColourCurrent: '',
-    fontColourCustomCurrent: '#fff',
-    fontCurrentKey: '',
-    fontCustomActive: false,
-    fontLetterSpacingActive: false,
-    fontLetterSpacingCount: 0,
-    fontLetterSpacingMax: 50,
-    fontLetterSpacingStep: 1,
-    fontLineSpacingActive: false,
-    fontLineSpacingCount: 0,
-    fontLineSpacingMax: 50,
-    fontLineSpacingStep: 1,
-    fontSizingActive: false,
-
-    // Language state
-    languageActive: false,
-
-    languageCurrentKey: '',
-    selectLanguageListActive: false,
-
+const rulerState = {
     rulerOpsInnerMenuCurrent: 'reading',
-
     rulerEventActive: false,
     rulerMouseX: 0,
     rulerMouseY: 0,
@@ -114,16 +93,61 @@ const state: Accessabar.IState = {
     rulerReadingOpacityMax: 1,
     rulerReadingOpacityMin: 0.2,
     rulerReadingOpacityStep: 0.05,
+};
 
-    selectFontListActive: false,
-
+const settingsState = {
     settingsHidden: true,
+};
 
+const srState = {
     srActive: false,
     srLang: 'en',
     srLangName: 'English',
     srLangListActive: false,
     srRuntime: false,
+};
+
+const translationState = {
+    languageActive: false,
+    languageCurrentKey: '',
+    selectLanguageListActive: false,
+};
+
+const ttsState = {
+    ttsCurrentUtterCharIndex: 0,
+    ttsCurrentUtterSentenceIndex: 0,
+    ttsCurrentUtterSentenceWordIndex: 0,
+    ttsCurrentUtterSentences: [],
+    ttsCurrentUtterText: '',
+    ttsCurrentUtterWordIndex: 0,
+    ttsCurrentUtterWords: [],
+    ttsCurrentVoiceName: 'Click to choose voice',
+    ttsHighlightSpeak: false,
+    ttsHighlightTimeout: false,
+    ttsHoverSpeak: false,
+    ttsHoverTimeout: false,
+    ttsInitiated: false,
+    ttsLang: 'en',
+    ttsPitch: '1',
+    ttsRate: '1',
+    ttsVoice: undefined,
+    ttsVoiceActive: false,
+    ttsVoiceListActive: false,
+    ttsVoices: [],
+    ttsVolume: '1',
+};
+
+const state = {
+    ...toolbarState,
+    ...fontState,
+    ...magState,
+    ...maskState,
+    ...menuState,
+    ...rulerState,
+    ...settingsState,
+    ...srState,
+    ...translationState,
+    ...ttsState,
 };
 
 export default state;

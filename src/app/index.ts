@@ -1,6 +1,6 @@
 import { app } from 'hyperapp';
 
-import state from './state';
+import state from './state/ace.state';
 import actions from './actions';
 import view from './main';
 import AccessabarUtil from './util';
