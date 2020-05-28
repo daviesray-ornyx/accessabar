@@ -86,6 +86,64 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         };
     },
 
+    magWidthDecrease: () => ({ magWidth, magSizeChangeStep, magWidthMin }) => {
+        const currentPercentage = new BigNumber(magWidth).dividedBy(window.innerWidth).decimalPlaces(2).toNumber();
+        const newPercentage = currentPercentage - magSizeChangeStep;
+        const newWidth = new BigNumber(window.innerWidth).times(newPercentage).decimalPlaces(0);
+
+        if (newWidth.isLessThan(magWidthMin)) {
+            return;
+        }
+
+        return {
+            magWidth: newWidth.toString(),
+        };
+    },
+
+    magWidthIncrease: () => ({ magWidth, magSizeChangeStep, magWidthOffset }) => {
+        const currentPercentage = new BigNumber(magWidth).dividedBy(window.innerWidth).decimalPlaces(2).toNumber();
+        const newPercentage = currentPercentage + magSizeChangeStep;
+        const newWidth = new BigNumber(window.innerWidth).times(newPercentage).decimalPlaces(0);
+
+        if (newWidth.isGreaterThan(window.innerWidth - magWidthOffset)) {
+            return;
+        }
+
+        return {
+            magWidth: newWidth.toString(),
+        };
+    },
+
+    magHeightDecrease: () => ({ magHeight, magSizeChangeStep, magHeightMin }) => {
+        
+        const currentPercentage = new BigNumber(magHeight).dividedBy(window.innerHeight).decimalPlaces(2).toNumber();
+        const newPercentage = currentPercentage - magSizeChangeStep;
+        const newHeight = new BigNumber(window.innerHeight).times(newPercentage).decimalPlaces(0);
+
+        if (newHeight.isLessThan(magHeightMin)) {
+            return;
+        }
+
+        return {
+            magHeight: newHeight.toString(),
+        };
+    },
+
+    magHeightIncrease: () => ({ magHeight, magSizeChangeStep, magHeightOffset }) => {
+        const currentPercentage = new BigNumber(magHeight).dividedBy(window.innerHeight).decimalPlaces(2).toNumber();
+        const newPercentage = currentPercentage + magSizeChangeStep;
+        const newHeight = new BigNumber(window.innerHeight).times(newPercentage).decimalPlaces(0);
+
+        if (newHeight.isGreaterThan(window.innerHeight - magHeightOffset)) {
+            return;
+        }
+
+        return {
+            magHeight: newHeight.toString(),
+        };
+    },
+
+
     magMove: (event: IDragEvent) => ({ magCanDrag, magPosX, magPosY, magMouseX, magMouseY, magScale, magBorder }, { magStopDrag }) => {
         const ev = event.touches ? event.touches[0] : event;
         

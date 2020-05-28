@@ -614,6 +614,54 @@ const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen
     );
 };
 
+
+// Addition of about button
+
+interface IAboutButtonState {
+    aboutHidden: Accessabar.IState['aboutHidden'];
+}
+
+interface IAboutButtonActions {
+    aboutOpen: Accessabar.IActions['aboutOpen'];
+}
+
+const aboutButton = ({ aboutHidden }: IAboutButtonState, { aboutOpen }: IAboutButtonActions) => {
+    return h(
+        'ab-bar-about-button',
+        {
+            'aria-controls': 'ab-about',
+            'aria-expanded': String(!aboutHidden),
+            'aria-haspopup': 'true',
+            'aria-label': 'About',
+            'aria-pressed': String(!aboutHidden),
+            class: 'ab-bar-button',
+            id: 'ab-about-button',
+            onclick: () => {
+                aboutOpen();
+            },
+            oncreate: () => {
+                tippy('#accessabar #ab-about-button', {
+                    arrow: true,
+                    content: 'About',
+                    placement: 'bottom',
+                    theme: 'ab',
+                });
+            },
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+            tabIndex: 0,
+        },
+        [
+            h('ab-icon', {
+                'aria-hidden': 'true',
+                class: 'ab-icon ab-icon-settings-gear',
+            }),
+        ],
+    );
+};
+
+
+// --- End of addition of about button.
 interface ICloseActions {
     closeAccessabar: Accessabar.IActions['closeAccessabar'];
     apiSendEvent: Accessabar.IActions['apiSendEvent'];
@@ -714,6 +762,7 @@ export {
     ptButton,
     resetButton,
     settingsButton,
+    aboutButton,
     hideButton,
     handleButtonNavigation,
 };

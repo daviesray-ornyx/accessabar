@@ -100,6 +100,31 @@ const rulerActions: ActionsType<Accessabar.IState, Accessabar.IRulerActions> = {
         };
     },
 
+    rulerSizeDecrease: () => ({ rulerHeight, rulerHeightMin, rulerHeightStep}) => {
+        const newHeight = new BigNumber(rulerHeight).minus(rulerHeightStep);
+
+        if (newHeight.isLessThan(rulerHeightMin)) {
+            return;
+        }
+
+        return {
+            rulerHeight: newHeight.toString(),
+        };
+    },
+
+    rulerSizeIncrease: () => ({ rulerHeight, rulerHeightMax, rulerHeightStep }) => {
+       const newHeight = new BigNumber(rulerHeight).plus(rulerHeightStep);
+
+        if (newHeight.isGreaterThan(rulerHeightMax)) {
+            return;
+        }
+
+        return {
+            rulerHeight: newHeight.toString(),
+        };
+    },
+
+
     rulerPinholeOpacityInc: () => ({ rulerPinholeOpacity, rulerPinholeOpacityStep, rulerPinholeOpacityMax }) => {
         const newOpacity = new BigNumber(rulerPinholeOpacity).plus(rulerPinholeOpacityStep);
 

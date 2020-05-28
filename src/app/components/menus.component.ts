@@ -535,6 +535,12 @@ const textOptionsMenu = (state: Accessabar.IState, actions: Accessabar.IActions)
 
 const magMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
     const currentMagPercentage = new BigNumber(state.magScale).times(100);
+        
+    const magWidthPercentage = new BigNumber(state.magWidth).dividedBy(window.innerWidth - state.magWidthOffset).times(100).decimalPlaces(0);
+    const magWidthPercentageText = magWidthPercentage + '% ';
+
+    const magHeightPercentage = new BigNumber(state.magHeight).dividedBy(window.innerHeight - state.magHeightOffset).times(100).decimalPlaces(0);
+    const magHeightPercentageText = magHeightPercentage + '%';
 
     return h('ab-mag-inner-menu', { class: 'ab-menu-content' }, [
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
@@ -615,6 +621,163 @@ const magMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                 ],
             ),
         ]),
+
+        // New section for mag width size
+        h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
+            h(
+                'ab-counter',
+                {
+                    'aria-valuemax': String(state.rulerPinholeCentreHeightMax / state.rulerPinholeCentreHeightStep),
+                    'aria-valuemin': '1',
+                    'aria-valuenow': String(magWidthPercentage),
+                    'aria-valuetext': String(magWidthPercentageText),
+                    class: 'ab-counter ab-growable',
+                    role: 'spinbutton',
+                },
+                [
+                    h(
+                        'ab-counter-decrease',
+                        {
+                            'aria-label': 'Decrease pinhole ruler size',
+                            class: 'ab-dec ab-bar-button',
+                            id: 'ab-mag-width-dec',
+                            onclick: () => {
+                                 actions.magWidthDecrease();
+                                // action to decrease magWidth
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #ab-mag-width-dec', {
+                                    arrow: true,
+                                    content: 'Decrease Magnifier Width',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
+                        },
+                        [
+                            h('ab-icon', {
+                                'aria-hidden': true,
+                                class: 'ab-icon ab-icon-minus',
+                            }),
+                        ],
+                    ),
+                    h('ab-count-container', { class: 'ab-count-container' }, [
+                        h('ab-count-header', { class: 'ab-count-header' }, 'Width'),
+                        h('ab-count-value', { class: 'ab-count' }, String(magWidthPercentageText)),
+                    ]),
+                    h(
+                        'ab-counter-increase',
+                        {
+                            'aria-label': 'Increase mag width',
+                            class: 'ab-inc ab-bar-button',
+                            id: 'ab-mag-width-inc',
+                            onclick: () => {
+                                actions.magWidthIncrease();
+                                // add action to increase mag width
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #ab-mag-width-inc', {
+                                    arrow: true,
+                                    content: 'Increase Magnifier Width',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
+                        },
+                        [
+                            h('ab-icon', {
+                                'aria-hidden': true,
+                                class: 'ab-icon ab-icon-plus',
+                            }),
+                        ],
+                    ),
+                ],
+            ),
+        ]),
+        // End of mag width size
+
+
+        // New section for mag Height size
+        h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
+            h(
+                'ab-counter',
+                {
+                    'aria-valuemax': String(state.rulerPinholeCentreHeightMax / state.rulerPinholeCentreHeightStep),
+                    'aria-valuemin': '1',
+                    'aria-valuenow': String(magHeightPercentage),
+                    'aria-valuetext': String(magHeightPercentageText),
+                    class: 'ab-counter ab-growable',
+                    role: 'spinbutton',
+                },
+                [
+                    h(
+                        'ab-counter-decrease',
+                        {
+                            'aria-label': 'Decrease pinhole ruler size',
+                            class: 'ab-dec ab-bar-button',
+                            id: 'ab-mag-height-dec',
+                            onclick: () => {
+                                 actions.magHeightDecrease();
+                                // action to decrease magWidth
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #ab-mag-height-dec', {
+                                    arrow: true,
+                                    content: 'Decrease Magnifier Height',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
+                        },
+                        [
+                            h('ab-icon', {
+                                'aria-hidden': true,
+                                class: 'ab-icon ab-icon-minus',
+                            }),
+                        ],
+                    ),
+                    h('ab-count-container', { class: 'ab-count-container' }, [
+                        h('ab-count-header', { class: 'ab-count-header' }, 'Height'),
+                        h('ab-count-value', { class: 'ab-count' }, String(magHeightPercentageText)),
+                    ]),
+                    h(
+                        'ab-counter-increase',
+                        {
+                            'aria-label': 'Increase mag width',
+                            class: 'ab-inc ab-bar-button',
+                            id: 'ab-mag-height-inc',
+                            onclick: () => {
+                                actions.magHeightIncrease();
+                                // add action to increase mag width
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #ab-mag-height-inc', {
+                                    arrow: true,
+                                    content: 'Increase Magnifier Height',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
+                        },
+                        [
+                            h('ab-icon', {
+                                'aria-hidden': true,
+                                class: 'ab-icon ab-icon-plus',
+                            }),
+                        ],
+                    ),
+                ],
+            ),
+        ]),
+        // End of section for mag height size
     ]);
 };
 
@@ -867,6 +1030,7 @@ const maskMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 const rulerOptionsInnerReading = (state, actions) => {
     const rulerReadingOpacityPercentage = new BigNumber(state.rulerReadingOpacity).times(100);
 
+
     return h('ab-ruler-options-inner-menu-reading', { class: 'ab-flex-column' }, [
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
             switchEl(state.rulerReadingActive, actions.selectToggleReadingRuler, 'Toggle Reading Ruler', 'Toggle the reading ruler'),
@@ -927,6 +1091,79 @@ const rulerOptionsInnerReading = (state, actions) => {
                                 tippy('#accessabar #ab-ruler-reading-opacity-inc', {
                                     arrow: true,
                                     content: 'Increase Ruler Opacity',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
+                        },
+                        [
+                            h('ab-icon', {
+                                'aria-hidden': true,
+                                class: 'ab-icon ab-icon-plus',
+                            }),
+                        ],
+                    ),
+                ],
+            ),
+        ]),
+        h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
+            h(
+                'ab-counter',
+                {
+                    'aria-valuemax': String(state.rulerPinholeCentreHeightMax / state.rulerPinholeCentreHeightStep),
+                    'aria-valuemin': '1',
+                    'aria-valuenow': String(state.rulerHeight),
+                    'aria-valuetext': String(state.rulerHeight),
+                    class: 'ab-counter ab-growable',
+                    role: 'spinbutton',
+                },
+                [
+                    h(
+                        'ab-counter-decrease',
+                        {
+                            'aria-label': 'Decrease ruler size',
+                            class: 'ab-dec ab-bar-button',
+                            id: 'ab-ruler-size-dec',
+                            onclick: () => {
+                                actions.rulerSizeDecrease();
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #ab-ruler-size-dec', {
+                                    arrow: true,
+                                    content: 'Decrease Ruler Size',
+                                    placement: 'bottom',
+                                    theme: 'ab',
+                                });
+                            },
+                            onkeydown: handleButtonNavigation,
+                            role: 'button',
+                        },
+                        [
+                            h('ab-icon', {
+                                'aria-hidden': true,
+                                class: 'ab-icon ab-icon-minus',
+                            }),
+                        ],
+                    ),
+                    h('ab-count-container', { class: 'ab-count-container' }, [
+                        h('ab-count-header', { class: 'ab-count-header' }, 'Size'),
+                        h('ab-count-value', { class: 'ab-count' }, state.rulerHeight),
+                    ]),
+                    h(
+                        'ab-counter-increase',
+                        {
+                            'aria-label': 'Increase ruler size',
+                            class: 'ab-inc ab-bar-button',
+                            id: 'ab-ruler-size-inc',
+                            onclick: () => {
+                                actions.rulerSizeIncrease();
+                            },
+                            oncreate: () => {
+                                tippy('#accessabar #ab-ruler-size-inc', {
+                                    arrow: true,
+                                    content: 'Increase Ruler Size',
                                     placement: 'bottom',
                                     theme: 'ab',
                                 });

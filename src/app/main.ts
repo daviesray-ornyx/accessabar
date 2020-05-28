@@ -5,6 +5,7 @@ import menuArea from './components/menu_area.component';
 import ttsPrompt from './components/tts_prompt.component';
 import funcArea from './components/function_area.component';
 import settingsMenu from './components/settings.component';
+import aboutMenu from './components/about.component';
 
 const innerBar = (state, actions) => {
     return h('ab-inner-bar', { class: 'ab-bar ab-growable' }, [
@@ -39,6 +40,7 @@ const mainView: View<Accessabar.IState, Accessabar.IActions> = (state, actions) 
         funcArea(state, actions),
         menuArea(state, actions),
         settingsMenu(state, actions),
+        aboutMenu(state, actions),
     ]);
 };
 
