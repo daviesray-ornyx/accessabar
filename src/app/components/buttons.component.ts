@@ -654,7 +654,7 @@ const aboutButton = ({ aboutHidden }: IAboutButtonState, { aboutOpen }: IAboutBu
         [
             h('ab-icon', {
                 'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-settings-gear',
+                class: 'ab-icon ab-icon-about',
             }),
         ],
     );
