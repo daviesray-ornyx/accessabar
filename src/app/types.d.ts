@@ -85,10 +85,16 @@ declare namespace Accessabar {
         magScaleMin: number;
         magScaleStep: number;
         magWidth: number;
+        magWidthMin: number;
         magHeight: number;
+        magHeightMin: number;
         magCanResize: boolean;
         magResizeStartX: number;
         magResizeStartY: number;
+
+        magSizeChangeStep: number;
+        magHeightOffset: number;
+        magWidthOffset: number;
 
         maskActive: boolean;
         maskCustomActive: boolean;
@@ -127,6 +133,11 @@ declare namespace Accessabar {
         rulerPinholeMaskColourCustomCurrent: string,
         rulerPinholeMaskCustomActive: boolean,
 
+        rulerHeight: number,
+        rulerHeightMax: number,
+        rulerHeightMin: number,
+        rulerHeightStep: number,
+
         srActive: boolean;
         srRuntime: SpeechRecognition | boolean;
         srLang: string;
@@ -134,6 +145,8 @@ declare namespace Accessabar {
         srLangListActive: boolean;
 
         settingsHidden: boolean;
+
+        aboutHidden: boolean;
     }
 
     interface IActions extends
@@ -152,6 +165,7 @@ declare namespace Accessabar {
         IRulerActions,
         ISRActions,
         ISettingsActions,
+        IAboutActions,
         IApiActions {}
 
     interface IHideActions {
@@ -276,6 +290,12 @@ declare namespace Accessabar {
         magUpdatePosition(): (state: Accessabar.IState) => Accessabar.IState;
         magScaleIncrease(): (state: Accessabar.IState) => Accessabar.IState;
         magScaleDecrease(): (state: Accessabar.IState) => Accessabar.IState;
+
+        magWidthIncrease(): (state: Accessabar.IState) => Accessabar.IState;
+        magWidthDecrease(): (state: Accessabar.IState) => Accessabar.IState;
+
+        magHeightIncrease(): (state: Accessabar.IState) => Accessabar.IState;
+        magHeightDecrease(): (state: Accessabar.IState) => Accessabar.IState;
     }
 
     interface IMaskActions {
@@ -294,6 +314,8 @@ declare namespace Accessabar {
         rulerAddListener(): (state: Accessabar.IState) => Accessabar.IState;
         rulerRemoveListener(): (state: Accessabar.IState) => Accessabar.IState;
         rulerMove(event: MouseEvent): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        rulerSizeDecrease(): (state: Accessabar.IState) => Accessabar.IState;
+        rulerSizeIncrease(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         rulerPinholeStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         rulerPinholeColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
@@ -324,6 +346,11 @@ declare namespace Accessabar {
         settingsClose(): Accessabar.IState;
         settingsToggleTTSList(): Accessabar.IState;
         settingsToggleSRLangList(): Accessabar.IState;
+    }
+
+    interface IAboutActions {
+        aboutOpen(): Accessabar.IState;
+        aboutClose(): Accessabar.IState;
     }
 
     interface IApiActions {

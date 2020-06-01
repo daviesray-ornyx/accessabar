@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 const state: Accessabar.IState = {
     // Whether Accessabar has been hidden or not.
     abarHidden: false,
@@ -5,7 +7,8 @@ const state: Accessabar.IState = {
     magActive: false,
     magBorder: 4,
     magCanDrag: false,
-    magHeight: 240,
+    magHeight: new BigNumber(window.innerHeight).times(0.3).decimalPlaces(0).toNumber(), // Initialize at 30% of screen
+    magHeightMin: 50,
     magMouseX: 0,
     magMouseY: 0,
     magMoveEvent: false,
@@ -22,10 +25,15 @@ const state: Accessabar.IState = {
     magScaleStep: 0.1,
     magTranslateX: 0,
     magTranslateY: 0,
-    magWidth: 400,
+    magWidth: new BigNumber(window.innerWidth).times(0.3).decimalPlaces(0).toNumber(),
+    magWidthMin: 50,
     magCanResize: false,
     magResizeStartX: 0,
     magResizeStartY: 0,
+
+    magSizeChangeStep: 0.1,
+    magHeightOffset:  0,
+    magWidthOffset: 0,
 
     maskActive: false,
     maskColourCurrent: '',
@@ -109,6 +117,10 @@ const state: Accessabar.IState = {
     rulerPinholeMaskColourCustomCurrent: '#000',
     rulerPinholeMaskCustomActive: false,
 
+    rulerPinholeColourCurrent: '#000',
+    rulerPinholeColourCustomCurrent: '#000',
+    rulerPinholeCustomActive: false,
+
     rulerPinholeOpacity: '0.6',
     rulerPinholeOpacityMax: 0.9,
     rulerPinholeOpacityMin: 0.2,
@@ -120,9 +132,17 @@ const state: Accessabar.IState = {
     rulerReadingOpacityMin: 0.2,
     rulerReadingOpacityStep: 0.05,
 
+    // Reading ruler size updates
+    rulerHeight: 48,
+    rulerHeightMax: 200,
+    rulerHeightMin: 12,
+    rulerHeightStep: 12,
+
     selectFontListActive: false,
 
     settingsHidden: true,
+
+    aboutHidden: true,
 
     srActive: false,
     srLang: 'en',

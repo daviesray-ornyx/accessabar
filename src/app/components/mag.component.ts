@@ -15,6 +15,7 @@ interface IMagState {
     magPageY: Accessabar.IState['magPageY'];
     magHeight: Accessabar.IState['magHeight'];
     magWidth: Accessabar.IState['magWidth'];
+
 }
 
 interface IMagActions {    
@@ -25,7 +26,8 @@ interface IMagActions {
     //magUpdateSize
 }
 
-const mag = ({magPageContent, magActive, magTranslateX, magTranslateY, magScale, menuHidden, magPosX, magPosY, magPageX, magPageY, magHeight, magWidth }: IMagState, {magStartDrag, magStopDrag, magUpdatePosition, magUpdateSize }: IMagActions) => {
+const mag = ({magPageContent, magActive, magTranslateX, magTranslateY, magScale, menuHidden, magPosX, magPosY, magPageX, magPageY, magHeight, magWidth}: IMagState, {magStartDrag, magStopDrag, magUpdatePosition, magUpdateSize }: IMagActions) => {
+
     return h(
         'ab-mag-window',
         {
