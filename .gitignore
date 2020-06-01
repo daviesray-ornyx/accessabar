@@ -74,4 +74,4 @@ public/dist/accessabar
 public/views
 
 # Environemt settings variables for Yandex keys, and probably many more 
-.env
+#.env
