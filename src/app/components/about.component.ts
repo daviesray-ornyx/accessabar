@@ -63,7 +63,7 @@ const aboutLinksSection = ({  }, { }) => {
         h('a', { 
             'aria-controls': 'ab-about-ace-link',
             class: 'ab-about-section-group',
-            href: 'https://ace.hfc.dev/',
+            href: 'https://accessabar-website-qlu5njva1.now.sh/',
             target: '_blank',
         },        
         [
