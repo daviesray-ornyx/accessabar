@@ -39,10 +39,7 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
     const height = new BigNumber(window.innerHeight);
     const handleHeight1 = new BigNumber(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
     const handleHeight2 = height.minus(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
-    if(state.rulerPinholeActive){
-        document.body.style.backgroundColor = rulerPinholeMaskColourCurrent;  // This becomes the pinhole color
-    }
-    
+   
 
 
     return h('ab-pinhole-ruler-container', { 'aria-hidden': 'true', class: `ab-pinhole-ruler-container ${rulerPinholeActive ? '' : 'ab-hide'}` }, [
@@ -51,7 +48,8 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
             class: 'ab-pinhole-ruler-handle ab-top',
             style: {
                 background: 'black',
-                opacity: rulerPinholeOpacity,
+                // opacity: rulerPinholeOpacity,
+                opacity: 0.65,
                 height: `${handleHeight1}px`,                
             },
         }),
@@ -60,8 +58,10 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
             class: 'ab-pinhole-ruler-centre',
             style: {
                 height: `${rulerPinholeCentreHeight}px`,
-                top: `${new BigNumber(rulerMouseY).plus(rulerPinholeCentreHeight / 2)}px`,
-                //background: `${rulerPinholeMaskColourCurrent}`,
+                //top: `${new BigNumber(rulerMouseY).plus(rulerPinholeCentreHeight / 2)}px`,
+                top: `${new BigNumber(rulerMouseY).minus(rulerPinholeCentreHeight / 2)}px`,
+                opacity: rulerPinholeOpacity,
+                background: `${rulerPinholeMaskColourCurrent}`,
             },
         }),
         h('ab-pinhole-ruler-handle', {
@@ -69,7 +69,8 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
             class: 'ab-pinhole-ruler-handle ab-bottom',
             style: {
                 background: 'black',
-                opacity: rulerPinholeOpacity,
+                // opacity: rulerPinholeOpacity,
+                opacity: 0.65,
                 height: `${handleHeight2}px`,
             },
         }),
