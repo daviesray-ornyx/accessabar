@@ -2,8 +2,8 @@ import { h } from 'hyperapp';
 
 const aboutHeader = ({ aboutHidden }, { aboutClose }) => {
     return h('ab-about-header', { class: 'ab-about-header' }, [
-        h('ab-logo', { class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Accessabar logo' }, [
-            h('ab-logo-img', { class: 'ab-logo-img-word', alt: 'Accessabar Logo' }),
+        h('ab-logo', { class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Ace logo' }, [
+            h('ab-logo-img', { class: 'ab-logo-img-word', alt: 'Ace Logo' }),
         ]),
         h('ab-about-header-title', { class: 'ab-about-header-title' }, 'Accessible Content Everywhere (ACE)'),
         h(
@@ -29,7 +29,7 @@ const aboutHeader = ({ aboutHidden }, { aboutClose }) => {
 };
 
 const aboutInfoSection = ({  }, { }) => {
-        
+
     return [
         h('ab-about-section-title', { class: 'ab-about-section-title' }, 'About'),
         h('ab-about-sr-lang', { class: 'ab-about-section-group' }, [
@@ -50,25 +50,25 @@ const aboutInfoSection = ({  }, { }) => {
 const aboutLinksSection = ({  }, { }) => {
     return [
         h('ab-about-section-title', { class: 'ab-about-section-title' }, 'Links'),
-        h('a', { 
+        h('a', {
             'aria-controls': 'ab-about-hfc-link',
             class: 'ab-about-section-group',
             href: 'http://hands-free.co.uk/',
             target: '_blank',
-        },        
+        },
         [
             // Links need to be added here
             'hands-free.co.uk'
         ]),
-        h('a', { 
+        h('a', {
             'aria-controls': 'ab-about-ace-link',
             class: 'ab-about-section-group',
-            href: 'https://ace.hfc.dev/',
+            href: 'https://acetoolbar.com/',
             target: '_blank',
-        },        
+        },
         [
             // Links need to be added here
-            'ace.hfc.dev'
+            'acetoolbar.com'
         ]),
     ];
 };
@@ -77,7 +77,7 @@ const aboutVersionSection = ({  }, { }) => {
     return [
         h('ab-about-section-title', { class: 'ab-about-section-title' }, 'Version'),
         h('ab-about-sr-lang', { class: 'ab-about-section-group' }, [
-            'v1.0.0'
+            window.abar.version,
             // Links need to be added here
         ]),
     ];
