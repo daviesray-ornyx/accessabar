@@ -242,6 +242,7 @@ declare namespace Accessabar {
         selectToggleReadingRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectTogglePinholeRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleSpeechRecognition(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        // selectTogglePageTranslation(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IColourActions {

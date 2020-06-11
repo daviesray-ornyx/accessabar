@@ -111,8 +111,15 @@ const selectActions: ActionsType<Accessabar.IState, Accessabar.ISelectActions> =
             apiSendEvent('AceSpeechRecognition_On');
         }
     },
-        }
-    },
+
+    // selectTogglePageTranslation: () => ({ srActive }, { ptEnable, ptDisable, apiSendEvent }: Accessabar.IActions) => {
+    //     if (srActive) {
+    //         AccessabarUtil.stopFunction('pageTranslation');
+    //     } else {
+    //         AccessabarUtil.startFunction('pageTranslation', srDisable, srEnable);
+    //         apiSendEvent('AcePageTranslation_On');
+    //     }
+    // },
 };
 
 export default selectActions;

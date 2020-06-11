@@ -1194,7 +1194,7 @@ const ptMenu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
 
     return h('ab-page-translate-options-inner-menu-font', { class: 'ab-flex-column' }, [
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
-            switchEl(state.languageActive, actions.selectTogglePageTranslation, 'Toggle Language', 'Toggle the page language'),
+            // switchEl(state.languageActive, actions.selectTogglePageTranslation, 'Toggle Language', 'Toggle the page language'),
         ]),
         h('ab-inner-menu-section', { class: 'ab-box ab-flex-column' }, [
             h(
