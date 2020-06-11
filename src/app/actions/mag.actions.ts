@@ -240,10 +240,10 @@ const magActions: ActionsType<Accessabar.IState, Accessabar.IMagActions> = {
         }
 
         if (!pushMargin) {
-            magPage.contentDocument.body.style.marginTop = null;
-            magPage.contentDocument.body.style.marginRight = null;
-            magPage.contentDocument.body.style.marginBottom = null;
-            magPage.contentDocument.body.style.marginLeft = null;
+            magPage.contentDocument.body.style.marginTop = '0';
+            magPage.contentDocument.body.style.marginRight = '0';
+            magPage.contentDocument.body.style.marginBottom = '0';
+            magPage.contentDocument.body.style.marginLeft = '0';
         }
 
         // console.table({

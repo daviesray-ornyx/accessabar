@@ -257,13 +257,13 @@ declare namespace Accessabar {
         selectToggleFontList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleLanguageList(event: Event): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleFontCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        //selectToggleLanguageCurrent
         selectToggleLanguageCurrent(key: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMagnifier(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleMask(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleReadingRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectTogglePinholeRuler(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         selectToggleSpeechRecognition(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        // selectTogglePageTranslation(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IColourActions {
@@ -318,8 +318,8 @@ declare namespace Accessabar {
         rulerSizeIncrease(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         rulerPinholeStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        rulerPinholeColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
-        rulerPinholeMaskColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
+        // rulerPinholeColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
+        // rulerPinholeMaskColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeOpacityInc(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeSizeInc(): (state: Accessabar.IState) => Accessabar.IState;
@@ -337,10 +337,6 @@ declare namespace Accessabar {
         srChangeLang(lang: string): Accessabar.IState;
     }
 
-    interface IGTActions {
-        gtStart: (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-    }
-
     interface ISettingsActions {
         settingsOpen(): Accessabar.IState;
         settingsClose(): Accessabar.IState;
@@ -354,8 +350,7 @@ declare namespace Accessabar {
     }
 
     interface IApiActions {
-        apiAceOpened(): void;
-        apiAceClosed(): void;
+        apiSendEvent(eventType: string): void;
     }
 
     interface IConfigObject {
