@@ -1,6 +1,5 @@
 import { h } from 'hyperapp';
 import BigNumber from 'bignumber.js';
-import state from '../state';
 
 interface IRulerReadingState {
     rulerReadingActive: Accessabar.IState['rulerReadingActive'];

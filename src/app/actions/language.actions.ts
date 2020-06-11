@@ -1,6 +1,5 @@
 import { ActionsType } from 'hyperapp';
 import languageConfig from '../../config/language.config.json5';
-import https from 'https';
 
 /**
  * Fetches and returns parents of text nodes in the document
@@ -67,39 +66,24 @@ const languageActions: ActionsType<Accessabar.IState, Accessabar.ILanguageAction
      * Translates all text on the page to a specified language
      *
      */
-    languageChangeAll: (key?: string) => ({ languageCurrentKey }) => {
+    languageChangeAll: (key?: string) => ({ languageCurrentKey }, { apiGetTranslation }: Accessabar.IActions) => {
         const currentKey: string = key || languageCurrentKey;
         if (currentKey.length <= 0) {
             return;
         }
 
-        const currentLanguageCode = languageConfig[currentKey].code || null;
-        const dataFormat = "html";
+        const currentLanguageCode = languageConfig[currentKey].code || 'en';
         const parentElements = getParents();
 
-        parentElements.forEach(element => {
+        parentElements.forEach(async (element) => {
             let elementTextContent = element.textContent;
-            console.log(process.env.YANDEX_API_KEY);
-            const qs = `?key=${process.env.YANDEX_API_KEY}&lang=${currentLanguageCode}&text=${elementTextContent}&format=${dataFormat}`
-            const options = {
-                hostname: process.env.YANDEX_HOST_NAME,
-                port: process.env.YANDEX_PORT,
-                path: process.env.YANDEX_JSON_TRANSLATE_PATH + qs,
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
 
-            const req = https.request(options, res => {
-                if(res.statusCode != 200)
-                    return;
-                res.on('data', d => {
-                    const jsonData = JSON.parse(d);
-                    element.textContent = jsonData.text;
-                })
-            })
-            req.end();
+            const req = await apiGetTranslation({
+                strings: [elementTextContent],
+                to: currentLanguageCode,
+            });
+
+            element.textContent = req?.trans[0] || elementTextContent;
         });
     },
 };

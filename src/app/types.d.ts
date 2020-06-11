@@ -351,6 +351,7 @@ declare namespace Accessabar {
 
     interface IApiActions {
         apiSendEvent(eventType: string): void;
+        apiGetTranslation(data: { [x: string]: any }): { [x: string]: any };
     }
 
     interface IConfigObject {
