@@ -10,8 +10,7 @@ async function doRequest(link, req) {
 async function handleRequest(link, req) {
     const res = await doRequest(link, req);
     if (res) {
-        const jsonObj = res.json();
-        console.log(link, jsonObj);
+        return res.json();
     }
 }
 
@@ -51,6 +50,18 @@ const apiActions: ActionsType<Accessabar.IState, Accessabar.IApiActions> = {
         };
 
         await handleRequest('https://ace-ctrl.acetoolbar.com/api/v1/event/add', req);
+    },
+
+    apiGetTranslation: async (data: { [x: string]: any }) => {
+        const req = {
+            body: JSON.stringify(data),
+            method: 'POST',
+            mode: 'cors',
+            redirect: 'follow',
+            headers: { 'Content-Type': 'application/json' },
+        };
+
+        return handleRequest('https://trans.acetoolbar.com/api/v1/translate', req);
     },
 };
 
