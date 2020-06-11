@@ -318,8 +318,8 @@ declare namespace Accessabar {
         rulerSizeIncrease(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeEnable(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         rulerPinholeStop(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        rulerPinholeColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
-        rulerPinholeMaskColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
+        // rulerPinholeColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
+        // rulerPinholeMaskColourChange(colour?: string): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeOpacityInc(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeOpacityDec(): (state: Accessabar.IState) => Accessabar.IState;
         rulerPinholeSizeInc(): (state: Accessabar.IState) => Accessabar.IState;
