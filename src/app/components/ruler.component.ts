@@ -8,7 +8,7 @@ interface IRulerReadingState {
     rulerReadingOffset: Accessabar.IState['rulerReadingOffset'];
     rulerReadingOpacity: Accessabar.IState['rulerReadingOpacity'];
     rulerHeight: Accessabar.IState['rulerHeight'];
-    
+
 }
 
 const rulerReadingBar = ({ rulerReadingActive, rulerMouseY, rulerReadingOffset, rulerReadingOpacity, rulerHeight }: IRulerReadingState) => {
@@ -18,7 +18,7 @@ const rulerReadingBar = ({ rulerReadingActive, rulerMouseY, rulerReadingOffset, 
         style: {
             opacity: rulerReadingOpacity,
             top: `${new BigNumber(rulerMouseY).plus(rulerReadingOffset).toString()}px`,
-            height: `${rulerHeight}px`, 
+            height: `${rulerHeight}px`,
         },
     });
 };
@@ -28,19 +28,17 @@ interface IRulerPinholeState {
     rulerPinholeOpacity: Accessabar.IState['rulerPinholeOpacity'];
     rulerMouseY: Accessabar.IState['rulerMouseY'];
     rulerPinholeActive: Accessabar.IState['rulerPinholeActive'];
-    
+
     rulerPinholeMaskColourCurrent: Accessabar.IState['rulerPinholeMaskColourCurrent'],
     rulerPinholeMaskColourCustomCurrent: Accessabar.IState['rulerPinholeMaskColourCustomCurrent'],
     rulerPinholeMaskCustomActive: Accessabar.IState['rulerPinholeMaskCustomActive'],
 }
 
-const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpacity, 
+const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpacity,
     rulerPinholeActive, rulerPinholeMaskColourCurrent,}: IRulerPinholeState) => {
     const height = new BigNumber(window.innerHeight);
     const handleHeight1 = new BigNumber(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
     const handleHeight2 = height.minus(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
-   
-
 
     return h('ab-pinhole-ruler-container', { 'aria-hidden': 'true', class: `ab-pinhole-ruler-container ${rulerPinholeActive ? '' : 'ab-hide'}` }, [
         h('ab-pinhole-ruler-handle', {
@@ -50,7 +48,7 @@ const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpaci
                 background: 'black',
                 // opacity: rulerPinholeOpacity,
                 opacity: 0.65,
-                height: `${handleHeight1}px`,                
+                height: `${handleHeight1}px`,
             },
         }),
         h('ab-pinhole-ruler-centre', {
