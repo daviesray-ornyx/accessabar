@@ -1,47 +1,24 @@
 {
-    "parser": "babel-eslint",
-    "env": {
-        "browser": true,
-        "es6": true,
-        "node": true
-    },
-    "extends": [
-        "airbnb-base"
-    ],
-    "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": 9,
-        "ecmaFeatures": {
-            "modules": true
-        }
-    },
-    "rules": {
-        "strict": 0,
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "no-console": 0,
-        "class-methods-use-this": 0,
-        "no-plusplus": 0,
-        "no-restricted-syntax": 0,
-        "no-param-reassign": [2, { "props": false }],
-        "babel/semi": 1
-    },
-    "plugins": [
-        "import",
-        "babel"
-    ]
+  "extends": "./node_modules/gts/",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "rules": {
+    "node/no-unpublished-require": "off",
+    "node/no-unsupported-features/es-syntax": ["error", {
+      "version": ">=14.x",
+      "ignores": [
+        "modules"
+      ]
+    }]
+  }
 }

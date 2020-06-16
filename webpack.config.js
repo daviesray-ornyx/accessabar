@@ -8,7 +8,7 @@ const Webpack = require('webpack');
 const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const { resolve } = require('path');
+const {resolve} = require('path');
 // const threadLoader = require('thread-loader');
 // const { length: cpuCount } = require('os').cpus();
 
@@ -48,85 +48,92 @@ Elliott Judd <elliott.judd@hands-free.co.uk>`;
 // ]);
 
 const babelLoader = {
-    loader: 'babel-loader',
-    options: {
-        cacheDirectory: true,
-    },
+  loader: 'babel-loader',
+  options: {
+    cacheDirectory: true,
+  },
 };
 
 const cssLoader = {
-    loader: 'css-loader',
-    options: {
-        importLoaders: 1,
-    },
+  loader: 'css-loader',
+  options: {
+    importLoaders: 1,
+  },
 };
 
 let imageFileLoader = {
-    loader: 'file-loader',
-    options: {
-        outputPath: 'images/',
-    },
+  loader: 'file-loader',
+  options: {
+    outputPath: 'images/',
+  },
 };
 
 let fontFileLoader = {
-    loader: 'file-loader',
-    options: {
-        outputPath: 'fonts/',
-    },
+  loader: 'file-loader',
+  options: {
+    outputPath: 'fonts/',
+  },
 };
 
 const optLoaders = [
-    {
-        loader: 'cache-loader',
-        options: {
-            cacheDirectory: resolve(__dirname, 'node_modules', '.cache', 'cache-loader'),
-        },
+  {
+    loader: 'cache-loader',
+    options: {
+      cacheDirectory: resolve(
+        __dirname,
+        'node_modules',
+        '.cache',
+        'cache-loader'
+      ),
     },
-    // {
-    //     loader: 'thread-loader',
-    //     options: {
-    //         workers: cpuCount - 1,
-    //         workerParallelJobs: 50,
-    //     },
-    // },
+  },
+  // {
+  //     loader: 'thread-loader',
+  //     options: {
+  //         workers: cpuCount - 1,
+  //         workerParallelJobs: 50,
+  //     },
+  // },
 ];
 
 //
 // ─── CONFIG FUNCTION ────────────────────────────────────────────────────────────
 //
 
-const config = (env) => {
-    const dev = env.mode === 'development';
-    const devServer = env.server === 'enabled';
-    const dash = env.dash === 'enabled';
-    const verbose = env.verbose === 'enabled';
+const config = env => {
+  const dev = env.mode === 'development';
+  const devServer = env.server === 'enabled';
+  const dash = env.dash === 'enabled';
+  const verbose = env.verbose === 'enabled';
 
-    const entries = {
-        accessabar: './',
+  const entries = {
+    accessabar: './',
+  };
+
+  if (env.npm && env.npm === 'enabled') {
+    fontFileLoader = {
+      loader: 'file-loader',
+      options: {
+        emitFile: false,
+        name: '[name].[ext]',
+        publicPath:
+          'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/fonts/',
+      },
     };
 
-    if (env.npm && env.npm === 'enabled') {
-        fontFileLoader = {
-            loader: 'file-loader',
-            options: {
-                emitFile: false,
-                name: '[name].[ext]',
-                publicPath: 'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/fonts/',
-            },
-        };
+    imageFileLoader = {
+      loader: 'file-loader',
+      options: {
+        emitFile: false,
+        name: '[name].[ext]',
+        publicPath:
+          'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/images/',
+      },
+    };
+  }
 
-        imageFileLoader = {
-            loader: 'file-loader',
-            options: {
-                emitFile: false,
-                name: '[name].[ext]',
-                publicPath: 'https://cdn.jsdelivr.net/gh/HandsFree/accessabar/src/images/',
-            },
-        };
-    }
-
-    /* eslint-disable no-use-before-define */
-    return mainSettings(entries, dev, devServer, dash, verbose);
+  /* eslint-disable no-use-before-define */
+  return mainSettings(entries, dev, devServer, dash, verbose);
 };
 
 //
@@ -134,153 +141,154 @@ const config = (env) => {
 //
 
 const mainSettings = (entries, dev, devServer, dash, verbose) => {
-    // Plugin Options //
+  // Plugin Options //
 
-    const sharedPlugins = [
-        new Webpack.BannerPlugin({
-            banner: dev ? devBanner : prodBanner,
-        }),
-        new ResourceHintWebpackPlugin(),
-        new HardSourceWebpackPlugin({
-            cacheDirectory: `${resolve(__dirname, 'node_modules', '.cache', 'hard-source')}/[confighash]`,
-            info: {
-                level: 'warn',
-            },
-        }),
-        new ForkTsCheckerWebpackPlugin({
-            tsconfig: resolve(__dirname, 'tsconfig.json'),
-            tslint: resolve(__dirname, 'tslint.json'),
-            checkSyntacticErrors: true,
-            watch: resolve(__dirname, 'src'),
-        }),
-        new MiniCssExtractPlugin({
-            filename: 'app.css',
-        }),
-    ];
+  const sharedPlugins = [
+    new Webpack.BannerPlugin({
+      banner: dev ? devBanner : prodBanner,
+    }),
+    new ResourceHintWebpackPlugin(),
+    new HardSourceWebpackPlugin({
+      cacheDirectory: `${resolve(
+        __dirname,
+        'node_modules',
+        '.cache',
+        'hard-source'
+      )}/[confighash]`,
+      info: {
+        level: 'warn',
+      },
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: resolve(__dirname, 'tsconfig.json'),
+      tslint: resolve(__dirname, 'tslint.json'),
+      checkSyntacticErrors: true,
+      watch: resolve(__dirname, 'src'),
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'app.css',
+    }),
+  ];
 
-    return {
-        context: resolve(__dirname, 'src'),
-        entry: entries,
-        output: {
-            publicPath: '/dist/accessabar/',
-            path: resolve(__dirname, 'public', 'dist', 'accessabar'),
-            filename: '[name].bundle.js',
-            // Export options
-            library: 'Accessabar', // name
-            libraryExport: 'default', // exported module
-            libraryTarget: 'window', // location
+  return {
+    context: resolve(__dirname, 'src'),
+    entry: entries,
+    output: {
+      publicPath: '/dist/accessabar/',
+      path: resolve(__dirname, 'public', 'dist', 'accessabar'),
+      filename: '[name].bundle.js',
+      // Export options
+      library: 'Accessabar', // name
+      libraryExport: 'default', // exported module
+      libraryTarget: 'window', // location
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: [...optLoaders, babelLoader],
         },
-        module: {
-            rules: [
-                {
-                    test: /\.tsx?$/,
-                    exclude: /node_modules/,
-                    use: [
-                        ...optLoaders,
-                        babelLoader,
-                    ],
-                },
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    enforce: 'pre',
-                    use: [
-                        'source-map-loader',
-                        ...optLoaders,
-                        babelLoader,
-                    ],
-                },
-                {
-                    test: /\.(css|pcss)$/,
-                    use: [
-                        'css-hot-loader',
-                        MiniCssExtractPlugin.loader,
-                        cssLoader,
-                        'postcss-loader',
-                    ],
-                },
-                {
-                    test: /\.(png|jpg|gif)$/,
-                    use: [
-                        imageFileLoader,
-                    ],
-                },
-                {
-                    test: /\.(eot|svg|ttf|woff|woff2)$/,
-                    use: [
-                        fontFileLoader,
-                    ],
-                },
-                {
-                    test: /\.json5$/,
-                    use: [
-                        'json5-loader',
-                    ],
-                },
-            ],
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          enforce: 'pre',
+          use: ['source-map-loader', ...optLoaders, babelLoader],
         },
-        plugins: dev ? [
-            ...sharedPlugins,
-            ...(devServer ? [
+        {
+          test: /\.(css|pcss)$/,
+          use: [
+            'css-hot-loader',
+            MiniCssExtractPlugin.loader,
+            cssLoader,
+            'postcss-loader',
+          ],
+        },
+        {
+          test: /\.(png|jpg|gif)$/,
+          use: [imageFileLoader],
+        },
+        {
+          test: /\.(eot|svg|ttf|woff|woff2)$/,
+          use: [fontFileLoader],
+        },
+        {
+          test: /\.json5$/,
+          use: ['json5-loader'],
+        },
+      ],
+    },
+    plugins: dev
+      ? [
+          ...sharedPlugins,
+          ...(devServer
+            ? [
                 new Webpack.HotModuleReplacementPlugin(),
-                new BrowserSyncPlugin({
+                new BrowserSyncPlugin(
+                  {
                     open: false,
                     host: 'localhost',
                     port: '8080',
                     proxy: 'http://localhost:8090/',
-                }, { reload: false }),
-            ] : []),
-            ...(dash ? [new DashboardPlugin()] : []),
-        ] : [
-            ...sharedPlugins,
-            new OfflinePlugin({
-                autoUpdate: true,
-                relativePaths: true,
-            }),
+                  },
+                  {reload: false}
+                ),
+              ]
+            : []),
+          ...(dash ? [new DashboardPlugin()] : []),
+        ]
+      : [
+          ...sharedPlugins,
+          new OfflinePlugin({
+            autoUpdate: true,
+            relativePaths: true,
+          }),
         ],
-        devtool: dev ? 'inline-source-map' : false,
-        devServer: {
-            contentBase: './public/',
-            hot: true,
-            hotOnly: true,
-            host: 'localhost',
-            open: false,
-            publicPath: 'http://localhost:8080/dist/accessabar/',
-            port: '8090',
-            compress: true,
+    devtool: dev ? 'inline-source-map' : false,
+    devServer: {
+      contentBase: './public/',
+      hot: true,
+      hotOnly: true,
+      host: 'localhost',
+      open: false,
+      publicPath: 'http://localhost:8080/dist/accessabar/',
+      port: '8090',
+      compress: true,
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+    mode: dev ? 'development' : 'production',
+    optimization: {
+      minimizer: [
+        new TerserPlugin({
+          parallel: true,
+        }),
+        new OptimizeCSSAssetsPlugin(),
+      ],
+    },
+    stats: verbose
+      ? 'verbose'
+      : {
+          errors: true,
+          errorDetails: false,
+          assets: true,
+          builtAt: false,
+          cached: false,
+          cachedAssets: false,
+          children: false,
+          chunks: false,
+          hash: false,
+          modules: false,
+          reasons: false,
+          version: false,
+          source: false,
+          warnings: false,
+          publicPath: false,
+          entrypoints: false,
+          timings: false,
         },
-        resolve: {
-            extensions: ['.ts', '.tsx', '.js', '.json'],
-        },
-        mode: dev ? 'development' : 'production',
-        optimization: {
-            minimizer: [
-                new TerserPlugin({
-                    parallel: true,
-                }),
-                new OptimizeCSSAssetsPlugin(),
-            ],
-        },
-        stats: verbose ? 'verbose' : {
-            errors: true,
-            errorDetails: false,
-            assets: true,
-            builtAt: false,
-            cached: false,
-            cachedAssets: false,
-            children: false,
-            chunks: false,
-            hash: false,
-            modules: false,
-            reasons: false,
-            version: false,
-            source: false,
-            warnings: false,
-            publicPath: false,
-            entrypoints: false,
-            timings: false,
-        },
-    };
+  };
 };
 
 module.exports = config;

@@ -9,35 +9,32 @@ const PostcssCustomMedia = require('postcss-custom-media');
 const RucksackCSS = require('rucksack-css');
 
 const config = {
-    plugins: [
-        PostcssEasyImport({
-            extensions: [
-                '.css',
-                '.pcss',
-            ],
-        }),
-        PostcssNestedProps,
-        PostcssNestedAncestors,
-        PostcssNested,
-        RucksackCSS,
-        PostcssCustomMedia,
-        PostcssFlexbugsFixes,
-        PostcssPresetEnv({
-            autoprefixer: {
-                grid: true,
-            },
-        }),
-        PostcssSorting({
-            order: [
-                'at-variables',
-                'custom-properties',
-                'declarations',
-                'at-rules',
-                'rules',
-            ],
-            'properties-order': 'alphabetical',
-        }),
-    ],
+  plugins: [
+    PostcssEasyImport({
+      extensions: ['.css', '.pcss'],
+    }),
+    PostcssNestedProps,
+    PostcssNestedAncestors,
+    PostcssNested,
+    RucksackCSS,
+    PostcssCustomMedia,
+    PostcssFlexbugsFixes,
+    PostcssPresetEnv({
+      autoprefixer: {
+        grid: true,
+      },
+    }),
+    PostcssSorting({
+      order: [
+        'at-variables',
+        'custom-properties',
+        'declarations',
+        'at-rules',
+        'rules',
+      ],
+      'properties-order': 'alphabetical',
+    }),
+  ],
 };
 
 module.exports = config;
