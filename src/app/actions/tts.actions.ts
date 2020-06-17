@@ -1,260 +1,275 @@
-import { ActionsType } from 'hyperapp';
 import BigNumber from 'bignumber.js';
 
-function hoverPassthrough(event) {
-    window.abar.appActions.ttsHandleHover(event);
+function ttsHandleHover(state: Ace.State, event: MouseEvent) {
+  const {ttsHoverTimeout} = state;
+  const {target} = event;
+  const selection = window.getSelection();
+
+  if (!target || !selection) {
+    return;
+  }
+
+  selection.removeAllRanges();
+  selection.selectAllChildren(target as Node);
+
+  const currentText = selection.toString();
+
+  if (ttsHoverTimeout && typeof ttsHoverTimeout !== 'boolean') {
+    clearTimeout(ttsHoverTimeout);
+  }
+
+  return [
+    state,
+    [
+      (dispatch, props) => {
+        dispatch({
+          ttsHoverTimeout: setTimeout(() => {
+            dispatch(ttsSpeak, props.currentText);
+          }, 500),
+        });
+      },
+      {
+        currentText,
+        action: ttsSpeak,
+      },
+    ],
+  ];
 }
 
-function highlightPassthrough() {
-    window.abar.appActions.ttsHandleHighlight();
+function ttsHandleHighlight(state: Ace.State) {
+  const {ttsHighlightTimeout} = state;
+
+  const selection = window.getSelection();
+
+  if (!selection) {
+    return;
+  }
+
+  const currentText = selection.toString();
+
+  if (ttsHighlightTimeout && typeof ttsHighlightTimeout !== 'boolean') {
+    clearTimeout(ttsHighlightTimeout);
+  }
+
+  return [
+    state,
+    [
+      (dispatch, props) => {
+        dispatch({
+          ttsHighlightTimeout: setTimeout(() => {
+            dispatch(ttsSpeak, props.currentText);
+          }, 500),
+        });
+      },
+      {
+        currentText,
+        action: ttsSpeak,
+      },
+    ],
+  ];
 }
 
-const ttsActions: ActionsType<Accessabar.IState, Accessabar.ITTSActions> = {
-    ttsHandleHover: (event: MouseEvent) => ({ ttsHoverTimeout }) => {
-        const { target } = event;
-        const selection = window.getSelection();
+function ttsHandlePrompt(state: Ace.State, event: SpeechSynthesisEvent) {
+  const {
+    ttsVoiceActive,
+    // ttsCurrentUtterText
+    ttsCurrentUtterWordIndex,
+    ttsCurrentUtterCharIndex,
+  } = state;
 
-        if (!target) {
-            return;
-        }
+  switch (event.type) {
+    case 'start':
+      const words = event.utterance.text.split(/\s/);
+      const sentencesArr = Array(Math.ceil(words.length / 5)).fill('');
+      const sentenceChunks = sentencesArr.map((_, i) =>
+        words.slice(i * 5, i * 5 + 5)
+      );
 
-        if (!selection) {
-            return;
-        }
+      // console.log('Chunks:', sentenceChunks);
 
-        selection.removeAllRanges();
-        selection.selectAllChildren((target as Node));
+      return {
+        ...state,
+        ttsCurrentUtterCharIndex: event.charIndex,
+        ttsCurrentUtterSentences: sentenceChunks,
+        ttsCurrentUtterText: event.utterance.text,
+        ttsCurrentUtterWords: words,
+        ttsVoiceActive: true,
+      };
+    case 'boundary':
+      if (!ttsVoiceActive) {
+        return state;
+      }
 
-        const currentText = selection.toString();
+      if (event.name !== 'word') {
+        return state;
+      }
 
-        if (ttsHoverTimeout && typeof ttsHoverTimeout !== 'boolean') {
-            clearTimeout(ttsHoverTimeout);
-        }
+      // const { charIndex } = event;
+      // const sentence = ttsCurrentUtterText.substring(charIndex);
+      // // Match everything before fullstop, comma, speech mark, close bracket and whitespace
+      // const re = /([^\.,"\)\s]+)/;
+      // const wordArr = re.exec(sentence);
+      // const length = (wordArr || [''])[0].length;
 
-        return {
-            ttsHoverTimeout: setTimeout(window.abar.appActions.ttsSpeak.bind(null, currentText), 500),
-        };
-    },
+      let wordIndex = ttsCurrentUtterWordIndex;
 
-    ttsHandleHighlight: () => ({ ttsHighlightTimeout }) => {
-        const selection = window.getSelection();
+      if (
+        event.charIndex !== ttsCurrentUtterCharIndex &&
+        event.charIndex !== 0
+      ) {
+        wordIndex++;
+      }
 
-        if (!selection) {
-            return;
-        }
+      const sentenceIndex = Math.floor(wordIndex / 5);
+      const sentenceWordIndex = wordIndex % 5;
 
-        const currentText = selection.toString();
+      return {
+        ...state,
+        ttsCurrentUtterCharIndex: event.charIndex,
+        ttsCurrentUtterSentenceIndex: sentenceIndex,
+        ttsCurrentUtterSentenceWordIndex: sentenceWordIndex,
+        ttsCurrentUtterWordIndex: wordIndex,
+      };
+    case 'end':
+      return {
+        ...state,
+        ttsCurrentUtterCharIndex: 0,
+        ttsCurrentUtterSentences: [],
+        ttsCurrentUtterText: '',
+        ttsCurrentUtterWordIndex: 0,
+        ttsCurrentUtterWords: [],
+        ttsVoiceActive: false,
+      };
+    default:
+      return state;
+  }
+}
 
-        if (ttsHighlightTimeout && typeof ttsHighlightTimeout !== 'boolean') {
-            clearTimeout(ttsHighlightTimeout);
-        }
+function ttsHoverStart(state: Ace.State) {
+  ttsStopCurrent();
 
-        return {
-            ttsHighlightTimeout: setTimeout(window.abar.appActions.ttsSpeak.bind(null, currentText), 500),
-        };
-    },
+  return {
+    ...state,
+    ttsHoverSpeak: true,
+  };
+}
 
-    ttsHandlePrompt: (event: SpeechSynthesisEvent) => ({ ttsVoiceActive, ttsCurrentUtterText, ttsCurrentUtterWordIndex, ttsCurrentUtterCharIndex }) => {
-        // console.log(event);
+function ttsHightlightStart(state: Ace.State) {
+  ttsStopCurrent();
 
-        switch (event.type) {
-        case 'start':
-            const words = event.utterance.text.split(/\s/);
-            const sentencesArr = Array(Math.ceil(words.length / 5)).fill('');
-            const sentenceChunks = sentencesArr.map((_, i) => words.slice(i * 5, i * 5 + 5));
+  return {
+    ...state,
+    ttsHighlightSpeak: true,
+  };
+}
 
-            // console.log('Chunks:', sentenceChunks);
+function ttsSpeak(state: Ace.State, text: string) {
+  const {ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices, ttsVoice} = state;
 
-            return {
-                ttsCurrentUtterCharIndex: event.charIndex,
-                ttsCurrentUtterSentences: sentenceChunks,
-                ttsCurrentUtterText: event.utterance.text,
-                ttsCurrentUtterWords: words,
-                ttsVoiceActive: true,
-            };
-        case 'boundary':
-            if (!ttsVoiceActive) {
-                return;
-            }
+  if (ttsVoices.length === 0) {
+    return;
+  }
 
-            if (event.name !== 'word') {
-                return;
-            }
+  const utterance = new SpeechSynthesisUtterance(text);
 
-            // const { charIndex } = event;
-            // const sentence = ttsCurrentUtterText.substring(charIndex);
-            // // Match everything before fullstop, comma, speech mark, close bracket and whitespace
-            // const re = /([^\.,"\)\s]+)/;
-            // const wordArr = re.exec(sentence);
-            // const length = (wordArr || [''])[0].length;
+  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+    window.speechSynthesis.cancel();
+  }
 
-            let wordIndex = ttsCurrentUtterWordIndex;
+  utterance.pitch = new BigNumber(ttsPitch).toNumber();
+  utterance.rate = new BigNumber(ttsRate).toNumber();
+  utterance.volume = new BigNumber(ttsVolume).toNumber();
+  utterance.lang = ttsLang;
 
-            if (event.charIndex !== ttsCurrentUtterCharIndex && event.charIndex !== 0) {
-                wordIndex++;
-            }
+  if (ttsVoice) {
+    utterance.voice = ttsVoice;
+  }
 
-            const sentenceIndex = Math.floor(wordIndex / 5);
-            const sentenceWordIndex = wordIndex % 5;
+  utterance.onstart = event => {
+    ttsHandlePrompt(state, event);
+  };
 
-            return {
-                ttsCurrentUtterCharIndex: event.charIndex,
-                ttsCurrentUtterSentenceIndex: sentenceIndex,
-                ttsCurrentUtterSentenceWordIndex: sentenceWordIndex,
-                ttsCurrentUtterWordIndex: wordIndex,
-            };
-        case 'end':
-            return {
-                ttsCurrentUtterCharIndex: 0,
-                ttsCurrentUtterSentences: [],
-                ttsCurrentUtterText: '',
-                ttsCurrentUtterWordIndex: 0,
-                ttsCurrentUtterWords: [],
-                ttsVoiceActive: false,
-            };
-        default:
-            return;
-        }
-    },
+  utterance.onboundary = event => {
+    ttsHandlePrompt(state, event);
+  };
 
-    ttsHoverStart: () => (state, { ttsStopCurrent }) => {
-        // console.log('start hover');
-        ttsStopCurrent();
+  utterance.onend = event => {
+    ttsHandlePrompt(state, event);
+  };
 
-        document.addEventListener('mouseover', hoverPassthrough);
+  // console.log(utterance);
 
-        return;
-    },
+  window.speechSynthesis.speak(utterance);
+}
 
-    ttsHighlightStart: () => (state, { ttsStopCurrent }) => {
-        // console.log('start highlight');
-        ttsStopCurrent();
+function ttsStopCurrent() {
+  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+    window.speechSynthesis.cancel();
+  }
+}
 
-        document.addEventListener('mouseup', highlightPassthrough);
+function ttsStop(state: Ace.State) {
+  ttsStopCurrent();
 
-        return;
-    },
+  return {
+    ...state,
+    ttsHoverSpeak: false,
+    ttsHightlightSpeak: false,
+  };
+}
 
-    ttsSpeak: (text: string) => ({ ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices, ttsVoice }) => {
-        if (ttsVoices.length === 0) {
-            return;
-        }
+function ttsInit(state: Ace.State) {
+  return {
+    ...state,
+    ttsInitiated: true,
+  };
+}
 
-        const utterance = new SpeechSynthesisUtterance(text);
+function ttsChangeVoice(state: Ace.State, key: number) {
+  const {ttsVoices} = state;
 
-        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-            window.speechSynthesis.cancel();
-        }
+  if (!ttsVoices || ttsVoices.length < 1) {
+    return state;
+  }
 
-        utterance.pitch = new BigNumber(ttsPitch).toNumber();
-        utterance.rate = new BigNumber(ttsRate).toNumber();
-        utterance.volume = new BigNumber(ttsVolume).toNumber();
-        utterance.lang = ttsLang;
+  return {
+    ...state,
+    ttsCurrentVoiceName: ttsVoices[key].name,
+    ttsVoice: ttsVoices[key],
+  };
+}
 
-        if (ttsVoice) {
-            utterance.voice = ttsVoice;
-        }
+function ttsChangeVolume(state: Ace.State, volume: string) {
+  return {
+    ...state,
+    ttsVolume: volume,
+  };
+}
 
-        utterance.onstart = (event) => {
-            window.abar.appActions.ttsHandlePrompt(event);
-        };
+function ttsChangeRate(state: Ace.State, rate: string) {
+  return {
+    ...state,
+    ttsRate: rate,
+  };
+}
 
-        utterance.onboundary = (event) => {
-            window.abar.appActions.ttsHandlePrompt(event);
-        };
+function ttsChangePitch(state: Ace.State, pitch: string) {
+  return {
+    ...state,
+    ttsPitch: pitch,
+  };
+}
 
-        utterance.onend = (event) => {
-            window.abar.appActions.ttsHandlePrompt(event);
-        };
-
-        // console.log(utterance);
-
-        window.speechSynthesis.speak(utterance);
-    },
-
-    ttsInit: () => ({ ttsInitiated, ttsHighlightSpeak, ttsHoverSpeak }, { menuHandle, ttsHighlightStart, ttsHoverStart, ttsUpdateVoices }: Accessabar.IActions) => {
-        if (ttsInitiated) {
-            return;
-        }
-
-        ttsUpdateVoices();
-
-        if (window.speechSynthesis.onvoiceschanged !== undefined) {
-            window.speechSynthesis.onvoiceschanged = window.abar.appActions.ttsUpdateVoices;
-        }
-
-        return {
-            ttsInitiated: true,
-        };
-    },
-
-    ttsStop: () => ({ ttsHighlightSpeak, ttsHoverSpeak }, { ttsStopCurrent }: Accessabar.IActions) => {
-        ttsStopCurrent();
-
-        if (ttsHighlightSpeak) {
-            document.removeEventListener('mouseup', highlightPassthrough);
-        }
-
-        if (ttsHoverSpeak) {
-            document.removeEventListener('mouseover', hoverPassthrough);
-        }
-    },
-
-    ttsStopCurrent: () => () => {
-        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-            window.speechSynthesis.cancel();
-        }
-    },
-
-    ttsResumeCurrent: () => () => {
-        if (window.speechSynthesis.paused) {
-            window.speechSynthesis.resume();
-        }
-    },
-
-    ttsPauseCurrent: () => () => {
-        if (window.speechSynthesis.speaking) {
-            window.speechSynthesis.pause();
-        }
-    },
-
-    ttsUpdateVoices: () => {
-        const ttsVoices = window.speechSynthesis.getVoices();
-
-        return {
-            ttsVoices,
-        };
-    },
-
-    ttsChangeVoice: (key: number) => ({ ttsVoices }) => {
-        if (!ttsVoices || ttsVoices.length < 1) {
-            return;
-        }
-
-        return {
-            ttsCurrentVoiceName: ttsVoices[key].name,
-            ttsVoice: ttsVoices[key],
-        };
-    },
-
-    ttsChangeVolume: (volume: string) => {
-        return {
-            ttsVolume: volume,
-        };
-    },
-
-    ttsChangeRate: (rate: string) => {
-        return {
-            ttsRate: rate,
-        };
-    },
-
-    ttsChangePitch: (pitch: string) => {
-        return {
-            ttsPitch: pitch,
-        };
-    },
+export {
+  ttsInit,
+  ttsSpeak,
+  ttsHandleHover,
+  ttsHandleHighlight,
+  ttsHoverStart,
+  ttsHightlightStart,
+  ttsChangePitch,
+  ttsChangeRate,
+  ttsChangeVoice,
+  ttsChangeVolume,
+  ttsStop,
 };
-
-export default ttsActions;
-export { ttsActions };

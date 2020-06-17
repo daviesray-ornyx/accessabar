@@ -5,6 +5,7 @@ import view from './main.view';
 import apiSendEvent from './actions/api.actions';
 import resizeAceHandle from './subscriptions/resize.subscription';
 import {ttsInit, ttsSpeak} from './actions/tts.actions';
+import subTTS from './subscriptions/tts.subscription';
 
 declare global {
   // tslint:disable-next-line
@@ -223,7 +224,7 @@ class AceController {
       view,
       init: this.getState(),
       node: containerEl,
-      subscriptions: (state: {[x: string]: any}) => [
+      subscriptions: (state: Ace.State) => [
         [
           this.subStateSave,
           {
@@ -231,6 +232,7 @@ class AceController {
           },
         ],
         [resizeAceHandle, {}],
+        subTTS(state),
       ],
     };
 
