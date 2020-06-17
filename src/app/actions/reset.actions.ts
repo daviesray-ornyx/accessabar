@@ -1,50 +1,53 @@
-import { ActionsType } from 'hyperapp';
-import state from '../state';
+import aceState from '../state/ace.state';
 
-const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
-    resetAll: () => {
-        const resetState = {
-            fontActive: state.fontActive,
-            fontColourActive: state.fontColourActive,
-            fontColourCurrent: state.fontColourCurrent,
-            fontColourCustomCurrent: state.fontColourCustomCurrent,
-            fontLetterSpacingActive: state.fontLetterSpacingActive,
-            fontLetterSpacingCount: state.fontLetterSpacingCount,
-            fontLineSpacingActive: state.fontLineSpacingActive,
-            fontLineSpacingCount: state.fontLineSpacingCount,
+function resetState(state) {
+  const resetStateObj = {
+    fontActive: aceState.fontActive,
+    fontColourActive: aceState.fontColourActive,
+    fontColourCurrent: aceState.fontColourCurrent,
+    fontColourCustomCurrent: aceState.fontColourCustomCurrent,
+    fontLetterSpacingActive: aceState.fontLetterSpacingActive,
+    fontLetterSpacingCount: aceState.fontLetterSpacingCount,
+    fontLineSpacingActive: aceState.fontLineSpacingActive,
+    fontLineSpacingCount: aceState.fontLineSpacingCount,
 
-            magActive: state.magActive,
-            magScale: state.magScale,
+    magActive: aceState.magActive,
+    magScale: aceState.magScale,
 
-            maskColourCurrent: state.maskColourCurrent,
-            maskColourCustomCurrent: state.maskColourCustomCurrent,
-            maskOpacity: state.maskOpacity,
+    maskColourCurrent: aceState.maskColourCurrent,
+    maskColourCustomCurrent: aceState.maskColourCustomCurrent,
+    maskOpacity: aceState.maskOpacity,
 
-            menuMouseX: state.menuMouseX,
-            menuMouseY: state.menuMouseY,
-            // Reset to default position
-            menuPosX: 50,
-            menuPosY: window.abar.mainElement.getBoundingClientRect().height,
+    menuMouseX: aceState.menuMouseX,
+    menuMouseY: aceState.menuMouseY,
+    // Reset to default position
+    menuPosX: 50,
+    menuPosY: window.ace.mainElement?.getBoundingClientRect().height,
 
-            rulerPinholeCentreHeight: state.rulerPinholeCentreHeight,
-            rulerPinholeOpacity: state.rulerPinholeOpacity,
-            rulerReadingOpacity: state.rulerReadingOpacity,
+    rulerPinholeCentreHeight: aceState.rulerPinholeCentreHeight,
+    rulerPinholeOpacity: aceState.rulerPinholeOpacity,
+    rulerReadingOpacity: aceState.rulerReadingOpacity,
 
-            ttsHighlightSpeak: state.ttsHighlightSpeak,
-            ttsHoverSpeak: state.ttsHoverSpeak,
+    ttsHighlightSpeak: aceState.ttsHighlightSpeak,
+    ttsHoverSpeak: aceState.ttsHoverSpeak,
 
-            selectFontListActive: state.selectFontListActive,
-        };
+    selectFontListActive: aceState.selectFontListActive,
+  };
 
-        for (const func of window.abar.appliedFunctions.values()) {
-            func();
-        }
+  return {...state, ...resetStateObj};
+}
 
-        window.abar.appliedFunctions.clear();
+function resetFunctions() {
+  for (const func of window.ace.appliedFunctions.values()) {
+    func();
+  }
 
-        return resetState;
-    },
-};
+  window.ace.appliedFunctions.clear();
+}
 
-export default resetActions;
-export { resetActions };
+function resetAll(state) {
+  resetFunctions();
+  return resetState(state);
+}
+
+export default resetAll;
