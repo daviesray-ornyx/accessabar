@@ -6,6 +6,7 @@ import apiSendEvent from './actions/api.actions';
 import resizeAceHandle from './subscriptions/resize.subscription';
 import {ttsInit, ttsSpeak} from './actions/tts.actions';
 import subTTS from './subscriptions/tts.subscription';
+import aceState from './state/ace.state';
 
 declare global {
   // tslint:disable-next-line
@@ -41,7 +42,7 @@ class AceController {
   public appliedFunctions: Map<string, () => unknown> = new Map();
 
   // Copy of ace state for interop.
-  private aceState: {[x: string]: any} = {};
+  private aceState: Ace.State = aceState;
 
   // Position of Accessabar on the page.
   public position: string;
@@ -191,7 +192,7 @@ class AceController {
     }
   }
 
-  private saveState(state: {[x: string]: any}) {
+  private saveState(state: Ace.State) {
     this.aceState = state;
 
     if (!window.localStorage) {
