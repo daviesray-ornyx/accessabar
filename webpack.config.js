@@ -1,6 +1,5 @@
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -158,12 +157,6 @@ const mainSettings = (entries, dev, devServer, dash, verbose) => {
       info: {
         level: 'warn',
       },
-    }),
-    new ForkTsCheckerWebpackPlugin({
-      tsconfig: resolve(__dirname, 'tsconfig.json'),
-      tslint: resolve(__dirname, 'tslint.json'),
-      checkSyntacticErrors: true,
-      watch: resolve(__dirname, 'src'),
     }),
     new MiniCssExtractPlugin({
       filename: 'app.css',
