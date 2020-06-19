@@ -66,6 +66,42 @@ function fontChangeFamilyAll(state: Ace.State, key?: string) {
   return state;
 }
 
+function fontColourChangeSingle(state: Ace.State, colour: string) {
+  const {fontColourActive} = state;
+  return [
+    {
+      ...state,
+      fontColourCurrent: colour,
+      fontCustomActive: false,
+    },
+    fontColourActive && [
+      (dispatch, props) => dispatch(props.action, props.colour),
+      {
+        colour,
+        action: fontColourChange,
+      },
+    ],
+  ];
+}
+
+function fontColourChangeCustom(state: Ace.State, colour: string) {
+  return [
+    {
+      ...state,
+      fontColourCurrent: colour,
+      fontColourCustomCurrent: colour,
+      fontCustomActive: true,
+    },
+    state.fontColourActive && [
+      (dispatch, props) => dispatch(props.action, props.colour),
+      {
+        colour,
+        action: fontColourChange,
+      },
+    ],
+  ];
+}
+
 function fontColourChange(state: Ace.State, colour?: string) {
   const {fontColourCurrent} = state;
   const currentColour: string = colour || fontColourCurrent;
@@ -280,6 +316,8 @@ export {
   fontSizingDisable,
   fontColourToggle,
   fontColourChange,
+  fontColourChangeSingle,
+  fontColourChangeCustom,
   fontColourReset,
   fontChangeFamilyAll,
   fontFamilyReset,
