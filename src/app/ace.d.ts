@@ -170,45 +170,27 @@ declare namespace Ace {
       StateTranslation,
       StateTTS {}
 
-  interface ConfigObject {
-    conflicts: string[];
+  interface FuncConfig {
     attrNames: {
       [propName: string]: string;
     };
     editName: string;
-    disableOnClick: boolean;
   }
 
-  interface Config {
-    [propName: string]: ConfigObject;
-  }
-
-  interface FontConfigObject {
+  interface FontConfig {
     name: string;
     family: string;
   }
 
-  interface FontConfig {
-    [propName: string]: FontConfigObject;
-  }
-
-  interface LanguageConfigObject {
+  interface LanguageConfig {
     name: string;
     code: string;
   }
 
-  interface LanguageConfig {
-    [propName: string]: LanguageConfigObject;
-  }
-
-  interface MenuConfigObject {
+  interface MenuConfig {
     title: string;
     disableOnClose: boolean;
     disableFunctions: string[];
-  }
-
-  interface MenuConfig {
-    [propName: string]: MenuConfigObject;
   }
 
   interface MagMouseUpdate {
