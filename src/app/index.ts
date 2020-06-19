@@ -203,7 +203,7 @@ class AceController {
     window.localStorage.setItem('aceLocalState', JSON.stringify(state));
   }
 
-  private getState(): {[x: string]: any} {
+  private getState(): Ace.State {
     if (!window.localStorage) {
       return initState;
     }
@@ -217,8 +217,9 @@ class AceController {
     return initState;
   }
 
-  private subStateSave(_, props: {[x: string]: any}) {
-    this.saveState(props.state);
+  private subStateSave(_, props: {state: Ace.State}) {
+    const {state} = props;
+    this.saveState(state);
   }
 
   private createApp(containerEl: AceElement) {

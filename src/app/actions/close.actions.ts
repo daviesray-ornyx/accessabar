@@ -1,13 +1,8 @@
-import { ActionsType } from 'hyperapp';
+function closeAce(state) {
+  window.ace.close();
 
-const closeActions: ActionsType<Accessabar.IState, Accessabar.ICloseActions> = {
-    closeAccessabar: () => ({ abarHidden }, { resetAll }: Accessabar.IActions) => {
-        resetAll();
-        window.abar.close();
+  return state;
+}
 
-        return { abarHidden: false };
-    },
-};
-
-export default closeActions;
-export { closeActions };
+export default closeAce;
+export {closeAce};
