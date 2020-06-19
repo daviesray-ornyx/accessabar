@@ -12,7 +12,7 @@ function selectToggleFontList(state: Ace.State) {
 function selectToggleLanguageList(state: Ace.State) {
   return {
     ...state,
-    selectLanguageListActive: !selectLanguageListActive,
+    selectLanguageListActive: !state.selectLanguageListActive,
   };
 }
 
