@@ -11,6 +11,7 @@ import subFont from './subscriptions/font.subscription';
 import subMag from './subscriptions/mag.subscription';
 import subMenu from './subscriptions/menu.subscription';
 import subRuler from './subscriptions/ruler.subscription';
+import subSR from './subscriptions/sr.subscription';
 
 declare global {
   // tslint:disable-next-line
@@ -243,6 +244,7 @@ class AceController {
         subMag(state),
         subMenu(state),
         subRuler(state),
+        subSR(state),
       ],
     };
 

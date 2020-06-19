@@ -1,115 +1,106 @@
-import { ActionsType } from 'hyperapp';
 import ISO6391 from 'iso-639-1';
 
-declare var webkitSpeechRecognition: {
-    prototype: SpeechRecognition;
-    new(): SpeechRecognition;
+declare let webkitSpeechRecognition: {
+  prototype: SpeechRecognition;
+  new (): SpeechRecognition;
 };
 
-const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
-    srInitRuntime: () => {
-        let srRuntime: boolean | SpeechRecognition = false;
+function srInitRuntime(state: Ace.State) {
+  let srRuntime: boolean | SpeechRecognition = false;
 
-        try {
-            srRuntime = new webkitSpeechRecognition() || new SpeechRecognition();
-        } catch {
-            return {
-                srRuntime,
-            };
-        }
+  try {
+    srRuntime = new webkitSpeechRecognition() || new window.SpeechRecognition();
+  } catch {
+    return {
+      ...state,
+      srRuntime,
+    };
+  }
 
-        return {
-            srRuntime,
-        };
-    },
+  return {
+    ...state,
+    srRuntime,
+  };
+}
 
-    srStart: () => ({ srRuntime, srLang }, { srAddEvents }) => {
-        if (typeof srRuntime === 'boolean') {
-            return;
-        }
+function srStart(state: Ace.State) {
+  const {srRuntime, srLang} = state;
+  if (typeof srRuntime === 'boolean') {
+    return state;
+  }
 
-        srRuntime.lang = srLang;
-        // srRuntime.interimResults = true;
-        srRuntime.continuous = true;
+  srRuntime.lang = srLang;
+  // srRuntime.interimResults = true;
+  srRuntime.continuous = true;
+  srRuntime.start();
+  return state;
+}
 
-        srAddEvents();
-        srRuntime.start();
-    },
+function srToggle(state: Ace.State) {
+  return {
+    ...state,
+    srActive: !state.srActive,
+  };
+}
 
-    srEnable: () => (_, { srInitRuntime, srStart }) => {
-        srInitRuntime();
-        srStart();
+function srAddEvents(state: Ace.State) {
+  const {srRuntime} = state;
+  if (typeof srRuntime === 'boolean') {
+    return state;
+  }
 
-        return {
-            srActive: true,
-        };
-    },
+  srRuntime.onresult = srHandleResult;
+  return state;
+}
 
-    srDisable: () => ({ srRuntime }) => {
-        if (typeof srRuntime !== 'boolean') {
-            srRuntime.abort();
-        }
+function srHandleResult(event: SpeechRecognitionEvent) {
+  const finalSentence: string[] = [];
 
-        return {
-            srActive: false,
-            srRuntime: false,
-        };
-    },
+  for (const alt of event.results[event.results.length - 1]) {
+    finalSentence.push(alt.transcript);
+  }
 
-    srAddEvents: () => ({ srRuntime }, { srHandleResult }) => {
-        if (typeof srRuntime === 'boolean') {
-            return;
-        }
+  srOutput(finalSentence.join(''));
+}
 
-        srRuntime.onresult = srHandleResult;
-    },
+function srOutput(str: string) {
+  const active = document.activeElement;
 
-    srHandleResult: (event: SpeechRecognitionEvent) => (_, { srOutput }) => {
-        const finalSentence: string[] = [];
+  if (!active) {
+    return;
+  }
 
-        for (const alt of event.results[event.results.length - 1]) {
-            finalSentence.push(alt.transcript);
-        }
+  switch (active.nodeName) {
+    case 'INPUT':
+    case 'TEXTAREA':
+    case 'SELECT':
+      (active as HTMLInputElement).value += str;
+      break;
+    default:
+      if (
+        active.hasAttribute('contenteditable') &&
+        active.getAttribute('contenteditable')
+      ) {
+        active.textContent += str;
+      }
 
-        srOutput(finalSentence.join(''));
-    },
+      break;
+  }
 
-    srOutput: (str: string) => () => {
-        const active = document.activeElement;
+  const selection = getSelection();
 
-        if (!active) {
-            return;
-        }
+  if (selection) {
+    selection.selectAllChildren(active);
+    selection.collapseToEnd();
+  }
+}
 
-        switch (active.nodeName) {
-        case 'INPUT':
-        case 'TEXTAREA':
-        case 'SELECT':
-            (active as HTMLInputElement).value += str;
-            break;
-        default:
-            if (active.hasAttribute('contenteditable') && active.getAttribute('contenteditable')) {
-                active.textContent += str;
-            }
+function srChangeLang(state: Ace.State, lang: string) {
+  return {
+    ...state,
+    srLang: lang,
+    srLangName: ISO6391.getNativeName(lang),
+  };
+}
 
-            break;
-        }
-
-        const selection = getSelection();
-
-        if (selection) {
-            selection.selectAllChildren(active);
-            selection.collapseToEnd();
-        }
-    },
-
-    srChangeLang: (lang: string) => {
-        return {
-            srLang: lang,
-            srLangName: ISO6391.getNativeName(lang),
-        };
-    },
-};
-
-export default srActions;
-export { srActions };
+export {srAddEvents, srChangeLang, srToggle, srInitRuntime, srStart};
