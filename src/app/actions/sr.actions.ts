@@ -1,4 +1,5 @@
 import ISO6391 from 'iso-639-1';
+import {apiSendEvent} from './api.actions';
 
 declare let webkitSpeechRecognition: {
   prototype: SpeechRecognition;
@@ -37,6 +38,10 @@ function srStart(state: Ace.State) {
 }
 
 function srToggle(state: Ace.State) {
+  if (!state.srActive) {
+    apiSendEvent('AceSpeechRecognition_On');
+  }
+
   return {
     ...state,
     srActive: !state.srActive,

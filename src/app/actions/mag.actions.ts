@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import {apiSendEvent} from './api.actions';
 
 interface DragEvent extends MouseEvent, TouchEvent {}
 
@@ -397,6 +398,10 @@ function magAddPageContent(state: Ace.State) {
 }
 
 function magToggle(state: Ace.State) {
+  if (!state.magActive) {
+    apiSendEvent('AceMagnifier_On');
+  }
+
   return {
     magActive: !state.magActive,
   };

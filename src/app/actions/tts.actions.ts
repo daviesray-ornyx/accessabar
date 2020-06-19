@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import {apiSendEvent} from './api.actions';
 
 function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   const {ttsHoverTimeout} = state;
@@ -145,21 +146,31 @@ function ttsHandlePrompt(state: Ace.State, event: SpeechSynthesisEvent) {
   }
 }
 
-function ttsHoverStart(state: Ace.State) {
+function ttsHoverToggle(state: Ace.State) {
   ttsStopCurrent();
+
+  if (!state.ttsHoverSpeak) {
+    apiSendEvent('AceTTSHover_On');
+  }
 
   return {
     ...state,
-    ttsHoverSpeak: true,
+    ttsHoverSpeak: !state.ttsHoverSpeak,
+    ttsHighlightSpeak: false,
   };
 }
 
-function ttsHightlightStart(state: Ace.State) {
+function ttsHightlightToggle(state: Ace.State) {
   ttsStopCurrent();
+
+  if (!state.ttsHighlightSpeak) {
+    apiSendEvent('AceTTSHighlight_On');
+  }
 
   return {
     ...state,
-    ttsHighlightSpeak: true,
+    ttsHighlightSpeak: !state.ttsHighlightSpeak,
+    ttsHoverSpeak: false,
   };
 }
 
@@ -277,8 +288,8 @@ export {
   ttsSpeak,
   ttsHandleHover,
   ttsHandleHighlight,
-  ttsHoverStart,
-  ttsHightlightStart,
+  ttsHoverToggle,
+  ttsHightlightToggle,
   ttsChangePitch,
   ttsChangeRate,
   ttsChangeVoice,
