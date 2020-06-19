@@ -2,13 +2,14 @@ import {app} from 'hyperapp';
 
 import initState from './state/ace.state';
 import view from './main.view';
-import apiSendEvent from './actions/api.actions';
+import {apiSendEvent} from './actions/api.actions';
 import resizeAceHandle from './subscriptions/resize.subscription';
 import {ttsInit, ttsSpeak} from './actions/tts.actions';
 import subTTS from './subscriptions/tts.subscription';
 import aceState from './state/ace.state';
 import subFont from './subscriptions/font.subscription';
-import {subMag} from './subscriptions/mag.subscription';
+import subMag from './subscriptions/mag.subscription';
+import subMenu from './subscriptions/menu.subscription';
 
 declare global {
   // tslint:disable-next-line
@@ -239,6 +240,7 @@ class AceController {
         subTTS(state),
         subFont(state),
         subMag(state),
+        subMenu(state),
       ],
     };
 

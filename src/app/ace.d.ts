@@ -68,15 +68,18 @@ declare namespace Ace {
 
   interface StateMenu {
     menuActive: boolean;
-    menuCanDrag: boolean;
-    menuCurrent: string;
     menuPosX: number | boolean;
     menuPosY: number | boolean;
-    menuMouseX: number;
-    menuMouseY: number;
-    menuEvent: boolean;
-    menuHidden: boolean;
     menuTitle: string;
+  }
+
+  interface StateMenus {
+    menusHidden: boolean;
+    menusMouseX: number;
+    menusMouseY: number;
+    menusCanDrag: boolean;
+    menuDragActive: string;
+    menus: {[x: string]: StateMenu};
   }
 
   interface StateRuler {
@@ -162,7 +165,7 @@ declare namespace Ace {
       StateFont,
       StateMag,
       StateMask,
-      StateMenu,
+      StateMenus,
       StateRuler,
       StateSettings,
       StateAbout,

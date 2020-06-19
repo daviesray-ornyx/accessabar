@@ -73,17 +73,13 @@ const stateMask: Ace.StateMask = {
   maskOpacityStep: 0.05,
 };
 
-const stateMenu: Ace.StateMenu = {
-  menuActive: false,
-  menuCanDrag: false,
-  menuCurrent: '',
-  menuEvent: false,
-  menuHidden: true,
-  menuMouseX: 0,
-  menuMouseY: 0,
-  menuPosX: false,
-  menuPosY: false,
-  menuTitle: '',
+const stateMenus: Ace.StateMenus = {
+  menusHidden: false,
+  menusMouseX: 0,
+  menusMouseY: 0,
+  menusCanDrag: false,
+  menuDragActive: '',
+  menus: {},
 };
 
 const stateRuler: Ace.StateRuler = {
@@ -169,7 +165,7 @@ const state = {
   ...stateFont,
   ...stateMag,
   ...stateMask,
-  ...stateMenu,
+  ...stateMenus,
   ...stateRuler,
   ...stateSettings,
   ...stateAbout,

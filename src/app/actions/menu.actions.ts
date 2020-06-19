@@ -1,260 +1,174 @@
-import { ActionsType } from 'hyperapp';
-import menuConfig from '../../config/menu.config.json5';
-import AccessabarUtil from '../util';
+function spawnMenu(state: Ace.State, opts) {
+  const {menus} = state;
 
-interface IDragEvent extends MouseEvent, TouchEvent {}
+  if (Object.keys(menus).indexOf(opts.name) === -1) {
+    return state;
+  }
 
-function menuPassthrough(event) {
-    window.abar.appActions.menuMove(event);
+  return {
+    ...state,
+    menus: {
+      ...menus,
+      ...menuFactory(opts.name, opts.title),
+    },
+  };
 }
 
-function menuDragPassthrough() {
-    window.abar.appActions.menuStopDrag();
+function menuFactory(name: string, title: string) {
+  if (!window.ace.mainElement) {
+    return {};
+  }
+
+  const bar = window.ace.mainElement.querySelector('.ab-bar');
+
+  if (!bar) {
+    return {};
+  }
+
+  return {
+    [name]: {
+      menuActive: true,
+      menuPosX: 50,
+      menuPosY: bar.getBoundingClientRect().height,
+      menuTitle: title,
+    },
+  };
 }
 
-const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
-    menuAddListener: () => ({ menuEvent }) => {
-        if (!menuEvent) {
-            document.addEventListener('mousemove', menuPassthrough);
-            document.addEventListener('touchmove', menuPassthrough);
+function menuMove(state: Ace.State, name: string) {
+  const {menus, menusMouseY, menusMouseX, menusCanDrag} = state;
+  const menuOpts = menus[name];
 
-            document.addEventListener('mouseup', menuDragPassthrough);
-            document.addEventListener('touchcancel', menuDragPassthrough);
-            document.addEventListener('touchend', menuDragPassthrough);
+  if (!menuOpts || !window.ace.mainElement) {
+    return state;
+  }
 
-            return { menuEvent: true };
-        }
+  const {menuPosX, menuPosY} = menuOpts;
+  const menu = window.ace.mainElement.querySelector('#ab-menu');
+
+  if (
+    !menusCanDrag ||
+    !menu ||
+    typeof menuPosX === 'boolean' ||
+    typeof menuPosY === 'boolean'
+  ) {
+    return state;
+  }
+
+  const rect = menu.getBoundingClientRect();
+  const windowWidth = window.innerWidth - rect.width;
+  const windowHeight = window.innerHeight - rect.height;
+  let x = menusMouseX - menuPosX;
+  let y = menusMouseY - menuPosY;
+
+  if (x < 0) {
+    x = 0;
+  }
+
+  if (x > windowWidth) {
+    x = windowWidth;
+  }
+
+  if (y < 0) {
+    y = 0;
+  }
+
+  if (y > windowHeight) {
+    y = windowHeight;
+  }
+
+  return {
+    ...state,
+    menus: {
+      ...menus,
+      [name]: {
+        ...menuOpts,
+        menuPosX: x,
+        menuPosY: y,
+      },
     },
+  };
+}
 
-    menuRemoveListener: () => ({ menuEvent }) => {
-        if (menuEvent) {
-            document.removeEventListener('mousemove', menuPassthrough);
-            document.removeEventListener('touchmove', menuPassthrough);
+function menuUpdatePosition(state: Ace.State, opts) {
+  const rect = opts.el.getBoundingClientRect();
 
-            document.removeEventListener('mouseup', menuDragPassthrough);
-            document.removeEventListener('touchcancel', menuDragPassthrough);
-            document.removeEventListener('touchend', menuDragPassthrough);
-
-            return { menuEvent: false };
-        }
+  return {
+    ...state,
+    menus: {
+      ...state.menus,
+      [opts.name]: {
+        ...state.menus[opts.name],
+        menuPosX: rect.left,
+        menuPosY: rect.top,
+      },
     },
+  };
+}
 
-    menuMove: (event: IDragEvent) => ({ menuCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }, { menuStopDrag }) => {
-        const ev = event.touches ? event.touches[0] : event;
+function menuStartDrag(state: Ace.State, name: string) {
+  return {...state, menusCanDrag: true, menuDragActive: name};
+}
 
-        const {
-            clientX,
-            clientY,
-        } = ev;
+function menuOpen(state: Ace.State, opts: {name: string; title: string}) {
+  const {menus} = state;
+  const {name, title} = opts;
 
-        const menu = window.abar.mainElement.querySelector('#ab-menu');
+  return [
+    state,
+    Object.keys(menus).indexOf(name) !== -1
+      ? [
+          (dispatch, props) => dispatch(props.action, props.name),
+          {
+            action: menuClose,
+            name,
+          },
+        ]
+      : [
+          (dispatch, props) => dispatch(props.action, props.opts),
+          {
+            action: spawnMenu,
+            opts: {
+              name,
+              title,
+            },
+          },
+        ],
+  ];
+}
 
-        if (!menuCanDrag || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
-            return;
-        }
+function menuClose(state: Ace.State, name: string) {
+  const {menus} = state;
+  const menusCopy = menus;
 
-        if (menuCanDrag) {
-            event.preventDefault();
-        }
+  delete menusCopy[name];
 
-        const rect = menu.getBoundingClientRect();
-        const windowWidth = window.innerWidth - rect.width;
-        const windowHeight = window.innerHeight - rect.height;
-        let x = menuPosX + (clientX - menuMouseX);
-        let y = menuPosY + (clientY - menuMouseY);
+  return {
+    ...state,
+    menus: menusCopy,
+  };
+}
 
-        let menuMoveXAllowed = true;
-        let menuMoveYAllowed = true;
+function menuTextOpsSwitchInner(state: Ace.State, current: string) {
+  return {
+    ...state,
+    textOpsInnerMenuCurrent: current,
+  };
+}
 
-        if (x < 0) {
-            x = 0;
-            menuMoveXAllowed = false;
-        }
+function menuRulerOpsSwitchInner(state: Ace.State, current: string) {
+  return {
+    ...state,
+    rulerOpsInnerMenuCurrent: current,
+  };
+}
 
-        if (x > windowWidth) {
-            x = windowWidth;
-            menuMoveXAllowed = false;
-        }
-
-        if (y < 0) {
-            y = 0;
-            menuMoveYAllowed = false;
-        }
-
-        if (y > windowHeight) {
-            y = windowHeight;
-            menuMoveYAllowed = false;
-        }
-
-        if (!menuMoveYAllowed && !menuMoveXAllowed) {
-            return {
-                menuPosX: x,
-                menuPosY: y,
-            };
-        }
-
-        if (!menuMoveXAllowed) {
-            return {
-                menuMouseY: clientY,
-                menuPosX: x,
-                menuPosY: y,
-            };
-        }
-
-        if (!menuMoveYAllowed) {
-            return {
-                menuMouseX: clientX,
-                menuPosX: x,
-                menuPosY: y,
-            };
-        }
-
-        return {
-            menuMouseX: clientX,
-            menuMouseY: clientY,
-            menuPosX: x,
-            menuPosY: y,
-        };
-    },
-
-    menuToggleHide: () => ({ menuHidden }) => {
-        return {
-            menuHidden: !menuHidden,
-        };
-    },
-
-    menuHide: () => {
-        return {
-            menuHidden: true,
-        };
-    },
-
-    menuShow: () => {
-        const bar = window.abar.mainElement.querySelector('.ab-bar');
-
-        if (!bar) {
-            return;
-        }
-
-        return {
-            menuHidden: false,
-            menuPosX: 50,
-            menuPosY: bar.getBoundingClientRect().height,
-        };
-    },
-
-    menuUpdatePosition: (el: HTMLElement) => {
-        const rect = el.getBoundingClientRect();
-
-        return {
-            menuPosX: rect.left,
-            menuPosY: rect.top,
-        };
-    },
-
-    menuUpdateMousePosition: (event: IDragEvent) => {
-        const ev = event.touches ? event.touches[0] : event;
-
-        const {
-            clientX,
-            clientY,
-        } = ev;
-
-        return {
-            menuMouseX: clientX,
-            menuMouseY: clientY,
-        };
-    },
-
-    menuStartDrag: (event: IDragEvent) => (state, { menuUpdateMousePosition }) => {
-        event.preventDefault();
-
-        menuUpdateMousePosition(event);
-
-        return { menuCanDrag: true };
-    },
-
-    menuStopDrag: () => ({ menuCanDrag: false }),
-
-    menuHandle: (name: string) => ({ menuCurrent, menuActive }, { menuOpen, menuClose }) => {
-        if (!menuCurrent && !menuActive) {
-            menuOpen(name);
-            return;
-        }
-
-        if (menuActive && menuCurrent !== name) {
-            menuClose();
-            menuOpen(name);
-            return;
-        }
-
-        if (menuActive && menuCurrent === name) {
-            menuClose();
-            return;
-        }
-    },
-
-    menuOpen: (name: string) => ({ menuCurrent, menuActive }, { menuClose, menuShow, menuAddListener }) => {
-        const config: Accessabar.IMenuConfig = menuConfig[name];
-
-        if (!config) {
-            return;
-        }
-
-        const { title } = config;
-
-        if (name === menuCurrent) {
-            return;
-        }
-
-        if (menuActive && menuCurrent) {
-            menuClose();
-        }
-
-        menuAddListener();
-        menuShow();
-
-        return {
-            menuActive: true,
-            menuCurrent: name,
-            menuTitle: title,
-        };
-    },
-
-    menuClose: () => ({ menuCurrent }, { menuHide, menuRemoveListener }) => {
-        const config: Accessabar.IMenuConfigObject = menuConfig[menuCurrent];
-        const {
-            disableOnClose,
-            disableFunctions,
-        } = config;
-
-        if (disableOnClose && disableFunctions && disableFunctions.length > 0) {
-            for (const func of disableFunctions) {
-                AccessabarUtil.stopFunction(func);
-            }
-        }
-
-        menuRemoveListener();
-        menuHide();
-
-        return {
-            menuActive: false,
-            menuCurrent: '',
-        };
-    },
-
-    menuTextOpsSwitchInner: (current: string) => () => {
-        return {
-            textOpsInnerMenuCurrent: current,
-        };
-    },
-
-    menuRulerOpsSwitchInner: (current: string) => () => {
-        return {
-            rulerOpsInnerMenuCurrent: current,
-        };
-    },
+export {
+  menuMove,
+  menuClose,
+  menuOpen,
+  menuRulerOpsSwitchInner,
+  menuStartDrag,
+  menuTextOpsSwitchInner,
+  menuUpdatePosition,
 };
-
-export default menuActions;
-export { menuActions };

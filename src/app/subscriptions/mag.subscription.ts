@@ -71,4 +71,4 @@ function magEnable(state: Ace.State) {
       ];
 }
 
-export {subMag};
+export default subMag;

@@ -43,7 +43,7 @@ function acePruneFuncs(
 }
 
 function aceHide(state: Ace.State) {
-  const {aceHidden, menuActive} = state;
+  const {aceHidden} = state;
   const {mainElement, moveBody} = window.ace;
 
   if (!mainElement) {
@@ -63,11 +63,7 @@ function aceHide(state: Ace.State) {
       aceMoveBody();
     }
 
-    if (menuActive) {
-      menuToggleHide(state);
-    }
-
-    return {...state, abarHidden: false};
+    return {...state, abarHidden: false, menusHidden: false};
   }
 
   // Get height of Ace, then push Ace above the window view
@@ -80,11 +76,7 @@ function aceHide(state: Ace.State) {
     document.body.style.marginTop = '2px';
   }
 
-  if (menuActive) {
-    menuToggleHide(state);
-  }
-
-  return {...state, abarHidden: true};
+  return {...state, abarHidden: true, menusHidden: true};
 }
 
 function getParents(): Set<HTMLElement> {
