@@ -1,6 +1,4 @@
-import funcConfig from '../../config/functions.config.json5';
-
-function moveBody() {
+function aceMoveBody() {
   const {mainElement} = window.ace;
 
   if (mainElement) {
@@ -25,77 +23,13 @@ function aceResize(state: Ace.State) {
     return;
   }
 
-  moveBody();
+  aceMoveBody();
 }
 
-function handleConflicts(config: {conflicts: string[]}) {
-  if (!config.conflicts || config.conflicts.length === 0) {
-    return;
-  }
-
-  const {conflicts} = config;
-
-  for (const v of conflicts) {
-    if (window.ace.appliedFunctions.has(v)) {
-      const func = window.ace.appliedFunctions.get(v);
-
-      if (func) {
-        func();
-      }
-    }
-  }
-}
-
-function aceHandleConflicts(dispatch, props: Ace.TrackConfig) {
-  return {};
-}
-
-function startFunction(
-  name: string,
-  stopCallback: () => unknown,
-  startCallback: () => unknown
-) {
-  if (Object.keys(funcConfig).indexOf(name) === -1) {
-    return;
-  }
-
-  const config: Ace.ConfigObject = funcConfig[name];
-
-  handleConflicts(config);
-
-  if (!window.ace.appliedFunctions.has(name)) {
-    window.ace.appliedFunctions.set(name, stopCallback);
-    startCallback();
-    return;
-  }
-
-  const func = window.ace.appliedFunctions.get(name);
-
-  if (config.disableOnClick && func) {
-    func();
-    window.ace.appliedFunctions.delete(name);
-  } else {
-    startCallback();
-  }
-}
-
-function stopFunction(name: string) {
-  if (!window.ace.appliedFunctions.has(name)) {
-    return;
-  }
-
-  const func = window.ace.appliedFunctions.get(name);
-
-  if (func) {
-    func();
-    window.ace.appliedFunctions.delete(name);
-  }
-}
-
-function pruneFuncs(
+function acePruneFuncs(
   el: HTMLElement,
   abarEdited: string,
-  config: Ace.ConfigObject
+  config: Ace.FuncConfig
 ) {
   const funcNames = abarEdited.split(' ') || [];
 
@@ -108,12 +42,172 @@ function pruneFuncs(
   }
 }
 
+function getParents(): Set<HTMLElement> {
+  const elements = document.body.childNodes;
+  const taggedElements: ChildNode[] = [];
+  const textNodes: Node[] = [];
+  const parentElements: Set<HTMLElement> = new Set();
+
+  // Filter through immediate child elements of body
+  // and get elements to walk
+  for (const el of elements) {
+    // Do not add accessabar or elements with no children
+    if (el !== window.ace.mainElement && el.childNodes.length !== 0) {
+      taggedElements.push(el);
+    }
+  }
+
+  for (const el of taggedElements) {
+    // Will find all text nodes in element
+    const walker = document.createTreeWalker(
+      el,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    // Push each text node found into array
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+  }
+
+  for (const node of textNodes) {
+    const text = (node.textContent || '').trim();
+
+    // Do not add empty text nodes or line feeds in HTML
+    if (text === '' || text === '\n') {
+      continue;
+    }
+
+    const parent = node.parentElement;
+
+    if (!parent) {
+      continue;
+    }
+
+    // Do not add tippy tooltips
+    if (parent.classList.contains('tippy-content')) {
+      continue;
+    }
+
+    // Do not add duplicates
+    if (parentElements.has(parent)) {
+      continue;
+    }
+
+    parentElements.add(parent);
+  }
+
+  return parentElements;
+}
+
+function editLoop(
+  currentConfig: Ace.FuncConfig,
+  modifier: string,
+  modifierValue: string | number
+) {
+  const parentElements = getParents();
+
+  for (const el of parentElements) {
+    const abarEdited = el.getAttribute('accessabar-edited');
+
+    if (!abarEdited) {
+      el.setAttribute('accessabar-edited', currentConfig.editName);
+      el.setAttribute(
+        currentConfig.attrNames.orig,
+        el.style[modifier] || 'none'
+      );
+    }
+
+    if (
+      abarEdited &&
+      abarEdited.split(' ').indexOf(currentConfig.editName) === -1
+    ) {
+      const funcNames = abarEdited.split(' ');
+
+      funcNames.push(currentConfig.editName);
+      el.setAttribute('accessabar-edited', funcNames.join(' '));
+      el.setAttribute(
+        currentConfig.attrNames.orig,
+        el.style[modifier] || 'none'
+      );
+    }
+
+    el.style[modifier] = modifierValue;
+  }
+}
+
+function editLoopComputed(
+  currentConfig: Ace.FuncConfig,
+  modifier: string,
+  modifierStep: number,
+  modifierCount?: number
+) {
+  const parentElements = getParents();
+
+  // Loops over elements and changes text size for each element
+  for (const el of parentElements) {
+    // Get exact computed size for accurate results
+    const computed = window.getComputedStyle(el)[modifier];
+    // fix for letter-spacing when set to normal
+    const size: string = computed === 'normal' ? '0px' : computed;
+    const sizeNumeric: number = parseFloat(size);
+
+    if (size) {
+      const abarEdited = el.getAttribute('accessabar-edited');
+
+      // Add attribute to element to flag edits from Accessabar.
+      // If 'font-size' was set inline, it is added to 'accessabar-orig-font-size'.
+      if (!abarEdited) {
+        el.setAttribute('accessabar-edited', currentConfig.editName);
+        el.setAttribute(
+          currentConfig.attrNames.orig,
+          el.style[modifier] || 'none'
+        );
+        el.setAttribute(currentConfig.attrNames.origComputed, size);
+      }
+
+      if (
+        abarEdited &&
+        abarEdited.split(' ').indexOf(currentConfig.editName) === -1
+      ) {
+        const funcNames = abarEdited.split(' ');
+
+        funcNames.push(currentConfig.editName);
+        el.setAttribute('accessabar-edited', funcNames.join(' '));
+        el.setAttribute(
+          currentConfig.attrNames.orig,
+          el.style[modifier] || 'none'
+        );
+        el.setAttribute(currentConfig.attrNames.origComputed, size);
+      }
+
+      if (typeof modifierCount === 'undefined') {
+        el.style[modifier] = `${sizeNumeric + modifierStep}px`;
+        continue;
+      }
+
+      const origComputed = el.getAttribute(
+        currentConfig.attrNames.origComputed
+      );
+
+      if (origComputed) {
+        const origComputedNumeric: number = parseFloat(origComputed);
+
+        el.style[modifier] = `${
+          origComputedNumeric + modifierStep * modifierCount
+        }px`;
+      }
+    }
+  }
+}
+
 export {
   aceResize,
-  moveBody,
-  handleConflicts,
-  pruneFuncs,
-  startFunction,
-  stopFunction,
-  aceTrackFunction,
+  aceMoveBody,
+  acePruneFuncs,
+  getParents,
+  editLoop,
+  editLoopComputed,
 };
