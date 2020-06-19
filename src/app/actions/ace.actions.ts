@@ -42,6 +42,51 @@ function acePruneFuncs(
   }
 }
 
+function aceHide(state: Ace.State) {
+  const {aceHidden, menuActive} = state;
+  const {mainElement, moveBody} = window.ace;
+
+  if (!mainElement) {
+    return state;
+  }
+
+  const bar = mainElement.querySelector('.ab-bar');
+
+  if (!bar) {
+    return;
+  }
+
+  if (aceHidden) {
+    mainElement.style.top = '0';
+
+    if (moveBody) {
+      aceMoveBody();
+    }
+
+    if (menuActive) {
+      menuToggleHide(state);
+    }
+
+    return {...state, abarHidden: false};
+  }
+
+  // Get height of Ace, then push Ace above the window view
+  // by that height - 2px (allows a small amount of Ace to still show).
+  const rect = bar.getBoundingClientRect();
+
+  mainElement.style.top = `-${rect.height - 2}px`;
+
+  if (moveBody) {
+    document.body.style.marginTop = '2px';
+  }
+
+  if (menuActive) {
+    menuToggleHide(state);
+  }
+
+  return {...state, abarHidden: true};
+}
+
 function getParents(): Set<HTMLElement> {
   const elements = document.body.childNodes;
   const taggedElements: ChildNode[] = [];
@@ -207,6 +252,7 @@ export {
   aceResize,
   aceMoveBody,
   acePruneFuncs,
+  aceHide,
   getParents,
   editLoop,
   editLoopComputed,
