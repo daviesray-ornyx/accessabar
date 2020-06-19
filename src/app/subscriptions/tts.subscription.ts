@@ -1,7 +1,15 @@
-import {ttsHandleHover, ttsHandleHighlight} from '../actions/tts.actions';
+import {
+  ttsHandleHover,
+  ttsHandleHighlight,
+  ttsStopCurrent,
+} from '../actions/tts.actions';
 
 function subTTS(state: Ace.State) {
-  return [
+  return [ttsInit(state), ttsHover(state), ttsHighlight(state)];
+}
+
+function ttsInit(state: Ace.State) {
+  return (
     state.ttsInitiated && [
       // setup voices
       [
@@ -21,35 +29,66 @@ function subTTS(state: Ace.State) {
           voices: window.speechSynthesis.getVoices(),
         },
       ],
-    ],
-    state.ttsHoverSpeak && [
-      [
-        (dispatch, _) => {
-          const hoverPassthrough = event => dispatch(ttsHandleHover, event);
+    ]
+  );
+}
 
-          document.addEventListener('mouseover', hoverPassthrough);
-
-          return () =>
-            document.removeEventListener('mouseover', hoverPassthrough);
+function ttsHover(state: Ace.State) {
+  const hoverPassthrough = (event, dispatch, props) =>
+    dispatch(props.action, event);
+  return state.ttsHoverSpeak
+    ? [
+        (dispatch, props) => {
+          document.addEventListener(
+            'mouseover',
+            hoverPassthrough.bind(null, dispatch, props)
+          );
         },
-        {},
-      ],
-    ],
-    state.ttsHighlightSpeak && [
-      [
-        (dispatch, _) => {
-          const highlightPassthrough = event =>
-            dispatch(ttsHandleHighlight, event);
-
-          document.addEventListener('mouseup', highlightPassthrough);
-
-          return () =>
-            document.removeEventListener('mouseup', highlightPassthrough);
+        {
+          action: ttsHandleHover,
         },
-        {},
-      ],
-    ],
-  ];
+      ]
+    : [
+        (dispatch, props) => {
+          dispatch(props.action);
+          document.removeEventListener(
+            'mouseover',
+            hoverPassthrough.bind(null, dispatch, props)
+          );
+        },
+        {
+          action: ttsStopCurrent,
+        },
+      ];
+}
+
+function ttsHighlight(state: Ace.State) {
+  const highlightPassthrough = (event, dispatch, props) =>
+    dispatch(props.action, event);
+  return state.ttsHighlightSpeak
+    ? [
+        (dispatch, props) => {
+          document.addEventListener(
+            'mouseup',
+            highlightPassthrough.bind(null, dispatch, props)
+          );
+        },
+        {
+          action: ttsHandleHighlight,
+        },
+      ]
+    : [
+        (dispatch, props) => {
+          dispatch(props.action);
+          document.removeEventListener(
+            'mouseover',
+            highlightPassthrough.bind(null, dispatch, props)
+          );
+        },
+        {
+          action: ttsStopCurrent,
+        },
+      ];
 }
 
 export default subTTS;

@@ -208,12 +208,24 @@ function ttsStopCurrent() {
   }
 }
 
-function ttsStop(state: Ace.State) {
-  ttsStopCurrent();
-
+function ttsStopAll(state: Ace.State) {
   return {
     ...state,
     ttsHoverSpeak: false,
+    ttsHightlightSpeak: false,
+  };
+}
+
+function ttsStopHover(state: Ace.State) {
+  return {
+    ...state,
+    ttsHoverSpeak: false,
+  };
+}
+
+function ttsStopHightlight(state: Ace.State) {
+  return {
+    ...state,
     ttsHightlightSpeak: false,
   };
 }
@@ -271,5 +283,8 @@ export {
   ttsChangeRate,
   ttsChangeVoice,
   ttsChangeVolume,
-  ttsStop,
+  ttsStopAll,
+  ttsStopHightlight,
+  ttsStopHover,
+  ttsStopCurrent,
 };
