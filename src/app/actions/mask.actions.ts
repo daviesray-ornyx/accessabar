@@ -1,4 +1,3 @@
-import {ActionsType} from 'hyperapp';
 import BigNumber from 'bignumber.js';
 import {apiSendEvent} from './api.actions';
 
