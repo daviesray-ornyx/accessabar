@@ -8,6 +8,7 @@ import {ttsInit, ttsSpeak} from './actions/tts.actions';
 import subTTS from './subscriptions/tts.subscription';
 import aceState from './state/ace.state';
 import subFont from './subscriptions/font.subscription';
+import {subMag} from './subscriptions/mag.subscription';
 
 declare global {
   // tslint:disable-next-line
@@ -237,6 +238,7 @@ class AceController {
         [resizeAceHandle, {}],
         subTTS(state),
         subFont(state),
+        subMag(state),
       ],
     };
 
