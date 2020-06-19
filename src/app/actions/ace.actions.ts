@@ -51,7 +51,7 @@ function getParents(): Set<HTMLElement> {
   // Filter through immediate child elements of body
   // and get elements to walk
   for (const el of elements) {
-    // Do not add accessabar or elements with no children
+    // Do not add ace or elements with no children
     if (el !== window.ace.mainElement && el.childNodes.length !== 0) {
       taggedElements.push(el);
     }
@@ -110,10 +110,10 @@ function editLoop(
   const parentElements = getParents();
 
   for (const el of parentElements) {
-    const abarEdited = el.getAttribute('accessabar-edited');
+    const abarEdited = el.getAttribute('ace-edited');
 
     if (!abarEdited) {
-      el.setAttribute('accessabar-edited', currentConfig.editName);
+      el.setAttribute('ace-edited', currentConfig.editName);
       el.setAttribute(
         currentConfig.attrNames.orig,
         el.style[modifier] || 'none'
@@ -127,7 +127,7 @@ function editLoop(
       const funcNames = abarEdited.split(' ');
 
       funcNames.push(currentConfig.editName);
-      el.setAttribute('accessabar-edited', funcNames.join(' '));
+      el.setAttribute('ace-edited', funcNames.join(' '));
       el.setAttribute(
         currentConfig.attrNames.orig,
         el.style[modifier] || 'none'
@@ -155,12 +155,12 @@ function editLoopComputed(
     const sizeNumeric: number = parseFloat(size);
 
     if (size) {
-      const abarEdited = el.getAttribute('accessabar-edited');
+      const abarEdited = el.getAttribute('ace-edited');
 
-      // Add attribute to element to flag edits from Accessabar.
-      // If 'font-size' was set inline, it is added to 'accessabar-orig-font-size'.
+      // Add attribute to element to flag edits from Ace.
+      // If 'font-size' was set inline, it is added to 'ace-orig-font-size'.
       if (!abarEdited) {
-        el.setAttribute('accessabar-edited', currentConfig.editName);
+        el.setAttribute('ace-edited', currentConfig.editName);
         el.setAttribute(
           currentConfig.attrNames.orig,
           el.style[modifier] || 'none'
@@ -175,7 +175,7 @@ function editLoopComputed(
         const funcNames = abarEdited.split(' ');
 
         funcNames.push(currentConfig.editName);
-        el.setAttribute('accessabar-edited', funcNames.join(' '));
+        el.setAttribute('ace-edited', funcNames.join(' '));
         el.setAttribute(
           currentConfig.attrNames.orig,
           el.style[modifier] || 'none'
