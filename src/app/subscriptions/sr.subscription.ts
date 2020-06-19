@@ -1,7 +1,7 @@
 import {srInitRuntime, srStart, srAddEvents} from '../actions/sr.actions';
 
 function subSR(state: Ace.State) {
-  return [];
+  return [subSREnable(state)];
 }
 
 function subSREnable(state: Ace.State) {
