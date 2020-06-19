@@ -13,15 +13,15 @@ import {
 
 function subFont(state: Ace.State) {
   return [
-    fontFamily(state),
-    fontSizing(state),
-    fontColour(state),
-    fontLineSpacing(state),
-    fontLetterSpacing(state),
+    subFontFamily(state),
+    subFontSizing(state),
+    subFontColour(state),
+    subFontLineSpacing(state),
+    subFontLetterSpacing(state),
   ];
 }
 
-function fontFamily(state: Ace.State) {
+function subFontFamily(state: Ace.State) {
   return state.fontActive
     ? [
         (dispatch, props) => {
@@ -40,7 +40,7 @@ function fontFamily(state: Ace.State) {
       ];
 }
 
-function fontSizing(state: Ace.State) {
+function subFontSizing(state: Ace.State) {
   return (
     !state.fontSizingActive && [
       (dispatch, props) => dispatch(props.action, props.opts),
@@ -52,7 +52,7 @@ function fontSizing(state: Ace.State) {
   );
 }
 
-function fontColour(state: Ace.State) {
+function subFontColour(state: Ace.State) {
   return state.fontColourActive
     ? [
         (dispatch, props) => {
@@ -71,7 +71,7 @@ function fontColour(state: Ace.State) {
       ];
 }
 
-function fontLineSpacing(state: Ace.State) {
+function subFontLineSpacing(state: Ace.State) {
   return state.fontLineSpacingActive
     ? [
         (dispatch, props) => {
@@ -90,7 +90,7 @@ function fontLineSpacing(state: Ace.State) {
       ];
 }
 
-function fontLetterSpacing(state: Ace.State) {
+function subFontLetterSpacing(state: Ace.State) {
   return state.fontLetterSpacingActive
     ? [
         (dispatch, props) => {

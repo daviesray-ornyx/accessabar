@@ -1,10 +1,10 @@
 import {magAddPageContent, magMove, magScroll} from '../actions/mag.actions';
 
 function subMag(state: Ace.State) {
-  return [magEnable(state)];
+  return [subMagEnable(state)];
 }
 
-function magEnable(state: Ace.State) {
+function subMagEnable(state: Ace.State) {
   const magPassthrough = (event, dispatch, props) =>
     dispatch(props.action, event);
   const magPassthroughScroll = (event, dispatch, props) =>

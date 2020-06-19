@@ -1,10 +1,10 @@
 import {menuMove} from '../actions/menu.actions';
 
 function subMenu(state: Ace.State) {
-  return [menuEnable(state), menuMoveSub(state)];
+  return [subMenuEnable(state), subMenuMoveSub(state)];
 }
 
-function menuEnable(state: Ace.State) {
+function subMenuEnable(state: Ace.State) {
   const menuPassthrough = (event, dispatch, props) =>
     dispatch(props.action, event);
   const menuDragPassthrough = (event, dispatch, props) =>
@@ -95,7 +95,7 @@ function menuEnable(state: Ace.State) {
       ];
 }
 
-function menuMoveSub(state: Ace.State) {
+function subMenuMoveSub(state: Ace.State) {
   return (
     state.menuDragActive.length > 1 && [
       (dispatch, props) => dispatch(props.action, props.name),

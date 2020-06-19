@@ -1,6 +1,6 @@
 import {aceResize} from '../actions/ace.actions';
 
-function resizeAceHandle(dispatch, _) {
+function subResizeAceHandle(dispatch, _) {
   const dispatchFunc = () => {
     dispatch(aceResize);
   };
@@ -12,5 +12,5 @@ function resizeAceHandle(dispatch, _) {
   };
 }
 
-export default resizeAceHandle;
-export {resizeAceHandle};
+export default subResizeAceHandle;
+export {subResizeAceHandle};

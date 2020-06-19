@@ -5,10 +5,10 @@ import {
 } from '../actions/tts.actions';
 
 function subTTS(state: Ace.State) {
-  return [ttsInit(state), ttsHover(state), ttsHighlight(state)];
+  return [subTTSInit(state), subTTSHover(state), subTTSHighlight(state)];
 }
 
-function ttsInit(state: Ace.State) {
+function subTTSInit(state: Ace.State) {
   return (
     state.ttsInitiated && [
       // setup voices
@@ -33,7 +33,7 @@ function ttsInit(state: Ace.State) {
   );
 }
 
-function ttsHover(state: Ace.State) {
+function subTTSHover(state: Ace.State) {
   const hoverPassthrough = (event, dispatch, props) =>
     dispatch(props.action, event);
   return state.ttsHoverSpeak
@@ -62,7 +62,7 @@ function ttsHover(state: Ace.State) {
       ];
 }
 
-function ttsHighlight(state: Ace.State) {
+function subTTSHighlight(state: Ace.State) {
   const highlightPassthrough = (event, dispatch, props) =>
     dispatch(props.action, event);
   return state.ttsHighlightSpeak
