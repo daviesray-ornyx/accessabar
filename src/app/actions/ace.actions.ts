@@ -9,11 +9,8 @@ function moveBody() {
   }
 }
 
-interface AceResize {
-  aceHidden: boolean;
-}
-
-function aceResize({aceHidden}: AceResize) {
+function aceResize(state: Ace.State) {
+  const {aceHidden} = state;
   const {mainElement} = window.ace;
 
   if (!mainElement) {
@@ -47,6 +44,10 @@ function handleConflicts(config: {conflicts: string[]}) {
       }
     }
   }
+}
+
+function aceHandleConflicts(dispatch, props: Ace.TrackConfig) {
+  return {};
 }
 
 function startFunction(
@@ -114,4 +115,5 @@ export {
   pruneFuncs,
   startFunction,
   stopFunction,
+  aceTrackFunction,
 };
