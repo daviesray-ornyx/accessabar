@@ -1,4 +1,4 @@
-import {aceResize} from '../actions/util.actions';
+import {aceResize} from '../actions/ace.actions';
 
 function resizeAceHandle(dispatch, _) {
   const dispatchFunc = () => {
