@@ -1,6 +1,7 @@
 declare namespace Ace {
   interface StateToolbar {
     aceHidden: boolean;
+    aceTooltips: string[];
   }
 
   interface StateFont {
@@ -211,7 +212,7 @@ declare namespace Ace {
   interface ListItem {
     name: string;
     key: string | number;
-    action(key: ListItem['key']): unknown;
+    action(state: Ace.State, key: ListItem['key']): unknown;
   }
 }
 
