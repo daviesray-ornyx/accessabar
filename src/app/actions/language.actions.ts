@@ -1,6 +1,6 @@
 import languageConfig from '../../config/language.config.json5';
 import {getParents} from './ace.actions';
-import {apiGetTranslation} from './api.actions';
+import {apiGetTranslation, apiSendEvent} from './api.actions';
 
 function languageChangeAll(state: Ace.State, key?: string) {
   const {languageCurrentKey} = state;
@@ -24,4 +24,29 @@ function languageChangeAll(state: Ace.State, key?: string) {
   });
 }
 
-export {languageChangeAll};
+function languageToggleCurrent(state: Ace.State, key: string) {
+  apiSendEvent('AcePageTranslation_On');
+  return [
+    {
+      ...state,
+      languageCurrentKey: key,
+      selectLanguageListActive: false,
+    },
+    [
+      (dispatch, props) => dispatch(props.action, props.key),
+      {
+        key,
+        action: languageChangeAll,
+      },
+    ],
+  ];
+}
+
+function languageToggleList(state: Ace.State) {
+  return {
+    ...state,
+    selectLanguageListActive: !state.selectLanguageListActive,
+  };
+}
+
+export {languageChangeAll, languageToggleCurrent, languageToggleList};

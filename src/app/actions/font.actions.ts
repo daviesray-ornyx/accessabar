@@ -1,8 +1,11 @@
 import config from '../../config/functions.config.json5';
 import fontConfig from '../../config/fonts.config.json5';
-import {apiSendEvent} from './api.actions';
-import {acePruneFuncs} from './ace.actions';
-import {editLoop, editLoopComputed, getParents} from './ace.actions';
+import {
+  acePruneFuncs,
+  editLoop,
+  editLoopComputed,
+  getParents,
+} from './ace.actions';
 
 /**
  * Fetches and returns parents of text nodes in the document
@@ -231,7 +234,7 @@ function fontLineSpacingReset() {
   fontReset('fontLineSpacing');
 }
 
-function fontLetterSpacingEnable(state: Ace.State) {
+function fontLetterSpacingToggle(state: Ace.State) {
   return {
     ...state,
     fontLetterSpacingActive: !state.fontLetterSpacingActive,
@@ -310,6 +313,30 @@ function fontLetterSpacingReset() {
   fontReset('fontLetterSpacing');
 }
 
+function fontToggleList(state: Ace.State) {
+  return {
+    ...state,
+    selectFontListActive: !state.selectFontListActive,
+  };
+}
+
+function fontToggleCurrent(state: Ace.State, key: string) {
+  return [
+    {
+      ...state,
+      fontCurrentKey: key,
+      selectFontListActive: false,
+    },
+    state.fontActive && [
+      (dispatch, props) => dispatch(props.action, props.key),
+      {
+        key,
+        action: fontChangeFamilyAll,
+      },
+    ],
+  ];
+}
+
 export {
   fontDecSize,
   fontIncSize,
@@ -324,7 +351,7 @@ export {
   fontFamilyToggle,
   fontLetterSpacingChange,
   fontLetterSpacingDecrement,
-  fontLetterSpacingEnable,
+  fontLetterSpacingToggle,
   fontLetterSpacingIncrement,
   fontLetterSpacingReset,
   fontLineSpacingIncrement,
@@ -333,4 +360,6 @@ export {
   fontLineSpacingReset,
   fontLineSpacingToggle,
   fontReset,
+  fontToggleList,
+  fontToggleCurrent,
 };
