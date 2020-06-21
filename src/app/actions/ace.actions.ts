@@ -1,3 +1,6 @@
+import Pickr from '@simonwep/pickr';
+import tippy from 'tippy.js';
+
 function aceMoveBody() {
   const {mainElement} = window.ace;
 
@@ -240,6 +243,65 @@ function editLoopComputed(
   }
 }
 
+function aceCreatePickr(
+  state: Ace.State,
+  opts: {id: string; action: (state: Ace.State, colour: string) => unknown}
+) {
+  window.pickr = new Pickr({
+    components: {
+      hue: true,
+      interaction: {
+        clear: false,
+        cmyk: false,
+        hex: true,
+        hsla: false,
+        hsva: false,
+        input: true,
+        rgba: true,
+        save: true,
+      },
+      opacity: true,
+      preview: true,
+    },
+    el: opts.id,
+    theme: 'nano',
+    useAsButton: true,
+  });
+
+  return [
+    state,
+    [
+      (dispatch, props) => {
+        window.pickr.on('save', hsva => {
+          dispatch(props.action, hsva.toHEXA().toString());
+        });
+      },
+      {
+        action: opts.action,
+      },
+    ],
+  ];
+}
+
+function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
+  if (state.aceTooltips.indexOf(opts.id) !== -1) {
+    return state;
+  }
+
+  tippy(`#accessabar ${opts.id}`, {
+    arrow: true,
+    content: opts.content,
+    placement: 'bottom',
+    theme: 'ab',
+  });
+  state.aceTooltips.push(opts.id);
+
+  return {
+    ...state,
+    aceTooltips: state.aceTooltips,
+  };
+}
+
 export {
   aceResize,
   aceMoveBody,
@@ -248,4 +310,6 @@ export {
   getParents,
   editLoop,
   editLoopComputed,
+  aceCreatePickr,
+  aceAddTippy,
 };
