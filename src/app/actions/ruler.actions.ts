@@ -180,6 +180,38 @@ function rulerPinholeSizeDec(state: Ace.State) {
     rulerPinholeCentreHeight: newSize,
   };
 }
+
+function rulerChangePinholeMaskColour(state: Ace.State, colour: string) {
+  const {rulerPinholeMaskColourCurrent} = state;
+  const currentColour: string = colour || rulerPinholeMaskColourCurrent;
+
+  if (currentColour.length <= 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    rulerPinholeMaskColourCurrent: colour,
+    rulerPinholeMaskCustomActive: false,
+  };
+}
+
+function rulerChangePinholeMaskCustomColour(state: Ace.State, colour: string) {
+  const {rulerPinholeMaskColourCurrent} = state;
+  const currentColour: string = colour || rulerPinholeMaskColourCurrent;
+
+  if (currentColour.length <= 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    rulerPinholeMaskColourCurrent: colour,
+    rulerPinholeMaskColourCustomCurrent: colour,
+    rulerPinholeMaskCustomActive: true,
+  };
+}
+
 export {
   rulerReadingToggle,
   rulerMove,
@@ -192,4 +224,6 @@ export {
   rulerReadingOpacityInc,
   rulerSizeDecrease,
   rulerSizeIncrease,
+  rulerChangePinholeMaskColour,
+  rulerChangePinholeMaskCustomColour,
 };

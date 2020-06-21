@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
+  aceTooltips: [],
 };
 
 const stateFont: Ace.StateFont = {

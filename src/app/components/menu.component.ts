@@ -1,93 +1,93 @@
-import { h } from 'hyperapp';
-import { handleButtonNavigation } from './buttons.component';
+import {h} from 'hyperapp';
+import {handleButtonNavigation} from './buttons.component';
 import * as menus from './menus.component';
 import tippy from 'tippy.js';
+import {
+  menuClose,
+  menuStartDrag,
+  menuUpdatePosition,
+} from '../actions/menu.actions';
 
-const menuNames = new Map([
-    ['tts', menus.ttsMenu],
-    ['textOptions', menus.textOptionsMenu],
-    ['magnifier', menus.magMenu],
-    ['masking', menus.maskMenu],
-    ['rulerOptions', menus.rulerOptionsMenu],
-    ['speechRecognition', menus.srMenu],
-    ['pageTranslate', menus.ptMenu],
+const menuConfigs = new Map([
+  ['tts', {title: 'Text to Speech', menu: menus.ttsMenu}],
+  ['textOptions', {title: 'Text Options', menu: menus.textOptionsMenu}],
+  ['magnifier', {title: 'Magnifier Options', menu: menus.magMenu}],
+  ['masking', {title: 'Screen Masking Options', menu: menus.maskMenu}],
+  ['rulerOptions', {title: 'Ruler Options', menu: menus.rulerOptionsMenu}],
+  ['speechRecognition', {title: 'Speech Recognition', menu: menus.srMenu}],
+  ['pageTranslate', {title: 'Page Translation', menu: menus.ptMenu}],
 ]);
 
-const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return h('ab-placeholder');
-};
+const placeholderEl = () => h('ab-placeholder');
 
-const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    // TODO: remove any type
-    const menuEl: any = menuNames.has(state.menuCurrent)
-        ? menuNames.get(state.menuCurrent) || placeholderEl
-        : placeholderEl;
-    
-    return h(
-        'ab-menu',
+const menu = (state: Ace.State, name: string) => {
+  const menuConfig = menuConfigs.get(name) || {title: '', menu: placeholderEl};
+
+  return h(
+    'ab-menu',
+    {
+      'aria-label': `${menuConfig.title} Menu`,
+      class: 'ab-menu ab-draggable',
+      id: 'ab-menu',
+      oncreate: [menuUpdatePosition, el => ({el, name})],
+      style: {
+        left:
+          state.menus[name].menuPosX !== false
+            ? `${state.menus[name].menuPosX}px`
+            : null,
+        top:
+          state.menus[name].menuPosY !== false
+            ? `${state.menus[name].menuPosY}px`
+            : null,
+      },
+    },
+    [
+      h(
+        'ab-menu-header',
         {
-            'aria-label': `${state.menuTitle} Menu`,
-            class: `ab-menu ab-draggable ${state.menuHidden ? 'ab-hide' : ''}`,
-            id: 'ab-menu',
-            oncreate: (el: HTMLElement) => {
-                actions.menuUpdatePosition(el);
-            },
-            style: {
-                left: state.menuPosX !== false ? `${ state.menuPosX }px` : null,
-                top: state.menuPosY !== false ? `${ state.menuPosY }px` : null,
-            },
+          'aria-label': 'Hold left mouse button to drag the menu',
+          class: 'ab-menu-header ab-flex',
+          onmousedown: [menuStartDrag, name],
+          ontouchstart: [menuStartDrag, name],
         },
         [
-            h(
-                'ab-menu-header',
-                {
-                    'aria-label': 'Hold left mouse button to drag the menu',
-                    class: 'ab-menu-header ab-flex',
-                    onmousedown: (event) => {
-                        actions.menuStartDrag(event);
-                    },
-                    ontouchstart: (event) => {
-                        actions.menuStartDrag(event);
-                    },
-                },
-                [
-                    h('ab-menu-header-text', { class: 'ab-menu-header-text' }, state.menuTitle),
-                    h(
-                        'ab-menu-close-button',
-                        {
-                            'aria-label': 'Close menu',
-                            class: 'ab-menu-close',
-                            id: 'ab-menu-close',
-                            onclick: () => {
-                                actions.menuClose();
-                            },
-                            oncreate: () => {
-                                tippy('#accessabar #ab-menu-close', {
-                                    arrow: true,
-                                    content: 'Close Menu',
-                                    placement: 'bottom',
-                                    theme: 'ab',
-                                });
-                            },
-                            onkeydown: handleButtonNavigation,
-                            role: 'button',
-                            tabIndex: 1,
-                        },
-                        [
-                            h('ab-icon', {
-                                'aria-hidden': 'true',
-                                class: 'ab-icon ab-icon-cross',
-                            }),
-                        ],
-                    ),
-                ],
-            ),
-            menuEl(state, actions),
-        ],
-    );
+          h(
+            'ab-menu-header-text',
+            {class: 'ab-menu-header-text'},
+            menuConfig.title
+          ),
+          h(
+            'ab-menu-close-button',
+            {
+              'aria-label': 'Close menu',
+              class: 'ab-menu-close',
+              id: 'ab-menu-close',
+              onclick: [menuClose, name],
+              oncreate: () => {
+                tippy('#accessabar #ab-menu-close', {
+                  arrow: true,
+                  content: 'Close Menu',
+                  placement: 'bottom',
+                  theme: 'ab',
+                });
+              },
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+              tabIndex: 1,
+            },
+            [
+              h('ab-icon', {
+                'aria-hidden': 'true',
+                class: 'ab-icon ab-icon-cross',
+              }),
+            ]
+          ),
+        ]
+      ),
+      menuConfig.menu(state),
+    ]
+  );
 };
 
 export default menu;
-export {
-    menu,
-};
+export {menu};

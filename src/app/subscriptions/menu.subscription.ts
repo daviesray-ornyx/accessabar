@@ -9,7 +9,7 @@ function subMenuEnable(state: Ace.State) {
     dispatch(props.action, event);
   const menuDragPassthrough = (event, dispatch, props) =>
     dispatch(props.action, event);
-  return Object.keys(state.menus).length > 1
+  return Object.keys(state.menus).length > 0
     ? [
         [
           (dispatch, props) => {
