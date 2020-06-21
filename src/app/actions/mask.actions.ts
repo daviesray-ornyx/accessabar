@@ -1,40 +1,6 @@
 import BigNumber from 'bignumber.js';
 import {apiSendEvent} from './api.actions';
 
-function maskChangeMaskColour(state: Ace.State, colour: string) {
-  return {
-    ...state,
-    maskColourCurrent: colour,
-    maskCustomActive: false,
-  };
-}
-
-function maskChangeMaskColourCustom(state: Ace.State, colour: string) {
-  return {
-    ...state,
-    maskColourCurrent: colour,
-    maskColourCustomCurrent: colour,
-    maskCustomActive: true,
-  };
-}
-
-function maskChangePinholeMaskColour(state: Ace.State, colour: string) {
-  return {
-    ...state,
-    rulerPinholeMaskColourCurrent: colour,
-    rulerPinholeMaskCustomActive: false,
-  };
-}
-
-function maskChangePinholeMaskCustomColour(state: Ace.State, colour: string) {
-  return {
-    ...state,
-    rulerPinholeMaskColourCurrent: colour,
-    rulerPinholeMaskColourCustomCurrent: colour,
-    rulerPinholeMaskCustomActive: true,
-  };
-}
-
 function maskToggle(state: Ace.State) {
   if (!state.maskActive) {
     apiSendEvent('AceScreenMask_On');
@@ -46,7 +12,7 @@ function maskToggle(state: Ace.State) {
   };
 }
 
-function maskColourChange(state: Ace.State, colour?: string) {
+function maskChangeColour(state: Ace.State, colour?: string) {
   const {maskColourCurrent} = state;
   const currentColour: string = colour || maskColourCurrent;
 
@@ -57,6 +23,23 @@ function maskColourChange(state: Ace.State, colour?: string) {
   return {
     ...state,
     maskColourCurrent: colour,
+    maskCustomActive: false,
+  };
+}
+
+function maskChangeColourCustom(state: Ace.State, colour: string) {
+  const {maskColourCustomCurrent} = state;
+  const currentColour: string = colour || maskColourCustomCurrent;
+
+  if (currentColour.length <= 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    maskColourCurrent: colour,
+    maskColourCustomCurrent: colour,
+    maskCustomActive: true,
   };
 }
 
@@ -89,11 +72,8 @@ function maskIncreaseOpacity(state: Ace.State) {
 }
 
 export {
-  maskChangeMaskColour,
-  maskChangeMaskColourCustom,
-  maskChangePinholeMaskColour,
-  maskChangePinholeMaskCustomColour,
-  maskColourChange,
+  maskChangeColourCustom,
+  maskChangeColour,
   maskDecreaseOpacity,
   maskIncreaseOpacity,
   maskToggle,
