@@ -1,32 +1,34 @@
-import { ActionsType } from 'hyperapp';
+function settingsOpen(state: Ace.State) {
+  return {
+    ...state,
+    settingsHidden: false,
+  };
+}
 
-const settingsActions: ActionsType<Accessabar.IState, Accessabar.ISettingsActions> = {
-    settingsOpen: () => ({ settingsHidden }) => {
-        return {
-            settingsHidden: false,
-        };
-    },
+function settingsClose(state: Ace.State) {
+  return {
+    ...state,
+    settingsHidden: true,
+  };
+}
 
-    settingsClose: () => ({ settingsHidden }) => {
-        return {
-            settingsHidden: true,
-        };
-    },
+function settingsToggleTTSList(state: Ace.State) {
+  return {
+    ...state,
+    ttsVoiceListActive: !state.ttsVoiceListActive,
+  };
+}
 
-    settingsToggleTTSList: () => ({ ttsVoiceListActive }) => {
-        return {
-            ttsVoiceListActive: !ttsVoiceListActive,
-        };
-    },
+function settingsToggleSRLangList(state: Ace.State) {
+  return {
+    ...state,
+    srLangListActive: !state.srLangListActive,
+  };
+}
 
-    settingsToggleSRLangList: () => ({ srLangListActive }) => {
-        return {
-            srLangListActive: !srLangListActive,
-        };
-    },
-};
-
-export default settingsActions;
 export {
-    settingsActions,
+  settingsOpen,
+  settingsClose,
+  settingsToggleSRLangList,
+  settingsToggleTTSList,
 };

@@ -1,115 +1,115 @@
-import { ActionsType } from 'hyperapp';
 import ISO6391 from 'iso-639-1';
+import {apiSendEvent} from './api.actions';
+import {fxSREnable} from '../fx/sr.fx';
 
-declare var webkitSpeechRecognition: {
-    prototype: SpeechRecognition;
-    new(): SpeechRecognition;
+declare let webkitSpeechRecognition: {
+  prototype: SpeechRecognition;
+  new (): SpeechRecognition;
 };
 
-const srActions: ActionsType<Accessabar.IState, Accessabar.ISRActions> = {
-    srInitRuntime: () => {
-        let srRuntime: boolean | SpeechRecognition = false;
+function srInitRuntime(state: Ace.State) {
+  let srRuntime: boolean | SpeechRecognition = false;
 
-        try {
-            srRuntime = new webkitSpeechRecognition() || new SpeechRecognition();
-        } catch {
-            return {
-                srRuntime,
-            };
-        }
+  try {
+    srRuntime = new webkitSpeechRecognition() || new window.SpeechRecognition();
+  } catch {
+    return {
+      ...state,
+      srRuntime,
+    };
+  }
 
-        return {
-            srRuntime,
-        };
+  return {
+    ...state,
+    srRuntime,
+  };
+}
+
+function srStart(state: Ace.State) {
+  const {srRuntime, srLang} = state;
+  if (typeof srRuntime === 'boolean') {
+    return state;
+  }
+
+  srRuntime.lang = srLang;
+  // srRuntime.interimResults = true;
+  srRuntime.continuous = true;
+  srRuntime.start();
+  return state;
+}
+
+function srToggle(state: Ace.State) {
+  if (!state.srActive) {
+    apiSendEvent('AceSpeechRecognition_On');
+  }
+
+  return [
+    {
+      ...state,
+      srActive: !state.srActive,
     },
+    fxSREnable(state),
+  ];
+}
 
-    srStart: () => ({ srRuntime, srLang }, { srAddEvents }) => {
-        if (typeof srRuntime === 'boolean') {
-            return;
-        }
+function srAddEvents(state: Ace.State) {
+  const {srRuntime} = state;
+  if (typeof srRuntime === 'boolean') {
+    return state;
+  }
 
-        srRuntime.lang = srLang;
-        // srRuntime.interimResults = true;
-        srRuntime.continuous = true;
+  srRuntime.onresult = srHandleResult;
+  return state;
+}
 
-        srAddEvents();
-        srRuntime.start();
-    },
+function srHandleResult(event: SpeechRecognitionEvent) {
+  const finalSentence: string[] = [];
 
-    srEnable: () => (_, { srInitRuntime, srStart }) => {
-        srInitRuntime();
-        srStart();
+  for (const alt of event.results[event.results.length - 1]) {
+    finalSentence.push(alt.transcript);
+  }
 
-        return {
-            srActive: true,
-        };
-    },
+  srOutput(finalSentence.join(''));
+}
 
-    srDisable: () => ({ srRuntime }) => {
-        if (typeof srRuntime !== 'boolean') {
-            srRuntime.abort();
-        }
+function srOutput(str: string) {
+  const active = document.activeElement;
 
-        return {
-            srActive: false,
-            srRuntime: false,
-        };
-    },
+  if (!active) {
+    return;
+  }
 
-    srAddEvents: () => ({ srRuntime }, { srHandleResult }) => {
-        if (typeof srRuntime === 'boolean') {
-            return;
-        }
+  switch (active.nodeName) {
+    case 'INPUT':
+    case 'TEXTAREA':
+    case 'SELECT':
+      (active as HTMLInputElement).value += str;
+      break;
+    default:
+      if (
+        active.hasAttribute('contenteditable') &&
+        active.getAttribute('contenteditable')
+      ) {
+        active.textContent += str;
+      }
 
-        srRuntime.onresult = srHandleResult;
-    },
+      break;
+  }
 
-    srHandleResult: (event: SpeechRecognitionEvent) => (_, { srOutput }) => {
-        const finalSentence: string[] = [];
+  const selection = getSelection();
 
-        for (const alt of event.results[event.results.length - 1]) {
-            finalSentence.push(alt.transcript);
-        }
+  if (selection) {
+    selection.selectAllChildren(active);
+    selection.collapseToEnd();
+  }
+}
 
-        srOutput(finalSentence.join(''));
-    },
+function srChangeLang(state: Ace.State, lang: string) {
+  return {
+    ...state,
+    srLang: lang,
+    srLangName: ISO6391.getNativeName(lang),
+  };
+}
 
-    srOutput: (str: string) => () => {
-        const active = document.activeElement;
-
-        if (!active) {
-            return;
-        }
-
-        switch (active.nodeName) {
-        case 'INPUT':
-        case 'TEXTAREA':
-        case 'SELECT':
-            (active as HTMLInputElement).value += str;
-            break;
-        default:
-            if (active.hasAttribute('contenteditable') && active.getAttribute('contenteditable')) {
-                active.textContent += str;
-            }
-
-            break;
-        }
-
-        const selection = getSelection();
-
-        if (selection) {
-            selection.selectAllChildren(active);
-            selection.collapseToEnd();
-        }
-    },
-
-    srChangeLang: (lang: string) => {
-        return {
-            srLang: lang,
-            srLangName: ISO6391.getNativeName(lang),
-        };
-    },
-};
-
-export default srActions;
-export { srActions };
+export {srAddEvents, srChangeLang, srToggle, srInitRuntime, srStart};

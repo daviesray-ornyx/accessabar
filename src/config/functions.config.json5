@@ -3,92 +3,44 @@
 
 {
     fontSizing: {
-        conflicts: [],
         attrNames: {
-            orig: 'accessabar-orig-font-size',
-            origComputed: 'accessabar-orig-computed-font-size',
+            orig: 'ace-orig-font-size',
+            origComputed: 'ace-orig-computed-font-size',
         },
         editName: 'font-size',
-        disableOnClick: false,
     },
 
     fontFamily: {
-        conflicts: [],
         attrNames: {
-            orig: 'accessabar-orig-font-family',
+            orig: 'ace-orig-font-family',
         },
         editName: 'font-family',
-        disableOnClick: true,
     },
 
     fontColour: {
-        conflicts: [],
         attrNames: {
-            orig: 'accessabar-orig-font-colour',
+            orig: 'ace-orig-font-colour',
         },
         editName: 'color',
-        disableOnClick: true,
     },
 
     fontLineSpacing: {
-        conflicts: [],
         attrNames: {
-            orig: 'accessabar-orig-font-line-height',
-            origComputed: 'accessabar-orig-computed-font-line-height',
+            orig: 'ace-orig-font-line-height',
+            origComputed: 'ace-orig-computed-font-line-height',
         },
         editName: 'line-height',
-        disableOnClick: true,
     },
 
     fontLetterSpacing: {
-        conflicts: [],
         attrNames: {
-            orig: 'accessabar-orig-font-letter-spacing',
-            origComputed: 'accessabar-orig-computed-font-letter-spacing',
+            orig: 'ace-orig-font-letter-spacing',
+            origComputed: 'ace-orig-computed-font-letter-spacing',
         },
         editName: 'letter-spacing',
-        disableOnClick: true,
-    },
-
-    tts: {
-        conflicts: [],
-        disableOnClick: true,
-    },
-
-    magnifier: {
-        conflicts: [
-            'rulerReading',
-        ],
-        disableOnClick: true,
-    },
-
-    masking: {
-        conflicts: [],
-        disableOnClick: true,
-    },
-
-    rulerReading: {
-        conflicts: [
-            'rulerPinhole',
-        ],
-        disableOnClick: true,
-    },
-
-    rulerPinhole: {
-        conflicts: [
-            'rulerReading',
-        ],
-        disableOnClick: true,
-    },
-
-    speechRecognition: {
-        conflicts: [],
-        disableOnClick: true,
     },
 
     pageTranslation: {
-        conflicts: [],
         editName: 'page-translation',
-        disableOnClick: false,
     },
 }

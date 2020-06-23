@@ -1,314 +1,351 @@
-import { app } from 'hyperapp';
-
-import state from './state/ace.state';
-import actions from './actions';
-import view from './main';
-import AccessabarUtil from './util';
+import {app} from 'hyperapp';
+import initState from './state/ace.state';
+import view from './main.view';
+import {apiSendEvent} from './actions/api.actions';
+import {ttsInit, ttsSpeak} from './actions/tts.actions';
+import {aceMoveBody} from './actions/ace.actions';
+import aceState from './state/ace.state';
+import subAce, {subAceGetDispatch} from './subscriptions/ace.subscription';
+import subResize from './subscriptions/resize.subscription';
 
 declare global {
-    // tslint:disable-next-line
-    interface Window {
-        abar: AccessabarController;
-        pickr: any;
-    }
+  // tslint:disable-next-line
+  interface Window {
+    ace: AceController;
+    pickr: any;
+  }
 }
 
-/**
- * Custom Element used as the container for Accessabar.
- *
- * @class AccessabarElement
- * @extends {HTMLElement}
- */
-class AccessabarElement extends HTMLElement {
-    constructor() {
-        super();
-    }
+// Custom Element used as the container for Ace.
+class AceElement extends HTMLElement {
+  constructor() {
+    super();
+  }
 }
 
-customElements.define('accessabar-app', AccessabarElement);
+customElements.define('ace-app', AceElement);
 
-/**
- * Entry point for Accessabar.
- *
- * @class AccessabarController
- */
-class AccessabarController {
-    /**
-     * Version number of Accessabar.
-     *
-     * @type string
-     * @memberOf AccessabarController
-     */
-    public version: string = '0.8.9';
+// Entry point for Ace.
+class AceController {
+  public version = '0.10.4';
 
-    /**
-     * Element in webpage that activate Accessabar.
-     *
-     * @type {Element}
-     * @memberof AccessabarController
-     */
-    public buttonElement: Element;
+  // Element in page that activates Ace.
+  public buttonElement: Element | undefined;
 
-    /**
-     * Element that will contain Accessabar.
-     *
-     * @type {Element}
-     * @memberof AccessabarController
-     */
-    public bindTo: Element;
+  // Element that will contain Ace.
+  public bindTo: Element;
 
-    /**
-     * A reference to the Accessabar element when rendered.
-     *
-     * @type {HTMLElement}
-     * @memberof AccessabarController
-     */
-    public mainElement: HTMLElement;
+  // A reference to the Ace element when rendered.
+  public mainElement: HTMLElement | undefined;
 
-    /**
-     * Contains all applied functions.
-     *
-     * @type {Map<string, object>}
-     * @memberof AccessabarController
-     */
-    public appliedFunctions: Map<string, (() => unknown)> = new Map();
+  // Contains all applied functions.
+  public appliedFunctions: Map<string, () => unknown> = new Map();
 
-    /**
-     * Reference to hyperapp actions.
-     *
-     * @private
-     * @type {Accessabar.IActions}
-     * @memberof AccessabarController
-     */
-    public appActions: Accessabar.IActions;
+  // Copy of ace state for interop.
+  private aceState: Ace.State = aceState;
 
-    /**
-     * Position of Accessabar on the page.
-     *
-     * @type string
-     * @memberOf AccessabarController
-     */
-    public position: string;
+  private aceDispatch;
 
-    /**
-     * If enabled, the margin top of the documents body
-     * will equal Accessabar's height. This in effect will move the pages content
-     * down in order to make space for Accessabar.
-     *
-     * @type boolean
-     * @memberOf AccessabarController
-     */
+  // Position of Accessabar on the page.
+  public position: string;
 
-    public moveBody: boolean;
+  /**
+   * If enabled, the margin top of the document's body
+   * will equal Ace's height. This will move the page's content
+   * down in order to make space for Ace.
+   */
+  public moveBody: boolean;
+  private rendered = false;
 
-    /**
-     * Set to true when Accessabar has been rendered on the page.
-     *
-     * @private
-     * @memberof AccessabarController
-     */
-    private rendered = false;
+  constructor({
+    enableButton = '',
+    bindTo = 'body',
+    position = 'top',
+    moveBody,
+  }: Ace.AceConfig = {}) {
+    // Allows easy access during runtime to separate parts of the code
+    window.ace = this;
 
-    /**
-     * Creates an instance of AccessabarController.
-     *
-     * @param {string} enableButton = ''
-     * Optional; Query selector string for element that enables Accessabar.
-     *
-     * @param {string} bindTo = 'body'
-     * Optional; Query selector for element Accessabar will bind to (be inside).
-     *
-     * @param {string} position = 'top'
-     * Optional; Position of Accessabar.
-     *
-     * @param {boolean} moveBody
-     * Optional; If enabled, the margin top of the documents body
-     * will equal Accessabar's height. This in effect will move the pages content
-     * down in order to make space for Accessabar.
-     *
-     * @memberof AccessabarController
-     */
-    constructor({ enableButton = '', bindTo = 'body', position = 'top', moveBody }: Accessabar.IAccessabarConfig = {}) {
-        // Allows easy access during runtime to separate parts of the code
-        window.abar = this;
+    // -- enableButton --
+    if (enableButton) {
+      const buttonEl = document.querySelector(String(enableButton));
+      if (!buttonEl) {
+        throw Error('[Ace] Error: Cannot find element with the given id');
+      }
 
-        // -- enableButton --
-        if (enableButton) {
-            const buttonEl = document.querySelector(String(enableButton));
-            if (!buttonEl) {
-                throw Error('[Accessabar] Error: Cannot find element with the given id');
-            }
+      this.buttonElement = buttonEl;
 
-            this.buttonElement = buttonEl;
-
-            this.initEnableButton();
-        }
-
-        // -- bindTo
-        const strBindTo = String(bindTo);
-        const bindEl = document.querySelector(strBindTo);
-        if (!bindEl) {
-            throw Error('[Accessabar] Error: Cannot find element to bind to with the given id');
-        }
-
-        this.bindTo = bindEl;
-
-        // -- position --
-        const positions = new Set(['top', 'bottom', 'none']);
-
-        if (!positions.has(position)) {
-            throw Error(`[Accessabar] Error: The given position '${position}' is not valid. Options are: top, bottom.`);
-        }
-
-        this.position = position;
-
-        // -- moveBody --
-        switch (typeof moveBody) {
-        default:
-        case 'undefined':
-            if (strBindTo === 'body') {
-                this.moveBody = true;
-                break;
-            }
-
-            this.moveBody = false;
-            break;
-
-        case 'boolean':
-            this.moveBody = moveBody;
-            break;
-        }
+      this.initEnableButton();
     }
 
-    /**
-     * Opens accessabar on the webpage.
-     *
-     * @memberof AccessabarController
-     */
-    public open() {
-        // display accessabar
-        this.toggleShow();
-        // start events
-        this.initEvents();
-
-        this.appActions.apiSendEvent('AceOpened');
+    // -- bindTo --
+    const strBindTo = String(bindTo);
+    const bindEl = document.querySelector(strBindTo);
+    if (!bindEl) {
+      throw Error(
+        '[Ace] Error: Cannot find element to bind to with the given id'
+      );
     }
 
-    public close() {
-        if (this.mainElement.parentElement) {
-            this.mainElement.parentElement.removeChild(this.mainElement);
+    this.bindTo = bindEl;
+
+    // -- position --
+    const positions = new Set(['top', 'bottom', 'none']);
+
+    if (!positions.has(position)) {
+      throw Error(
+        `[Ace] Error: The given position '${position}' is not valid. Options are: top, bottom.`
+      );
+    }
+
+    this.position = position;
+
+    // -- moveBody --
+    switch (typeof moveBody) {
+      default:
+      case 'undefined':
+        if (strBindTo === 'body') {
+          this.moveBody = true;
+          break;
         }
 
-        if (this.moveBody) {
-            document.body.style.marginTop = '0';
-        }
+        this.moveBody = false;
+        break;
 
-        this.rendered = false;
-
-        delete this.appActions;
-        delete this.mainElement;
+      case 'boolean':
+        this.moveBody = moveBody;
+        break;
     }
 
-    public speakText(str: string) {
-        const cleanStr = String(str);
+    // -- check if opened --
+    this.restoreRenderState();
+  }
 
-        if (cleanStr.length < 1) {
-            return;
-        }
+  public open() {
+    this.openSilent();
 
-        console.log(`[Accessabar] Speaking ${cleanStr}`);
+    apiSendEvent('AceOpened');
+  }
 
-        this.appActions.ttsInit();
-        this.appActions.ttsSpeak(cleanStr);
+  private openSilent() {
+    this.toggleShow();
+    this.createSpace();
+    this.initTTS();
+  }
+
+  public close() {
+    if (this.mainElement?.parentElement) {
+      this.mainElement.parentElement.removeChild(this.mainElement);
     }
 
-    /**
-     * Handles rendering of accessabar.
-     * Fires a CustomEvent after rendering accessabar if needed.
-     *
-     * @returns void
-     * @memberof AccessabarController
-     */
-    public toggleShow() {
-        if (!this.rendered) {
-            const renderFunc = () => {
-                const containerEl = this.setContainerStyle(new AccessabarElement());
-
-                containerEl.id = 'accessabar';
-                containerEl.setAttribute('aria-label', 'Start of Accessabar toolbar.');
-                this.mainElement = containerEl;
-                this.bindTo.insertAdjacentElement('afterbegin', containerEl);
-
-                this.appActions = app(state, actions, view, containerEl);
-                this.rendered = true;
-
-                const event = new CustomEvent('accessabarLoad');
-
-                window.dispatchEvent(event);
-            };
-
-            // Check page if page is ready to render Accessabar
-            if (document.readyState === 'interactive' || document.readyState === 'complete') {
-                renderFunc();
-
-                return;
-            }
-
-            // If page is not ready, wait until it is
-            document.addEventListener('DOMContentLoaded', renderFunc.bind(this));
-
-            return;
-        }
+    if (this.moveBody) {
+      document.body.style.marginTop = '0';
     }
 
-    /**
-     * Sets the dynamic styles of the container element.
-     *
-     * @param containerEl
-     */
+    this.disableRenderState();
 
-    public setContainerStyle(containerEl: AccessabarElement) {
-        switch (this.position) {
-        default:
-        case 'top':
-            containerEl.style.position = 'fixed';
-            containerEl.style.top = '0';
-            break;
-        case 'bottom':
-            containerEl.style.position = 'fixed';
-            containerEl.style.bottom = '0';
-            break;
-        case 'none':
-            break;
-        }
+    delete this.mainElement;
+  }
 
-        return containerEl;
+  private initTTS() {
+    const func = () => {
+      this.aceDispatch(ttsInit);
+    };
+
+    if (!this.rendered) {
+      if (
+        document.readyState === 'interactive' ||
+        document.readyState === 'complete'
+      ) {
+        func();
+
+        return;
+      }
+
+      document.addEventListener('DOMContentLoaded', func.bind(this));
+    }
+  }
+
+  public speakText(str: string) {
+    const cleanStr = String(str);
+
+    if (cleanStr.length < 1) {
+      return;
     }
 
-    /**
-     * Adds an click event listener to the enable button.
-     *
-     * @memberof AccessabarController
-     */
-    public initEnableButton() {
-        if (this.buttonElement) {
-            this.buttonElement.addEventListener('click', this.open.bind(this));
-        }
+    console.log(`[Ace] Speaking ${cleanStr}`);
+
+    this.openSilent();
+    this.aceDispatch(ttsSpeak, cleanStr);
+  }
+
+  private enableRenderState() {
+    this.rendered = true;
+
+    if (!window.localStorage) {
+      return;
     }
 
-    /**
-     * Initialise all events for Accessabar.
-     *
-     * @memberof AccessabarController
-     */
-    public initEvents() {
-        // Change the body margin upon resizes
-        window.addEventListener('resize', this.appActions.abarResize, { passive: true });
+    window.localStorage.setItem('aceRendered', 'true');
+  }
+
+  private disableRenderState() {
+    this.rendered = false;
+
+    if (!window.localStorage) {
+      return;
     }
+
+    window.localStorage.setItem('aceRendered', 'false');
+  }
+
+  private restoreRenderState() {
+    if (this.rendered && this.mainElement) {
+      return;
+    }
+
+    if (!window.localStorage) {
+      return;
+    }
+
+    const storedRenderState = window.localStorage.getItem('aceRendered');
+
+    if (storedRenderState) {
+      this.openSilent();
+    }
+  }
+
+  public saveState(state: Ace.State) {
+    this.aceState = state;
+
+    if (!window.localStorage) {
+      return state;
+    }
+
+    window.localStorage.setItem(
+      'aceLocalState',
+      JSON.stringify({...state, aceTooltips: []})
+    );
+    return state;
+  }
+
+  private getState(): Ace.State {
+    if (!window.localStorage) {
+      return initState;
+    }
+
+    const localState = window.localStorage.getItem('aceLocalState');
+
+    if (localState) {
+      return JSON.parse(localState);
+    }
+
+    return initState;
+  }
+
+  public setDispatch(dispatch) {
+    this.aceDispatch = dispatch;
+  }
+
+  private createApp(containerEl: HTMLElement) {
+    const state = this.getState();
+
+    const appConfig = {
+      view,
+      init: [state, subAceGetDispatch()],
+      node: containerEl,
+      subscriptions: (st: Ace.State) => [subAce(st), subResize()],
+    };
+
+    return app(appConfig);
+  }
+
+  private createSpace() {
+    if (!this.moveBody) {
+      return;
+    }
+
+    if (this.mainElement && document.readyState === 'complete') {
+      aceMoveBody();
+      return;
+    }
+
+    document.addEventListener('DOMContentLoaded', () =>
+      setTimeout(aceMoveBody, 1000)
+    );
+  }
+
+  /**
+   * Handles rendering of ace.
+   * Fires a CustomEvent after rendering ace if needed.
+   */
+  private toggleShow() {
+    if (!this.rendered) {
+      const renderFunc = () => {
+        const containerEl = this.setContainerStyle(new AceElement());
+        const haBind = document.createElement('div');
+
+        containerEl.id = 'accessabar';
+        containerEl.setAttribute('aria-label', 'Start of Ace toolbar.');
+        this.mainElement = containerEl;
+        this.bindTo.insertAdjacentElement('afterbegin', containerEl);
+        containerEl.appendChild(haBind);
+
+        this.createApp(haBind);
+        this.enableRenderState();
+
+        const event = new CustomEvent('aceLoad');
+        window.dispatchEvent(event);
+      };
+
+      // Check page if page is ready to render Accessabar
+      if (
+        document.readyState === 'interactive' ||
+        document.readyState === 'complete'
+      ) {
+        renderFunc();
+
+        return;
+      }
+
+      // If page is not ready, wait until it is
+      document.addEventListener('DOMContentLoaded', renderFunc.bind(this));
+
+      return;
+    }
+  }
+
+  /**
+   * Sets the dynamic styles of the container element.
+   */
+
+  private setContainerStyle(containerEl: AceElement) {
+    switch (this.position) {
+      default:
+      case 'top':
+        containerEl.style.position = 'fixed';
+        containerEl.style.top = '0';
+        break;
+      case 'bottom':
+        containerEl.style.position = 'fixed';
+        containerEl.style.bottom = '0';
+        break;
+      case 'none':
+        break;
+    }
+
+    return containerEl;
+  }
+
+  /**
+   * Adds an click event listener to the enable button.
+   */
+  private initEnableButton() {
+    if (this.buttonElement) {
+      this.buttonElement.addEventListener('click', this.open.bind(this));
+    }
+  }
 }
 
-export default AccessabarController;
-export {
-    AccessabarController,
-    AccessabarUtil,
-};
+export default AceController;
+export {AceController};

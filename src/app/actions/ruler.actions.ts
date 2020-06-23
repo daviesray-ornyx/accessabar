@@ -1,178 +1,228 @@
-import { ActionsType } from 'hyperapp';
 import BigNumber from 'bignumber.js';
+import {apiSendEvent} from './api.actions';
+import {fxRulerPinholeEvents, fxRulerReadingEvents} from '../fx/ruler.fx';
 
-interface IDragEvent extends MouseEvent, TouchEvent {}
+interface DragEvent extends MouseEvent, TouchEvent {}
 
-function rulerPassthrough(event) {
-    window.abar.appActions.rulerMove(event);
+function rulerReadingToggle(state: Ace.State) {
+  const newState = {
+    ...state,
+    rulerReadingActive: !state.rulerReadingActive,
+  };
+
+  newState.rulerReadingActive && apiSendEvent('AceRulerReading_On');
+
+  return [newState, fxRulerReadingEvents(newState)];
 }
 
-const rulerActions: ActionsType<Accessabar.IState, Accessabar.IRulerActions> = {
-    rulerReadingEnable: () => (_, { rulerAddListener }) => {
-        rulerAddListener();
+function rulerPinholeToggle(state: Ace.State) {
+  const newState = {
+    ...state,
+    rulerPinholeActive: !state.rulerPinholeActive,
+  };
 
-        return {
-            rulerReadingActive: true,
-        };
-    },
+  newState.rulerPinholeActive && apiSendEvent('AceRulerPinhole_On');
 
-    rulerReadingStop: () => (_, { rulerRemoveListener }) => {
-        rulerRemoveListener();
+  return [newState, fxRulerPinholeEvents(newState)];
+}
 
-        return {
-            rulerReadingActive: false,
-        };
-    },
+function rulerMove(state: Ace.State) {
+  const {dragMouseX, dragMouseY} = state;
 
-    rulerPinholeEnable: () => (_, { rulerAddListener }) => {
-        rulerAddListener();
+  return {
+    ...state,
+    rulerPosX: dragMouseX,
+    rulerPosY: dragMouseY,
+  };
+}
 
-        return {
-            rulerPinholeActive: true,
-        };
-    },
+function rulerReadingOpacityInc(state: Ace.State) {
+  const {
+    rulerReadingOpacity,
+    rulerReadingOpacityStep,
+    rulerReadingOpacityMax,
+  } = state;
+  const newOpacity = new BigNumber(rulerReadingOpacity).plus(
+    rulerReadingOpacityStep
+  );
 
-    rulerPinholeStop: () => (_, { rulerRemoveListener }) => {
-        rulerRemoveListener();
+  if (newOpacity.isGreaterThan(rulerReadingOpacityMax)) {
+    return state;
+  }
 
-        return {
-            rulerPinholeActive: false,
-        };
-    },
+  return {
+    ...state,
+    rulerReadingOpacity: newOpacity.toString(),
+  };
+}
 
-    rulerAddListener: () => ({ rulerEventActive }) => {
-        if (!rulerEventActive) {
-            document.addEventListener('mousemove', rulerPassthrough);
-            document.addEventListener('touchmove', rulerPassthrough);
+function rulerReadingOpacityDec(state: Ace.State) {
+  const {
+    rulerReadingOpacity,
+    rulerReadingOpacityStep,
+    rulerReadingOpacityMin,
+  } = state;
+  const newOpacity = new BigNumber(rulerReadingOpacity).minus(
+    rulerReadingOpacityStep
+  );
 
-            return {
-                rulerEventActive: true,
-            };
-        }
-    },
+  if (newOpacity.isLessThan(rulerReadingOpacityMin)) {
+    return state;
+  }
 
-    rulerRemoveListener: () => ({ rulerEventActive }) => {
-        if (rulerEventActive) {
-            document.removeEventListener('mousemove', rulerPassthrough);
-            document.removeEventListener('touchmove', rulerPassthrough);
+  return {
+    ...state,
+    rulerReadingOpacity: newOpacity.toString(),
+  };
+}
 
-            return {
-                rulerEventActive: false,
-            };
-        }
-    },
+function rulerSizeDecrease(state: Ace.State) {
+  const {rulerHeight, rulerHeightMin, rulerHeightStep} = state;
+  const newHeight = new BigNumber(rulerHeight).minus(rulerHeightStep);
 
-    rulerMove: (event: IDragEvent) => () => {
-        const ev = event.touches ? event.touches[0] : event;
+  if (newHeight.isLessThan(rulerHeightMin)) {
+    return state;
+  }
 
-        const {
-            clientX,
-            clientY,
-        } = ev;
+  return {
+    ...state,
+    rulerHeight: newHeight.toString(),
+  };
+}
 
-        return {
-            rulerMouseX: clientX,
-            rulerMouseY: clientY,
-        };
-    },
+function rulerSizeIncrease(state: Ace.State) {
+  const {rulerHeight, rulerHeightMax, rulerHeightStep} = state;
+  const newHeight = new BigNumber(rulerHeight).plus(rulerHeightStep);
 
-    rulerReadingOpacityInc: () => ({ rulerReadingOpacity, rulerReadingOpacityStep, rulerReadingOpacityMax }) => {
-        const newOpacity = new BigNumber(rulerReadingOpacity).plus(rulerReadingOpacityStep);
+  if (newHeight.isGreaterThan(rulerHeightMax)) {
+    return state;
+  }
 
-        if (newOpacity.isGreaterThan(rulerReadingOpacityMax)) {
-            return;
-        }
+  return {
+    ...state,
+    rulerHeight: newHeight.toString(),
+  };
+}
 
-        return {
-            rulerReadingOpacity: newOpacity.toString(),
-        };
-    },
+function rulerPinholeOpacityInc(state: Ace.State) {
+  const {
+    rulerPinholeOpacity,
+    rulerPinholeOpacityStep,
+    rulerPinholeOpacityMax,
+  } = state;
+  const newOpacity = new BigNumber(rulerPinholeOpacity).plus(
+    rulerPinholeOpacityStep
+  );
 
-    rulerReadingOpacityDec: () => ({ rulerReadingOpacity, rulerReadingOpacityStep, rulerReadingOpacityMin }) => {
-        const newOpacity = new BigNumber(rulerReadingOpacity).minus(rulerReadingOpacityStep);
+  if (newOpacity.isGreaterThan(rulerPinholeOpacityMax)) {
+    return state;
+  }
 
-        if (newOpacity.isLessThan(rulerReadingOpacityMin)) {
-            return;
-        }
+  return {
+    ...state,
+    rulerPinholeOpacity: newOpacity.toString(),
+  };
+}
 
-        return {
-            rulerReadingOpacity: newOpacity.toString(),
-        };
-    },
+function rulerPinholeOpacityDec(state: Ace.State) {
+  const {
+    rulerPinholeOpacity,
+    rulerPinholeOpacityStep,
+    rulerPinholeOpacityMin,
+  } = state;
+  const newOpacity = new BigNumber(rulerPinholeOpacity).minus(
+    rulerPinholeOpacityStep
+  );
 
-    rulerSizeDecrease: () => ({ rulerHeight, rulerHeightMin, rulerHeightStep}) => {
-        const newHeight = new BigNumber(rulerHeight).minus(rulerHeightStep);
+  if (newOpacity.isLessThan(rulerPinholeOpacityMin)) {
+    return state;
+  }
 
-        if (newHeight.isLessThan(rulerHeightMin)) {
-            return;
-        }
+  return {
+    ...state,
+    rulerPinholeOpacity: newOpacity.toString(),
+  };
+}
 
-        return {
-            rulerHeight: newHeight.toString(),
-        };
-    },
+function rulerPinholeSizeInc(state: Ace.State) {
+  const {
+    rulerPinholeCentreHeight,
+    rulerPinholeCentreHeightStep,
+    rulerPinholeCentreHeightMax,
+  } = state;
+  const newSize = rulerPinholeCentreHeight + rulerPinholeCentreHeightStep;
 
-    rulerSizeIncrease: () => ({ rulerHeight, rulerHeightMax, rulerHeightStep }) => {
-       const newHeight = new BigNumber(rulerHeight).plus(rulerHeightStep);
+  if (newSize > rulerPinholeCentreHeightMax) {
+    return state;
+  }
 
-        if (newHeight.isGreaterThan(rulerHeightMax)) {
-            return;
-        }
+  return {
+    ...state,
+    rulerPinholeCentreHeight: newSize,
+  };
+}
 
-        return {
-            rulerHeight: newHeight.toString(),
-        };
-    },
+function rulerPinholeSizeDec(state: Ace.State) {
+  const {
+    rulerPinholeCentreHeight,
+    rulerPinholeCentreHeightStep,
+    rulerPinholeCentreHeightMin,
+  } = state;
+  const newSize = rulerPinholeCentreHeight - rulerPinholeCentreHeightStep;
 
+  if (newSize < rulerPinholeCentreHeightMin) {
+    return state;
+  }
 
-    rulerPinholeOpacityInc: () => ({ rulerPinholeOpacity, rulerPinholeOpacityStep, rulerPinholeOpacityMax }) => {
-        const newOpacity = new BigNumber(rulerPinholeOpacity).plus(rulerPinholeOpacityStep);
+  return {
+    ...state,
+    rulerPinholeCentreHeight: newSize,
+  };
+}
 
-        if (newOpacity.isGreaterThan(rulerPinholeOpacityMax)) {
-            return;
-        }
+function rulerChangePinholeMaskColour(state: Ace.State, colour: string) {
+  const {rulerPinholeMaskColourCurrent} = state;
+  const currentColour: string = colour || rulerPinholeMaskColourCurrent;
 
-        return {
-            rulerPinholeOpacity: newOpacity.toString(),
-        };
-    },
+  if (currentColour.length <= 0) {
+    return state;
+  }
 
-    rulerPinholeOpacityDec: () => ({ rulerPinholeOpacity, rulerPinholeOpacityStep, rulerPinholeOpacityMin }) => {
-        const newOpacity = new BigNumber(rulerPinholeOpacity).minus(rulerPinholeOpacityStep);
+  return {
+    ...state,
+    rulerPinholeMaskColourCurrent: colour,
+    rulerPinholeMaskCustomActive: false,
+  };
+}
 
-        if (newOpacity.isLessThan(rulerPinholeOpacityMin)) {
-            return;
-        }
+function rulerChangePinholeMaskCustomColour(state: Ace.State, colour: string) {
+  const {rulerPinholeMaskColourCurrent} = state;
+  const currentColour: string = colour || rulerPinholeMaskColourCurrent;
 
-        return {
-            rulerPinholeOpacity: newOpacity.toString(),
-        };
-    },
+  if (currentColour.length <= 0) {
+    return state;
+  }
 
-    rulerPinholeSizeInc: () => ({ rulerPinholeCentreHeight, rulerPinholeCentreHeightStep, rulerPinholeCentreHeightMax }) => {
-        const newSize = rulerPinholeCentreHeight + rulerPinholeCentreHeightStep;
+  return {
+    ...state,
+    rulerPinholeMaskColourCurrent: colour,
+    rulerPinholeMaskColourCustomCurrent: colour,
+    rulerPinholeMaskCustomActive: true,
+  };
+}
 
-        if (newSize > rulerPinholeCentreHeightMax) {
-            return;
-        }
-
-        return {
-            rulerPinholeCentreHeight: newSize,
-        };
-    },
-
-    rulerPinholeSizeDec: () => ({ rulerPinholeCentreHeight, rulerPinholeCentreHeightStep, rulerPinholeCentreHeightMin }) => {
-        const newSize = rulerPinholeCentreHeight - rulerPinholeCentreHeightStep;
-
-        if (newSize < rulerPinholeCentreHeightMin) {
-            return;
-        }
-
-        return {
-            rulerPinholeCentreHeight: newSize,
-        };
-    },
+export {
+  rulerReadingToggle,
+  rulerMove,
+  rulerPinholeOpacityDec,
+  rulerPinholeOpacityInc,
+  rulerPinholeSizeDec,
+  rulerPinholeSizeInc,
+  rulerPinholeToggle,
+  rulerReadingOpacityDec,
+  rulerReadingOpacityInc,
+  rulerSizeDecrease,
+  rulerSizeIncrease,
+  rulerChangePinholeMaskColour,
+  rulerChangePinholeMaskCustomColour,
 };
-
-export default rulerActions;
-export { rulerActions };

@@ -1,20 +1,15 @@
-import { ActionsType } from 'hyperapp';
+function aboutOpen(state: Ace.State) {
+  return {
+    ...state,
+    aboutHidden: false,
+  };
+}
 
-const aboutActions: ActionsType<Accessabar.IState, Accessabar.IAboutActions> = {
-    aboutOpen: () => ({ aboutHidden }) => {
-        return {
-            aboutHidden: false,
-        };
-    },
+function aboutClose(state: Ace.State) {
+  return {
+    ...state,
+    aboutHidden: true,
+  };
+}
 
-    aboutClose: () => ({ aboutHidden }) => {
-        return {
-            aboutHidden: true,
-        };
-    },
-};
-
-export default aboutActions;
-export {
-    aboutActions,
-};
+export {aboutOpen, aboutClose};
