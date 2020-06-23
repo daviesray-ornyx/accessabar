@@ -2,6 +2,8 @@ import { ActionsType } from 'hyperapp';
 import menuConfig from '../../config/menu.config.json5';
 import AccessabarUtil from '../util';
 
+const helpLink = `http://acetoolbar.com/`;
+
 interface IDragEvent extends MouseEvent, TouchEvent {}
 
 function menuPassthrough(event) {
@@ -241,6 +243,14 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             menuActive: false,
             menuCurrent: '',
         };
+    },
+
+    menuHelp: () => ({ menuCurrent }, { }) => {
+        
+        // open link in new tab
+        const helpURL = new URL(menuConfig[menuCurrent]['helpSection'], helpLink);
+        window.open(helpURL.toString());
+        return { };
     },
 
     menuTextOpsSwitchInner: (current: string) => () => {

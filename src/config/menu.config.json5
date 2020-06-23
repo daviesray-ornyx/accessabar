@@ -5,12 +5,14 @@
         disableFunctions: [
             'tts',
         ],
+        helpSection: '#tts',
     },
 
     textOptions: {
         title: 'Text Options',
         disableOnClose: false,
         disableFunctions: [],
+        helpSection: '#textOptions',
     },
 
     magnifier: {
@@ -19,12 +21,14 @@
         disableFunctions: [
             'magnifier',
         ],
+        helpSection: '#magnifier',
     },
 
     masking: {
         title: 'Screen Masking Options',
         disableOnClose: false,
         disableFunctions: [],
+        helpSection: '#masking',
     },
 
     rulerOptions: {
@@ -33,6 +37,7 @@
         disableFunctions: [
             'rulerReading'
         ],
+        helpSection: '#rulerOptions',
     },
 
     speechRecognition: {
@@ -41,6 +46,7 @@
         disableFunctions: [
             'speechRecognition',
         ],
+        helpSection: '#speechRecognition',
     },
     pageTranslate: {
         title: 'Page Translation',
@@ -48,5 +54,6 @@
         disableFunctions: [
             'pageTranslate',
         ],
+        helpSection: '#pageTranslate',
     },
 }

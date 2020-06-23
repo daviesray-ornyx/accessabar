@@ -25,21 +25,44 @@
             user-select: none;
         }
 
-        /* TODO: Make button object */
+        .ab-menu-buttons-container{
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5em;
 
-        .ab-menu-close {
-            margin: 0.15em;
-            background: var(--dark-red);
-            color: var(--font-colour);
-            padding: 0.4em;
-            display: inline-flex;
+            .ab-menu-help {
+                margin: 0.15em;
+                background: var(--near-black);
+                color: var(--font-colour);
+                padding: 0.4em;
+                display: inline-flex;
 
-            &:hover, &:focus {
-                background: var(--lighter-red);
-                cursor: pointer;
-                outline: 2px solid var(--blue-focus);
+                &:hover, &:focus {
+                    background: var(--lighter-grey);
+                    cursor: pointer;
+                    outline: 2px solid var(--blue-focus);
+                }
             }
+
+            /* TODO: Make button object */
+
+            .ab-menu-close {
+                margin: 0.15em;
+                background: var(--dark-red);
+                color: var(--font-colour);
+                padding: 0.4em;
+                display: inline-flex;
+
+                &:hover, &:focus {
+                    background: var(--lighter-red);
+                    cursor: pointer;
+                    outline: 2px solid var(--blue-focus);
+                }
+            }
+            
         }
+
+        
     }
 }
 

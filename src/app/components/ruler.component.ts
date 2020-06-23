@@ -36,7 +36,8 @@ interface IRulerPinholeState {
 const rulerPinhole = ({ rulerPinholeCentreHeight, rulerMouseY, rulerPinholeOpacity,
     rulerPinholeActive, rulerPinholeMaskColourCurrent,}: IRulerPinholeState) => {
     const height = new BigNumber(window.innerHeight);
-    const handleHeight1 = new BigNumber(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
+    const handleHeight1 = new BigNumber(rulerMouseY).minus(rulerPinholeCentreHeight / 2)
+    
     const handleHeight2 = height.minus(rulerMouseY).minus(rulerPinholeCentreHeight / 2);
 
     return h('ab-pinhole-ruler-container', { 'aria-hidden': 'true', class: `ab-pinhole-ruler-container ${rulerPinholeActive ? '' : 'ab-hide'}` }, [

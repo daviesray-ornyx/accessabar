@@ -52,34 +52,65 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                 },
                 [
                     h('ab-menu-header-text', { class: 'ab-menu-header-text' }, state.menuTitle),
-                    h(
-                        'ab-menu-close-button',
-                        {
-                            'aria-label': 'Close menu',
-                            class: 'ab-menu-close',
-                            id: 'ab-menu-close',
-                            onclick: () => {
-                                actions.menuClose();
+                    h('ab-menu-buttons-container', {class: 'ab-menu-buttons-container'}, 
+                    [
+                        h(
+                            'ab-menu-help-button',
+                            {
+                                'aria-label': 'Feature Help',
+                                class: 'ab-menu-help',
+                                id: 'ab-menu-help',
+                                onclick: () => {
+                                    actions.menuHelp();
+                                },
+                                oncreate: () => {
+                                    tippy('#accessabar #ab-menu-help', {
+                                        arrow: true,
+                                        content: 'Would you like some help?',
+                                        placement: 'bottom',
+                                        theme: 'ab',
+                                    });
+                                },
+                                onkeydown: handleButtonNavigation,
+                                role: 'button',
+                                tabIndex: 1,
                             },
-                            oncreate: () => {
-                                tippy('#accessabar #ab-menu-close', {
-                                    arrow: true,
-                                    content: 'Close Menu',
-                                    placement: 'bottom',
-                                    theme: 'ab',
-                                });
+                            [
+                                h('ab-icon', {
+                                    'aria-hidden': 'true',
+                                    class: 'ab-icon ab-icon-help',
+                                }),
+                            ],
+                        ),
+                        h(
+                            'ab-menu-close-button',
+                            {
+                                'aria-label': 'Close menu',
+                                class: 'ab-menu-close',
+                                id: 'ab-menu-close',
+                                onclick: () => {
+                                    actions.menuClose();
+                                },
+                                oncreate: () => {
+                                    tippy('#accessabar #ab-menu-close', {
+                                        arrow: true,
+                                        content: 'Close Menu',
+                                        placement: 'bottom',
+                                        theme: 'ab',
+                                    });
+                                },
+                                onkeydown: handleButtonNavigation,
+                                role: 'button',
+                                tabIndex: 1,
                             },
-                            onkeydown: handleButtonNavigation,
-                            role: 'button',
-                            tabIndex: 1,
-                        },
-                        [
-                            h('ab-icon', {
-                                'aria-hidden': 'true',
-                                class: 'ab-icon ab-icon-cross',
-                            }),
-                        ],
-                    ),
+                            [
+                                h('ab-icon', {
+                                    'aria-hidden': 'true',
+                                    class: 'ab-icon ab-icon-cross',
+                                }),
+                            ],
+                        ),
+                    ]),                
                 ],
             ),
             menuEl(state, actions),
