@@ -14,12 +14,14 @@ function settingsClose(state: Ace.State) {
 
 function settingsToggleTTSList(state: Ace.State) {
   return {
+    ...state,
     ttsVoiceListActive: !state.ttsVoiceListActive,
   };
 }
 
 function settingsToggleSRLangList(state: Ace.State) {
   return {
+    ...state,
     srLangListActive: !state.srLangListActive,
   };
 }

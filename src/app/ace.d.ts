@@ -29,17 +29,18 @@ declare namespace Ace {
     magBorder: number;
     magPageContent: string;
     magCanDrag: boolean;
-    magMouseX: number;
-    magMouseY: number;
     magPosX: number;
     magPosY: number;
+    magInitialX: number;
+    magInitialY: number;
+    magOffsetX: number;
+    magOffsetY: number;
     magPageX: number;
     magPageY: number;
     magPageOffsetX: number;
     magPageOffsetY: number;
     magTranslateX: number;
     magTranslateY: number;
-    magMoveEvent: boolean;
     magScale: string;
     magScaleMax: number;
     magScaleMin: number;
@@ -69,18 +70,26 @@ declare namespace Ace {
 
   interface StateMenu {
     menuActive: boolean;
-    menuPosX: number | boolean;
-    menuPosY: number | boolean;
+    menuPosX: number;
+    menuPosY: number;
+    menuInitialX: number;
+    menuInitialY: number;
+    menuOffsetX: number;
+    menuOffsetY: number;
     menuTitle: string;
   }
 
   interface StateMenus {
     menusHidden: boolean;
-    menusMouseX: number;
-    menusMouseY: number;
     menusCanDrag: boolean;
-    menuDragActive: string;
+    menusDragActive: string;
     menus: {[x: string]: StateMenu};
+  }
+
+  interface StateDrag {
+    dragActive: boolean;
+    dragMouseX: number;
+    dragMouseY: number;
   }
 
   interface StateRuler {
@@ -92,8 +101,8 @@ declare namespace Ace {
     rulerReadingOpacityMax: number;
     rulerReadingOpacityStep: number;
     rulerEventActive: boolean;
-    rulerMouseX: number;
-    rulerMouseY: number;
+    rulerPosX: number;
+    rulerPosY: number;
     rulerPinholeActive: boolean;
     rulerPinholeOpacity: string;
     rulerPinholeOpacityMin: number;
@@ -103,8 +112,6 @@ declare namespace Ace {
     rulerPinholeCentreHeightMax: number;
     rulerPinholeCentreHeightMin: number;
     rulerPinholeCentreHeightStep: number;
-    rulerPinholeColourCurrent: string;
-    rulerPinholeColourCustomCurrent: string;
     rulerPinholeCustomActive: boolean;
     rulerPinholeMaskColourCurrent: string;
     rulerPinholeMaskColourCustomCurrent: string;
@@ -167,6 +174,7 @@ declare namespace Ace {
       StateMag,
       StateMask,
       StateMenus,
+      StateDrag,
       StateRuler,
       StateSettings,
       StateAbout,
@@ -214,6 +222,8 @@ declare namespace Ace {
     key: string | number;
     action(state: Ace.State, key: ListItem['key']): unknown;
   }
+
+  interface DragEvent extends MouseEvent, TouchEvent {}
 }
 
 // Allow png and json5 files to be imported

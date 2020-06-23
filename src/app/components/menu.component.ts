@@ -1,12 +1,8 @@
 import {h} from 'hyperapp';
 import {handleButtonNavigation} from './buttons.component';
 import * as menus from './menus.component';
-import tippy from 'tippy.js';
-import {
-  menuClose,
-  menuStartDrag,
-  menuUpdatePosition,
-} from '../actions/menu.actions';
+import {menuClose, menuEndDrag, menuStartDrag} from '../actions/menu.actions';
+import {aceAddTippy} from '../actions/ace.actions';
 
 const menuConfigs = new Map([
   ['tts', {title: 'Text to Speech', menu: menus.ttsMenu}],
@@ -20,25 +16,21 @@ const menuConfigs = new Map([
 
 const placeholderEl = () => h('ab-placeholder');
 
-const menu = (state: Ace.State, name: string) => {
-  const menuConfig = menuConfigs.get(name) || {title: '', menu: placeholderEl};
+const menu = (state: Ace.State, menuName: string) => {
+  const menuConfig = menuConfigs.get(menuName) || {
+    title: '',
+    menu: placeholderEl,
+  };
 
   return h(
     'ab-menu',
     {
       'aria-label': `${menuConfig.title} Menu`,
       class: 'ab-menu ab-draggable',
-      id: 'ab-menu',
-      oncreate: [menuUpdatePosition, el => ({el, name})],
+      id: `ab-menu-${menuName}`,
       style: {
-        left:
-          state.menus[name].menuPosX !== false
-            ? `${state.menus[name].menuPosX}px`
-            : null,
-        top:
-          state.menus[name].menuPosY !== false
-            ? `${state.menus[name].menuPosY}px`
-            : null,
+        left: `${state.menus[menuName].menuPosX}px`,
+        top: `${state.menus[menuName].menuPosY}px`,
       },
     },
     [
@@ -47,8 +39,11 @@ const menu = (state: Ace.State, name: string) => {
         {
           'aria-label': 'Hold left mouse button to drag the menu',
           class: 'ab-menu-header ab-flex',
-          onmousedown: [menuStartDrag, name],
-          ontouchstart: [menuStartDrag, name],
+          onmousedown: [menuStartDrag, ev => ({menuName, ev})],
+          ontouchstart: [menuStartDrag, ev => ({menuName, ev})],
+          onmouseup: menuEndDrag,
+          ontouchend: menuEndDrag,
+          ontouchcancel: menuEndDrag,
         },
         [
           h(
@@ -62,15 +57,11 @@ const menu = (state: Ace.State, name: string) => {
               'aria-label': 'Close menu',
               class: 'ab-menu-close',
               id: 'ab-menu-close',
-              onclick: [menuClose, name],
-              oncreate: () => {
-                tippy('#accessabar #ab-menu-close', {
-                  arrow: true,
-                  content: 'Close Menu',
-                  placement: 'bottom',
-                  theme: 'ab',
-                });
-              },
+              onclick: [menuClose, menuName],
+              onmouseover: [
+                aceAddTippy,
+                {id: '#ab-menu-close', content: 'Close Menu'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
               tabIndex: 1,

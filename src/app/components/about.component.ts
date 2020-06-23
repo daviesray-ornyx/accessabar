@@ -98,7 +98,7 @@ const aboutMenu = (state: Ace.State) => {
     'ab-about-menu',
     {
       id: 'ab-about',
-      class: `ab-about ${state.aboutHidden ? 'ab-hide' : ''}`,
+      class: `ab-about ${state.aboutHidden && 'ab-hide'}`,
       'aria-label': 'Ace about',
     },
     [

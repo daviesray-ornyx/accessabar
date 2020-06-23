@@ -1,5 +1,12 @@
 import BigNumber from 'bignumber.js';
 import {apiSendEvent} from './api.actions';
+import {
+  fxTTSDelaySpeech,
+  fxTTSHighlight,
+  fxTTSHover,
+  fxTTSInit,
+  fxTTSPrompt,
+} from '../fx/tts.fx';
 
 function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   const {ttsHoverTimeout} = state;
@@ -7,7 +14,7 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   const selection = window.getSelection();
 
   if (!target || !selection) {
-    return;
+    return state;
   }
 
   selection.removeAllRanges();
@@ -19,55 +26,19 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
     clearTimeout(ttsHoverTimeout);
   }
 
-  return [
-    state,
-    [
-      (dispatch, props) => {
-        dispatch({
-          ttsHoverTimeout: setTimeout(() => {
-            dispatch(ttsSpeak, props.currentText);
-          }, 500),
-        });
-      },
-      {
-        currentText,
-        action: ttsSpeak,
-      },
-    ],
-  ];
+  return [state, fxTTSDelaySpeech(state, currentText)];
 }
 
 function ttsHandleHighlight(state: Ace.State) {
-  const {ttsHighlightTimeout} = state;
-
   const selection = window.getSelection();
 
   if (!selection) {
-    return;
+    return state;
   }
 
   const currentText = selection.toString();
 
-  if (ttsHighlightTimeout && typeof ttsHighlightTimeout !== 'boolean') {
-    clearTimeout(ttsHighlightTimeout);
-  }
-
-  return [
-    state,
-    [
-      (dispatch, props) => {
-        dispatch({
-          ttsHighlightTimeout: setTimeout(() => {
-            dispatch(ttsSpeak, props.currentText);
-          }, 500),
-        });
-      },
-      {
-        currentText,
-        action: ttsSpeak,
-      },
-    ],
-  ];
+  return [state, fxTTSDelaySpeech(state, currentText)];
 }
 
 function ttsHandlePrompt(state: Ace.State, event: SpeechSynthesisEvent) {
@@ -147,38 +118,44 @@ function ttsHandlePrompt(state: Ace.State, event: SpeechSynthesisEvent) {
 }
 
 function ttsHoverToggle(state: Ace.State) {
-  ttsStopCurrent();
+  ttsStopCurrent(state);
 
   if (!state.ttsHoverSpeak) {
     apiSendEvent('AceTTSHover_On');
   }
 
-  return {
-    ...state,
-    ttsHoverSpeak: !state.ttsHoverSpeak,
-    ttsHighlightSpeak: false,
-  };
+  return [
+    {
+      ...state,
+      ttsHoverSpeak: !state.ttsHoverSpeak,
+      ttsHighlightSpeak: false,
+    },
+    fxTTSHover(state),
+  ];
 }
 
 function ttsHightlightToggle(state: Ace.State) {
-  ttsStopCurrent();
+  ttsStopCurrent(state);
 
   if (!state.ttsHighlightSpeak) {
     apiSendEvent('AceTTSHighlight_On');
   }
 
-  return {
-    ...state,
-    ttsHighlightSpeak: !state.ttsHighlightSpeak,
-    ttsHoverSpeak: false,
-  };
+  return [
+    {
+      ...state,
+      ttsHighlightSpeak: !state.ttsHighlightSpeak,
+      ttsHoverSpeak: false,
+    },
+    fxTTSHighlight(state),
+  ];
 }
 
 function ttsSpeak(state: Ace.State, text: string) {
   const {ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices, ttsVoice} = state;
 
   if (ttsVoices.length === 0) {
-    return;
+    return state;
   }
 
   const utterance = new SpeechSynthesisUtterance(text);
@@ -196,27 +173,19 @@ function ttsSpeak(state: Ace.State, text: string) {
     utterance.voice = ttsVoice;
   }
 
-  utterance.onstart = event => {
-    ttsHandlePrompt(state, event);
-  };
-
-  utterance.onboundary = event => {
-    ttsHandlePrompt(state, event);
-  };
-
-  utterance.onend = event => {
-    ttsHandlePrompt(state, event);
-  };
-
   // console.log(utterance);
 
   window.speechSynthesis.speak(utterance);
+  return [state, fxTTSPrompt(state, utterance)];
 }
 
-function ttsStopCurrent() {
+function ttsStopCurrent(state: Ace.State) {
   if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
     window.speechSynthesis.cancel();
+    return state;
   }
+
+  return state;
 }
 
 function ttsStopAll(state: Ace.State) {
@@ -242,10 +211,13 @@ function ttsStopHightlight(state: Ace.State) {
 }
 
 function ttsInit(state: Ace.State) {
-  return {
-    ...state,
-    ttsInitiated: true,
-  };
+  return [
+    {
+      ...state,
+      ttsInitiated: true,
+    },
+    fxTTSInit(state),
+  ];
 }
 
 function ttsChangeVoice(state: Ace.State, key: number) {
@@ -288,6 +260,7 @@ export {
   ttsSpeak,
   ttsHandleHover,
   ttsHandleHighlight,
+  ttsHandlePrompt,
   ttsHoverToggle,
   ttsHightlightToggle,
   ttsChangePitch,

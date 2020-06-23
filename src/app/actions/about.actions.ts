@@ -1,7 +1,7 @@
 function aboutOpen(state: Ace.State) {
   return {
     ...state,
-    aboutHidden: true,
+    aboutHidden: false,
   };
 }
 

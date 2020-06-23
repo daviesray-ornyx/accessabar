@@ -24,12 +24,23 @@
     }
 
     &.ab-on {
+        color: white;
         background: var(--active-green);
         justify-content: flex-end;
 
         .ab-handle {
             background: content-box var(--near-white);
         }
+
+        .ab-switch-state {
+            order: -1;
+        }
+    }
+
+    .ab-switch-state {
+        font-size: 0.6em;
+        pointer-events: none;
+        touch-action: none;
     }
 
     &:hover {

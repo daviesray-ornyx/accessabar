@@ -81,7 +81,14 @@ const switchEl = (
           class: `ab-switch ${switchState ? 'ab-on' : 'ab-off'}`,
           role: 'switch',
         },
-        [h('ab-switch-handle', {class: 'ab-handle'})]
+        [
+          h('ab-switch-handle', {class: 'ab-handle'}),
+          h(
+            'ab-switch-state',
+            {class: 'ab-switch-state'},
+            switchState ? 'On' : 'Off'
+          ),
+        ]
       ),
       h('ab-switch-label-text', {}, labelText),
     ]
@@ -317,7 +324,7 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                     state.fontCustomActive ? 'ab-active' : ''
                   }`,
                   id: 'ab-font-colour-custom-box',
-                  onclick: [
+                  onmouseover: [
                     aceCreatePickr,
                     {
                       id: '#ab-font-colour-custom-box',
@@ -629,15 +636,19 @@ const magMenu = (state: Ace.State) => {
               'aria-label': 'Decrease magnifier zoom',
               class: 'ab-dec ab-bar-button',
               id: 'ab-mag-scale-dec',
-              onclick: (state: Ace.State) => {
-                const magScale = magScaleDecrease(state);
-                const magPos = magUpdatePosition(state);
-                return {
-                  ...state,
-                  ...magScale,
-                  ...magPos,
-                };
-              },
+              onclick: (state: Ace.State) => [
+                state,
+                [
+                  (dispatch, props) => {
+                    dispatch(props.dec);
+                    dispatch(props.pos);
+                  },
+                  {
+                    dec: magScaleDecrease,
+                    pos: magUpdatePosition,
+                  },
+                ],
+              ],
               onmouseover: [
                 aceAddTippy,
                 {id: '#ab-mag-scale-dec', content: 'Decrease Zoom'},
@@ -666,15 +677,19 @@ const magMenu = (state: Ace.State) => {
               'aria-label': 'Increase magnifier zoom',
               class: 'ab-inc ab-bar-button',
               id: 'ab-mag-scale-inc',
-              onclick: (state: Ace.State) => {
-                const magInc = magScaleIncrease(state);
-                const magPos = magUpdatePosition(state);
-                return {
-                  ...state,
-                  magInc,
-                  magPos,
-                };
-              },
+              onclick: (state: Ace.State) => [
+                state,
+                [
+                  (dispatch, props) => {
+                    dispatch(props.inc);
+                    dispatch(props.pos);
+                  },
+                  {
+                    inc: magScaleIncrease,
+                    pos: magUpdatePosition,
+                  },
+                ],
+              ],
               onmouseover: [
                 aceAddTippy,
                 {id: '#ab-mag-scale-inc', content: 'Increase Zoom'},
@@ -961,7 +976,7 @@ const maskMenu = (state: Ace.State) => {
                   state.maskCustomActive ? 'ab-active' : ''
                 }`,
                 id: 'ab-mask-colour-custom-box',
-                onclick: [
+                onmouseover: [
                   aceCreatePickr,
                   {
                     id: '#ab-mask-colour-custom-box',
@@ -1344,7 +1359,7 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
                   state.rulerPinholeMaskCustomActive ? 'ab-active' : ''
                 }`,
                 id: 'ab-pinhole-mask-colour-custom-box',
-                onclick: [
+                onmouseover: [
                   aceCreatePickr,
                   {
                     id: '#ab-pinhole-mask-colour-custom-box',
@@ -1353,7 +1368,7 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
-                style: {background: state.rulerPinholeMaskColourCurrent},
+                style: {background: state.rulerPinholeMaskColourCustomCurrent},
               }),
             ]
           ),

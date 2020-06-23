@@ -1,768 +1,487 @@
-import { h } from 'hyperapp';
-import tippy from 'tippy.js';
-import { AccessabarUtil } from '../util';
+import {h} from 'hyperapp';
+import {ttsStopCurrent} from '../actions/tts.actions';
+import {aceAddTippy, aceHide} from '../actions/ace.actions';
+import {menuOpen} from '../actions/menu.actions';
+import {
+  fontDecSize,
+  fontIncSize,
+  fontSizingDisable,
+} from '../actions/font.actions';
+import resetAll from '../actions/reset.actions';
+import {settingsOpen} from '../actions/settings.actions';
+import {aboutOpen} from '../actions/about.actions';
+import closeAce from '../actions/close.actions';
 
-function handleButtonNavigation(event) {
-    const {
-        code,
-        target,
-    } = event;
+function handleButtonNavigation(_, event) {
+  const {code, target} = event;
 
-    if (!code || !target) {
-        return;
-    }
+  if (!code || !target) {
+    return;
+  }
 
-    if (code === 'Enter' || code === 'Space') {
-        target.click();
-    }
+  if (code === 'Enter' || code === 'Space') {
+    target.click();
+  }
 }
 
-interface IPlayButtonActions {
-    ttsResumeCurrent: Accessabar.IActions['ttsResumeCurrent'];
-}
-
-const playButton = ({ ttsResumeCurrent }: IPlayButtonActions) => {
-    return h(
-        'ab-bar-play-button',
-        {
-            'aria-label': 'Play',
-            class: 'ab-bar-button',
-            id: 'ab-play',
-            onclick: () => {
-                ttsResumeCurrent();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-play', {
-                    arrow: true,
-                    content: 'Play',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-play',
-            }),
-        ],
-    );
+const stopButton = () => {
+  return h(
+    'ab-bar-stop-button',
+    {
+      'aria-label': 'Stop',
+      class: 'ab-bar-button',
+      id: 'ab-stop',
+      onclick: ttsStopCurrent,
+      onmouseover: [aceAddTippy, {id: '#ab-stop', content: 'Stop'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-stop',
+      }),
+    ]
+  );
 };
 
-interface IPauseButtonActions {
-    ttsPauseCurrent: Accessabar.IActions['ttsPauseCurrent'];
-}
-
-const pauseButton = ({ ttsPauseCurrent }: IPauseButtonActions) => {
-    return h(
-        'ab-bar-pause-button',
-        {
-            'aria-label': 'Pause',
-            class: 'ab-bar-button',
-            id: 'ab-pause',
-            onclick: () => {
-                ttsPauseCurrent();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-pause', {
-                    arrow: true,
-                    content: 'Pause',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-pause',
-            }),
-        ],
-    );
+const ttsButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-tts-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Enable text to speech',
+      'aria-pressed':
+        Object.keys(menus).indexOf('tts') !== -1 ? 'true' : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-tts',
+      onclick: [menuOpen, {menuName: 'tts', title: 'Text to Speech'}],
+      onmouseover: [aceAddTippy, {id: '#ab-tts', content: 'Text to Speech'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-tts',
+      }),
+    ]
+  );
 };
 
-interface IStopButtonActions {
-    ttsStopCurrent: Accessabar.IActions['ttsStopCurrent'];
-}
-
-const stopButton = ({ ttsStopCurrent }: IStopButtonActions) => {
-    return h(
-        'ab-bar-stop-button',
-        {
-            'aria-label': 'Stop',
-            class: 'ab-bar-button',
-            id: 'ab-stop',
-            onclick: () => {
-                ttsStopCurrent();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-stop', {
-                    arrow: true,
-                    content: 'Stop',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-stop',
-            }),
-        ],
-    );
+const incButton = () => {
+  return h(
+    'ab-bar-inc-button',
+    {
+      'aria-label': 'Increase font size',
+      class: 'ab-bar-button',
+      id: 'ab-font-increase',
+      onclick: fontIncSize,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-font-increase', content: 'Increase Font Size'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-plus',
+      }),
+    ]
+  );
 };
 
-interface ITTSButtonActions {
-    menuHandle: Accessabar.IActions['menuHandle'];
-    ttsInit: Accessabar.IActions['ttsInit'];
-}
-
-interface ITTSButtonState {
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const ttsButton = ({ menuCurrent }: ITTSButtonState, { menuHandle, ttsInit }: ITTSButtonActions) => {
-    return h(
-        'ab-bar-tts-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Enable text to speech',
-            'aria-pressed': menuCurrent === 'tts' ? 'true' : 'false',
-            class: 'ab-bar-button',
-            id: 'ab-tts',
-            onclick: () => {
-                ttsInit();
-                menuHandle('tts');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-tts', {
-                    arrow: true,
-                    content: 'Text to Speech',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-tts',
-            }),
-        ],
-    );
+const decButton = () => {
+  return h(
+    'ab-bar-dec-button',
+    {
+      'aria-label': 'Decrease font size',
+      class: 'ab-bar-button',
+      id: 'ab-font-decrease',
+      onclick: fontDecSize,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-font-decrease', content: 'Decrease Font Size'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-minus',
+      }),
+    ]
+  );
 };
 
-interface IIncButtonActions {
-    fontIncSize: Accessabar.IFontActions['fontIncSize'];
-    fontResetSizing: Accessabar.IFontActions['fontResetSizing'];
-    apiSendEvent: Accessabar.IApiActions['apiSendEvent'];
-}
-
-const incButton = ({ fontIncSize, fontResetSizing, apiSendEvent }: IIncButtonActions) => {
-    return h(
-        'ab-bar-inc-button',
-        {
-            'aria-label': 'Increase font size',
-            class: 'ab-bar-button',
-            id: 'ab-font-increase',
-            onclick: () => {
-                AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontIncSize);
-                apiSendEvent('AceFontSizeInc');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-font-increase', {
-                    arrow: true,
-                    content: 'Increase font size',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-plus',
-            }),
-        ],
-    );
+const fontResetButton = ({fontSizingActive}: Ace.State) => {
+  return h(
+    'ab-bar-font-reset-button',
+    {
+      'aria-label': 'Reset font sizing',
+      class: `ab-bar-button ab-warning ${fontSizingActive ? '' : 'ab-hide'}`,
+      id: 'ab-font-reset',
+      onclick: fontSizingDisable,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-font-reset', content: 'Reset Font Sizing'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-reset',
+      }),
+    ]
+  );
 };
 
-interface IDecButtonActions {
-    fontDecSize: Accessabar.IFontActions['fontDecSize'];
-    fontResetSizing: Accessabar.IFontActions['fontResetSizing'];
-    apiSendEvent: Accessabar.IApiActions['apiSendEvent'];
-}
-
-const decButton = ({ fontDecSize, fontResetSizing, apiSendEvent }: IDecButtonActions) => {
-    return h(
-        'ab-bar-dec-button',
-        {
-            'aria-label': 'Decrease font size',
-            class: 'ab-bar-button',
-            id: 'ab-font-decrease',
-            onclick: () => {
-                AccessabarUtil.startFunction('fontSizing', fontResetSizing, fontDecSize);
-                apiSendEvent('AceFontSizeDec');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-font-decrease', {
-                    arrow: true,
-                    content: 'Decrease font size',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-minus',
-            }),
-        ],
-    );
+const textOpsButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-text-options-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Text options',
+      'aria-pressed':
+        Object.keys(menus).indexOf('textOptions') !== -1 ? 'true' : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-text-options',
+      onclick: [menuOpen, {menuName: 'textOptions', title: 'Text Options'}],
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-text-options', content: 'Text Options'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-font',
+      }),
+    ]
+  );
 };
 
-interface IFontResetButtonState {
-    fontSizingActive: Accessabar.IState['fontSizingActive'];
-}
-
-const fontResetButton = ({ fontSizingActive }: IFontResetButtonState) => {
-    return h(
-        'ab-bar-font-reset-button',
-        {
-            'aria-label': 'Reset font sizing',
-            class: `ab-bar-button ab-warning ${fontSizingActive ? '' : 'ab-hide'}`,
-            id: 'ab-font-reset',
-            onclick: () => {
-                AccessabarUtil.stopFunction('fontSizing');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-font-reset', {
-                    arrow: true,
-                    content: 'Reset Font Sizing',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-reset',
-            }),
-        ],
-    );
+const magButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-mag-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Magnifier',
+      'aria-pressed':
+        Object.keys(menus).indexOf('magnifier') !== -1 ? 'true' : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-magnifier',
+      onclick: [menuOpen, {menuName: 'magnifier', title: 'Magnifier'}],
+      onmouseover: [aceAddTippy, {id: '#ab-magnifier', content: 'Magnifier'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-zoom',
+      }),
+    ]
+  );
 };
 
-interface ITextOpsButtonActions {
-    menuHandle: Accessabar.IActions['menuHandle'];
-}
-
-interface ITextOpsButtonState {
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const textOpsButton = ({ menuCurrent }: ITextOpsButtonState, { menuHandle }: ITextOpsButtonActions) => {
-    return h(
-        'ab-bar-text-options-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Text options',
-            'aria-pressed': menuCurrent === 'textOptions' ? 'true' : 'false',
-            class: 'ab-bar-button',
-            id: 'ab-text-options',
-            onclick: () => {
-                menuHandle('textOptions');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-text-options', {
-                    arrow: true,
-                    content: 'Text Options',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-font',
-            }),
-        ],
-    );
+const maskButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-mask-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Screen Masking',
+      'aria-pressed':
+        Object.keys(menus).indexOf('masking') !== -1 ? 'true' : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-screen-mask',
+      onclick: [menuOpen, {menuName: 'masking', title: 'Screen Masking'}],
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-screen-mask', content: 'Screen Masking'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-palette',
+      }),
+    ]
+  );
 };
 
-interface IMagButtonActions {
-    menuHandle: Accessabar.IActions['menuHandle'];
-}
-
-interface IMagButtonState {
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const magButton = ({ menuCurrent }: IMagButtonState, { menuHandle }: IMagButtonActions) => {
-    return h(
-        'ab-bar-mag-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Magnifier',
-            'aria-pressed': menuCurrent === 'magnifier' ? 'true' : 'false',
-            class: 'ab-bar-button',
-            id: 'ab-magnifier',
-            onclick: () => {
-                menuHandle('magnifier');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-magnifier', {
-                    arrow: true,
-                    content: 'Magnifier',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-zoom',
-            }),
-        ],
-    );
+const rulerButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-ruler-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Reading rulers',
+      'aria-pressed':
+        Object.keys(menus).indexOf('rulerOptions') !== -1 ? 'true' : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-rulers',
+      onclick: [menuOpen, {menuName: 'rulerOptions', title: 'Ruler Options'}],
+      onmouseover: [aceAddTippy, {id: '#ab-rulers', content: 'Reading Rulers'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-ruler',
+      }),
+    ]
+  );
 };
 
-interface IMaskButtonActions {
-    menuHandle: Accessabar.IActions['menuHandle'];
-}
-
-interface IMaskButtonState {
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const maskButton = ({ menuCurrent }: IMaskButtonState, { menuHandle }: IMaskButtonActions) => {
-    return h(
-        'ab-bar-mask-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Screen Masking',
-            'aria-pressed': menuCurrent === 'masking' ? 'true' : 'false',
-            class: 'ab-bar-button',
-            id: 'ab-screen-mask',
-            onclick: () => {
-                menuHandle('masking');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-screen-mask', {
-                    arrow: true,
-                    content: 'Screen Masking',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-palette',
-            }),
-        ],
-    );
+const srButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-sr-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Speech recognition',
+      'aria-pressed':
+        Object.keys(menus).indexOf('speechRecognition') !== -1
+          ? 'true'
+          : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-speech-recognition',
+      onclick: [
+        menuOpen,
+        {menuName: 'speechRecognition', title: 'Speech Recognition'},
+      ],
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-speech-recognition', content: 'Speech Recognition'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-mic',
+      }),
+    ]
+  );
 };
 
-interface IRulerButtonActions {
-    menuHandle: Accessabar.IActions['menuHandle'];
-}
-
-interface IRulerButtonState {
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const rulerButton = ({ menuCurrent }: IRulerButtonState, { menuHandle }: IRulerButtonActions) => {
-    return h(
-        'ab-bar-ruler-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Reading rulers',
-            'aria-pressed': menuCurrent === 'rulerOptions' ? 'true' : 'false',
-            class: 'ab-bar-button',
-            id: 'ab-rulers',
-            onclick: () => {
-                menuHandle('rulerOptions');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-rulers', {
-                    arrow: true,
-                    content: 'Reading Rulers',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-ruler',
-            }),
-        ],
-    );
+const ptButton = ({menus}: Ace.State) => {
+  return h(
+    'ab-bar-pt-button',
+    {
+      'aria-controls': 'ab-menu',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'true',
+      'aria-label': 'Page Translation',
+      'aria-pressed':
+        Object.keys(menus).indexOf('pageTranslate') !== -1 ? 'true' : 'false',
+      class: 'ab-bar-button',
+      id: 'ab-page-translate',
+      onclick: [
+        menuOpen,
+        {menuName: 'pageTranslate', title: 'Page Translation'},
+      ],
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-page-translate', content: 'Page Translation'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabindex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-translate',
+      }),
+    ]
+  );
 };
 
-interface ISRButtonActions {
-    menuHandle: Accessabar.IActions['menuHandle'];
-}
-
-interface ISRButtonState {
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const srButton = ({ menuCurrent }: ISRButtonState, { menuHandle }: ISRButtonActions) => {
-    return h(
-        'ab-bar-sr-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Speech recognition',
-            'aria-pressed': menuCurrent === 'speechRecognition' ? 'true' : 'false',
-            class: 'ab-bar-button',
-            id: 'ab-speech-recognition',
-            onclick: () => {
-                menuHandle('speechRecognition');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-speech-recognition', {
-                    arrow: true,
-                    content: 'Speech Recognition',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-mic',
-            }),
-        ],
-    );
+const resetButton = () => {
+  return h(
+    'ab-bar-reset-button',
+    {
+      'aria-label': 'Reset accessabar entirely',
+      class: 'ab-bar-button ab-warning',
+      id: 'ab-reset',
+      onclick: resetAll,
+      onmouseover: [aceAddTippy, {id: '#ab-reset', content: 'Reset All'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-reset',
+      }),
+    ]
+  );
 };
 
-interface IPTButtonActions{
-    menuHandle: Accessabar.IActions['menuHandle'];
-}
-
-interface IPTButtonState{
-    menuCurrent: Accessabar.IState['menuCurrent'];
-}
-
-const ptButton = ({ menuCurrent }: IPTButtonState, { menuHandle }: IPTButtonActions) => {
-    return h(
-        'ab-bar-pt-button',
-        {
-            'aria-controls': 'ab-menu',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'true',
-            'aria-label': 'Page Translation',
-            'aria-pressed': menuCurrent === 'pageTranslate' ? true : false,
-            class: 'ab-bar-button',
-            id: 'ab-page-translate',
-            onclick: () => {
-                menuHandle('pageTranslate');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-page-translate', {
-                    arrow: true,
-                    content: 'Page Translation',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabindex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-translate',
-            }),
-        ],
-    );
+const settingsButton = ({settingsHidden}: Ace.State) => {
+  return h(
+    'ab-bar-settings-button',
+    {
+      'aria-controls': 'ab-settings',
+      'aria-expanded': String(!settingsHidden),
+      'aria-haspopup': 'true',
+      'aria-label': 'Settings',
+      'aria-pressed': String(!settingsHidden),
+      class: 'ab-bar-button',
+      id: 'ab-settings-button',
+      onclick: settingsOpen,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-settings-button', content: 'Settings'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-settings-gear',
+      }),
+    ]
+  );
 };
 
-interface IResetButtonActions {
-    resetAll: Accessabar.IResetActions['resetAll'];
-}
-
-const resetButton = ({ resetAll }: IResetButtonActions) => {
-    return h(
-        'ab-bar-reset-button',
-        {
-            'aria-label': 'Reset accessabar entirely',
-            class: 'ab-bar-button ab-warning',
-            id: 'ab-reset',
-            onclick: () => {
-                resetAll();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-reset', {
-                    arrow: true,
-                    content: 'Reset All',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-reset',
-            }),
-        ],
-    );
+const aboutButton = ({aboutHidden}: Ace.State) => {
+  return h(
+    'ab-bar-about-button',
+    {
+      'aria-controls': 'ab-about',
+      'aria-expanded': String(!aboutHidden),
+      'aria-haspopup': 'true',
+      'aria-label': 'About',
+      'aria-pressed': String(!aboutHidden),
+      class: 'ab-bar-button',
+      id: 'ab-about-button',
+      onclick: aboutOpen,
+      onmouseover: [aceAddTippy, {id: '#ab-about-button', content: 'About'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-about',
+      }),
+    ]
+  );
 };
 
-interface ISettingsButtonState {
-    settingsHidden: Accessabar.IState['settingsHidden'];
-}
-
-interface ISettingsButtonActions {
-    settingsOpen: Accessabar.IActions['settingsOpen'];
-}
-
-const settingsButton = ({ settingsHidden }: ISettingsButtonState, { settingsOpen }: ISettingsButtonActions) => {
-    return h(
-        'ab-bar-settings-button',
-        {
-            'aria-controls': 'ab-settings',
-            'aria-expanded': String(!settingsHidden),
-            'aria-haspopup': 'true',
-            'aria-label': 'Settings',
-            'aria-pressed': String(!settingsHidden),
-            class: 'ab-bar-button',
-            id: 'ab-settings-button',
-            onclick: () => {
-                settingsOpen();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-settings-button', {
-                    arrow: true,
-                    content: 'Settings',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-settings-gear',
-            }),
-        ],
-    );
+const closeButton = () => {
+  return h(
+    'ab-bar-close-button',
+    {
+      'aria-label': 'Close ACE',
+      class: 'ab-bar-button ab-close',
+      id: 'ab-close',
+      onclick: closeAce,
+      onmouseover: [aceAddTippy, {id: '#ab-close', content: 'Close ACE'}],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-cross',
+      }),
+    ]
+  );
 };
 
+const hideButton = ({aceHidden}: Ace.State) => {
+  return h(
+    'ab-hide-button',
+    {
+      'aria-controls': 'accessabar',
+      'aria-label': 'Hide ACE',
+      'aria-pressed': aceHidden ? 'true' : 'false',
+      class: 'ab-hide-button',
+      id: 'ab-hide',
+      onclick: aceHide,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-hide', content: aceHidden ? 'Show ACE' : 'Hide ACE'},
+      ],
+      onkeydown: handleButtonNavigation,
+      onchange: [
+        el => {
+          const {_tippy: tip} = el;
 
-// Addition of about button
-
-interface IAboutButtonState {
-    aboutHidden: Accessabar.IState['aboutHidden'];
-}
-
-interface IAboutButtonActions {
-    aboutOpen: Accessabar.IActions['aboutOpen'];
-}
-
-const aboutButton = ({ aboutHidden }: IAboutButtonState, { aboutOpen }: IAboutButtonActions) => {
-    return h(
-        'ab-bar-about-button',
-        {
-            'aria-controls': 'ab-about',
-            'aria-expanded': String(!aboutHidden),
-            'aria-haspopup': 'true',
-            'aria-label': 'About',
-            'aria-pressed': String(!aboutHidden),
-            class: 'ab-bar-button',
-            id: 'ab-about-button',
-            onclick: () => {
-                aboutOpen();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-about-button', {
-                    arrow: true,
-                    content: 'About',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
+          tip.setContent(aceHidden ? 'Show ACE' : 'Hide ACE');
         },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-about',
-            }),
-        ],
-    );
-};
-
-
-// --- End of addition of about button.
-interface ICloseActions {
-    closeAccessabar: Accessabar.IActions['closeAccessabar'];
-    apiSendEvent: Accessabar.IActions['apiSendEvent'];
-}
-
-const closeButton = ({ closeAccessabar, apiSendEvent }: ICloseActions) => {
-    return h(
-        'ab-bar-close-button',
-        {
-            'aria-label': 'Close ACE',
-            class: 'ab-bar-button ab-close',
-            id: 'ab-close',
-            onclick: () => {
-                closeAccessabar();
-                apiSendEvent('AceClosed');
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-close', {
-                    arrow: true,
-                    content: 'Close ACE',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-cross',
-            }),
-        ],
-    );
-};
-
-interface IHideButtonActions {
-    abarHide: Accessabar.IHideActions['abarHide'];
-}
-
-interface IHideButtonState {
-    abarHidden: Accessabar.IState['abarHidden'];
-}
-
-const hideButton = ({ abarHidden }: IHideButtonState, { abarHide }: IHideButtonActions) => {
-    return h(
-        'ab-hide-button',
-        {
-            'aria-controls': 'accessabar',
-            'aria-label': 'Hide ACE',
-            'aria-pressed': abarHidden ? 'true' : 'false',
-            class: 'ab-hide-button',
-            id: 'ab-hide',
-            onclick: () => {
-                abarHide();
-            },
-            oncreate: () => {
-                tippy('#accessabar #ab-hide', {
-                    arrow: true,
-                    content: abarHidden ? 'Show ACE' : 'Hide ACE',
-                    placement: 'bottom',
-                    theme: 'ab',
-                });
-            },
-            onkeydown: handleButtonNavigation,
-            onupdate: (el) => {
-                const { _tippy: tip } = el;
-
-                tip.setContent(abarHidden ? 'Show ACE' : 'Hide ACE');
-            },
-            role: 'button',
-            tabIndex: 0,
-        },
-        [
-            h('ab-icon', {
-                'aria-hidden': 'true',
-                class: abarHidden ? 'ab-icon ab-icon-nav-down' : 'ab-icon ab-icon-nav-up',
-            }),
-        ],
-    );
+        ev => ev.target,
+      ],
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: aceHidden
+          ? 'ab-icon ab-icon-nav-down'
+          : 'ab-icon ab-icon-nav-up',
+      }),
+    ]
+  );
 };
 
 export {
-    closeButton,
-    ttsButton,
-    playButton,
-    pauseButton,
-    stopButton,
-    incButton,
-    fontResetButton,
-    decButton,
-    textOpsButton,
-    magButton,
-    maskButton,
-    rulerButton,
-    srButton,
-    ptButton,
-    resetButton,
-    settingsButton,
-    aboutButton,
-    hideButton,
-    handleButtonNavigation,
+  closeButton,
+  ttsButton,
+  stopButton,
+  incButton,
+  fontResetButton,
+  decButton,
+  textOpsButton,
+  magButton,
+  maskButton,
+  rulerButton,
+  srButton,
+  ptButton,
+  resetButton,
+  settingsButton,
+  aboutButton,
+  hideButton,
+  handleButtonNavigation,
 };

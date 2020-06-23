@@ -1,39 +1,38 @@
 import BigNumber from 'bignumber.js';
 import {apiSendEvent} from './api.actions';
+import {fxRulerPinholeEvents, fxRulerReadingEvents} from '../fx/ruler.fx';
 
 interface DragEvent extends MouseEvent, TouchEvent {}
 
 function rulerReadingToggle(state: Ace.State) {
-  if (!state.rulerReadingActive) {
-    apiSendEvent('AceRulerReading_On');
-  }
-
-  return {
+  const newState = {
     ...state,
     rulerReadingActive: !state.rulerReadingActive,
   };
+
+  newState.rulerReadingActive && apiSendEvent('AceRulerReading_On');
+
+  return [newState, fxRulerReadingEvents(newState)];
 }
 
 function rulerPinholeToggle(state: Ace.State) {
-  if (!state.rulerPinholeActive) {
-    apiSendEvent('AceRulerPinhole_On');
-  }
-
-  return {
+  const newState = {
     ...state,
     rulerPinholeActive: !state.rulerPinholeActive,
   };
+
+  newState.rulerPinholeActive && apiSendEvent('AceRulerPinhole_On');
+
+  return [newState, fxRulerPinholeEvents(newState)];
 }
 
-function rulerMove(state: Ace.State, event: DragEvent) {
-  const ev = event.touches ? event.touches[0] : event;
-
-  const {clientX, clientY} = ev;
+function rulerMove(state: Ace.State) {
+  const {dragMouseX, dragMouseY} = state;
 
   return {
     ...state,
-    rulerMouseX: clientX,
-    rulerMouseY: clientY,
+    rulerPosX: dragMouseX,
+    rulerPosY: dragMouseY,
   };
 }
 

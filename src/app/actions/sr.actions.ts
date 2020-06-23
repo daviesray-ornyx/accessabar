@@ -1,5 +1,6 @@
 import ISO6391 from 'iso-639-1';
 import {apiSendEvent} from './api.actions';
+import {fxSREnable} from '../fx/sr.fx';
 
 declare let webkitSpeechRecognition: {
   prototype: SpeechRecognition;
@@ -42,10 +43,13 @@ function srToggle(state: Ace.State) {
     apiSendEvent('AceSpeechRecognition_On');
   }
 
-  return {
-    ...state,
-    srActive: !state.srActive,
-  };
+  return [
+    {
+      ...state,
+      srActive: !state.srActive,
+    },
+    fxSREnable(state),
+  ];
 }
 
 function srAddEvents(state: Ace.State) {

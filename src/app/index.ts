@@ -1,17 +1,12 @@
 import {app} from 'hyperapp';
-
 import initState from './state/ace.state';
 import view from './main.view';
 import {apiSendEvent} from './actions/api.actions';
-import subResizeAceHandle from './subscriptions/resize.subscription';
 import {ttsInit, ttsSpeak} from './actions/tts.actions';
-import subTTS from './subscriptions/tts.subscription';
+import {aceMoveBody} from './actions/ace.actions';
 import aceState from './state/ace.state';
-import subFont from './subscriptions/font.subscription';
-import subMag from './subscriptions/mag.subscription';
-import subMenu from './subscriptions/menu.subscription';
-import subRuler from './subscriptions/ruler.subscription';
-import subSR from './subscriptions/sr.subscription';
+import subAce, {subAceGetDispatch} from './subscriptions/ace.subscription';
+import subResize from './subscriptions/resize.subscription';
 
 declare global {
   // tslint:disable-next-line
@@ -48,6 +43,8 @@ class AceController {
 
   // Copy of ace state for interop.
   private aceState: Ace.State = aceState;
+
+  private aceDispatch;
 
   // Position of Accessabar on the page.
   public position: string;
@@ -132,6 +129,8 @@ class AceController {
 
   private openSilent() {
     this.toggleShow();
+    this.createSpace();
+    this.initTTS();
   }
 
   public close() {
@@ -148,6 +147,25 @@ class AceController {
     delete this.mainElement;
   }
 
+  private initTTS() {
+    const func = () => {
+      this.aceDispatch(ttsInit);
+    };
+
+    if (!this.rendered) {
+      if (
+        document.readyState === 'interactive' ||
+        document.readyState === 'complete'
+      ) {
+        func();
+
+        return;
+      }
+
+      document.addEventListener('DOMContentLoaded', func.bind(this));
+    }
+  }
+
   public speakText(str: string) {
     const cleanStr = String(str);
 
@@ -157,8 +175,8 @@ class AceController {
 
     console.log(`[Ace] Speaking ${cleanStr}`);
 
-    ttsInit(this.aceState);
-    ttsSpeak(this.aceState, cleanStr);
+    this.openSilent();
+    this.aceDispatch(ttsSpeak, cleanStr);
   }
 
   private enableRenderState() {
@@ -197,14 +215,18 @@ class AceController {
     }
   }
 
-  private saveState(state: Ace.State) {
+  public saveState(state: Ace.State) {
     this.aceState = state;
 
     if (!window.localStorage) {
-      return;
+      return state;
     }
 
-    window.localStorage.setItem('aceLocalState', JSON.stringify(state));
+    window.localStorage.setItem(
+      'aceLocalState',
+      JSON.stringify({...state, aceTooltips: []})
+    );
+    return state;
   }
 
   private getState(): Ace.State {
@@ -221,34 +243,36 @@ class AceController {
     return initState;
   }
 
-  private subStateSave(_, props: {state: Ace.State}) {
-    const {state} = props;
-    this.saveState(state);
+  public setDispatch(dispatch) {
+    this.aceDispatch = dispatch;
   }
 
-  private createApp(containerEl: AceElement) {
+  private createApp(containerEl: HTMLElement) {
+    const state = this.getState();
+
     const appConfig = {
       view,
-      init: this.getState(),
+      init: [state, subAceGetDispatch()],
       node: containerEl,
-      subscriptions: (state: Ace.State) => [
-        [
-          this.subStateSave,
-          {
-            state,
-          },
-        ],
-        [subResizeAceHandle, {}],
-        subTTS(state),
-        subFont(state),
-        subMag(state),
-        subMenu(state),
-        subRuler(state),
-        subSR(state),
-      ],
+      subscriptions: (st: Ace.State) => [subAce(st), subResize()],
     };
 
     return app(appConfig);
+  }
+
+  private createSpace() {
+    if (!this.moveBody) {
+      return;
+    }
+
+    if (this.mainElement && document.readyState === 'complete') {
+      aceMoveBody();
+      return;
+    }
+
+    document.addEventListener('DOMContentLoaded', () =>
+      setTimeout(aceMoveBody, 1000)
+    );
   }
 
   /**
@@ -259,13 +283,15 @@ class AceController {
     if (!this.rendered) {
       const renderFunc = () => {
         const containerEl = this.setContainerStyle(new AceElement());
+        const haBind = document.createElement('div');
 
-        containerEl.id = 'ace';
+        containerEl.id = 'accessabar';
         containerEl.setAttribute('aria-label', 'Start of Ace toolbar.');
         this.mainElement = containerEl;
         this.bindTo.insertAdjacentElement('afterbegin', containerEl);
+        containerEl.appendChild(haBind);
 
-        this.createApp(containerEl);
+        this.createApp(haBind);
         this.enableRenderState();
 
         const event = new CustomEvent('aceLoad');

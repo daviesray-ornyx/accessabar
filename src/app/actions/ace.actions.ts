@@ -1,5 +1,6 @@
 import Pickr from '@simonwep/pickr';
 import tippy from 'tippy.js';
+import {ttsSpeak, ttsStopCurrent} from './tts.actions';
 
 function aceMoveBody() {
   const {mainElement} = window.ace;
@@ -15,7 +16,7 @@ function aceResize(state: Ace.State) {
   const {mainElement} = window.ace;
 
   if (!mainElement) {
-    return;
+    return state;
   }
 
   if (aceHidden) {
@@ -23,18 +24,19 @@ function aceResize(state: Ace.State) {
 
     mainElement.style.top = `-${rect.height - 2}px`;
 
-    return;
+    return state;
   }
 
   aceMoveBody();
+  return state;
 }
 
 function acePruneFuncs(
   el: HTMLElement,
-  abarEdited: string,
+  aceEdited: string,
   config: Ace.FuncConfig
 ) {
-  const funcNames = abarEdited.split(' ') || [];
+  const funcNames = aceEdited.split(' ') || [];
 
   if (funcNames.indexOf(config.editName) !== -1 && funcNames.length > 1) {
     const index = funcNames.indexOf(config.editName);
@@ -56,7 +58,7 @@ function aceHide(state: Ace.State) {
   const bar = mainElement.querySelector('.ab-bar');
 
   if (!bar) {
-    return;
+    return state;
   }
 
   if (aceHidden) {
@@ -66,7 +68,7 @@ function aceHide(state: Ace.State) {
       aceMoveBody();
     }
 
-    return {...state, abarHidden: false, menusHidden: false};
+    return {...state, aceHidden: false, menusHidden: false};
   }
 
   // Get height of Ace, then push Ace above the window view
@@ -79,7 +81,7 @@ function aceHide(state: Ace.State) {
     document.body.style.marginTop = '2px';
   }
 
-  return {...state, abarHidden: true, menusHidden: true};
+  return {...state, aceHidden: true, menusHidden: true};
 }
 
 function getParents(): Set<HTMLElement> {
@@ -284,6 +286,9 @@ function aceCreatePickr(
 }
 
 function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
+  ttsStopCurrent(state);
+  setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
+
   if (state.aceTooltips.indexOf(opts.id) !== -1) {
     return state;
   }

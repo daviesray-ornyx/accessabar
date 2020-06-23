@@ -1,7 +1,10 @@
 import BigNumber from 'bignumber.js';
 import {apiSendEvent} from './api.actions';
-
-interface DragEvent extends MouseEvent, TouchEvent {}
+import {
+  fxMagAddPageContent,
+  fxMagDragEvents,
+  fxMagResetState,
+} from '../fx/mag.fx';
 
 function getScrollOffsets() {
   const doc = document,
@@ -32,7 +35,7 @@ function magScaleIncrease(state: Ace.State) {
 
   const pScaleAdd = pScale.plus(magScaleStep).toFixed(1);
 
-  console.log(pScaleAdd);
+  // console.log(pScaleAdd);
 
   return {
     ...state,
@@ -140,53 +143,38 @@ function magHeightIncrease(state: Ace.State) {
   };
 }
 
-function magMove(state: Ace.State, event: DragEvent) {
+function magMove(state: Ace.State) {
   const {
     magCanDrag,
-    magPosX,
-    magPosY,
-    magMouseX,
-    magMouseY,
+    magInitialX,
+    magInitialY,
+    dragMouseX,
+    dragMouseY,
     magScale,
     magBorder,
   } = state;
 
-  if (!window.ace.mainElement) {
+  if (!window.ace.mainElement || !magCanDrag) {
     return state;
   }
 
-  const ev = event.touches ? event.touches[0] : event;
-  const {clientX, clientY} = ev;
   const mag = window.ace.mainElement.querySelector('#ab-magnifier-window');
   const magPage = window.ace.mainElement.querySelector('#ab-magnifier-page');
 
   if (
-    !magCanDrag ||
     !mag ||
     !magPage ||
-    typeof magPosX === 'boolean' ||
-    typeof magPosY === 'boolean'
+    !(magPage instanceof HTMLIFrameElement) ||
+    !magPage.contentDocument
   ) {
     return state;
-  }
-
-  if (!(magPage instanceof HTMLIFrameElement)) {
-    return state;
-  }
-
-  if (!magPage.contentDocument) {
-    return state;
-  }
-
-  if (magCanDrag) {
-    event.preventDefault();
   }
 
   const rect = mag.getBoundingClientRect();
   const windowWidth = window.innerWidth - rect.width;
   const windowHeight = window.innerHeight - rect.height;
-  let x = magPosX + (clientX - magMouseX);
-  let y = magPosY + (clientY - magMouseY);
+  let x = dragMouseX - magInitialX;
+  let y = dragMouseY - magInitialY;
 
   let magMoveXAllowed = true;
   let magMoveYAllowed = true;
@@ -255,44 +243,47 @@ function magMove(state: Ace.State, event: DragEvent) {
     magPage.contentDocument.body.style.marginLeft = '0';
   }
 
-  let magPosObj: {
-    magMouseX?: number;
-    magMouseY?: number;
-    magPosX?: number;
-    magPosY?: number;
-  } = {
-    magMouseX: clientX,
-    magMouseY: clientY,
-    magPosX: x,
-    magPosY: y,
-  };
+  // const magPosObj: {
+  //   magMouseX?: number;
+  //   magMouseY?: number;
+  //   magPosX?: number;
+  //   magPosY?: number;
+  // } = {
+  //   magMouseX: clientX,
+  //   magMouseY: clientY,
+  //   magPosX: x,
+  //   magPosY: y,
+  // };
 
-  if (!magMoveYAllowed && !magMoveXAllowed) {
-    magPosObj = {
-      magPosX: x,
-      magPosY: y,
-    };
-  }
-
-  if (!magMoveXAllowed) {
-    magPosObj = {
-      magMouseY: clientY,
-      magPosX: x,
-      magPosY: y,
-    };
-  }
-
-  if (!magMoveYAllowed) {
-    magPosObj = {
-      magMouseX: clientX,
-      magPosX: x,
-      magPosY: y,
-    };
-  }
+  // if (!magMoveYAllowed && !magMoveXAllowed) {
+  //   magPosObj = {
+  //     magPosX: x,
+  //     magPosY: y,
+  //   };
+  // }
+  //
+  // if (!magMoveXAllowed) {
+  //   magPosObj = {
+  //     magMouseY: clientY,
+  //     magPosX: x,
+  //     magPosY: y,
+  //   };
+  // }
+  //
+  // if (!magMoveYAllowed) {
+  //   magPosObj = {
+  //     magMouseX: clientX,
+  //     magPosX: x,
+  //     magPosY: y,
+  //   };
+  // }
 
   return {
     ...state,
-    ...magPosObj,
+    magPosX: x,
+    magPosY: y,
+    magOffsetX: x,
+    magOffsetY: y,
     magPageX: fixedX,
     magPageY: fixedY,
     magTranslateX: -distanceX,
@@ -329,7 +320,7 @@ function magScroll(state: Ace.State) {
 }
 
 function magUpdatePosition(state: Ace.State) {
-  const {magBorder, magScale, magPosX, magPosY} = state;
+  const {magScale, magPosX, magPosY} = state;
   const magEl = document.getElementById('ab-magnifier-window');
 
   if (!window.ace.mainElement) {
@@ -338,34 +329,16 @@ function magUpdatePosition(state: Ace.State) {
 
   const magPage = window.ace.mainElement.querySelector('#ab-magnifier-page');
 
-  if (!magEl || !magPage) {
-    return state;
-  }
-
-  if (!(magPage instanceof HTMLIFrameElement)) {
-    return state;
-  }
-
-  if (!magPage.contentDocument) {
+  if (
+    !magEl ||
+    !magPage ||
+    !(magPage instanceof HTMLIFrameElement) ||
+    !magPage.contentDocument
+  ) {
     return state;
   }
 
   const elRect = magEl.getBoundingClientRect();
-
-  if (magPosX === 0 && magPosY === 0) {
-    // mag glass loads in the top left corner
-    magPage.contentDocument.body.style.marginTop = `${elRect.height / 4}px`;
-    magPage.contentDocument.body.style.marginLeft = `${elRect.width / 4}px`;
-
-    return {
-      ...state,
-      magPageX: -magBorder,
-      magPageY: -magBorder,
-      magTranslateX: -(elRect.width / 4),
-      magTranslateY: -(elRect.height / 4),
-    };
-  }
-
   const pScale = new BigNumber(magScale);
 
   const pointX = magPosX + elRect.width / 2;
@@ -402,21 +375,13 @@ function magToggle(state: Ace.State) {
     apiSendEvent('AceMagnifier_On');
   }
 
-  return {
-    magActive: !state.magActive,
-  };
-}
-
-function magUpdateMousePosition(state: Ace.State, event: DragEvent) {
-  const ev = event.touches ? event.touches[0] : event;
-
-  const {clientX, clientY} = ev;
-
-  return {
-    ...state,
-    magMouseX: clientX,
-    magMouseY: clientY,
-  };
+  return [
+    {
+      ...state,
+      magActive: !state.magActive,
+    },
+    [fxMagAddPageContent(state), fxMagResetState(state)],
+  ];
 }
 
 function magUpdateSize(state) {
@@ -429,7 +394,7 @@ function magUpdateSize(state) {
   ) as HTMLElement;
 
   if (!mag || !document.defaultView) {
-    return;
+    return state;
   }
 
   const newWidth = parseInt(
@@ -453,42 +418,29 @@ function magUpdateSize(state) {
   };
 }
 
-function magStartDrag(state: Ace.State, event: DragEvent) {
+function magStartDrag(state: Ace.State, event: Ace.DragEvent) {
   event.preventDefault();
-  // Check if this is a drag or resize event
-  const x = event.target as HTMLElement;
+  const {magOffsetX, magOffsetY} = state;
+  const ev = event.touches ? event.touches[0] : event;
+  const {clientX, clientY} = ev;
 
-  if (!x) {
-    return state;
-  }
+  const newState = {
+    ...state,
+    magCanDrag: true,
+    magInitialX: clientX - magOffsetX,
+    magInitialY: clientY - magOffsetY,
+  };
 
-  const magIcon = x.tagName === 'AB-MAG-RESIZE-ICON';
-
-  return [
-    magIcon
-      ? {
-          ...state,
-          magCanDrag: false,
-        }
-      : {
-          magCanDrag: true,
-        },
-    !magIcon && [
-      (dispatch, props) => dispatch(props.action, props.event),
-      {
-        event,
-        action: magUpdateMousePosition,
-      },
-    ],
-  ];
+  return [newState, [fxMagDragEvents(newState)]];
 }
 
-function magStopDrag(state: Ace.State) {
-  return {
+function magEndDrag(state: Ace.State) {
+  const newState = {
     ...state,
     magCanDrag: false,
-    magCanResize: false,
   };
+
+  return [newState, fxMagDragEvents(newState)];
 }
 
 export {
@@ -500,9 +452,8 @@ export {
   magHeightDecrease,
   magHeightIncrease,
   magStartDrag,
-  magStopDrag,
+  magEndDrag,
   magToggle,
-  magUpdateMousePosition,
   magUpdatePosition,
   magUpdateSize,
   magWidthDecrease,

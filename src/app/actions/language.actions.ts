@@ -1,12 +1,13 @@
 import languageConfig from '../../config/language.config.json5';
 import {getParents} from './ace.actions';
 import {apiGetTranslation, apiSendEvent} from './api.actions';
+import {fxLanguageChangeAll} from '../fx/language.fx';
 
 function languageChangeAll(state: Ace.State, key?: string) {
   const {languageCurrentKey} = state;
   const currentKey: string = key || languageCurrentKey;
   if (currentKey.length <= 0) {
-    return;
+    return state;
   }
 
   const currentLanguageCode = languageConfig[currentKey].code || 'en';
@@ -22,6 +23,8 @@ function languageChangeAll(state: Ace.State, key?: string) {
 
     element.textContent = req?.trans[0] || elementTextContent;
   });
+
+  return state;
 }
 
 function languageToggleCurrent(state: Ace.State, key: string) {
@@ -32,13 +35,7 @@ function languageToggleCurrent(state: Ace.State, key: string) {
       languageCurrentKey: key,
       selectLanguageListActive: false,
     },
-    [
-      (dispatch, props) => dispatch(props.action, props.key),
-      {
-        key,
-        action: languageChangeAll,
-      },
-    ],
+    fxLanguageChangeAll(key),
   ];
 }
 

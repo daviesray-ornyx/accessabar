@@ -1,25 +1,26 @@
-function spawnMenu(state: Ace.State, opts) {
-  const {menus} = state;
+import {fxMenuDragEvents, fxMenuOpen} from '../fx/menu.fx';
 
-  if (Object.keys(menus).indexOf(opts.name) === -1) {
-    return state;
-  }
+function menuSpawn(state: Ace.State, opts) {
+  const {menus} = state;
 
   return {
     ...state,
     menus: {
       ...menus,
-      ...menuFactory(opts.name, opts.title),
+      ...menuFactory(opts.menuName, opts.title),
     },
   };
 }
 
-function menuFactory(name: string, title: string) {
+function menuFactory(
+  name: string,
+  title: string
+): {[x: string]: Ace.StateMenu} {
   if (!window.ace.mainElement) {
     return {};
   }
 
-  const bar = window.ace.mainElement.querySelector('.ab-bar');
+  const bar = window.ace.mainElement.querySelector('ab-inner-bar');
 
   if (!bar) {
     return {};
@@ -28,38 +29,37 @@ function menuFactory(name: string, title: string) {
   return {
     [name]: {
       menuActive: true,
-      menuPosX: 50,
+      menuPosX: 0,
       menuPosY: bar.getBoundingClientRect().height,
+      menuInitialX: 0,
+      menuInitialY: 0,
+      menuOffsetX: 0,
+      menuOffsetY: bar.getBoundingClientRect().height,
       menuTitle: title,
     },
   };
 }
 
-function menuMove(state: Ace.State, name: string) {
-  const {menus, menusMouseY, menusMouseX, menusCanDrag} = state;
-  const menuOpts = menus[name];
-
-  if (!menuOpts || !window.ace.mainElement) {
+function menuMove(state: Ace.State) {
+  if (!window.ace.mainElement) {
     return state;
   }
 
-  const {menuPosX, menuPosY} = menuOpts;
-  const menu = window.ace.mainElement.querySelector('#ab-menu');
+  const {menusDragActive, menus, dragMouseX, dragMouseY} = state;
+  const {menuInitialX, menuInitialY} = menus[menusDragActive];
+  const menu = window.ace.mainElement.querySelector(
+    `#ab-menu-${menusDragActive}`
+  );
 
-  if (
-    !menusCanDrag ||
-    !menu ||
-    typeof menuPosX === 'boolean' ||
-    typeof menuPosY === 'boolean'
-  ) {
+  if (!menu) {
     return state;
   }
 
   const rect = menu.getBoundingClientRect();
   const windowWidth = window.innerWidth - rect.width;
   const windowHeight = window.innerHeight - rect.height;
-  let x = menusMouseX - menuPosX;
-  let y = menusMouseY - menuPosY;
+  let x = dragMouseX - menuInitialX;
+  let y = dragMouseY - menuInitialY;
 
   if (x < 0) {
     x = 0;
@@ -81,60 +81,56 @@ function menuMove(state: Ace.State, name: string) {
     ...state,
     menus: {
       ...menus,
-      [name]: {
-        ...menuOpts,
+      [menusDragActive]: {
+        ...menus[menusDragActive],
         menuPosX: x,
         menuPosY: y,
+        menuOffsetX: x,
+        menuOffsetY: y,
       },
     },
   };
 }
 
-function menuUpdatePosition(state: Ace.State, opts) {
-  const rect = opts.el.getBoundingClientRect();
-
-  return {
+function menuStartDrag(
+  state: Ace.State,
+  opts: {ev: Ace.DragEvent; menuName: string}
+) {
+  opts.ev.preventDefault();
+  const {menuOffsetX, menuOffsetY} = state.menus[opts.menuName];
+  const ev = opts.ev.touches ? opts.ev.touches[0] : opts.ev;
+  const {clientX, clientY} = ev;
+  const newState = {
     ...state,
+    menusCanDrag: true,
+    menusDragActive: opts.menuName,
     menus: {
       ...state.menus,
-      [opts.name]: {
-        ...state.menus[opts.name],
-        menuPosX: rect.left,
-        menuPosY: rect.top,
+      [opts.menuName]: {
+        ...state.menus[opts.menuName],
+        menuInitialX: clientX - menuOffsetX,
+        menuInitialY: clientY - menuOffsetY,
       },
     },
   };
+
+  return [newState, fxMenuDragEvents(newState)];
 }
 
-function menuStartDrag(state: Ace.State, name: string) {
-  return {...state, menusCanDrag: true, menuDragActive: name};
+function menuEndDrag(state: Ace.State) {
+  const newState = {
+    ...state,
+    menusCanDrag: false,
+    menusDragActive: '',
+  };
+
+  return [newState, fxMenuDragEvents(newState)];
 }
 
-function menuOpen(state: Ace.State, opts: {name: string; title: string}) {
-  const {menus} = state;
-  const {name, title} = opts;
+function menuOpen(state: Ace.State, opts: {menuName: string; title: string}) {
+  const {menuName, title} = opts;
 
-  return [
-    state,
-    Object.keys(menus).indexOf(name) !== -1
-      ? [
-          (dispatch, props) => dispatch(props.action, props.name),
-          {
-            action: menuClose,
-            name,
-          },
-        ]
-      : [
-          (dispatch, props) => dispatch(props.action, props.opts),
-          {
-            action: spawnMenu,
-            opts: {
-              name,
-              title,
-            },
-          },
-        ],
-  ];
+  return [state, fxMenuOpen(state, menuName, title)];
 }
 
 function menuClose(state: Ace.State, name: string) {
@@ -170,5 +166,6 @@ export {
   menuRulerOpsSwitchInner,
   menuStartDrag,
   menuTextOpsSwitchInner,
-  menuUpdatePosition,
+  menuEndDrag,
+  menuSpawn,
 };

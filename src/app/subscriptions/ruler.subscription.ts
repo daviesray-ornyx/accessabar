@@ -5,37 +5,23 @@ function subRuler(state: Ace.State) {
 }
 
 function subRulerEnableEvents(state: Ace.State) {
-  const rulerPassthrough = (event, dispatch, props) =>
-    dispatch(props.action, event);
-  return state.rulerEventActive
-    ? [
-        (dispatch, props) => {
-          document.addEventListener(
-            'mousemove',
-            rulerPassthrough.bind(null, dispatch, props)
-          );
-          document.addEventListener(
-            'touchmove',
-            rulerPassthrough.bind(null, dispatch, props)
-          );
-        },
-        {
-          action: rulerMove,
-        },
-      ]
-    : [
-        (dispatch, props) => {
-          document.removeEventListener(
-            'mousemove',
-            rulerPassthrough.bind(null, dispatch, props)
-          );
-          document.removeEventListener(
-            'touchmove',
-            rulerPassthrough.bind(null, dispatch, props)
-          );
-        },
-        {},
-      ];
+  return (
+    state.rulerEventActive && [
+      (dispatch, props) => {
+        const rulerPassthrough = event => dispatch(props.action, event);
+        document.addEventListener('mousemove', rulerPassthrough);
+        document.addEventListener('touchmove', rulerPassthrough);
+
+        return () => {
+          document.removeEventListener('mousemove', rulerPassthrough);
+          document.removeEventListener('touchmove', rulerPassthrough);
+        };
+      },
+      {
+        action: rulerMove,
+      },
+    ]
+  );
 }
 
 export default subRuler;

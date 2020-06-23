@@ -5,6 +5,7 @@ import menuArea from './components/menu_area.component';
 import ttsPrompt from './components/tts_prompt.component';
 import funcArea from './components/function_area.component';
 import settingsMenu from './components/settings.component';
+import aboutMenu from './components/about.component';
 
 const innerBar = state => {
   return h('ab-inner-bar', {class: 'ab-bar ab-growable'}, [
@@ -36,6 +37,7 @@ const mainView = state => {
     funcArea(state),
     menuArea(state),
     settingsMenu(state),
+    aboutMenu(state),
   ]);
 };
 

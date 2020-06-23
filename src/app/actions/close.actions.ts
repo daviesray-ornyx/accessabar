@@ -1,6 +1,8 @@
-function closeAce(state) {
-  window.ace.close();
+import {apiSendEvent} from './api.actions';
 
+function closeAce(state) {
+  apiSendEvent('AceClosed');
+  window.ace.close();
   return state;
 }
 
