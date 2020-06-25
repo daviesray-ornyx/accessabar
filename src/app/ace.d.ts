@@ -20,6 +20,7 @@ declare namespace Ace {
     fontLetterSpacingMax: number;
     fontLetterSpacingStep: number;
     fontSizingActive: boolean;
+    fontSizingRelative: number;
     textOpsInnerMenuCurrent: string;
     selectFontListActive: boolean;
   }
@@ -100,6 +101,9 @@ declare namespace Ace {
     rulerReadingOpacityMin: number;
     rulerReadingOpacityMax: number;
     rulerReadingOpacityStep: number;
+    rulerReadingColourCurrent: string;
+    rulerReadingCustomColourCurrent: string;
+    rulerReadingCustomColourActive: boolean;
     rulerEventActive: boolean;
     rulerPosX: number;
     rulerPosY: number;

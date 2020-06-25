@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 
 const rulerReadingBar = ({
   rulerReadingActive,
+  rulerReadingColourCurrent,
   rulerPosY,
   rulerReadingOffset,
   rulerReadingOpacity,
@@ -15,6 +16,7 @@ const rulerReadingBar = ({
       opacity: rulerReadingOpacity,
       top: `${new BigNumber(rulerPosY).plus(rulerReadingOffset).toString()}px`,
       height: `${rulerHeight}px`,
+      background: rulerReadingColourCurrent,
     },
   });
 };

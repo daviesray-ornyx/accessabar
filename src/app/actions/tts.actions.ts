@@ -124,14 +124,13 @@ function ttsHoverToggle(state: Ace.State) {
     apiSendEvent('AceTTSHover_On');
   }
 
-  return [
-    {
-      ...state,
-      ttsHoverSpeak: !state.ttsHoverSpeak,
-      ttsHighlightSpeak: false,
-    },
-    fxTTSHover(state),
-  ];
+  const newState = {
+    ...state,
+    ttsHoverSpeak: !state.ttsHoverSpeak,
+    ttsHighlightSpeak: false,
+  };
+
+  return [newState, fxTTSHover(newState)];
 }
 
 function ttsHightlightToggle(state: Ace.State) {
@@ -141,14 +140,13 @@ function ttsHightlightToggle(state: Ace.State) {
     apiSendEvent('AceTTSHighlight_On');
   }
 
-  return [
-    {
-      ...state,
-      ttsHighlightSpeak: !state.ttsHighlightSpeak,
-      ttsHoverSpeak: false,
-    },
-    fxTTSHighlight(state),
-  ];
+  const newState = {
+    ...state,
+    ttsHighlightSpeak: !state.ttsHighlightSpeak,
+    ttsHoverSpeak: false,
+  };
+
+  return [newState, fxTTSHighlight(newState)];
 }
 
 function ttsSpeak(state: Ace.State, text: string) {
@@ -226,6 +224,8 @@ function ttsChangeVoice(state: Ace.State, key: number) {
   if (!ttsVoices || ttsVoices.length < 1) {
     return state;
   }
+
+  console.log(ttsVoices[key].name);
 
   return {
     ...state,

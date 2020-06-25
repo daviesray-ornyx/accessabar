@@ -1,7 +1,7 @@
 import {srAddEvents, srInitRuntime, srStart} from '../actions/sr.actions';
 
 function fxSREnable(state: Ace.State) {
-  return !state.srActive
+  return state.srActive
     ? [
         [
           (dispatch, props) => {

@@ -46,7 +46,8 @@ const hoverPassthrough = (dispatch, props) => {
 };
 
 function fxTTSHover(state: Ace.State) {
-  return !state.ttsHoverSpeak
+  console.log(state.ttsHoverSpeak);
+  return state.ttsHoverSpeak
     ? [
         (dispatch, props) => {
           document.addEventListener(
@@ -82,7 +83,7 @@ const highlightPassthrough = (dispatch, props) => {
 };
 
 function fxTTSHighlight(state: Ace.State) {
-  return !state.ttsHighlightSpeak
+  return state.ttsHighlightSpeak
     ? [
         (dispatch, props) => {
           document.addEventListener(

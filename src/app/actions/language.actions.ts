@@ -32,6 +32,7 @@ function languageToggleCurrent(state: Ace.State, key: string) {
   return [
     {
       ...state,
+      languageActive: true,
       languageCurrentKey: key,
       selectLanguageListActive: false,
     },

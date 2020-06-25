@@ -33,6 +33,7 @@ function fontDecSize(state: Ace.State) {
   return {
     ...state,
     fontSizingActive: true,
+    fontSizingRelative: state.fontSizingRelative - 1,
   };
 }
 
@@ -56,18 +57,30 @@ function fontIncSize(state: Ace.State) {
   return {
     ...state,
     fontSizingActive: true,
+    fontSizingRelative: state.fontSizingRelative + 1,
+  };
+}
+
+function fontHydrateSize(state: Ace.State) {
+  const {fontSizingRelative} = state;
+  const {fontSizing}: {fontSizing: Ace.FuncConfig} = config;
+
+  editLoopComputed(fontSizing, 'fontSize', fontSizingRelative);
+
+  return {
+    ...state,
+    fontSizingActive: true,
   };
 }
 
 function fontFamilyToggle(state: Ace.State) {
-  !state.fontActive && apiSendEvent('AceFontType_On');
-  return [
-    {
-      ...state,
-      fontActive: !state.fontActive,
-    },
-    fxFontFamilyToggle(state),
-  ];
+  const newState = {
+    ...state,
+    fontActive: !state.fontActive,
+  };
+
+  newState.fontActive && apiSendEvent('AceFontType_On');
+  return [newState, fxFontFamilyToggle(newState)];
 }
 
 function fontFamilyReset(state: Ace.State) {
@@ -130,14 +143,13 @@ function fontColourChange(state: Ace.State, colour?: string) {
 }
 
 function fontColourToggle(state: Ace.State) {
-  !state.fontColourActive && apiSendEvent('AceFontColour_On');
-  return [
-    {
-      ...state,
-      fontColourActive: !state.fontColourActive,
-    },
-    fxFontColourToggle(state),
-  ];
+  const newState = {
+    ...state,
+    fontColourActive: !state.fontColourActive,
+  };
+
+  newState.fontColourActive && apiSendEvent('AceFontColour_On');
+  return [newState, fxFontColourToggle(newState)];
 }
 
 function fontColourReset(state: Ace.State) {
@@ -180,14 +192,13 @@ function fontReset(state: Ace.State, configKey: string) {
 }
 
 function fontLineSpacingToggle(state: Ace.State) {
-  !state.fontLineSpacingActive && apiSendEvent('AceFontLineSpacing_On');
-  return [
-    {
-      ...state,
-      fontLineSpacingActive: !state.fontLineSpacingActive,
-    },
-    fxFontLineSpacingToggle(state),
-  ];
+  const newState = {
+    ...state,
+    fontLineSpacingActive: !state.fontLineSpacingActive,
+  };
+
+  newState.fontLineSpacingActive && apiSendEvent('AceFontLineSpacing_On');
+  return [newState, fxFontLineSpacingToggle(newState)];
 }
 
 function fontLineSpacingIncrement(state: Ace.State) {
@@ -246,14 +257,13 @@ function fontLineSpacingReset(state: Ace.State) {
 }
 
 function fontLetterSpacingToggle(state: Ace.State) {
-  !state.fontLetterSpacingActive && apiSendEvent('AceFontLetterSpacing_On');
-  return [
-    {
-      ...state,
-      fontLetterSpacingActive: !state.fontLetterSpacingActive,
-    },
-    fxFontLetterSpacingToggle(state),
-  ];
+  const newState = {
+    ...state,
+    fontLetterSpacingActive: !state.fontLetterSpacingActive,
+  };
+
+  newState.fontLetterSpacingActive && apiSendEvent('AceFontLetterSpacing_On');
+  return [newState, fxFontLetterSpacingToggle(newState)];
 }
 
 function fontLetterSpacingIncrement(state: Ace.State) {
@@ -363,4 +373,5 @@ export {
   fontReset,
   fontToggleList,
   fontToggleCurrent,
+  fontHydrateSize,
 };

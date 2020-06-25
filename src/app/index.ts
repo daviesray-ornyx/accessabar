@@ -2,11 +2,10 @@ import {app} from 'hyperapp';
 import initState from './state/ace.state';
 import view from './main.view';
 import {apiSendEvent} from './actions/api.actions';
-import {ttsInit, ttsSpeak} from './actions/tts.actions';
 import {aceMoveBody} from './actions/ace.actions';
-import aceState from './state/ace.state';
-import subAce, {subAceGetDispatch} from './subscriptions/ace.subscription';
 import subResize from './subscriptions/resize.subscription';
+import {fxHydrate} from './fx/hydrate.fx';
+import {fxTTSInit} from './fx/tts.fx';
 
 declare global {
   // tslint:disable-next-line
@@ -42,9 +41,7 @@ class AceController {
   public appliedFunctions: Map<string, () => unknown> = new Map();
 
   // Copy of ace state for interop.
-  private aceState: Ace.State = aceState;
-
-  private aceDispatch;
+  private aceState: Ace.State = initState;
 
   // Position of Accessabar on the page.
   public position: string;
@@ -56,6 +53,7 @@ class AceController {
    */
   public moveBody: boolean;
   private rendered = false;
+  public loaded = false;
 
   constructor({
     enableButton = '',
@@ -130,7 +128,6 @@ class AceController {
   private openSilent() {
     this.toggleShow();
     this.createSpace();
-    this.initTTS();
   }
 
   public close() {
@@ -145,38 +142,6 @@ class AceController {
     this.disableRenderState();
 
     delete this.mainElement;
-  }
-
-  private initTTS() {
-    const func = () => {
-      this.aceDispatch(ttsInit);
-    };
-
-    if (!this.rendered) {
-      if (
-        document.readyState === 'interactive' ||
-        document.readyState === 'complete'
-      ) {
-        func();
-
-        return;
-      }
-
-      document.addEventListener('DOMContentLoaded', func.bind(this));
-    }
-  }
-
-  public speakText(str: string) {
-    const cleanStr = String(str);
-
-    if (cleanStr.length < 1) {
-      return;
-    }
-
-    console.log(`[Ace] Speaking ${cleanStr}`);
-
-    this.openSilent();
-    this.aceDispatch(ttsSpeak, cleanStr);
   }
 
   private enableRenderState() {
@@ -210,7 +175,7 @@ class AceController {
 
     const storedRenderState = window.localStorage.getItem('aceRendered');
 
-    if (storedRenderState) {
+    if (storedRenderState === 'true') {
       this.openSilent();
     }
   }
@@ -224,7 +189,11 @@ class AceController {
 
     window.localStorage.setItem(
       'aceLocalState',
-      JSON.stringify({...state, aceTooltips: []})
+      JSON.stringify({
+        ...state,
+        aceTooltips: initState.aceTooltips,
+        ttsVoiceActive: initState.ttsVoiceActive,
+      })
     );
     return state;
   }
@@ -243,18 +212,17 @@ class AceController {
     return initState;
   }
 
-  public setDispatch(dispatch) {
-    this.aceDispatch = dispatch;
-  }
-
   private createApp(containerEl: HTMLElement) {
     const state = this.getState();
 
     const appConfig = {
       view,
-      init: [state, subAceGetDispatch()],
+      init: [state, fxTTSInit(state), fxHydrate(state)],
       node: containerEl,
-      subscriptions: (st: Ace.State) => [subAce(st), subResize()],
+      subscriptions: (st: Ace.State) => {
+        this.saveState(st);
+        return [subResize()];
+      },
     };
 
     return app(appConfig);
@@ -265,14 +233,12 @@ class AceController {
       return;
     }
 
-    if (this.mainElement && document.readyState === 'complete') {
+    if (this.loaded) {
       aceMoveBody();
       return;
     }
 
-    document.addEventListener('DOMContentLoaded', () =>
-      setTimeout(aceMoveBody, 1000)
-    );
+    window.addEventListener('aceLoad', aceMoveBody);
   }
 
   /**
@@ -294,8 +260,24 @@ class AceController {
         this.createApp(haBind);
         this.enableRenderState();
 
-        const event = new CustomEvent('aceLoad');
-        window.dispatchEvent(event);
+        const eventFunc = () => {
+          const abGrid = containerEl?.firstChild;
+          if (!abGrid) {
+            setTimeout(eventFunc, 250);
+            return;
+          }
+
+          if (abGrid.childNodes.length < 6) {
+            setTimeout(eventFunc, 250);
+            return;
+          }
+
+          const event = new CustomEvent('aceLoad');
+          window.dispatchEvent(event);
+          this.loaded = true;
+        };
+
+        setTimeout(eventFunc, 250);
       };
 
       // Check page if page is ready to render Accessabar

@@ -24,7 +24,8 @@
         "lib": [
             "es2018",
             "dom"
-        ]
+        ],
+        "types": ["cypress"]
     },
     "include": [
         "./src/**/*",

@@ -55,12 +55,6 @@ function aceHide(state: Ace.State) {
     return state;
   }
 
-  const bar = mainElement.querySelector('.ab-bar');
-
-  if (!bar) {
-    return state;
-  }
-
   if (aceHidden) {
     mainElement.style.top = '0';
 
@@ -69,6 +63,12 @@ function aceHide(state: Ace.State) {
     }
 
     return {...state, aceHidden: false, menusHidden: false};
+  }
+
+  const bar = mainElement.querySelector('.ab-bar');
+
+  if (!bar) {
+    return state;
   }
 
   // Get height of Ace, then push Ace above the window view

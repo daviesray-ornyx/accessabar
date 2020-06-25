@@ -4,7 +4,7 @@ import {fxDragStartMouseEvents, fxDragStopMouseEvents} from './drag.fx';
 function fxMenuDragEvents(state: Ace.State) {
   return state.menusCanDrag
     ? [fxDragStartMouseEvents(state), fxMenuMoveStart()]
-    : [fxDragStopMouseEvents(), fxMenuMoveStop()];
+    : [fxDragStopMouseEvents(state), fxMenuMoveStop()];
 }
 
 const menuMoveHandle: unknown[] = [];

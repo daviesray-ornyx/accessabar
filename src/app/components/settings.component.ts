@@ -70,10 +70,20 @@ const settingsTTSSection = ({
         key,
         name: obj.name,
         action: (state, actionKey: number) => {
-          return {
-            ...ttsChangeVoice(state, actionKey),
-            ...settingsToggleTTSList(state),
-          };
+          return [
+            state,
+            [
+              (dispatch, props) => {
+                dispatch(props.toggleSettings);
+                dispatch(props.changeVoice, props.key);
+              },
+              {
+                toggleSettings: settingsToggleTTSList,
+                changeVoice: ttsChangeVoice,
+                key: actionKey,
+              },
+            ],
+          ];
         },
       });
     }
@@ -162,11 +172,21 @@ const settingsSRSection = ({srLangListActive, srLangName}) => {
     factoryCfg.push({
       key,
       name: ISO6391.getNativeName(key),
-      action: (state, actionKey: string) => {
-        return {
-          ...srChangeLang(state, actionKey),
-          ...settingsToggleSRLangList(state),
-        };
+      action: (state, actionKey: number) => {
+        return [
+          state,
+          [
+            (dispatch, props) => {
+              dispatch(props.toggleSettings);
+              dispatch(props.changeLang, props.key);
+            },
+            {
+              toggleSettings: settingsToggleSRLangList,
+              changeLang: srChangeLang,
+              key: actionKey,
+            },
+          ],
+        ];
       },
     });
   }

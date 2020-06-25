@@ -39,17 +39,14 @@ function srStart(state: Ace.State) {
 }
 
 function srToggle(state: Ace.State) {
-  if (!state.srActive) {
-    apiSendEvent('AceSpeechRecognition_On');
-  }
+  const newState = {
+    ...state,
+    srActive: !state.srActive,
+  };
 
-  return [
-    {
-      ...state,
-      srActive: !state.srActive,
-    },
-    fxSREnable(state),
-  ];
+  newState.srActive && apiSendEvent('AceSpeechRecognition_On');
+
+  return [newState, fxSREnable(newState)];
 }
 
 function srAddEvents(state: Ace.State) {

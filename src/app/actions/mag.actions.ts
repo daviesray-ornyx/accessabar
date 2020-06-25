@@ -4,6 +4,7 @@ import {
   fxMagAddPageContent,
   fxMagDragEvents,
   fxMagResetState,
+  fxMagScrollEvents,
 } from '../fx/mag.fx';
 
 function getScrollOffsets() {
@@ -176,27 +177,20 @@ function magMove(state: Ace.State) {
   let x = dragMouseX - magInitialX;
   let y = dragMouseY - magInitialY;
 
-  let magMoveXAllowed = true;
-  let magMoveYAllowed = true;
-
   if (x < 0) {
     x = 0;
-    magMoveXAllowed = false;
   }
 
   if (x > windowWidth) {
     x = windowWidth;
-    magMoveXAllowed = false;
   }
 
   if (y < 0) {
     y = 0;
-    magMoveYAllowed = false;
   }
 
   if (y > windowHeight) {
     y = windowHeight;
-    magMoveYAllowed = false;
   }
 
   // Anchor the position of the iframe to the top left corner of body
@@ -242,41 +236,6 @@ function magMove(state: Ace.State) {
     magPage.contentDocument.body.style.marginBottom = '0';
     magPage.contentDocument.body.style.marginLeft = '0';
   }
-
-  // const magPosObj: {
-  //   magMouseX?: number;
-  //   magMouseY?: number;
-  //   magPosX?: number;
-  //   magPosY?: number;
-  // } = {
-  //   magMouseX: clientX,
-  //   magMouseY: clientY,
-  //   magPosX: x,
-  //   magPosY: y,
-  // };
-
-  // if (!magMoveYAllowed && !magMoveXAllowed) {
-  //   magPosObj = {
-  //     magPosX: x,
-  //     magPosY: y,
-  //   };
-  // }
-  //
-  // if (!magMoveXAllowed) {
-  //   magPosObj = {
-  //     magMouseY: clientY,
-  //     magPosX: x,
-  //     magPosY: y,
-  //   };
-  // }
-  //
-  // if (!magMoveYAllowed) {
-  //   magPosObj = {
-  //     magMouseX: clientX,
-  //     magPosX: x,
-  //     magPosY: y,
-  //   };
-  // }
 
   return {
     ...state,
@@ -358,11 +317,13 @@ function magUpdatePosition(state: Ace.State) {
 
 function magAddPageContent(state: Ace.State) {
   let pageContent = document.documentElement.outerHTML;
-  const abarEl = /<accessabar-app.*<\/accessabar-app>/;
-  const abarScripts = /<script.*src=.*accessabar.*<\/script>/;
+  const aceMagEl = /<ab-mag-page-container.*<\/ab-mag-page-container>/gis;
+  const aceEl = /<ace-app.*<\/ace-app>/gi;
+  const aceScripts = /<script.*src=.*(accessabar|ace).*<\/script>/gi;
 
-  pageContent = pageContent.replace(abarEl, '');
-  pageContent = pageContent.replace(abarScripts, '');
+  pageContent = pageContent.replace(aceMagEl, '');
+  pageContent = pageContent.replace(aceEl, '');
+  pageContent = pageContent.replace(aceScripts, '');
 
   return {
     ...state,
@@ -371,16 +332,20 @@ function magAddPageContent(state: Ace.State) {
 }
 
 function magToggle(state: Ace.State) {
-  if (!state.magActive) {
-    apiSendEvent('AceMagnifier_On');
-  }
+  const newState = {
+    ...state,
+    magActive: !state.magActive,
+  };
+
+  newState.magActive && apiSendEvent('AceMagnifier_On');
 
   return [
-    {
-      ...state,
-      magActive: !state.magActive,
-    },
-    [fxMagAddPageContent(state), fxMagResetState(state)],
+    newState,
+    [
+      newState.magActive && fxMagAddPageContent(newState),
+      fxMagResetState(newState),
+      fxMagScrollEvents(newState),
+    ],
   ];
 }
 
@@ -458,4 +423,5 @@ export {
   magUpdateSize,
   magWidthDecrease,
   magWidthIncrease,
+  getScrollOffsets,
 };

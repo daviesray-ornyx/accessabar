@@ -3,7 +3,7 @@ import {fxDragStartMouseEvents, fxDragStopMouseEvents} from './drag.fx';
 
 function fxMagAddPageContent(state: Ace.State) {
   return (
-    !state.magActive && [
+    state.magActive && [
       (dispatch, props) => {
         dispatch(props.action);
       },
@@ -19,7 +19,7 @@ function fxMagResetState(state: Ace.State) {
     window?.ace?.mainElement &&
     window.ace.mainElement.querySelector('ab-inner-bar');
   return (
-    state.magActive && [
+    !state.magActive && [
       (dispatch, props) => {
         dispatch(props.action);
       },
@@ -47,8 +47,8 @@ function fxMagResetState(state: Ace.State) {
 
 function fxMagDragEvents(state: Ace.State) {
   return state.magCanDrag
-    ? [fxDragStartMouseEvents(state), fxMagMoveStart(), fxMagScrollStart()]
-    : [fxDragStopMouseEvents(), fxMagMoveStop(), fxMagScrollStop()];
+    ? [fxDragStartMouseEvents(state), fxMagMoveStart()]
+    : [fxDragStopMouseEvents(state), fxMagMoveStop()];
 }
 
 const magMoveHandle: unknown[] = [];
@@ -88,6 +88,10 @@ function fxMagMoveStop() {
   ];
 }
 
+function fxMagScrollEvents(state: Ace.State) {
+  return state.magActive ? fxMagScrollStart() : fxMagScrollStop();
+}
+
 const magScrollHandle: unknown[] = [];
 const magScrollPassthrough = (dispatch, props) => {
   magScrollHandle.length < 1 &&
@@ -99,10 +103,7 @@ const magScrollPassthrough = (dispatch, props) => {
 function fxMagScrollStart() {
   return [
     (dispatch, props) => {
-      document.addEventListener(
-        'scroll',
-        magScrollPassthrough(dispatch, props)
-      );
+      window.addEventListener('scroll', magScrollPassthrough(dispatch, props));
     },
     {
       action: magScroll,
@@ -113,7 +114,7 @@ function fxMagScrollStart() {
 function fxMagScrollStop() {
   return [
     (dispatch, props) => {
-      document.removeEventListener('scroll', props.action);
+      window.removeEventListener('scroll', props.action);
     },
     {
       action: magScrollHandle[0],
@@ -121,4 +122,9 @@ function fxMagScrollStop() {
   ];
 }
 
-export {fxMagAddPageContent, fxMagResetState, fxMagDragEvents};
+export {
+  fxMagAddPageContent,
+  fxMagResetState,
+  fxMagDragEvents,
+  fxMagScrollEvents,
+};

@@ -8,6 +8,7 @@ function rulerReadingToggle(state: Ace.State) {
   const newState = {
     ...state,
     rulerReadingActive: !state.rulerReadingActive,
+    rulerPinholeActive: false,
   };
 
   newState.rulerReadingActive && apiSendEvent('AceRulerReading_On');
@@ -19,6 +20,7 @@ function rulerPinholeToggle(state: Ace.State) {
   const newState = {
     ...state,
     rulerPinholeActive: !state.rulerPinholeActive,
+    rulerReadingActive: false,
   };
 
   newState.rulerPinholeActive && apiSendEvent('AceRulerPinhole_On');
@@ -211,6 +213,37 @@ function rulerChangePinholeMaskCustomColour(state: Ace.State, colour: string) {
   };
 }
 
+function rulerChangeReadingColour(state: Ace.State, colour: string) {
+  const {rulerReadingColourCurrent} = state;
+  const currentColour: string = colour || rulerReadingColourCurrent;
+
+  if (currentColour.length <= 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    rulerReadingColourCurrent: colour,
+    rulerReadingCustomColourActive: false,
+  };
+}
+
+function rulerChangeReadingCustomColour(state: Ace.State, colour: string) {
+  const {rulerReadingCustomColourCurrent} = state;
+  const currentColour: string = colour || rulerReadingCustomColourCurrent;
+
+  if (currentColour.length <= 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    rulerReadingColourCurrent: colour,
+    rulerReadingCustomColourCurrent: colour,
+    rulerReadingCustomColourActive: true,
+  };
+}
+
 export {
   rulerReadingToggle,
   rulerMove,
@@ -225,4 +258,6 @@ export {
   rulerSizeIncrease,
   rulerChangePinholeMaskColour,
   rulerChangePinholeMaskCustomColour,
+  rulerChangeReadingColour,
+  rulerChangeReadingCustomColour,
 };

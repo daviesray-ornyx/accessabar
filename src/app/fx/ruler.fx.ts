@@ -4,13 +4,13 @@ import {rulerMove} from '../actions/ruler.actions';
 function fxRulerReadingEvents(state: Ace.State) {
   return state.rulerReadingActive
     ? [fxDragStartMouseEvents(state), fxRulerMoveStart()]
-    : [fxDragStopMouseEvents(), fxRulerMoveStop()];
+    : [fxDragStopMouseEvents(state), fxRulerMoveStop()];
 }
 
 function fxRulerPinholeEvents(state: Ace.State) {
   return state.rulerPinholeActive
     ? [fxDragStartMouseEvents(state), fxRulerMoveStart()]
-    : [fxDragStopMouseEvents(), fxRulerMoveStop()];
+    : [fxDragStopMouseEvents(state), fxRulerMoveStop()];
 }
 
 const rulerMoveHandle: unknown[] = [];

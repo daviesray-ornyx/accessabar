@@ -43,6 +43,8 @@ import {
 import {
   rulerChangePinholeMaskColour,
   rulerChangePinholeMaskCustomColour,
+  rulerChangeReadingColour,
+  rulerChangeReadingCustomColour,
   rulerPinholeOpacityDec,
   rulerPinholeOpacityInc,
   rulerPinholeSizeDec,
@@ -1074,6 +1076,136 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
         'Toggle the reading ruler'
       ),
     ]),
+    h('ab-inner-menu-section', {class: 'ab-box'}, [
+      h(
+        'ab-colour-presets',
+        {class: 'ab-colour-presets ab-growable ab-flex-column'},
+        [
+          h('ab-inner-menu-title', {class: 'ab-title'}, 'Presets'),
+          h('ab-colours', {class: 'ab-colours'}, [
+            h('ab-colour', {
+              'aria-label': 'Change colour to red',
+              class: `ab-colour ab-red ${
+                state.rulerReadingColourCurrent === 'red' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'red'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to blue',
+              class: `ab-colour ab-blue ${
+                state.rulerReadingColourCurrent === 'blue' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'blue'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to green',
+              class: `ab-colour ab-green ${
+                state.rulerReadingColourCurrent === 'green' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'green'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to yellow',
+              class: `ab-colour ab-yellow ${
+                state.rulerReadingColourCurrent === 'yellow' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'yellow'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to orange',
+              class: `ab-colour ab-orange ${
+                state.rulerReadingColourCurrent === 'orange' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'orange'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to purple',
+              class: `ab-colour ab-purple ${
+                state.rulerReadingColourCurrent === 'purple' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'purple'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to black',
+              class: `ab-colour ab-black ${
+                state.rulerReadingColourCurrent === 'black' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'black'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to grey',
+              class: `ab-colour ab-grey ${
+                state.rulerReadingColourCurrent === 'grey' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'grey'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+            h('ab-colour', {
+              'aria-label': 'Change colour to white',
+              class: `ab-colour ab-white ${
+                state.rulerReadingColourCurrent === 'white' ? 'ab-active' : ''
+              }`,
+              onclick: [rulerChangeReadingColour, 'white'],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+            }),
+          ]),
+        ]
+      ),
+      h(
+        'ab-colour-custom',
+        {class: 'ab-colour-custom ab-growable ab-flex-column'},
+        [
+          h('ab-inner-menu-title', {class: 'ab-title'}, 'Custom'),
+          h(
+            'ab-inner-menu-desc',
+            {id: 'ab-custom-colour-desc-reading-mask', class: 'ab-desc'},
+            ['Click the box below', h('br'), 'to select a custom colour.']
+          ),
+          h(
+            'ab-custom-colour-container',
+            {class: 'ab-custom-container ab-flex'},
+            [
+              h('ab-custom-colour-box', {
+                'aria-labelledby': 'ab-custom-colour-desc-reading-mask',
+                'aria-pressed': state.rulerReadingCustomColourActive
+                  ? 'true'
+                  : 'false',
+                class: `ab-custom-box ${
+                  state.rulerReadingCustomColourActive ? 'ab-active' : ''
+                }`,
+                id: 'ab-reading-ruler-colour-custom-box',
+                onmouseover: [
+                  aceCreatePickr,
+                  {
+                    id: '#ab-reading-ruler-colour-custom-box',
+                    action: rulerChangeReadingCustomColour,
+                  },
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                style: {background: state.rulerReadingCustomColourCurrent},
+              }),
+            ]
+          ),
+        ]
+      ),
+    ]),
     h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
       h(
         'ab-counter',
@@ -1149,10 +1281,7 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
       h(
         'ab-counter',
         {
-          'aria-valuemax': String(
-            state.rulerPinholeCentreHeightMax /
-              state.rulerPinholeCentreHeightStep
-          ),
+          'aria-valuemax': String(state.rulerHeightMax),
           'aria-valuemin': '1',
           'aria-valuenow': String(state.rulerHeight),
           'aria-valuetext': String(state.rulerHeight),
@@ -1351,7 +1480,7 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
             {class: 'ab-custom-container ab-flex'},
             [
               h('ab-custom-colour-box', {
-                'aria-labelledby': 'ab-custom-colour-desc-mask',
+                'aria-labelledby': 'ab-custom-colour-desc-pinhole-mask',
                 'aria-pressed': state.rulerPinholeMaskCustomActive
                   ? 'true'
                   : 'false',

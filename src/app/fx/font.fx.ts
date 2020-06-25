@@ -11,7 +11,7 @@ import {
 } from '../actions/font.actions';
 
 function fxFontFamilyToggle(state: Ace.State) {
-  return !state.fontActive
+  return state.fontActive
     ? [
         (dispatch, props) => {
           dispatch(props.action);
@@ -45,7 +45,7 @@ function fxFontSizingDisable(state: Ace.State) {
 }
 
 function fxFontColourToggle(state: Ace.State) {
-  return !state.fontColourActive
+  return state.fontColourActive
     ? [
         (dispatch, props) => {
           dispatch(props.action);
@@ -65,7 +65,7 @@ function fxFontColourToggle(state: Ace.State) {
 }
 
 function fxFontLineSpacingToggle(state: Ace.State) {
-  return !state.fontLineSpacingActive
+  return state.fontLineSpacingActive
     ? [
         (dispatch, props) => {
           dispatch(props.action);
@@ -85,7 +85,7 @@ function fxFontLineSpacingToggle(state: Ace.State) {
 }
 
 function fxFontLetterSpacingToggle(state: Ace.State) {
-  return !state.fontLetterSpacingActive
+  return state.fontLetterSpacingActive
     ? [
         (dispatch, props) => {
           dispatch(props.action);
