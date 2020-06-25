@@ -130,7 +130,7 @@ function ttsHoverToggle(state: Ace.State) {
     ttsHighlightSpeak: false,
   };
 
-  return [newState, fxTTSHover(newState)];
+  return [newState, fxTTSHighlight(newState), fxTTSHover(newState)];
 }
 
 function ttsHightlightToggle(state: Ace.State) {
@@ -146,7 +146,7 @@ function ttsHightlightToggle(state: Ace.State) {
     ttsHoverSpeak: false,
   };
 
-  return [newState, fxTTSHighlight(newState)];
+  return [newState, fxTTSHover(newState), fxTTSHighlight(newState)];
 }
 
 function ttsSpeak(state: Ace.State, text: string) {
