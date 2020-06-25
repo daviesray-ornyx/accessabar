@@ -44,7 +44,14 @@ const stateFuncs: {key: string; func: unknown}[] = [
         state,
         [
           (dispatch, props) => {
+            if (document.readyState === 'complete') {
+              dispatch(magScroll);
+
+              return () => {};
+            }
+
             window.addEventListener('load', props.action.bind(null, dispatch));
+            return () => {};
           },
           {
             action: scrollFunc,
@@ -67,17 +74,27 @@ const stateFuncs: {key: string; func: unknown}[] = [
   },
   {
     key: 'languageActive',
-    func: state => [
-      state,
-      [
-        (dispatch, props) => {
-          window.addEventListener('load', () => dispatch(props.action));
-        },
-        {
-          action: languageChangeAll,
-        },
-      ],
-    ],
+    func: state => {
+      const langFunc = dispatch => dispatch(languageChangeAll);
+
+      return [
+        state,
+        [
+          (dispatch, props) => {
+            if (document.readyState === 'complete') {
+              dispatch(languageChangeAll);
+
+              return () => {};
+            }
+            window.addEventListener('load', props.action.bind(null, dispatch));
+            return () => {};
+          },
+          {
+            action: langFunc,
+          },
+        ],
+      ];
+    },
   },
   {key: 'aceHidden', func: aceHide},
 ];
