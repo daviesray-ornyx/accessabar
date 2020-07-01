@@ -109,7 +109,7 @@ const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
                                     class: 'ab-icon ab-icon-cross',
                                 }),
                             ],
-                        ),
+                        ),                        
                     ]),                
                 ],
             ),

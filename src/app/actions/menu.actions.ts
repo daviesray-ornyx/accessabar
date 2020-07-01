@@ -224,6 +224,9 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
     },
 
     menuClose: () => ({ menuCurrent }, { menuHide, menuRemoveListener }) => {
+
+
+
         const config: Accessabar.IMenuConfigObject = menuConfig[menuCurrent];
         const {
             disableOnClose,
@@ -236,9 +239,8 @@ const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
             }
         }
 
-        menuRemoveListener();
+        menuRemoveListener();        
         menuHide();
-
         return {
             menuActive: false,
             menuCurrent: '',

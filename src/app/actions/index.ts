@@ -15,6 +15,7 @@ import rulerActions from './ruler.actions';
 import srActions from './sr.actions';
 import settingsActions from './settings.actions';
 import aboutActions from './about.actions';
+import feedbackActions from './feedback.actions';
 import apiActions from './api.actions';
 
 
@@ -36,6 +37,7 @@ const actions: ActionsType<Accessabar.IState, Accessabar.IActions> = {
     ...settingsActions,
     ...aboutActions,
     ...apiActions,
+    ...feedbackActions,
 };
 
 export default actions;

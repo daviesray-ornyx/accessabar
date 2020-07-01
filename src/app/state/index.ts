@@ -35,6 +35,16 @@ const state: Accessabar.IState = {
     magHeightOffset:  0,
     magWidthOffset: 0,
 
+    // Feedback state Items
+    feedbackProvided: false,
+    feedbackActive: false,
+    feedbackHeight: new BigNumber(window.innerHeight).times(0.3).decimalPlaces(0).toNumber(), // Initialize at 30% of screen
+    feedbackHeightMin: 50,
+    feedbackWidth: new BigNumber(window.innerWidth).times(0.3).decimalPlaces(0).toNumber(),
+    feedbackWidthMin: 50,
+    feedbackPosX:  new BigNumber(window.innerWidth).dividedBy(2).minus(new BigNumber(window.innerWidth).times(0.3).dividedBy(4)).toNumber(),
+    feedbackPosY: new BigNumber(window.innerHeight).dividedBy(2).minus(new BigNumber(window.innerHeight).times(0.3).decimalPlaces(0).dividedBy(2)).toNumber(),
+
     maskActive: false,
     maskColourCurrent: '',
     maskColourCustomCurrent: '#fff',

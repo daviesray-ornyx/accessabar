@@ -34,6 +34,8 @@ const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
             ttsHoverSpeak: state.ttsHoverSpeak,
 
             selectFontListActive: state.selectFontListActive,
+
+            feedbackProvided: state.feedbackProvided,
         };
 
         for (const func of window.abar.appliedFunctions.values()) {

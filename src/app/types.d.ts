@@ -96,6 +96,15 @@ declare namespace Accessabar {
         magHeightOffset: number;
         magWidthOffset: number;
 
+        feedbackProvided: boolean;
+        feedbackActive: boolean;
+        feedbackHeight: number;
+        feedbackHeightMin: number,
+        feedbackWidth: number,
+        feedbackWidthMin: number
+        feedbackPosX: number,
+        feedbackPosY: number,
+
         maskActive: boolean;
         maskCustomActive: boolean;
         maskOpacity: string;
@@ -156,6 +165,7 @@ declare namespace Accessabar {
         ILanguageActions,
         IResetActions,
         ICloseActions,
+        IFeedbackActions,
         IMenuActions,
         ITTSActions,
         ISelectActions,
@@ -212,6 +222,13 @@ declare namespace Accessabar {
 
     interface ICloseActions {
         closeAccessabar(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+    }
+
+    interface IFeedbackActions {
+        showFeedback(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        thumbsUpFeedback(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        thumbsDownFeedback(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        closeFeedback(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
     }
 
     interface IMenuActions {

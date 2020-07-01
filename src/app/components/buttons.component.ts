@@ -699,6 +699,8 @@ const closeButton = ({ closeAccessabar, apiSendEvent }: ICloseActions) => {
     );
 };
 
+
+
 interface IHideButtonActions {
     abarHide: Accessabar.IHideActions['abarHide'];
 }

@@ -127,31 +127,6 @@ const mag = ({magPageContent, magActive, magTranslateX, magTranslateY, magScale,
                     ),
                 ],
             ),
-            // h(
-            //     'ab-mag-resize-icon',
-            //     {
-            //         'aria-label': 'Resize the magnifier by holding the left mouse button and dragging',
-            //         class: 'ab-resize-square',
-            //         onmousedown: (event) => {                     
-            //             magStartDrag(event);
-            //         },
-            //         onmouseup: () => {
-            //             magStopDrag();
-            //         },
-            //         ontouchcancel: () => {
-            //             magStopDrag();
-            //         },
-            //         ontouchend: () => {
-            //             magStopDrag();
-            //         },
-            //         ontouchstart: (event) => {
-            //             magStartDrag(event);
-            //         },
-            //     },
-            //     [
-            //         h('ab-icon', { 'aria-hidden': 'true', class: 'ab-icon ab-icon-resize' }),
-            //     ],
-            // ),
         ],
     );
 };
