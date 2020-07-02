@@ -1,22 +1,35 @@
 {
     "compilerOptions": {
-        "outDir": "./public/dist/accessabar/",
-        "sourceMap": true,
-        "noImplicitAny": false,
-        "module": "commonjs",
-        "target": "esnext",
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
         "allowJs": false,
-		"allowSyntheticDefaultImports": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": true,
+        "noEmitOnError": true,
+        "declaration": true,
+        "forceConsistentCasingInFileNames": true,
         "preserveConstEnums": true,
         "noUnusedLocals": true,
-		"strictNullChecks": true,
+        "sourceMap": true,
+        "strict": true,
         "removeComments": false,
         "moduleResolution": "node",
         "pretty": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+
+        "outDir": "./public/dist/accessabar/",
+        "module": "commonjs",
+        "target": "es2018",
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "types": ["cypress"]
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "node_modules/@webcomponents/custom-elements/src/Externs.d.ts"
     ],
     "exclude": [
 		"node_modules"

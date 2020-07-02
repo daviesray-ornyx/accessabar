@@ -14,7 +14,7 @@ const feedbackActions: ActionsType<Accessabar.IState, Accessabar.IFeedbackAction
 
         // Ensure feedback status is set to true
         resetAll();
-        window.abar.close();
+        //window.abar.close();
 
         return { 
             abarHidden: false,
@@ -28,7 +28,7 @@ const feedbackActions: ActionsType<Accessabar.IState, Accessabar.IFeedbackAction
 
         // Ensure feedback status is set to true
         resetAll();
-        window.abar.close();
+        //window.abar.close();
 
         return { 
             abarHidden: false,
@@ -42,7 +42,7 @@ const feedbackActions: ActionsType<Accessabar.IState, Accessabar.IFeedbackAction
 
         // Ensure feedback status is set to false
         resetAll();
-        window.abar.close();
+        //window.abar.close();
 
         return { 
             abarHidden: false,

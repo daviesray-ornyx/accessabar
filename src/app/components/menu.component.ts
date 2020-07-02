@@ -1,124 +1,114 @@
-import { h } from 'hyperapp';
-import { handleButtonNavigation } from './buttons.component';
+import {h} from 'hyperapp';
+import {handleButtonNavigation} from './buttons.component';
 import * as menus from './menus.component';
+import {menuClose, menuEndDrag, menuStartDrag} from '../actions/menu.actions';
+import {aceAddTippy} from '../actions/ace.actions';
+import * as actions from '../actions/menu.actions';
 import tippy from 'tippy.js';
 
-const menuNames = new Map([
-    ['tts', menus.ttsMenu],
-    ['textOptions', menus.textOptionsMenu],
-    ['magnifier', menus.magMenu],
-    ['masking', menus.maskMenu],
-    ['rulerOptions', menus.rulerOptionsMenu],
-    ['speechRecognition', menus.srMenu],
-    ['pageTranslate', menus.ptMenu],
+const menuConfigs = new Map([
+  ['tts', {title: 'Text to Speech', menu: menus.ttsMenu}],
+  ['textOptions', {title: 'Text Options', menu: menus.textOptionsMenu}],
+  ['magnifier', {title: 'Magnifier Options', menu: menus.magMenu}],
+  ['masking', {title: 'Screen Masking Options', menu: menus.maskMenu}],
+  ['rulerOptions', {title: 'Ruler Options', menu: menus.rulerOptionsMenu}],
+  ['speechRecognition', {title: 'Speech Recognition', menu: menus.srMenu}],
+  ['pageTranslate', {title: 'Page Translation', menu: menus.ptMenu}],
 ]);
 
-const placeholderEl = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    return h('ab-placeholder');
-};
+const placeholderEl = () => h('ab-placeholder');
 
-const menu = (state: Accessabar.IState, actions: Accessabar.IActions) => {
-    // TODO: remove any type
-    const menuEl: any = menuNames.has(state.menuCurrent)
-        ? menuNames.get(state.menuCurrent) || placeholderEl
-        : placeholderEl;
-    
-    return h(
-        'ab-menu',
+const menu = (state: Ace.State, menuName: string) => {
+  const menuConfig = menuConfigs.get(menuName) || {
+    title: '',
+    menu: placeholderEl,
+  };
+
+  return h(
+    'ab-menu',
+    {
+      'aria-label': `${menuConfig.title} Menu`,
+      class: 'ab-menu ab-draggable',
+      id: `ab-menu-${menuName}`,
+      style: {
+        left: `${state.menus[menuName].menuPosX}px`,
+        top: `${state.menus[menuName].menuPosY}px`,
+      },
+    },
+    [
+      h(
+        'ab-menu-header',
         {
-            'aria-label': `${state.menuTitle} Menu`,
-            class: `ab-menu ab-draggable ${state.menuHidden ? 'ab-hide' : ''}`,
-            id: 'ab-menu',
-            oncreate: (el: HTMLElement) => {
-                actions.menuUpdatePosition(el);
-            },
-            style: {
-                left: state.menuPosX !== false ? `${ state.menuPosX }px` : null,
-                top: state.menuPosY !== false ? `${ state.menuPosY }px` : null,
-            },
+          'aria-label': 'Hold left mouse button to drag the menu',
+          class: 'ab-menu-header ab-flex',
+          onmousedown: [menuStartDrag, ev => ({menuName, ev})],
+          ontouchstart: [menuStartDrag, ev => ({menuName, ev})],
+          onmouseup: menuEndDrag,
+          ontouchend: menuEndDrag,
+          ontouchcancel: menuEndDrag,
         },
         [
-            h(
-                'ab-menu-header',
-                {
-                    'aria-label': 'Hold left mouse button to drag the menu',
-                    class: 'ab-menu-header ab-flex',
-                    onmousedown: (event) => {
-                        actions.menuStartDrag(event);
-                    },
-                    ontouchstart: (event) => {
-                        actions.menuStartDrag(event);
-                    },
+          h(
+            'ab-menu-header-text',
+            {class: 'ab-menu-header-text'},
+            menuConfig.title
+          ),
+          h(
+            'ab-menu-help-button',
+            {
+                'aria-label': 'Feature Help',
+                class: 'ab-menu-help',
+                id: 'ab-menu-help',
+                onclick: () => {
+                    actions.menuHelp();
                 },
-                [
-                    h('ab-menu-header-text', { class: 'ab-menu-header-text' }, state.menuTitle),
-                    h('ab-menu-buttons-container', {class: 'ab-menu-buttons-container'}, 
-                    [
-                        h(
-                            'ab-menu-help-button',
-                            {
-                                'aria-label': 'Feature Help',
-                                class: 'ab-menu-help',
-                                id: 'ab-menu-help',
-                                onclick: () => {
-                                    actions.menuHelp();
-                                },
-                                oncreate: () => {
-                                    tippy('#accessabar #ab-menu-help', {
-                                        arrow: true,
-                                        content: 'Would you like some help?',
-                                        placement: 'bottom',
-                                        theme: 'ab',
-                                    });
-                                },
-                                onkeydown: handleButtonNavigation,
-                                role: 'button',
-                                tabIndex: 1,
-                            },
-                            [
-                                h('ab-icon', {
-                                    'aria-hidden': 'true',
-                                    class: 'ab-icon ab-icon-help',
-                                }),
-                            ],
-                        ),
-                        h(
-                            'ab-menu-close-button',
-                            {
-                                'aria-label': 'Close menu',
-                                class: 'ab-menu-close',
-                                id: 'ab-menu-close',
-                                onclick: () => {
-                                    actions.menuClose();
-                                },
-                                oncreate: () => {
-                                    tippy('#accessabar #ab-menu-close', {
-                                        arrow: true,
-                                        content: 'Close Menu',
-                                        placement: 'bottom',
-                                        theme: 'ab',
-                                    });
-                                },
-                                onkeydown: handleButtonNavigation,
-                                role: 'button',
-                                tabIndex: 1,
-                            },
-                            [
-                                h('ab-icon', {
-                                    'aria-hidden': 'true',
-                                    class: 'ab-icon ab-icon-cross',
-                                }),
-                            ],
-                        ),                        
-                    ]),                
-                ],
-            ),
-            menuEl(state, actions),
-        ],
-    );
+                oncreate: () => {
+                    tippy('#accessabar #ab-menu-help', {
+                        arrow: true,
+                        content: 'Would you like some help?',
+                        placement: 'bottom',
+                        theme: 'ab',
+                    });
+                },
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabIndex: 1,
+            },
+            [
+                h('ab-icon', {
+                    'aria-hidden': 'true',
+                    class: 'ab-icon ab-icon-help',
+                }),
+            ],
+        ),
+          h(
+            'ab-menu-close-button',
+            {
+              'aria-label': 'Close menu',
+              class: 'ab-menu-close',
+              id: 'ab-menu-close',
+              onclick: [menuClose, menuName],
+              onmouseover: [
+                aceAddTippy,
+                {id: '#ab-menu-close', content: 'Close Menu'},
+              ],
+              onkeydown: handleButtonNavigation,
+              role: 'button',
+              tabIndex: 1,
+            },
+            [
+              h('ab-icon', {
+                'aria-hidden': 'true',
+                class: 'ab-icon ab-icon-cross',
+              }),
+            ]
+          ),
+        ]
+      ),
+      menuConfig.menu(state),
+    ]
+  );
 };
 
 export default menu;
-export {
-    menu,
-};
+export {menu};

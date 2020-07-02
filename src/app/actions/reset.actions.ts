@@ -1,52 +1,26 @@
-import { ActionsType } from 'hyperapp';
-import state from '../state';
+import aceState from '../state/ace.state';
+import {fontReset} from './font.actions';
 
-const resetActions: ActionsType<Accessabar.IState, Accessabar.IResetActions> = {
-    resetAll: () => {
-        const resetState = {
-            fontActive: state.fontActive,
-            fontColourActive: state.fontColourActive,
-            fontColourCurrent: state.fontColourCurrent,
-            fontColourCustomCurrent: state.fontColourCustomCurrent,
-            fontLetterSpacingActive: state.fontLetterSpacingActive,
-            fontLetterSpacingCount: state.fontLetterSpacingCount,
-            fontLineSpacingActive: state.fontLineSpacingActive,
-            fontLineSpacingCount: state.fontLineSpacingCount,
+function resetState(state: Ace.State) {
+  const resetStateObj = {
+    aceHidden: state.aceHidden,
+    menus: state.menus,
+  };
 
-            magActive: state.magActive,
-            magScale: state.magScale,
+  return {...aceState, ...resetStateObj};
+}
 
-            maskColourCurrent: state.maskColourCurrent,
-            maskColourCustomCurrent: state.maskColourCustomCurrent,
-            maskOpacity: state.maskOpacity,
+function resetFunctions(state: Ace.State) {
+  state.fontSizingActive && fontReset(state, 'fontSizing');
+  state.fontActive && fontReset(state, 'fontFamily');
+  state.fontColourActive && fontReset(state, 'fontColour');
+  state.fontLineSpacingActive && fontReset(state, 'fontLineSpacing');
+  state.fontLetterSpacingActive && fontReset(state, 'fontLetterSpacing');
+}
 
-            menuMouseX: state.menuMouseX,
-            menuMouseY: state.menuMouseY,
-            // Reset to default position
-            menuPosX: 50,
-            menuPosY: window.abar.mainElement.getBoundingClientRect().height,
+function resetAll(state: Ace.State) {
+  resetFunctions(state);
+  return resetState(state);
+}
 
-            rulerPinholeCentreHeight: state.rulerPinholeCentreHeight,
-            rulerPinholeOpacity: state.rulerPinholeOpacity,
-            rulerReadingOpacity: state.rulerReadingOpacity,
-
-            ttsHighlightSpeak: state.ttsHighlightSpeak,
-            ttsHoverSpeak: state.ttsHoverSpeak,
-
-            selectFontListActive: state.selectFontListActive,
-
-            feedbackProvided: state.feedbackProvided,
-        };
-
-        for (const func of window.abar.appliedFunctions.values()) {
-            func();
-        }
-
-        window.abar.appliedFunctions.clear();
-
-        return resetState;
-    },
-};
-
-export default resetActions;
-export { resetActions };
+export default resetAll;

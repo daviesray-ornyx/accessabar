@@ -1,272 +1,171 @@
-import { ActionsType } from 'hyperapp';
-import menuConfig from '../../config/menu.config.json5';
-import AccessabarUtil from '../util';
+import {fxMenuDragEvents, fxMenuOpen} from '../fx/menu.fx';
 
-const helpLink = `http://acetoolbar.com/`;
+function menuSpawn(state: Ace.State, opts) {
+  const {menus} = state;
 
-interface IDragEvent extends MouseEvent, TouchEvent {}
-
-function menuPassthrough(event) {
-    window.abar.appActions.menuMove(event);
+  return {
+    ...state,
+    menus: {
+      ...menus,
+      ...menuFactory(opts.menuName, opts.title),
+    },
+  };
 }
 
-function menuDragPassthrough() {
-    window.abar.appActions.menuStopDrag();
+function menuFactory(
+  name: string,
+  title: string
+): {[x: string]: Ace.StateMenu} {
+  if (!window.ace.mainElement) {
+    return {};
+  }
+
+  const bar = window.ace.mainElement.querySelector('ab-inner-bar');
+
+  if (!bar) {
+    return {};
+  }
+
+  return {
+    [name]: {
+      menuActive: true,
+      menuPosX: 0,
+      menuPosY: bar.getBoundingClientRect().height,
+      menuInitialX: 0,
+      menuInitialY: 0,
+      menuOffsetX: 0,
+      menuOffsetY: bar.getBoundingClientRect().height,
+      menuTitle: title,
+    },
+  };
 }
 
-const menuActions: ActionsType<Accessabar.IState, Accessabar.IMenuActions> = {
-    menuAddListener: () => ({ menuEvent }) => {
-        if (!menuEvent) {
-            document.addEventListener('mousemove', menuPassthrough);
-            document.addEventListener('touchmove', menuPassthrough);
+function menuMove(state: Ace.State) {
+  if (!window.ace.mainElement) {
+    return state;
+  }
 
-            document.addEventListener('mouseup', menuDragPassthrough);
-            document.addEventListener('touchcancel', menuDragPassthrough);
-            document.addEventListener('touchend', menuDragPassthrough);
+  const {menusDragActive, menus, dragMouseX, dragMouseY} = state;
+  const {menuInitialX, menuInitialY} = menus[menusDragActive];
+  const menu = window.ace.mainElement.querySelector(
+    `#ab-menu-${menusDragActive}`
+  );
 
-            return { menuEvent: true };
-        }
+  if (!menu) {
+    return state;
+  }
+
+  const rect = menu.getBoundingClientRect();
+  const windowWidth = window.innerWidth - rect.width;
+  const windowHeight = window.innerHeight - rect.height;
+  let x = dragMouseX - menuInitialX;
+  let y = dragMouseY - menuInitialY;
+
+  if (x < 0) {
+    x = 0;
+  }
+
+  if (x > windowWidth) {
+    x = windowWidth;
+  }
+
+  if (y < 0) {
+    y = 0;
+  }
+
+  if (y > windowHeight) {
+    y = windowHeight;
+  }
+
+  return {
+    ...state,
+    menus: {
+      ...menus,
+      [menusDragActive]: {
+        ...menus[menusDragActive],
+        menuPosX: x,
+        menuPosY: y,
+        menuOffsetX: x,
+        menuOffsetY: y,
+      },
     },
+  };
+}
 
-    menuRemoveListener: () => ({ menuEvent }) => {
-        if (menuEvent) {
-            document.removeEventListener('mousemove', menuPassthrough);
-            document.removeEventListener('touchmove', menuPassthrough);
-
-            document.removeEventListener('mouseup', menuDragPassthrough);
-            document.removeEventListener('touchcancel', menuDragPassthrough);
-            document.removeEventListener('touchend', menuDragPassthrough);
-
-            return { menuEvent: false };
-        }
+function menuStartDrag(
+  state: Ace.State,
+  opts: {ev: Ace.DragEvent; menuName: string}
+) {
+  opts.ev.preventDefault();
+  const {menuOffsetX, menuOffsetY} = state.menus[opts.menuName];
+  const ev = opts.ev.touches ? opts.ev.touches[0] : opts.ev;
+  const {clientX, clientY} = ev;
+  const newState = {
+    ...state,
+    menusCanDrag: true,
+    menusDragActive: opts.menuName,
+    menus: {
+      ...state.menus,
+      [opts.menuName]: {
+        ...state.menus[opts.menuName],
+        menuInitialX: clientX - menuOffsetX,
+        menuInitialY: clientY - menuOffsetY,
+      },
     },
+  };
 
-    menuMove: (event: IDragEvent) => ({ menuCanDrag, menuPosX, menuPosY, menuMouseX, menuMouseY }, { menuStopDrag }) => {
-        const ev = event.touches ? event.touches[0] : event;
+  return [newState, fxMenuDragEvents(newState)];
+}
 
-        const {
-            clientX,
-            clientY,
-        } = ev;
+function menuEndDrag(state: Ace.State) {
+  const newState = {
+    ...state,
+    menusCanDrag: false,
+    menusDragActive: '',
+  };
 
-        const menu = window.abar.mainElement.querySelector('#ab-menu');
+  return [newState, fxMenuDragEvents(newState)];
+}
 
-        if (!menuCanDrag || !menu || typeof menuPosX === 'boolean' || typeof menuPosY === 'boolean') {
-            return;
-        }
+function menuOpen(state: Ace.State, opts: {menuName: string; title: string}) {
+  const {menuName, title} = opts;
 
-        if (menuCanDrag) {
-            event.preventDefault();
-        }
+  return [state, fxMenuOpen(state, menuName, title)];
+}
 
-        const rect = menu.getBoundingClientRect();
-        const windowWidth = window.innerWidth - rect.width;
-        const windowHeight = window.innerHeight - rect.height;
-        let x = menuPosX + (clientX - menuMouseX);
-        let y = menuPosY + (clientY - menuMouseY);
+function menuClose(state: Ace.State, name: string) {
+  const {menus} = state;
+  const menusCopy = menus;
 
-        let menuMoveXAllowed = true;
-        let menuMoveYAllowed = true;
+  delete menusCopy[name];
 
-        if (x < 0) {
-            x = 0;
-            menuMoveXAllowed = false;
-        }
+  return {
+    ...state,
+    menus: menusCopy,
+  };
+}
 
-        if (x > windowWidth) {
-            x = windowWidth;
-            menuMoveXAllowed = false;
-        }
+function menuTextOpsSwitchInner(state: Ace.State, current: string) {
+  return {
+    ...state,
+    textOpsInnerMenuCurrent: current,
+  };
+}
 
-        if (y < 0) {
-            y = 0;
-            menuMoveYAllowed = false;
-        }
+function menuRulerOpsSwitchInner(state: Ace.State, current: string) {
+  return {
+    ...state,
+    rulerOpsInnerMenuCurrent: current,
+  };
+}
 
-        if (y > windowHeight) {
-            y = windowHeight;
-            menuMoveYAllowed = false;
-        }
-
-        if (!menuMoveYAllowed && !menuMoveXAllowed) {
-            return {
-                menuPosX: x,
-                menuPosY: y,
-            };
-        }
-
-        if (!menuMoveXAllowed) {
-            return {
-                menuMouseY: clientY,
-                menuPosX: x,
-                menuPosY: y,
-            };
-        }
-
-        if (!menuMoveYAllowed) {
-            return {
-                menuMouseX: clientX,
-                menuPosX: x,
-                menuPosY: y,
-            };
-        }
-
-        return {
-            menuMouseX: clientX,
-            menuMouseY: clientY,
-            menuPosX: x,
-            menuPosY: y,
-        };
-    },
-
-    menuToggleHide: () => ({ menuHidden }) => {
-        return {
-            menuHidden: !menuHidden,
-        };
-    },
-
-    menuHide: () => {
-        return {
-            menuHidden: true,
-        };
-    },
-
-    menuShow: () => {
-        const bar = window.abar.mainElement.querySelector('.ab-bar');
-
-        if (!bar) {
-            return;
-        }
-
-        return {
-            menuHidden: false,
-            menuPosX: 50,
-            menuPosY: bar.getBoundingClientRect().height,
-        };
-    },
-
-    menuUpdatePosition: (el: HTMLElement) => {
-        const rect = el.getBoundingClientRect();
-
-        return {
-            menuPosX: rect.left,
-            menuPosY: rect.top,
-        };
-    },
-
-    menuUpdateMousePosition: (event: IDragEvent) => {
-        const ev = event.touches ? event.touches[0] : event;
-
-        const {
-            clientX,
-            clientY,
-        } = ev;
-
-        return {
-            menuMouseX: clientX,
-            menuMouseY: clientY,
-        };
-    },
-
-    menuStartDrag: (event: IDragEvent) => (state, { menuUpdateMousePosition }) => {
-        event.preventDefault();
-
-        menuUpdateMousePosition(event);
-
-        return { menuCanDrag: true };
-    },
-
-    menuStopDrag: () => ({ menuCanDrag: false }),
-
-    menuHandle: (name: string) => ({ menuCurrent, menuActive }, { menuOpen, menuClose }) => {
-        if (!menuCurrent && !menuActive) {
-            menuOpen(name);
-            return;
-        }
-
-        if (menuActive && menuCurrent !== name) {
-            menuClose();
-            menuOpen(name);
-            return;
-        }
-
-        if (menuActive && menuCurrent === name) {
-            menuClose();
-            return;
-        }
-    },
-
-    menuOpen: (name: string) => ({ menuCurrent, menuActive }, { menuClose, menuShow, menuAddListener }) => {
-        const config: Accessabar.IMenuConfig = menuConfig[name];
-
-        if (!config) {
-            return;
-        }
-
-        const { title } = config;
-
-        if (name === menuCurrent) {
-            return;
-        }
-
-        if (menuActive && menuCurrent) {
-            menuClose();
-        }
-
-        menuAddListener();
-        menuShow();
-
-        return {
-            menuActive: true,
-            menuCurrent: name,
-            menuTitle: title,
-        };
-    },
-
-    menuClose: () => ({ menuCurrent }, { menuHide, menuRemoveListener }) => {
-
-
-
-        const config: Accessabar.IMenuConfigObject = menuConfig[menuCurrent];
-        const {
-            disableOnClose,
-            disableFunctions,
-        } = config;
-
-        if (disableOnClose && disableFunctions && disableFunctions.length > 0) {
-            for (const func of disableFunctions) {
-                AccessabarUtil.stopFunction(func);
-            }
-        }
-
-        menuRemoveListener();        
-        menuHide();
-        return {
-            menuActive: false,
-            menuCurrent: '',
-        };
-    },
-
-    menuHelp: () => ({ menuCurrent }, { }) => {
-        
-        // open link in new tab
-        const helpURL = new URL(menuConfig[menuCurrent]['helpSection'], helpLink);
-        window.open(helpURL.toString());
-        return { };
-    },
-
-    menuTextOpsSwitchInner: (current: string) => () => {
-        return {
-            textOpsInnerMenuCurrent: current,
-        };
-    },
-
-    menuRulerOpsSwitchInner: (current: string) => () => {
-        return {
-            rulerOpsInnerMenuCurrent: current,
-        };
-    },
+export {
+  menuMove,
+  menuClose,
+  menuOpen,
+  menuRulerOpsSwitchInner,
+  menuStartDrag,
+  menuTextOpsSwitchInner,
+  menuEndDrag,
+  menuSpawn,
 };
-
-export default menuActions;
-export { menuActions };

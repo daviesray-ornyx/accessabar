@@ -73,5 +73,8 @@ jspm_packages
 public/dist/accessabar
 public/views
 
-# Environemt settings variables for Yandex keys, and probably many more 
+# Environemt settings variables for Yandex keys, and probably many more
 #.env
+
+# Local testing version of hyperapp
+ha.js

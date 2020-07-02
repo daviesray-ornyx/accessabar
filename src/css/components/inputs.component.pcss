@@ -1,35 +1,46 @@
 #accessabar .ab-switch {
     display: flex;
-    height: calc(1.5rem + 2px);
-    width: calc(3rem + 2px);
-    min-width: calc(3rem + 2px);
+    height: calc(1.5rem + 4px);
+    width: calc(3rem + 4px);
+    min-width: calc(3rem + 4px);
     margin-right: 0.5em;
     border-radius: 1rem;
+    border: 2px solid var(--accent-grey);
     align-items: center;
-    transition: background 0.75s;
 
     .ab-handle {
         margin: 4px;
         height: 1.25em;
         width: 1.25em;
         border-radius: 50%;
-        background: content-box var(--medium-light-grey);
-        transition: background 0.5s;
+        background: content-box var(--medium-grey);
         pointer-events: none;
     }
 
     &.ab-off {
-        background: #cfcfcf;
+        color: var(--lighter-red);
+        background: var(--very-light-grey);
         justify-content: flex-start;
     }
 
     &.ab-on {
+        color: white;
         background: var(--active-green);
         justify-content: flex-end;
 
         .ab-handle {
             background: content-box var(--near-white);
         }
+
+        .ab-switch-state {
+            order: -1;
+        }
+    }
+
+    .ab-switch-state {
+        font-size: 0.6em;
+        pointer-events: none;
+        touch-action: none;
     }
 
     &:hover {

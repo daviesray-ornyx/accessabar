@@ -1,25 +1,10 @@
-import { ActionsType } from 'hyperapp';
+import {apiSendEvent} from './api.actions';
 
-const closeActions: ActionsType<Accessabar.IState, Accessabar.ICloseActions> = {
-    closeAccessabar: () => ({ abarHidden, feedbackProvided }, { resetAll }: Accessabar.IActions) => {
+function closeAce(state) {
+  apiSendEvent('AceClosed');
+  window.ace.close();
+  return state;
+}
 
-        // Before hiding menu... Check for feedback status
-        if(feedbackProvided == false){
-            // Show feedback dialog first
-            return {
-                feedbackProvided: false,
-                feedbackActive: true,
-            }
-        }
-
-        // feedback already provided. Proceed to hide menu
-
-        resetAll();
-        window.abar.close();
-
-        return { abarHidden: false };
-    },
-};
-
-export default closeActions;
-export { closeActions };
+export default closeAce;
+export {closeAce};

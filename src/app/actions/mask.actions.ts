@@ -1,59 +1,80 @@
-import { ActionsType } from 'hyperapp';
 import BigNumber from 'bignumber.js';
+import {apiSendEvent} from './api.actions';
 
-const maskActions: ActionsType<Accessabar.IState, Accessabar.IMaskActions> = {
-    maskEnable: () => ({ maskActive }) => {
-        console.log(maskActive);
-        return {
-            maskActive: true,
-        };
+function maskToggle(state: Ace.State) {
+  if (!state.maskActive) {
+    apiSendEvent('AceScreenMask_On');
+  }
 
-    },
+  return {
+    ...state,
+    maskActive: !state.maskActive,
+  };
+}
 
-    maskStop: () => ({ maskActive }) => {
-        console.log(maskActive);
+function maskChangeColour(state: Ace.State, colour?: string) {
+  const {maskColourCurrent} = state;
+  const currentColour: string = colour || maskColourCurrent;
 
-        return {
-            maskActive: false,
-        };
-    },
+  if (currentColour.length <= 0) {
+    return state;
+  }
 
-    maskColourChange: (colour: string) => ({ maskColourCurrent }) => {
-        const currentColour: string = colour || maskColourCurrent;
+  return {
+    ...state,
+    maskColourCurrent: colour,
+    maskCustomActive: false,
+  };
+}
 
-        if (currentColour.length <= 0) {
-            return;
-        }
+function maskChangeColourCustom(state: Ace.State, colour: string) {
+  const {maskColourCustomCurrent} = state;
+  const currentColour: string = colour || maskColourCustomCurrent;
 
-        return {
-            maskColourCurrent: colour,
-        };
-    },
+  if (currentColour.length <= 0) {
+    return state;
+  }
 
-    maskDecreaseOpacity: () => ({ maskOpacity, maskOpacityStep, maskOpacityMin }) => {
-        const newOpacity = new BigNumber(maskOpacity).minus(maskOpacityStep);
+  return {
+    ...state,
+    maskColourCurrent: colour,
+    maskColourCustomCurrent: colour,
+    maskCustomActive: true,
+  };
+}
 
-        if (newOpacity.isLessThan(maskOpacityMin)) {
-            return;
-        }
+function maskDecreaseOpacity(state: Ace.State) {
+  const {maskOpacity, maskOpacityStep, maskOpacityMin} = state;
+  const newOpacity = new BigNumber(maskOpacity).minus(maskOpacityStep);
 
-        return {
-            maskOpacity: newOpacity.toString(),
-        };
-    },
+  if (newOpacity.isLessThan(maskOpacityMin)) {
+    return state;
+  }
 
-    maskIncreaseOpacity: () => ({ maskOpacity, maskOpacityStep, maskOpacityMax }) => {
-        const newOpacity = new BigNumber(maskOpacity).plus(maskOpacityStep);
+  return {
+    ...state,
+    maskOpacity: newOpacity.toString(),
+  };
+}
 
-        if (newOpacity.isGreaterThan(maskOpacityMax)) {
-            return;
-        }
+function maskIncreaseOpacity(state: Ace.State) {
+  const {maskOpacity, maskOpacityStep, maskOpacityMax} = state;
+  const newOpacity = new BigNumber(maskOpacity).plus(maskOpacityStep);
 
-        return {
-            maskOpacity: newOpacity.toString(),
-        };
-    },
+  if (newOpacity.isGreaterThan(maskOpacityMax)) {
+    return state;
+  }
+
+  return {
+    ...state,
+    maskOpacity: newOpacity.toString(),
+  };
+}
+
+export {
+  maskChangeColourCustom,
+  maskChangeColour,
+  maskDecreaseOpacity,
+  maskIncreaseOpacity,
+  maskToggle,
 };
-
-export default maskActions;
-export { maskActions };

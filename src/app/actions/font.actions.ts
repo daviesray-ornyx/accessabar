@@ -1,388 +1,377 @@
-import { ActionsType } from 'hyperapp';
 import config from '../../config/functions.config.json5';
-import { AccessabarUtil } from '../util';
 import fontConfig from '../../config/fonts.config.json5';
+import {
+  acePruneFuncs,
+  editLoop,
+  editLoopComputed,
+  getParents,
+} from './ace.actions';
+import {apiSendEvent} from './api.actions';
+import {
+  fxFontColourToggle,
+  fxFontColourChange,
+  fxFontFamilyToggle,
+  fxFontLetterSpacingToggle,
+  fxFontLineSpacingToggle,
+  fxFontSizingDisable,
+  fxFontLineSpacingChange,
+  fxFontLetterSpacingChange,
+  fxFontToggleCurrent,
+} from '../fx/font.fx';
 
 /**
  * Fetches and returns parents of text nodes in the document
- *
- * @returns {Set<HTMLElement>}
  */
-function getParents(): Set<HTMLElement> {
-    const elements = document.body.childNodes;
-    const taggedElements: ChildNode[] = [];
-    const textNodes: Node[] = [];
-    const parentElements: Set<HTMLElement> = new Set();
 
-    // Filter through immediate child elements of body
-    // and get elements to walk
-    for (const el of elements) {
-        // Do not add accessabar or elements with no children
-        if (el !== window.abar.mainElement && el.childNodes.length !== 0) {
-            taggedElements.push(el);
-        }
-    }
+function fontDecSize(state: Ace.State) {
+  const {fontSizing}: {fontSizing: Ace.FuncConfig} = config;
 
-    for (const el of taggedElements) {
-        // Will find all text nodes in element
-        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+  editLoopComputed(fontSizing, 'fontSize', -1);
 
-        // Push each text node found into array
-        while (walker.nextNode()) {
-            textNodes.push(walker.currentNode);
-        }
-    }
+  apiSendEvent('AceFontSizeDec');
 
-    for (const node of textNodes) {
-        const text = (node.textContent || '').trim();
-
-        // Do not add empty text nodes or line feeds in HTML
-        if (text === '' || text === '\n') {
-            continue;
-        }
-
-        const parent = node.parentElement;
-
-        if (!parent) {
-            continue;
-        }
-
-        // Do not add tippy tooltips
-        if (parent.classList.contains('tippy-content')) {
-            continue;
-        }
-
-        // Do not add duplicates
-        if (parentElements.has(parent)) {
-            continue;
-        }
-
-        parentElements.add(parent);
-    }
-
-    return parentElements;
+  return {
+    ...state,
+    fontSizingActive: true,
+    fontSizingRelative: state.fontSizingRelative - 1,
+  };
 }
 
-function editLoop(currentConfig: Accessabar.IConfigObject, modifier: string, modifierValue: string | number) {
-    const parentElements = getParents();
-
-    for (const el of parentElements) {
-        const abarEdited = el.getAttribute('accessabar-edited');
-
-        if (!abarEdited) {
-            el.setAttribute('accessabar-edited', currentConfig.editName);
-            el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
-        }
-
-        if (abarEdited && abarEdited.split(' ').indexOf(currentConfig.editName) === -1) {
-            const funcNames = abarEdited.split(' ');
-
-            funcNames.push(currentConfig.editName);
-            el.setAttribute('accessabar-edited', funcNames.join(' '));
-            el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
-        }
-
-        el.style[modifier] = modifierValue;
-    }
+function fontSizingDisable(state: Ace.State) {
+  return [
+    {
+      ...state,
+      fontSizingActive: false,
+    },
+    fxFontSizingDisable(state),
+  ];
 }
 
-function editLoopComputed(currentConfig: Accessabar.IConfigObject, modifier: string, modifierStep: number, modifierCount?: number) {
-    const parentElements = getParents();
+function fontIncSize(state: Ace.State) {
+  const {fontSizing}: {fontSizing: Ace.FuncConfig} = config;
 
-    // Loops over elements and changes text size for each element
-    for (const el of parentElements) {
-        // Get exact computed size for accurate results
-        const computed = window.getComputedStyle(el)[modifier];
-        // fix for letter-spacing when set to normal
-        const size: string = computed === 'normal' ? '0px' : computed;
-        const sizeNumeric: number = parseFloat(size);
+  editLoopComputed(fontSizing, 'fontSize', 1);
 
-        if (size) {
-            const abarEdited = el.getAttribute('accessabar-edited');
+  apiSendEvent('AceFontSizeInc');
 
-            // Add attribute to element to flag edits from Accessabar.
-            // If 'font-size' was set inline, it is added to 'accessabar-orig-font-size'.
-            if (!abarEdited) {
-                el.setAttribute('accessabar-edited', currentConfig.editName);
-                el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
-                el.setAttribute(currentConfig.attrNames.origComputed, size);
-            }
-
-            if (abarEdited && abarEdited.split(' ').indexOf(currentConfig.editName) === -1) {
-                const funcNames = abarEdited.split(' ');
-
-                funcNames.push(currentConfig.editName);
-                el.setAttribute('accessabar-edited', funcNames.join(' '));
-                el.setAttribute(currentConfig.attrNames.orig, el.style[modifier] || 'none');
-                el.setAttribute(currentConfig.attrNames.origComputed, size);
-            }
-
-            if (typeof modifierCount === 'undefined') {
-                el.style[modifier] = `${sizeNumeric + modifierStep}px`;
-                continue;
-            }
-
-            const origComputed = el.getAttribute(currentConfig.attrNames.origComputed);
-
-            if (origComputed) {
-                const origComputedNumeric: number = parseFloat(origComputed);
-
-                el.style[modifier] = `${origComputedNumeric + (modifierStep * modifierCount)}px`;
-            }
-        }
-    }
+  return {
+    ...state,
+    fontSizingActive: true,
+    fontSizingRelative: state.fontSizingRelative + 1,
+  };
 }
 
-const fontActions: ActionsType<Accessabar.IState, Accessabar.IFontActions> = {
-    fontDecSize: () => {
-        const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
+function fontHydrateSize(state: Ace.State) {
+  const {fontSizingRelative} = state;
+  const {fontSizing}: {fontSizing: Ace.FuncConfig} = config;
 
-        editLoopComputed(fontSizing, 'fontSize', -1);
+  editLoopComputed(fontSizing, 'fontSize', fontSizingRelative);
 
-        return {
-            fontSizingActive: true,
-        };
+  return {
+    ...state,
+    fontSizingActive: true,
+  };
+}
+
+function fontFamilyToggle(state: Ace.State) {
+  const newState = {
+    ...state,
+    fontActive: !state.fontActive,
+  };
+
+  newState.fontActive && apiSendEvent('AceFontType_On');
+  return [newState, fxFontFamilyToggle(newState)];
+}
+
+function fontFamilyReset(state: Ace.State) {
+  fontReset(state, 'fontFamily');
+  return state;
+}
+
+function fontChangeFamilyAll(state: Ace.State, key?: string) {
+  const {fontCurrentKey} = state;
+  const currentKey: string = key || fontCurrentKey;
+
+  if (currentKey.length <= 0) {
+    return state;
+  }
+
+  const currentFontFamily = fontConfig[currentKey]?.family;
+  const {fontFamily}: {fontFamily: Ace.FuncConfig} = config;
+
+  editLoop(fontFamily, 'fontFamily', currentFontFamily);
+
+  return state;
+}
+
+function fontColourChangeSingle(state: Ace.State, colour: string) {
+  return [
+    {
+      ...state,
+      fontColourCurrent: colour,
+      fontCustomActive: false,
     },
+    fxFontColourChange(state, colour),
+  ];
+}
 
-    fontResetSizing: () => (state, { fontReset }) => {
-        fontReset('fontSizing');
-
-        return {
-            fontSizingActive: false,
-        };
+function fontColourChangeCustom(state: Ace.State, colour: string) {
+  return [
+    {
+      ...state,
+      fontColourCurrent: colour,
+      fontColourCustomCurrent: colour,
+      fontCustomActive: true,
     },
+    fxFontColourChange(state, colour),
+  ];
+}
 
-    fontIncSize: () => {
-        const { fontSizing }: { fontSizing: Accessabar.IConfigObject } = config;
+function fontColourChange(state: Ace.State, colour?: string) {
+  const {fontColourCurrent} = state;
+  const currentColour: string = colour || fontColourCurrent;
 
-        editLoopComputed(fontSizing, 'fontSize', 1);
+  if (currentColour.length <= 0) {
+    return state;
+  }
 
-        return {
-            fontSizingActive: true,
-        };
+  const {fontColour}: {fontColour: Ace.FuncConfig} = config;
+
+  editLoop(fontColour, 'color', currentColour);
+
+  return state;
+}
+
+function fontColourToggle(state: Ace.State) {
+  const newState = {
+    ...state,
+    fontColourActive: !state.fontColourActive,
+  };
+
+  newState.fontColourActive && apiSendEvent('AceFontColour_On');
+  return [newState, fxFontColourToggle(newState)];
+}
+
+function fontColourReset(state: Ace.State) {
+  fontReset(state, 'fontColour');
+  return state;
+}
+
+function fontReset(state: Ace.State, configKey: string) {
+  const parentElements = getParents();
+  const configObj: Ace.FuncConfig = config[configKey];
+
+  for (const el of parentElements) {
+    const aceEdited = el.getAttribute('ace-edited');
+
+    if (!aceEdited) {
+      continue;
+    }
+
+    const orig = el.getAttribute(configObj.attrNames.orig);
+
+    if (!orig) {
+      continue;
+    }
+
+    if (orig === 'none') {
+      el.style.setProperty(configObj.editName, null);
+    } else {
+      el.style.setProperty(configObj.editName, orig);
+    }
+
+    acePruneFuncs(el, aceEdited, configObj);
+    el.removeAttribute(configObj.attrNames.orig);
+
+    if (configObj.attrNames.origComputed) {
+      el.removeAttribute(configObj.attrNames.origComputed);
+    }
+  }
+
+  return state;
+}
+
+function fontLineSpacingToggle(state: Ace.State) {
+  const newState = {
+    ...state,
+    fontLineSpacingActive: !state.fontLineSpacingActive,
+  };
+
+  newState.fontLineSpacingActive && apiSendEvent('AceFontLineSpacing_On');
+  return [newState, fxFontLineSpacingToggle(newState)];
+}
+
+function fontLineSpacingIncrement(state: Ace.State) {
+  const {fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingMax} = state;
+  const nextCount = fontLineSpacingCount + fontLineSpacingStep;
+
+  if (Math.abs(nextCount) > fontLineSpacingMax) {
+    return state;
+  }
+
+  return [
+    {
+      ...state,
+      fontLineSpacingCount: nextCount,
     },
+    fxFontLineSpacingChange(state, nextCount),
+  ];
+}
 
-    fontFamilyEnable: () => ({ fontActive }, { fontChangeFamilyAll, fontFamilyReset, apiSendEvent }: Accessabar.IActions) => {
-        if (!fontActive) {
-            AccessabarUtil.startFunction('fontFamily', fontFamilyReset, fontChangeFamilyAll);
-            apiSendEvent('AceFontType_On');
+function fontLineSpacingDecrement(state: Ace.State) {
+  const {fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingMax} = state;
+  const nextCount = fontLineSpacingCount - fontLineSpacingStep;
 
-            return {
-                fontActive: true,
-            };
-        }
+  if (Math.abs(nextCount) > fontLineSpacingMax) {
+    return state;
+  }
 
-        AccessabarUtil.stopFunction('fontFamily');
-
-        return {
-            fontActive: false,
-        };
+  return [
+    {
+      ...state,
+      fontLineSpacingCount: nextCount,
     },
+    fxFontLineSpacingChange(state, nextCount),
+  ];
+}
 
-    fontFamilyReset: () => (state, { fontReset }) => {
-        fontReset('fontFamily');
+function fontLineSpacingChange(state: Ace.State, count?: number) {
+  const {fontLineSpacingCount, fontLineSpacingStep} = state;
+  const currentCount = count || fontLineSpacingCount;
+
+  const {fontLineSpacing}: {fontLineSpacing: Ace.FuncConfig} = config;
+
+  editLoopComputed(
+    fontLineSpacing,
+    'lineHeight',
+    currentCount,
+    fontLineSpacingStep
+  );
+
+  return state;
+}
+
+function fontLineSpacingReset(state: Ace.State) {
+  fontReset(state, 'fontLineSpacing');
+  return state;
+}
+
+function fontLetterSpacingToggle(state: Ace.State) {
+  const newState = {
+    ...state,
+    fontLetterSpacingActive: !state.fontLetterSpacingActive,
+  };
+
+  newState.fontLetterSpacingActive && apiSendEvent('AceFontLetterSpacing_On');
+  return [newState, fxFontLetterSpacingToggle(newState)];
+}
+
+function fontLetterSpacingIncrement(state: Ace.State) {
+  const {
+    fontLetterSpacingStep,
+    fontLetterSpacingCount,
+    fontLetterSpacingMax,
+  } = state;
+  const nextCount = fontLetterSpacingCount + fontLetterSpacingStep;
+
+  if (Math.abs(nextCount) > fontLetterSpacingMax) {
+    return state;
+  }
+
+  return [
+    {
+      ...state,
+      fontLetterSpacingCount: nextCount,
     },
+    fxFontLetterSpacingChange(state, nextCount),
+  ];
+}
 
-    fontChangeFamilyAll: (key?: string) => ({ fontCurrentKey }) => {
-        const currentKey: string = key || fontCurrentKey;
+function fontLetterSpacingDecrement(state: Ace.State) {
+  const {
+    fontLetterSpacingCount,
+    fontLetterSpacingStep,
+    fontLetterSpacingMax,
+  } = state;
+  const nextCount = fontLetterSpacingCount - fontLetterSpacingStep;
 
-        if (currentKey.length <= 0) {
-            return;
-        }
+  if (Math.abs(nextCount) > fontLetterSpacingMax) {
+    return state;
+  }
 
-        const currentFontFamily = fontConfig[currentKey].family || null;
-        const { fontFamily }: { fontFamily: Accessabar.IConfigObject } = config;
-
-        editLoop(fontFamily, 'fontFamily', currentFontFamily);
+  return [
+    {
+      ...state,
+      fontLetterSpacingCount: nextCount,
     },
+    fxFontLetterSpacingChange(state, nextCount),
+  ];
+}
 
-    fontColourChange: (colour: string) => ({ fontColourCurrent }) => {
-        const currentColour: string = colour || fontColourCurrent;
+function fontLetterSpacingChange(state: Ace.State, count: number) {
+  const {fontLetterSpacingCount, fontLetterSpacingStep} = state;
+  const currentCount = count || fontLetterSpacingCount;
 
-        if (currentColour.length <= 0) {
-            return;
-        }
+  const {fontLetterSpacing}: {fontLetterSpacing: Ace.FuncConfig} = config;
 
-        const { fontColour }: { fontColour: Accessabar.IConfigObject } = config;
+  editLoopComputed(
+    fontLetterSpacing,
+    'letterSpacing',
+    currentCount,
+    fontLetterSpacingStep
+  );
 
-        editLoop(fontColour, 'color', currentColour);
+  return state;
+}
+
+function fontLetterSpacingReset(state: Ace.State) {
+  fontReset(state, 'fontLetterSpacing');
+
+  return state;
+}
+
+function fontToggleList(state: Ace.State) {
+  return {
+    ...state,
+    selectFontListActive: !state.selectFontListActive,
+  };
+}
+
+function fontToggleCurrent(state: Ace.State, key: string) {
+  return [
+    {
+      ...state,
+      fontCurrentKey: key,
+      selectFontListActive: false,
     },
+    fxFontToggleCurrent(state, key),
+  ];
+}
 
-    fontColourEnable: () => ({ fontColourActive }, { fontColourChange, fontColourReset, apiSendEvent }: Accessabar.IActions) => {
-        if (!fontColourActive) {
-            AccessabarUtil.startFunction('fontColour', fontColourReset, fontColourChange);
-            apiSendEvent('AceFontColour_On');
-
-            return {
-                fontColourActive: true,
-            };
-        }
-
-        AccessabarUtil.stopFunction('fontColour');
-
-        return {
-            fontColourActive: false,
-        };
-    },
-
-    fontColourReset: () => (state, { fontReset }) => {
-        fontReset('fontColour');
-    },
-
-    fontReset: (configKey: string) => {
-        const parentElements = getParents();
-        const configObj: Accessabar.IConfigObject = config[configKey];
-
-        for (const el of parentElements) {
-            const abarEdited = el.getAttribute('accessabar-edited');
-
-            if (!abarEdited) {
-                continue;
-            }
-
-            const orig = el.getAttribute(configObj.attrNames.orig);
-
-            if (!orig) {
-                continue;
-            }
-
-            if (orig === 'none') {
-                el.style.setProperty(configObj.editName, null);
-            } else {
-                el.style.setProperty(configObj.editName, orig);
-            }
-
-            AccessabarUtil.pruneFuncs(el, abarEdited, configObj);
-            el.removeAttribute(configObj.attrNames.orig);
-
-            if (configObj.attrNames.origComputed) {
-                el.removeAttribute(configObj.attrNames.origComputed);
-            }
-        }
-    },
-
-    fontLineSpacingEnable: () => ({ fontLineSpacingActive }, { fontLineSpacingReset, fontLineSpacingChange, apiSendEvent }: Accessabar.IActions) => {
-        if (!fontLineSpacingActive) {
-            AccessabarUtil.startFunction('fontLineSpacing', fontLineSpacingReset, fontLineSpacingChange);
-            apiSendEvent('AceFontLineSpacing_On');
-
-            return {
-                fontLineSpacingActive: true,
-            };
-        }
-
-        AccessabarUtil.stopFunction('fontLineSpacing');
-
-        return {
-            fontLineSpacingActive: false,
-        };
-    },
-
-    fontLineSpacingIncrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive, fontLineSpacingMax }, { fontLineSpacingChange }) => {
-        const nextCount = fontLineSpacingCount + fontLineSpacingStep;
-
-        if (Math.abs(nextCount) > fontLineSpacingMax) {
-            return;
-        }
-
-        if (fontLineSpacingActive) {
-            fontLineSpacingChange(nextCount);
-        }
-
-        return {
-            fontLineSpacingCount: nextCount,
-        };
-    },
-
-    fontLineSpacingDecrement: () => ({ fontLineSpacingCount, fontLineSpacingStep, fontLineSpacingActive, fontLineSpacingMax }, { fontLineSpacingChange }) => {
-        const nextCount = fontLineSpacingCount - fontLineSpacingStep;
-
-        if (Math.abs(nextCount) > fontLineSpacingMax) {
-            return;
-        }
-
-        if (fontLineSpacingActive) {
-            fontLineSpacingChange(nextCount);
-        }
-
-        return {
-            fontLineSpacingCount: nextCount,
-        };
-    },
-
-    fontLineSpacingChange: (count: number) => ({ fontLineSpacingCount, fontLineSpacingStep }) => {
-        const currentCount = typeof count === 'undefined' ? fontLineSpacingCount : count;
-
-        const { fontLineSpacing }: { fontLineSpacing: Accessabar.IConfigObject } = config;
-
-        editLoopComputed(fontLineSpacing, 'lineHeight', currentCount, fontLineSpacingStep);
-    },
-
-    fontLineSpacingReset: () => (state, { fontReset }) => {
-        fontReset('fontLineSpacing');
-    },
-
-    fontLetterSpacingEnable: () => ({ fontLetterSpacingActive }, { fontLetterSpacingReset, fontLetterSpacingChange, apiSendEvent }: Accessabar.IActions) => {
-        if (!fontLetterSpacingActive) {
-            AccessabarUtil.startFunction('fontLetterSpacing', fontLetterSpacingReset, fontLetterSpacingChange);
-            apiSendEvent('AceFontLetterSpacing_On');
-
-            return {
-                fontLetterSpacingActive: true,
-            };
-        }
-
-        AccessabarUtil.stopFunction('fontLetterSpacing');
-
-        return {
-            fontLetterSpacingActive: false,
-        };
-    },
-
-    fontLetterSpacingIncrement: () => ({ fontLetterSpacingCount, fontLetterSpacingStep, fontLetterSpacingActive, fontLetterSpacingMax }, { fontLetterSpacingChange }) => {
-        const nextCount = fontLetterSpacingCount + fontLetterSpacingStep;
-
-        if (Math.abs(nextCount) > fontLetterSpacingMax) {
-            return;
-        }
-
-        if (fontLetterSpacingActive) {
-            fontLetterSpacingChange(nextCount);
-        }
-
-        return {
-            fontLetterSpacingCount: nextCount,
-        };
-    },
-
-    fontLetterSpacingDecrement: () => ({ fontLetterSpacingCount, fontLetterSpacingStep, fontLetterSpacingActive, fontLetterSpacingMax }, { fontLetterSpacingChange }) => {
-        const nextCount = fontLetterSpacingCount - fontLetterSpacingStep;
-
-        if (Math.abs(nextCount) > fontLetterSpacingMax) {
-            return;
-        }
-
-        if (fontLetterSpacingActive) {
-            fontLetterSpacingChange(nextCount);
-        }
-
-        return {
-            fontLetterSpacingCount: nextCount,
-        };
-    },
-
-    fontLetterSpacingChange: (count: number) => ({ fontLetterSpacingCount, fontLetterSpacingStep }) => {
-        const currentCount = typeof count === 'undefined' ? fontLetterSpacingCount : count;
-
-        const { fontLetterSpacing }: { fontLetterSpacing: Accessabar.IConfigObject } = config;
-
-        editLoopComputed(fontLetterSpacing, 'letterSpacing', currentCount, fontLetterSpacingStep);
-    },
-
-    fontLetterSpacingReset: () => (state, { fontReset }) => {
-        fontReset('fontLetterSpacing');
-    },
+export {
+  fontDecSize,
+  fontIncSize,
+  fontSizingDisable,
+  fontColourToggle,
+  fontColourChange,
+  fontColourChangeSingle,
+  fontColourChangeCustom,
+  fontColourReset,
+  fontChangeFamilyAll,
+  fontFamilyReset,
+  fontFamilyToggle,
+  fontLetterSpacingChange,
+  fontLetterSpacingDecrement,
+  fontLetterSpacingToggle,
+  fontLetterSpacingIncrement,
+  fontLetterSpacingReset,
+  fontLineSpacingIncrement,
+  fontLineSpacingChange,
+  fontLineSpacingDecrement,
+  fontLineSpacingReset,
+  fontLineSpacingToggle,
+  fontReset,
+  fontToggleList,
+  fontToggleCurrent,
+  fontHydrateSize,
 };
-
-export default fontActions;
-export { fontActions };
