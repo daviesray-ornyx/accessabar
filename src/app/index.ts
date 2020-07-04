@@ -37,11 +37,11 @@ class AceController {
   // A reference to the Ace element when rendered.
   public mainElement: HTMLElement | undefined;
 
-  // Contains all applied functions.
-  public appliedFunctions: Map<string, () => unknown> = new Map();
-
   // Copy of ace state for interop.
   private aceState: Ace.State = initState;
+
+  // Increment state version to clear saved state on clients.
+  private aceStateVersion = '1';
 
   // Position of Accessabar on the page.
   public position: string;
@@ -52,6 +52,11 @@ class AceController {
    * down in order to make space for Ace.
    */
   public moveBody: boolean;
+
+  /**
+   * rendered is true when hyperapp's app function has been called.
+   * loaded is true when all ace DOM has loaded.
+   */
   private rendered = false;
   public loaded = false;
 
@@ -187,14 +192,16 @@ class AceController {
       return state;
     }
 
-    window.localStorage.setItem(
-      'aceLocalState',
-      JSON.stringify({
+    const stateObj = {
+      state: {
         ...state,
         aceTooltips: initState.aceTooltips,
         ttsVoiceActive: initState.ttsVoiceActive,
-      })
-    );
+      },
+      version: this.aceStateVersion,
+    };
+
+    window.localStorage.setItem('aceLocalState', JSON.stringify(stateObj));
     return state;
   }
 
@@ -205,11 +212,17 @@ class AceController {
 
     const localState = window.localStorage.getItem('aceLocalState');
 
-    if (localState) {
-      return JSON.parse(localState);
+    if (!localState) {
+      return initState;
     }
 
-    return initState;
+    const parsedState: Ace.SavedState = JSON.parse(localState);
+
+    if (parsedState.version !== this.aceStateVersion) {
+      return initState;
+    }
+
+    return parsedState.state;
   }
 
   private createApp(containerEl: HTMLElement) {
