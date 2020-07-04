@@ -1,4 +1,8 @@
-import {fxMenuDragEvents, fxMenuOpen} from '../fx/menu.fx';
+import {
+  fxMenuDefaultFunction,
+  fxMenuDragEvents,
+  fxMenuOpen,
+} from '../fx/menu.fx';
 
 function menuSpawn(state: Ace.State, opts) {
   const {menus} = state;
@@ -127,10 +131,23 @@ function menuEndDrag(state: Ace.State) {
   return [newState, fxMenuDragEvents(newState)];
 }
 
-function menuOpen(state: Ace.State, opts: {menuName: string; title: string}) {
-  const {menuName, title} = opts;
+function menuOpen(
+  state: Ace.State,
+  opts: {
+    menuName: string;
+    title: string;
+    defaultFunc?: (state: Ace.State) => unknown;
+  }
+) {
+  const {menuName, title, defaultFunc} = opts;
 
-  return [state, fxMenuOpen(state, menuName, title)];
+  return [
+    state,
+    [
+      fxMenuOpen(state, menuName, title),
+      defaultFunc && fxMenuDefaultFunction(state, defaultFunc),
+    ],
+  ];
 }
 
 function menuClose(state: Ace.State, name: string) {

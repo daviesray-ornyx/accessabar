@@ -2,6 +2,7 @@ declare namespace Ace {
   interface StateToolbar {
     aceHidden: boolean;
     aceTooltips: string[];
+    aceOpenDefaults: boolean;
   }
 
   interface StateFont {

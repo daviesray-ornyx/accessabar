@@ -120,15 +120,27 @@ function ttsHandlePrompt(state: Ace.State, event: SpeechSynthesisEvent) {
 function ttsHoverToggle(state: Ace.State) {
   ttsStopCurrent(state);
 
-  if (!state.ttsHoverSpeak) {
-    apiSendEvent('AceTTSHover_On');
-  }
-
   const newState = {
     ...state,
     ttsHoverSpeak: !state.ttsHoverSpeak,
     ttsHighlightSpeak: false,
   };
+
+  newState.ttsHoverSpeak && apiSendEvent('AceTTSHover_On');
+
+  return [newState, fxTTSHighlight(newState), fxTTSHover(newState)];
+}
+
+function ttsHoverEnable(state: Ace.State) {
+  ttsStopCurrent(state);
+
+  const newState = {
+    ...state,
+    ttsHoverSpeak: true,
+    ttsHighlightSpeak: false,
+  };
+
+  newState.ttsHoverSpeak && apiSendEvent('AceTTSHover_On');
 
   return [newState, fxTTSHighlight(newState), fxTTSHover(newState)];
 }
@@ -136,15 +148,27 @@ function ttsHoverToggle(state: Ace.State) {
 function ttsHightlightToggle(state: Ace.State) {
   ttsStopCurrent(state);
 
-  if (!state.ttsHighlightSpeak) {
-    apiSendEvent('AceTTSHighlight_On');
-  }
-
   const newState = {
     ...state,
     ttsHighlightSpeak: !state.ttsHighlightSpeak,
     ttsHoverSpeak: false,
   };
+
+  newState.ttsHighlightSpeak && apiSendEvent('AceTTSHighlight_On');
+
+  return [newState, fxTTSHover(newState), fxTTSHighlight(newState)];
+}
+
+function ttsHightlightEnable(state: Ace.State) {
+  ttsStopCurrent(state);
+
+  const newState = {
+    ...state,
+    ttsHighlightSpeak: true,
+    ttsHoverSpeak: false,
+  };
+
+  newState.ttsHighlightSpeak && apiSendEvent('AceTTSHighlight_On');
 
   return [newState, fxTTSHover(newState), fxTTSHighlight(newState)];
 }
@@ -271,4 +295,6 @@ export {
   ttsStopHightlight,
   ttsStopHover,
   ttsStopCurrent,
+  ttsHightlightEnable,
+  ttsHoverEnable,
 };

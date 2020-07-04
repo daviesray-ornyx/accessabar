@@ -1,5 +1,5 @@
 import {h} from 'hyperapp';
-import {ttsStopCurrent} from '../actions/tts.actions';
+import {ttsHoverEnable, ttsStopCurrent} from '../actions/tts.actions';
 import {aceAddTippy, aceHide} from '../actions/ace.actions';
 import {menuOpen} from '../actions/menu.actions';
 import {
@@ -58,7 +58,10 @@ const ttsButton = ({menus}: Ace.State) => {
         Object.keys(menus).indexOf('tts') !== -1 ? 'true' : 'false',
       class: 'ab-bar-button',
       id: 'ab-tts',
-      onclick: [menuOpen, {menuName: 'tts', title: 'Text to Speech'}],
+      onclick: [
+        menuOpen,
+        {menuName: 'tts', title: 'Text to Speech', defaultFunc: ttsHoverEnable},
+      ],
       onmouseover: [aceAddTippy, {id: '#ab-tts', content: 'Text to Speech'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
