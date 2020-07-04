@@ -227,6 +227,11 @@ declare namespace Ace {
     action(state: Ace.State, key: ListItem['key']): unknown;
   }
 
+  interface SavedState {
+    version: string;
+    state: State;
+  }
+
   interface DragEvent extends MouseEvent, TouchEvent {}
 }
 
