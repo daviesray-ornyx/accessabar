@@ -355,7 +355,7 @@ function magEnable(state: Ace.State) {
     magActive: true,
   };
 
-  newState.magActive && apiSendEvent('AceMagnifier_On');
+  apiSendEvent('AceMagnifier_On');
 
   return [
     newState,

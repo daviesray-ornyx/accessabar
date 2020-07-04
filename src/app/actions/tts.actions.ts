@@ -140,7 +140,7 @@ function ttsHoverEnable(state: Ace.State) {
     ttsHighlightSpeak: false,
   };
 
-  newState.ttsHoverSpeak && apiSendEvent('AceTTSHover_On');
+  apiSendEvent('AceTTSHover_On');
 
   return [newState, fxTTSHighlight(newState), fxTTSHover(newState)];
 }
@@ -168,7 +168,7 @@ function ttsHightlightEnable(state: Ace.State) {
     ttsHoverSpeak: false,
   };
 
-  newState.ttsHighlightSpeak && apiSendEvent('AceTTSHighlight_On');
+  apiSendEvent('AceTTSHighlight_On');
 
   return [newState, fxTTSHover(newState), fxTTSHighlight(newState)];
 }
