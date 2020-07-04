@@ -349,6 +349,24 @@ function magToggle(state: Ace.State) {
   ];
 }
 
+function magEnable(state: Ace.State) {
+  const newState = {
+    ...state,
+    magActive: true,
+  };
+
+  newState.magActive && apiSendEvent('AceMagnifier_On');
+
+  return [
+    newState,
+    [
+      newState.magActive && fxMagAddPageContent(newState),
+      fxMagResetState(newState),
+      fxMagScrollEvents(newState),
+    ],
+  ];
+}
+
 function magUpdateSize(state) {
   if (!window.ace.mainElement) {
     return state;
@@ -419,6 +437,7 @@ export {
   magStartDrag,
   magEndDrag,
   magToggle,
+  magEnable,
   magUpdatePosition,
   magUpdateSize,
   magWidthDecrease,

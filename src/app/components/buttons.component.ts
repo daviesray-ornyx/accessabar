@@ -11,6 +11,7 @@ import resetAll from '../actions/reset.actions';
 import {settingsOpen} from '../actions/settings.actions';
 import {aboutOpen} from '../actions/about.actions';
 import closeAce from '../actions/close.actions';
+import {magEnable} from '../actions/mag.actions';
 
 function handleButtonNavigation(_, event) {
   const {code, target} = event;
@@ -193,7 +194,10 @@ const magButton = ({menus}: Ace.State) => {
         Object.keys(menus).indexOf('magnifier') !== -1 ? 'true' : 'false',
       class: 'ab-bar-button',
       id: 'ab-magnifier',
-      onclick: [menuOpen, {menuName: 'magnifier', title: 'Magnifier'}],
+      onclick: [
+        menuOpen,
+        {menuName: 'magnifier', title: 'Magnifier', defaultFunc: magEnable},
+      ],
       onmouseover: [aceAddTippy, {id: '#ab-magnifier', content: 'Magnifier'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
