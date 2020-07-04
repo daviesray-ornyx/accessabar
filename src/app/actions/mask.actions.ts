@@ -12,6 +12,15 @@ function maskToggle(state: Ace.State) {
   };
 }
 
+function maskEnable(state: Ace.State) {
+  apiSendEvent('AceScreenMask_On');
+
+  return {
+    ...state,
+    maskActive: true,
+  };
+}
+
 function maskChangeColour(state: Ace.State, colour?: string) {
   const {maskColourCurrent} = state;
   const currentColour: string = colour || maskColourCurrent;
@@ -77,4 +86,5 @@ export {
   maskDecreaseOpacity,
   maskIncreaseOpacity,
   maskToggle,
+  maskEnable,
 };

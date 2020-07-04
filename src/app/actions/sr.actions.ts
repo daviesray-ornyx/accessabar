@@ -49,6 +49,17 @@ function srToggle(state: Ace.State) {
   return [newState, fxSREnable(newState)];
 }
 
+function srEnable(state: Ace.State) {
+  const newState = {
+    ...state,
+    srActive: true,
+  };
+
+  apiSendEvent('AceSpeechRecognition_On');
+
+  return [newState, fxSREnable(newState)];
+}
+
 function srAddEvents(state: Ace.State) {
   const {srRuntime} = state;
   if (typeof srRuntime === 'boolean') {
@@ -109,4 +120,4 @@ function srChangeLang(state: Ace.State, lang: string) {
   };
 }
 
-export {srAddEvents, srChangeLang, srToggle, srInitRuntime, srStart};
+export {srAddEvents, srChangeLang, srToggle, srEnable, srInitRuntime, srStart};
