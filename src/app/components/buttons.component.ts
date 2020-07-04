@@ -12,6 +12,9 @@ import {settingsOpen} from '../actions/settings.actions';
 import {aboutOpen} from '../actions/about.actions';
 import closeAce from '../actions/close.actions';
 import {magEnable} from '../actions/mag.actions';
+import {maskEnable} from '../actions/mask.actions';
+import {rulerReadingEnable} from '../actions/ruler.actions';
+import {srEnable} from '../actions/sr.actions';
 
 function handleButtonNavigation(_, event) {
   const {code, target} = event;
@@ -224,7 +227,10 @@ const maskButton = ({menus}: Ace.State) => {
         Object.keys(menus).indexOf('masking') !== -1 ? 'true' : 'false',
       class: 'ab-bar-button',
       id: 'ab-screen-mask',
-      onclick: [menuOpen, {menuName: 'masking', title: 'Screen Masking'}],
+      onclick: [
+        menuOpen,
+        {menuName: 'masking', title: 'Screen Masking', defaultFunc: maskEnable},
+      ],
       onmouseover: [
         aceAddTippy,
         {id: '#ab-screen-mask', content: 'Screen Masking'},
@@ -254,7 +260,14 @@ const rulerButton = ({menus}: Ace.State) => {
         Object.keys(menus).indexOf('rulerOptions') !== -1 ? 'true' : 'false',
       class: 'ab-bar-button',
       id: 'ab-rulers',
-      onclick: [menuOpen, {menuName: 'rulerOptions', title: 'Ruler Options'}],
+      onclick: [
+        menuOpen,
+        {
+          menuName: 'rulerOptions',
+          title: 'Ruler Options',
+          defaultFunc: rulerReadingEnable,
+        },
+      ],
       onmouseover: [aceAddTippy, {id: '#ab-rulers', content: 'Reading Rulers'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
@@ -285,7 +298,11 @@ const srButton = ({menus}: Ace.State) => {
       id: 'ab-speech-recognition',
       onclick: [
         menuOpen,
-        {menuName: 'speechRecognition', title: 'Speech Recognition'},
+        {
+          menuName: 'speechRecognition',
+          title: 'Speech Recognition',
+          defaultFunc: srEnable,
+        },
       ],
       onmouseover: [
         aceAddTippy,
