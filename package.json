@@ -94,7 +94,7 @@
     "normalize.css": "8.0.1",
     "rxjs": "6.5.5",
     "serve": "11.3.0",
-    "tippy.js": "6.2.3",
+    "tippy.js": "6.2.4",
     "uuid": "8.0.0"
   }
 }
