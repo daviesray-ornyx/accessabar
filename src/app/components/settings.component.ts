@@ -13,6 +13,8 @@ import {
   ttsChangeVolume,
 } from '../actions/tts.actions';
 import {srChangeLang} from '../actions/sr.actions';
+import {switchEl} from './menus.component';
+import {aceSpeakTooltipsToggle} from '../actions/ace.actions';
 
 const settingsHeader = ({settingsHidden}) => {
   return h('ab-settings-header', {class: 'ab-modal-header'}, [
@@ -203,9 +205,27 @@ const settingsSRSection = ({srLangListActive, srLangName}) => {
       {class: 'ab-modal-section-title'},
       'Speech Recognition'
     ),
-    h('ab-modal-sr-lang', {class: 'ab-modal-section-group'}, [
+    h('ab-settings-sr-lang', {class: 'ab-modal-section-group'}, [
       h('ab-setting-title', {class: 'ab-modal-title'}, 'Language'),
       langListEl,
+    ]),
+  ];
+};
+
+const settingsTooltipSection = (state: Ace.State) => {
+  return [
+    h(
+      'ab-settings-section-title',
+      {class: 'ab-modal-section-title'},
+      'Tooltips'
+    ),
+    h('ab-settings-tooltip-speak', {class: 'ab-modal-section-group'}, [
+      switchEl(
+        state.aceSpeakTooltips,
+        aceSpeakTooltipsToggle,
+        'Read tooltips aloud on hover',
+        'Read tooltips aloud on hover'
+      ),
     ]),
   ];
 };
@@ -224,6 +244,7 @@ const settingsMenu = (state: Ace.State) => {
       h('ab-settings-section', {class: 'ab-modal-section'}, [
         ...settingsTTSSection(state),
         ...settingsSRSection(state),
+        ...settingsTooltipSection(state),
       ]),
       h('ab-settings-section-right', {class: 'ab-modal-section-right'}),
     ]

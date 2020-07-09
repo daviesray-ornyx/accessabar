@@ -4,6 +4,7 @@ const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
   aceTooltips: [],
   aceOpenDefaults: true,
+  aceSpeakTooltips: true,
 };
 
 const stateFont: Ace.StateFont = {
