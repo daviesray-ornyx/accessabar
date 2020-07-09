@@ -1791,4 +1791,5 @@ export {
   rulerOptionsMenu,
   srMenu,
   ptMenu,
+  switchEl,
 };

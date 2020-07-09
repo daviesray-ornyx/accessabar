@@ -2,15 +2,15 @@ import {h} from 'hyperapp';
 import {aboutClose} from '../actions/about.actions';
 
 const aboutHeader = ({aboutHidden}) => {
-  return h('ab-about-header', {class: 'ab-about-header'}, [
+  return h('ab-about-header', {class: 'ab-modal-header'}, [
     h(
       'ab-logo',
-      {class: 'ab-logo-large ab-settings-logo', 'aria-label': 'Ace logo'},
+      {class: 'ab-logo-large ab-modal-logo', 'aria-label': 'Ace logo'},
       [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'})]
     ),
     h(
       'ab-about-header-title',
-      {class: 'ab-about-header-title'},
+      {class: 'ab-modal-header-title'},
       'Accessible Content Everywhere (ACE)'
     ),
     h(
@@ -19,7 +19,7 @@ const aboutHeader = ({aboutHidden}) => {
         'aria-controls': 'ab-about',
         'aria-label': 'Close About',
         'aria-pressed': String(aboutHidden),
-        class: 'ab-about-close-button',
+        class: 'ab-modal-close-button',
         onclick: aboutClose,
         role: 'button',
       },
@@ -35,16 +35,16 @@ const aboutHeader = ({aboutHidden}) => {
 
 const aboutInfoSection = () => {
   return [
-    h('ab-about-section-title', {class: 'ab-about-section-title'}, 'About'),
-    h('ab-about-sr-lang', {class: 'ab-about-section-group'}, [
+    h('ab-about-section-title', {class: 'ab-modal-section-title'}, 'About'),
+    h('ab-about-sr-lang', {class: 'ab-modal-section-group'}, [
       // Links need to be added here
       'ACE is a toolbar that provides a range of features to make any website accessible.',
     ]),
-    h('ab-about-sr-lang', {class: 'ab-about-section-group'}, [
+    h('ab-about-sr-lang', {class: 'ab-modal-section-group'}, [
       // Links need to be added here
       "Accessibility is becoming more important every day in today's internet landscape. Websites are becoming more creative, laden with images and fancy animations, all packed into a javascript rendered frontend. Whilst this is great for most, it can sometimes alienate the disabled.",
     ]),
-    h('ab-about-sr-lang', {class: 'ab-about-section-group'}, [
+    h('ab-about-sr-lang', {class: 'ab-modal-section-group'}, [
       // Links need to be added here
       'ACE pairs with any website to make it accessible to everyone.',
     ]),
@@ -53,12 +53,12 @@ const aboutInfoSection = () => {
 
 const aboutLinksSection = () => {
   return [
-    h('ab-about-section-title', {class: 'ab-about-section-title'}, 'Links'),
+    h('ab-about-section-title', {class: 'ab-modal-section-title'}, 'Links'),
     h(
       'a',
       {
         'aria-controls': 'ab-about-hfc-link',
-        class: 'ab-about-section-group',
+        class: 'ab-modal-section-group',
         href: 'http://hands-free.co.uk/',
         target: '_blank',
       },
@@ -71,7 +71,7 @@ const aboutLinksSection = () => {
       'a',
       {
         'aria-controls': 'ab-about-ace-link',
-        class: 'ab-about-section-group',
+        class: 'ab-modal-section-group',
         href: 'https://acetoolbar.com/',
         target: '_blank',
       },
@@ -85,8 +85,8 @@ const aboutLinksSection = () => {
 
 const aboutVersionSection = () => {
   return [
-    h('ab-about-section-title', {class: 'ab-about-section-title'}, 'Version'),
-    h('ab-about-sr-lang', {class: 'ab-about-section-group'}, [
+    h('ab-about-section-title', {class: 'ab-modal-section-title'}, 'Version'),
+    h('ab-about-sr-lang', {class: 'ab-modal-section-group'}, [
       window.ace.version,
       // Links need to be added here
     ]),
@@ -98,16 +98,18 @@ const aboutMenu = (state: Ace.State) => {
     'ab-about-menu',
     {
       id: 'ab-about',
-      class: `ab-about ${state.aboutHidden && 'ab-hide'}`,
+      class: `ab-modal ${state.aboutHidden && 'ab-hide'}`,
       'aria-label': 'Ace about',
     },
     [
       aboutHeader(state),
-      h('ab-about-section', {class: 'ab-about-section'}, [
+      h('ab-about-section-left', {class: 'ab-modal-section-left'}),
+      h('ab-about-section', {class: 'ab-modal-section'}, [
         ...aboutInfoSection(),
         ...aboutLinksSection(),
         ...aboutVersionSection(),
       ]),
+      h('ab-about-section-right', {class: 'ab-modal-section-right'}),
     ]
   );
 };

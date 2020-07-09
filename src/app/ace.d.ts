@@ -3,6 +3,7 @@ declare namespace Ace {
     aceHidden: boolean;
     aceTooltips: string[];
     aceOpenDefaults: boolean;
+    aceSpeakTooltips: boolean;
   }
 
   interface StateFont {

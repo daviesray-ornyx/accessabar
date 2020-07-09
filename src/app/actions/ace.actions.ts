@@ -286,8 +286,10 @@ function aceCreatePickr(
 }
 
 function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
-  ttsStopCurrent(state);
-  setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
+  if (state.aceSpeakTooltips) {
+    ttsStopCurrent(state);
+    setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
+  }
 
   if (state.aceTooltips.indexOf(opts.id) !== -1) {
     return state;
@@ -307,6 +309,13 @@ function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
   };
 }
 
+function aceSpeakTooltipsToggle(state: Ace.State) {
+  return {
+    ...state,
+    aceSpeakTooltips: !state.aceSpeakTooltips,
+  };
+}
+
 export {
   aceResize,
   aceMoveBody,
@@ -317,4 +326,5 @@ export {
   editLoopComputed,
   aceCreatePickr,
   aceAddTippy,
+  aceSpeakTooltipsToggle,
 };
