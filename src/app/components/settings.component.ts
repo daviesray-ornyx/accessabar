@@ -15,27 +15,23 @@ import {
 import {srChangeLang} from '../actions/sr.actions';
 
 const settingsHeader = ({settingsHidden}) => {
-  return h('ab-settings-header', {class: 'ab-settings-header'}, [
+  return h('ab-settings-header', {class: 'ab-modal-header'}, [
     h(
       'ab-logo',
       {
-        class: 'ab-logo-large ab-settings-logo',
+        class: 'ab-logo-large ab-modal-logo',
         'aria-label': 'Ace logo',
       },
       [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'})]
     ),
-    h(
-      'ab-settings-header-title',
-      {class: 'ab-settings-header-title'},
-      'Settings'
-    ),
+    h('ab-settings-header-title', {class: 'ab-modal-header-title'}, 'Settings'),
     h(
       'ab-settings-close-button',
       {
         'aria-controls': 'ab-settings',
         'aria-label': 'Close Settings',
         'aria-pressed': String(settingsHidden),
-        class: 'ab-settings-close-button',
+        class: 'ab-modal-close-button',
         onclick: settingsClose,
         role: 'button',
       },
@@ -60,7 +56,7 @@ const settingsTTSSection = ({
   const factoryCfg: Ace.ListItem[] = [];
   let customListVoices = h(
     'ab-setting-placeholder',
-    {class: 'ab-setting-placeholder'},
+    {class: 'ab-modal-placeholder'},
     ['Please open Text to Speech to choose a voice.']
   );
 
@@ -103,17 +99,17 @@ const settingsTTSSection = ({
   return [
     h(
       'ab-settings-section-title',
-      {class: 'ab-settings-section-title'},
+      {class: 'ab-modal-section-title'},
       'Text To Speech'
     ),
-    h('ab-settings-tts-voice', {class: 'ab-settings-section-group'}, [
-      h('ab-setting-title', {class: 'ab-setting-title'}, 'Voice'),
+    h('ab-settings-tts-voice', {class: 'ab-modal-section-group'}, [
+      h('ab-setting-title', {class: 'ab-modal-title'}, 'Voice'),
       customListVoices,
     ]),
-    h('ab-settings-tts-volume', {class: 'ab-settings-section-group'}, [
+    h('ab-settings-tts-volume', {class: 'ab-modal-section-group'}, [
       h(
         'ab-setting-title',
-        {id: 'ab-setting-title-volume', class: 'ab-setting-title'},
+        {id: 'ab-setting-title-volume', class: 'ab-modal-title'},
         'Volume'
       ),
       h('input', {
@@ -127,10 +123,10 @@ const settingsTTSSection = ({
         value: ttsVolume,
       }),
     ]),
-    h('ab-settings-tts-rate', {class: 'ab-settings-section-group'}, [
+    h('ab-settings-tts-rate', {class: 'ab-modal-section-group'}, [
       h(
         'ab-setting-title',
-        {id: 'ab-setting-title-speed', class: 'ab-setting-title'},
+        {id: 'ab-setting-title-speed', class: 'ab-modal-title'},
         'Speed'
       ),
       h('input', {
@@ -144,10 +140,10 @@ const settingsTTSSection = ({
         value: ttsRate,
       }),
     ]),
-    h('ab-settings-tts-pitch', {class: 'ab-settings-section-group'}, [
+    h('ab-settings-tts-pitch', {class: 'ab-modal-section-group'}, [
       h(
         'ab-setting-title',
-        {id: 'ab-setting-title-pitch', class: 'ab-setting-title'},
+        {id: 'ab-setting-title-pitch', class: 'ab-modal-title'},
         'Pitch'
       ),
       h('input', {
@@ -204,11 +200,11 @@ const settingsSRSection = ({srLangListActive, srLangName}) => {
   return [
     h(
       'ab-settings-section-title',
-      {class: 'ab-settings-section-title'},
+      {class: 'ab-modal-section-title'},
       'Speech Recognition'
     ),
-    h('ab-settings-sr-lang', {class: 'ab-settings-section-group'}, [
-      h('ab-setting-title', {class: 'ab-setting-title'}, 'Language'),
+    h('ab-modal-sr-lang', {class: 'ab-modal-section-group'}, [
+      h('ab-setting-title', {class: 'ab-modal-title'}, 'Language'),
       langListEl,
     ]),
   ];
@@ -219,15 +215,17 @@ const settingsMenu = (state: Ace.State) => {
     'ab-settings-menu',
     {
       id: 'ab-settings',
-      class: `ab-settings ${state.settingsHidden ? 'ab-hide' : ''}`,
+      class: `ab-modal ${state.settingsHidden ? 'ab-hide' : ''}`,
       'aria-label': 'Ace settings',
     },
     [
       settingsHeader(state),
-      h('ab-settings-section', {class: 'ab-settings-section'}, [
+      h('ab-settings-section-left', {class: 'ab-modal-section-left'}),
+      h('ab-settings-section', {class: 'ab-modal-section'}, [
         ...settingsTTSSection(state),
         ...settingsSRSection(state),
       ]),
+      h('ab-settings-section-right', {class: 'ab-modal-section-right'}),
     ]
   );
 };

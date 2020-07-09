@@ -1,8 +1,6 @@
 /**
  * SETTINGS
  * All project and postcss settings should be added here.
- *
- * Variables -- Variables for the whole project.
  */
 
 @import 'settings/variables.setting.pcss';
@@ -10,8 +8,6 @@
 /**
  * GENERICS
  * A place for non specific blanket stylings or resets
- *
- * Box Sizing -- Set default box-sizing across project.
  */
 
 @import 'generics/box_sizing.generic.pcss';
@@ -19,11 +15,6 @@
 /**
  * ELEMENTS
  * Changes the styling of certain tags, query selectors etc.
- *
- * Links -- For creating a base style for link elements (i.e. a).
- * Sections -- Styling for section elements.
- * Button -- Remove browser defaults for button.
- * Body -- Add margin transition
  */
 
 @import 'elements/links.element.pcss';
@@ -34,11 +25,6 @@
 /**
  * OBJECTS
  * Layouts and abstractions.
- *
- * Growable -- Flex grow container.
- * Draggable -- Container that can be dragged across the screen.
- * Containers -- Container layouts.
- * Bar Grid -- Grid Layout for Accessabar.
  */
 
 @import 'objects/growable.object.pcss';
@@ -49,22 +35,6 @@
 /**
  * COMPONENTS
  * Specific components in the document with unique stylings.
- *
- * Bar -- Styling and spacing for bar elements and inner bar.
- * Logo -- Styling for the Logo.
- * Button Area -- Holds all the buttons inside the bar.
- * Bar Buttons -- Styling for each button inside the bar.
- * Hide Button -- Styling for the hide toggle button.
- * Tippy Theme -- Custom theme for tooltips.
- * Menus -- Menus for Accessabar functions.
- * Inputs -- Input component styling.
- * TTS Prompt -- Shows text being spoken from text to speech.
- * Custom List -- Custom select list element.
- * Text Colour -- Areas for selecting text colours.
- * Counter -- For incremental functions.
- * Mag (Magnifier) -- Styling for magnifier glass and inner page.
- * Mask -- Styling for the overlay mask.
- * Ruler -- Styling for the different ruler types.
  */
 
 @import 'components/bar.component.pcss';
@@ -82,17 +52,12 @@
 @import 'components/mag.component.pcss';
 @import 'components/mask.component.pcss';
 @import 'components/ruler.component.pcss';
-@import 'components/settings.component.pcss';
-@import 'components/about.component.pcss';
+@import 'components/modal.component.pcss';
 @import 'components/range.component.pcss';
 
 /**
  * UTILS
  * CSS that overrides page styling to provide important utilities.
- *
- * Breakpoints -- Presets for common breakpoints.
- * Hide -- Hide toggle class.
- * Flex Helpers -- Classes to control flex styling.
  */
 
 @import 'utils/breakpoints.util.pcss';
@@ -103,8 +68,6 @@
 /**
  * FONTS
  * All fonts to be loaded should be housed in this folder.
- *
- * External -- Load all externally sourced fonts.
  */
 
 @import 'fonts/external.font.pcss';
