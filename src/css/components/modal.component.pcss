@@ -9,7 +9,6 @@
     width: 100vw;
     max-width: 100vw;
     z-index: 2140000015;
-    overflow-y: scroll;
 }
 
 @media (--for-desktop-up) {
@@ -120,6 +119,13 @@
     grid-area: 2 / 1 / 3 / 4;
     padding: 2rem;
     flex-direction: column;
+    overflow-y: scroll;
+
+    /* Fix padding not applied at end of scrollable section */
+    &::after {
+        content: '';
+        padding: 1rem;
+    }
 }
 
 @media (--for-desktop-up) {
