@@ -313,7 +313,7 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
             h(
               'ab-inner-menu-desc',
               {id: 'ab-custom-colour-desc-font', class: 'ab-desc'},
-              ['Click the box below', h('br'), 'to select a custom colour.']
+              ['Click to select', h('br'), 'custom colour.'],
             ),
             h(
               'ab-custom-colour-container',
@@ -965,7 +965,7 @@ const maskMenu = (state: Ace.State) => {
           h(
             'ab-inner-menu-desc',
             {id: 'ab-custom-colour-desc-mask', class: 'ab-desc'},
-            ['Click the box below', h('br'), 'to select a custom colour.']
+            ['Click to select', h('br'), 'custom colour.'],
           ),
           h(
             'ab-custom-colour-container',
@@ -1175,7 +1175,7 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
           h(
             'ab-inner-menu-desc',
             {id: 'ab-custom-colour-desc-reading-mask', class: 'ab-desc'},
-            ['Click the box below', h('br'), 'to select a custom colour.']
+            ['Click to select', h('br'), 'custom colour.'],
           ),
           h(
             'ab-custom-colour-container',
@@ -1473,7 +1473,7 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
           h(
             'ab-inner-menu-desc',
             {id: 'ab-custom-colour-desc-pinhole-mask', class: 'ab-desc'},
-            ['Click the box below', h('br'), 'to select a custom colour.']
+            ['Click to select', h('br'), 'custom colour.'],
           ),
           h(
             'ab-custom-colour-container',
