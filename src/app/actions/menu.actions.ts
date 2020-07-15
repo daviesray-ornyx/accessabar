@@ -1,7 +1,8 @@
-import {fxMenuDragEvents, fxMenuOpen, fxMenuClose} from '../fx/menu.fx';
-import menuConfig from '../../config/menu.config.json5';
-import menu from '../components/menu.component';
-const helpLink = `https://handsfree.slite.com/p/note/`;
+import {
+  fxMenuDefaultFunction,
+  fxMenuDragEvents,
+  fxMenuOpen,
+} from '../fx/menu.fx';
 
 function menuSpawn(state: Ace.State, opts) {
   const {menus} = state;
@@ -170,10 +171,23 @@ function menuEndDrag(state: Ace.State) {
   return [newState, fxMenuDragEvents(newState)];
 }
 
-function menuOpen(state: Ace.State, opts: {menuName: string; title: string}) {
-  const {menuName, title} = opts;
+function menuOpen(
+  state: Ace.State,
+  opts: {
+    menuName: string;
+    title: string;
+    defaultFunc?: (state: Ace.State) => unknown;
+  }
+) {
+  const {menuName, title, defaultFunc} = opts;
 
-  return [state, fxMenuOpen(state, menuName, title)];
+  return [
+    state,
+    [
+      fxMenuOpen(state, menuName, title),
+      defaultFunc && fxMenuDefaultFunction(state, defaultFunc),
+    ],
+  ];
 }
 
 function menuClose(state: Ace.State, opts: {menuName: string; title: string}) {

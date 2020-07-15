@@ -16,6 +16,18 @@ function rulerReadingToggle(state: Ace.State) {
   return [newState, fxRulerReadingEvents(newState)];
 }
 
+function rulerReadingEnable(state: Ace.State) {
+  const newState = {
+    ...state,
+    rulerReadingActive: true,
+    rulerPinholeActive: false,
+  };
+
+  apiSendEvent('AceRulerReading_On');
+
+  return [newState, fxRulerReadingEvents(newState)];
+}
+
 function rulerPinholeToggle(state: Ace.State) {
   const newState = {
     ...state,
@@ -246,6 +258,7 @@ function rulerChangeReadingCustomColour(state: Ace.State, colour: string) {
 
 export {
   rulerReadingToggle,
+  rulerReadingEnable,
   rulerMove,
   rulerPinholeOpacityDec,
   rulerPinholeOpacityInc,

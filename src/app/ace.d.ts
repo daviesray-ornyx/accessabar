@@ -2,6 +2,8 @@ declare namespace Ace {
   interface StateToolbar {
     aceHidden: boolean;
     aceTooltips: string[];
+    aceOpenDefaults: boolean;
+    aceSpeakTooltips: boolean;
   }
 
   interface StateFont {
@@ -237,6 +239,11 @@ declare namespace Ace {
     name: string;
     key: string | number;
     action(state: Ace.State, key: ListItem['key']): unknown;
+  }
+
+  interface SavedState {
+    version: string;
+    state: State;
   }
 
   interface DragEvent extends MouseEvent, TouchEvent {}
