@@ -5,14 +5,14 @@
         disableFunctions: [
             'tts',
         ],
-        helpSection: '#tts',
+        helpSection: 'VAkPLMm1GG9cuDmgBdwVpS/Text-to-Speech',
     },
 
     textOptions: {
         title: 'Text Options',
         disableOnClose: false,
         disableFunctions: [],
-        helpSection: '#textOptions',
+        helpSection: 'EAu493hTtUH7Qs9VNri1cc/Text-Options',
     },
 
     magnifier: {
@@ -21,14 +21,14 @@
         disableFunctions: [
             'magnifier',
         ],
-        helpSection: '#magnifier',
+        helpSection: '4jJaoS7o7pxgUBMGSVyjpq/Magnifier',
     },
 
     masking: {
         title: 'Screen Masking Options',
         disableOnClose: false,
         disableFunctions: [],
-        helpSection: '#masking',
+        helpSection: 'R6VFLik9LGRJrqgfAftJ8x/Screen-Masking',
     },
 
     rulerOptions: {
@@ -37,7 +37,7 @@
         disableFunctions: [
             'rulerReading'
         ],
-        helpSection: '#rulerOptions',
+        helpSection: 'AYjfSKDKYwGwkeRL24z7Bf/Rulers',
     },
 
     speechRecognition: {
@@ -46,7 +46,7 @@
         disableFunctions: [
             'speechRecognition',
         ],
-        helpSection: '#speechRecognition',
+        helpSection: 'Pv1t7vPx3gPgu4NfHGcgBn/Speech-Recognition',
     },
     pageTranslate: {
         title: 'Page Translation',
@@ -54,6 +54,6 @@
         disableFunctions: [
             'pageTranslate',
         ],
-        helpSection: '#pageTranslate',
+        helpSection: 'Ek91KiJhugWjn7sAmiedQy/Page-Translation',
     },
 }

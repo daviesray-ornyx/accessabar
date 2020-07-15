@@ -1,56 +1,43 @@
 import { ActionsType } from 'hyperapp';
+import {apiSendEvent} from './api.actions';
 
-const feedbackActions: ActionsType<Accessabar.IState, Accessabar.IFeedbackActions> = {
-    showFeedback: () => ({ feedbackProvided, feedbackActive }, { resetAll }: Accessabar.IActions) => {
+function showFeedback(state: Ace.State) {
+    return {
+      ...state,
+      feedbackActive: state.feedbackProvided ? false: true,
+    };
+  }
 
-        // This is more of a toggle....
-        return {
-            feedbackActive: feedbackProvided ? false: true,
-        };
-    },
-    thumbsUpFeedback: () => ({ feedbackActive }, { resetAll }: Accessabar.IActions) => {
+  function thumbsUpFeedback(state: Ace.State) {
+    return state;
+  }
 
-        // Thumbs up feedback
+  function thumbsDownFeedback(state: Ace.State) {
+    return state;
+  }
 
-        // Ensure feedback status is set to true
-        resetAll();
-        //window.abar.close();
+  function settingcloseFeedbacksClose(state: Ace.State) {
+    // return {
+    //   ...state,
+    //   settingsHidden: true,
+    // };
+    return state;
+  }
 
-        return { 
-            abarHidden: false,
-            feedbackProvided: true,
-            feedbackActive: false 
-        };
-    },
-    thumbsDownFeedback: () => ({ feedbackActive }, { resetAll }: Accessabar.IActions) => {
+  function closeFeedback(state: Ace.State) {
 
-        // Thumbsdown feedback
+    
+    return {
+      ...state,
+      feedbackActive: false,
+    };
+  }
 
-        // Ensure feedback status is set to true
-        resetAll();
-        //window.abar.close();
-
-        return { 
-            abarHidden: false,
-            feedbackProvided: true,
-            feedbackActive: false 
-        };
-    },
-    closeFeedback: () => ({ feedbackActive }, { resetAll }: Accessabar.IActions) => {
-        
-        // Ensure feedback status is set to false
-
-        // Ensure feedback status is set to false
-        resetAll();
-        //window.abar.close();
-
-        return { 
-            abarHidden: false,
-            feedbackProvided: false,
-            feedbackActive: false 
-        };
-    },
-};
-
-export default feedbackActions;
-export { feedbackActions };
+  
+export { 
+    showFeedback,
+    thumbsUpFeedback,
+    thumbsDownFeedback,
+    settingcloseFeedbacksClose,
+    closeFeedback
+ };

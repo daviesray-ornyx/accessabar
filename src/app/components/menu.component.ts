@@ -24,11 +24,13 @@ const menu = (state: Ace.State, menuName: string) => {
     menu: placeholderEl,
   };
 
+  const title =  `${menuConfig.title} Menu`;
+
   return h(
     'ab-menu',
     {
       'aria-label': `${menuConfig.title} Menu`,
-      class: 'ab-menu ab-draggable',
+      class: `ab-menu ab-draggable`,
       id: `ab-menu-${menuName}`,
       style: {
         left: `${state.menus[menuName].menuPosX}px`,
@@ -53,56 +55,63 @@ const menu = (state: Ace.State, menuName: string) => {
             {class: 'ab-menu-header-text'},
             menuConfig.title
           ),
-          h(
-            'ab-menu-help-button',
-            {
-                'aria-label': 'Feature Help',
-                class: 'ab-menu-help',
-                id: 'ab-menu-help',
-                onclick: () => {
-                    actions.menuHelp();
-                },
-                oncreate: () => {
-                    tippy('#accessabar #ab-menu-help', {
-                        arrow: true,
-                        content: 'Would you like some help?',
-                        placement: 'bottom',
-                        theme: 'ab',
-                    });
-                },
-                onkeydown: handleButtonNavigation,
-                role: 'button',
-                tabIndex: 1,
-            },
-            [
-                h('ab-icon', {
-                    'aria-hidden': 'true',
-                    class: 'ab-icon ab-icon-help',
-                }),
-            ],
-        ),
-          h(
-            'ab-menu-close-button',
-            {
-              'aria-label': 'Close menu',
-              class: 'ab-menu-close',
-              id: 'ab-menu-close',
-              onclick: [menuClose, menuName],
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-menu-close', content: 'Close Menu'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-              tabIndex: 1,
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-cross',
-              }),
-            ]
-          ),
+          
+          h('ab-menu-buttons-container', {class: 'ab-menu-buttons-container'}, 
+          [
+              h(
+                  'ab-menu-help-button',
+                  {
+                      'aria-label': 'Feature Help',
+                      class: 'ab-menu-help',
+                      id: 'ab-menu-help',
+                      onclick: () => {
+                          actions.menuHelp(state, menuName);
+                      },
+                      onmouseover: [aceAddTippy, {id: '#ab-menu-help', content: 'Would you like some help?'}],
+                      onkeydown: handleButtonNavigation,
+                      role: 'button',
+                      tabIndex: 1,
+                  },
+                  [
+                      h('ab-icon', {
+                          'aria-hidden': 'true',
+                          class: 'ab-icon ab-icon-help',
+                      }),
+                  ],
+              ),
+               h(
+                  'ab-menu-close-button',
+                  {
+                      'aria-label':  `Close ${menuConfig.title} Menu`,
+                      class: 'ab-menu-close',
+                      id: 'ab-menu-close',
+                      onclick: () => {
+                        console.log('logging state');
+                          console.log(state);
+                          //actions.menuClose(state, {menuName, title});
+                          alert('Just closed menu');
+                      },
+                      // oncreate: () => {
+                      //     tippy('#accessabar #ab-menu-close', {
+                      //         arrow: true,
+                      //         content: 'Close Menu',
+                      //         placement: 'bottom',
+                      //         theme: 'ab',
+                      //     });
+                      // },
+                      //onmouseover: [aceAddTippy, {id: '#ab-menu-close', content: 'Close Menu'}],
+                      onkeydown: handleButtonNavigation,
+                      role: 'button',
+                      tabIndex: 1,
+                  },
+                  [
+                      h('ab-icon', {
+                          'aria-hidden': 'true',
+                          class: 'ab-icon ab-icon-cross',
+                      }),
+                  ],
+              ),
+          ]), 
         ]
       ),
       menuConfig.menu(state),

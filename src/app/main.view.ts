@@ -34,7 +34,7 @@ const mainView = state => {
   return h('ab-grid', {class: 'ab-bar-grid'}, [
     innerBar(state),
     underBar(state),
-    funcArea(state, {}),
+    funcArea(state),
     menuArea(state),
     settingsMenu(state),
     aboutMenu(state),

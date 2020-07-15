@@ -3,6 +3,9 @@ import * as Buttons from './buttons.component';
 
 // Contains all the buttons in Ace
 const buttonArea = (state: Ace.State) => {
+  if(state == undefined){
+    return;
+  }
   return h(
     'ab-button-area',
     {

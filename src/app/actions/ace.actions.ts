@@ -286,24 +286,27 @@ function aceCreatePickr(
 }
 
 function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
-  ttsStopCurrent(state);
-  setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
 
-  if (state.aceTooltips.indexOf(opts.id) !== -1) {
-    return state;
+  try {
+    ttsStopCurrent(state);
+    setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
+
+    
+    tippy(`#accessabar ${opts.id}`, {
+      arrow: true,
+      content: opts.content,
+      placement: 'bottom',
+      theme: 'ab',
+    });
+    state.aceTooltips.push(opts.id);
+  } catch (error) {
+    console.log(error);
   }
-
-  tippy(`#accessabar ${opts.id}`, {
-    arrow: true,
-    content: opts.content,
-    placement: 'bottom',
-    theme: 'ab',
-  });
-  state.aceTooltips.push(opts.id);
+  
 
   return {
     ...state,
-    aceTooltips: state.aceTooltips,
+    aceTooltips: state == undefined ? undefined : state.aceTooltips,
   };
 }
 

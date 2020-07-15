@@ -1,6 +1,9 @@
 import { h } from 'hyperapp';
 import tippy from 'tippy.js';
 
+import {thumbsUpFeedback, thumbsDownFeedback, closeFeedback} from '../actions/feedback.actions';
+import state from '../state/ace.state';
+
 interface IFeedbackState {
     feedbackProvided: Accessabar.IState['feedbackProvided'];
     feedbackActive: Accessabar.IState['feedbackActive'];
@@ -10,24 +13,16 @@ interface IFeedbackState {
     feedbackWidthMin: Accessabar.IState['feedbackWidthMin'];
     feedbackPosX: Accessabar.IState['feedbackPosX'];
     feedbackPosY: Accessabar.IState['feedbackPosY'];
-    
 }
 
-interface IFeedbackActions {    
-    showFeedback: Accessabar.IFeedbackActions['showFeedback'];
-    thumbsUpFeedback: Accessabar.IFeedbackActions['thumbsUpFeedback'];
-    thumbsDownFeedback: Accessabar.IFeedbackActions['thumbsDownFeedback'];
-    closeFeedback: Accessabar.IFeedbackActions['closeFeedback'];
-    //magUpdateSize
-}
 
-const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWidth, feedbackWidthMin, feedbackPosX, feedbackPosY }: IFeedbackState, {showFeedback, thumbsUpFeedback, thumbsDownFeedback, closeFeedback }: IFeedbackActions) => {
+const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWidth, feedbackWidthMin, feedbackPosX, feedbackPosY }: IFeedbackState) => {
 
     return h(
         'ab-feedback-menu',
         {
             'aria-label': `Feedback Dialog`,
-            class: `ab-feedback-menu ab-draggable  ${feedbackActive == false ? 'ab-hide' : ''}`, // ${ false ? 'ab-hide' : ''}
+            class: `ab-feedback-menu ab-draggable  ${feedbackActive == true ? '' : 'ab-hide'}`, // ${ false ? 'ab-hide' : ''}
             id: 'ab-feedback-menu',
             oncreate: (el: HTMLElement) => {
                 //actions.menuUpdatePosition(el);
@@ -43,12 +38,12 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                 {
                     'aria-label': 'Hold left mouse button to drag the menu',
                     class: 'ab-feedback-menu-header ab-flex',
-                    onmousedown: (event) => {
-                        //actions.menuStartDrag(event);
-                    },
-                    ontouchstart: (event) => {
-                        //actions.menuStartDrag(event);
-                    },
+                    // `onmousedown: (event) => {
+                    //     //actions.menuStartDrag(event);
+                    // },
+                    // ontouchstart: (event) => {
+                    //     //actions.menuStartDrag(event);
+                    // },`
                 },
                 [
                     h('ab-feedback-menu-header-text', { class: 'ab-feedback-menu-header-text' }, 'User Feedback'),
@@ -60,9 +55,7 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                                 'aria-label': 'Close Feedback',
                                 class: 'ab-feedback-menu-close',
                                 id: 'ab-feedback-menu-close',
-                                onclick: () => {
-                                    closeFeedback();
-                                },
+                                onclick: closeFeedback(state) ,
                                 oncreate: () => {
                                     tippy('#accessabar #ab-feedback-menu-close', {
                                         arrow: true,
@@ -107,9 +100,7 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                             'aria-label': 'Enjoying ACE',
                             class: 'ab-feedback-action-thumbs-up',
                             id: 'ab-feedback-action-thumbs-up',
-                            onclick: () => {
-                                thumbsUpFeedback();
-                            },
+                            onclick: thumbsUpFeedback(state),
                             oncreate: () => {
                                 tippy('#accessabar #ab-feedback-action-thumbs-up', {
                                     arrow: true,
@@ -135,9 +126,7 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                             'aria-label': 'Not Enjoying ACE',
                             class: 'ab-feedback-action-thumbs-down',
                             id: 'ab-feedback-action-thumbs-down',
-                            onclick: () => {
-                                thumbsDownFeedback();
-                            },
+                            onclick: thumbsDownFeedback(state),
                             oncreate: () => {
                                 tippy('#accessabar #ab-feedback-action-thumbs-down', {
                                     arrow: true,
