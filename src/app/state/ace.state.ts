@@ -69,7 +69,7 @@ const stateMag: Ace.StateMag = {
 
 const stateMask: Ace.StateMask = {
   maskActive: false,
-  maskColourCurrent: 'red',
+  maskColourCurrent: 'green',
   maskColourCustomCurrent: '#fff',
   maskCustomActive: false,
   maskOpacity: '0.3',
