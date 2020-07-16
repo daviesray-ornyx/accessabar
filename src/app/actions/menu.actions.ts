@@ -3,6 +3,7 @@ import {
   fxMenuDragEvents,
   fxMenuOpen,
 } from '../fx/menu.fx';
+import menuConfig from '../../config/menu.config.json5'
 
 function menuSpawn(state: Ace.State, opts) {
   const {menus} = state;
@@ -40,45 +41,6 @@ function menuFactory(
       menuOffsetX: 0,
       menuOffsetY: bar.getBoundingClientRect().height,
       menuTitle: title,
-    },
-  };
-}
-
-function menuUndoSpawn(state: Ace.State, opts){
-  const {menus} = state;
-
-  return {
-    ...state,
-    menus: {
-      ...menus,
-      ...menuDestructorFactory(opts.menuName),
-    },
-  };
-}
-
-function menuDestructorFactory(
-  name: string
-): {[x: string]: Ace.StateMenu} {
-  if (!window.ace.mainElement) {
-    return {};
-  }
-
-  const bar = window.ace.mainElement.querySelector('ab-inner-bar');
-
-  if (!bar) {
-    return {};
-  }
-
-  return {
-    [name]: {
-      menuActive: false,
-      menuPosX: 0,
-      menuPosY: bar.getBoundingClientRect().height,
-      menuInitialX: 0,
-      menuInitialY: 0,
-      menuOffsetX: 0,
-      menuOffsetY: bar.getBoundingClientRect().height,
-      menuTitle: '',
     },
   };
 }
@@ -190,24 +152,29 @@ function menuOpen(
   ];
 }
 
-function menuClose(state: Ace.State, opts: {menuName: string; title: string}) {
+function menuClose(state: Ace.State, opts: {menuName: string}) {
   //const {menuName, title} = opts;
 
   // return [state, fxMenuClose(state, menuName)];
+  const {menus} = state;
+  const menusCopy = menus;
+
+  delete menusCopy[opts.menuName];
+
   return {
     ...state,
-    menuActive: false,
-  }
+    menus: menusCopy,
+  };
 
 }
 
-function menuHelp(state: Ace.State, menuName: string) {
+function menuHelp(state: Ace.State, opts: {menuName: string}) {
   // open link in new tab
-  const helpURL = new URL(menuConfig[menuName]['helpSection'], helpLink);
+  const helpURL = new URL(menuConfig[opts.menuName]['helpSection']);
   window.open(helpURL.toString());
   return {
     ...state,
-  };
+  }
 }
 
 function menuTextOpsSwitchInner(state: Ace.State, current: string) {
@@ -234,5 +201,4 @@ export {
   menuTextOpsSwitchInner,
   menuEndDrag,
   menuSpawn,
-  menuUndoSpawn,
 };

@@ -5,14 +5,14 @@
         disableFunctions: [
             'tts',
         ],
-        helpSection: 'VAkPLMm1GG9cuDmgBdwVpS/Text-to-Speech',
+        helpSection: 'https://handsfree.slite.com/p/note/VAkPLMm1GG9cuDmgBdwVpS/Text-to-Speech',
     },
 
     textOptions: {
         title: 'Text Options',
         disableOnClose: false,
         disableFunctions: [],
-        helpSection: 'EAu493hTtUH7Qs9VNri1cc/Text-Options',
+        helpSection: 'https://handsfree.slite.com/p/note/EAu493hTtUH7Qs9VNri1cc/Text-Options',
     },
 
     magnifier: {
@@ -21,14 +21,14 @@
         disableFunctions: [
             'magnifier',
         ],
-        helpSection: '4jJaoS7o7pxgUBMGSVyjpq/Magnifier',
+        helpSection: 'https://handsfree.slite.com/p/note/4jJaoS7o7pxgUBMGSVyjpq/Magnifier',
     },
 
     masking: {
         title: 'Screen Masking Options',
         disableOnClose: false,
         disableFunctions: [],
-        helpSection: 'R6VFLik9LGRJrqgfAftJ8x/Screen-Masking',
+        helpSection: 'https://handsfree.slite.com/p/note/R6VFLik9LGRJrqgfAftJ8x/Screen-Masking',
     },
 
     rulerOptions: {
@@ -37,7 +37,7 @@
         disableFunctions: [
             'rulerReading'
         ],
-        helpSection: 'AYjfSKDKYwGwkeRL24z7Bf/Rulers',
+        helpSection: 'https://handsfree.slite.com/p/note/AYjfSKDKYwGwkeRL24z7Bf/Rulers',
     },
 
     speechRecognition: {
@@ -46,7 +46,7 @@
         disableFunctions: [
             'speechRecognition',
         ],
-        helpSection: 'Pv1t7vPx3gPgu4NfHGcgBn/Speech-Recognition',
+        helpSection: 'https://handsfree.slite.com/p/note/Pv1t7vPx3gPgu4NfHGcgBn/Speech-Recognition',
     },
     pageTranslate: {
         title: 'Page Translation',
@@ -54,6 +54,6 @@
         disableFunctions: [
             'pageTranslate',
         ],
-        helpSection: 'Ek91KiJhugWjn7sAmiedQy/Page-Translation',
+        helpSection: 'https://handsfree.slite.com/p/note/Ek91KiJhugWjn7sAmiedQy/Page-Translation',
     },
 }

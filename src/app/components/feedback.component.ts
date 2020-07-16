@@ -1,8 +1,7 @@
 import { h } from 'hyperapp';
-import tippy from 'tippy.js';
-
+import {aceAddTippy} from '../actions/ace.actions';
+import {handleButtonNavigation} from './buttons.component';
 import {thumbsUpFeedback, thumbsDownFeedback, closeFeedback} from '../actions/feedback.actions';
-import state from '../state/ace.state';
 
 interface IFeedbackState {
     feedbackProvided: Accessabar.IState['feedbackProvided'];
@@ -38,12 +37,6 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                 {
                     'aria-label': 'Hold left mouse button to drag the menu',
                     class: 'ab-feedback-menu-header ab-flex',
-                    // `onmousedown: (event) => {
-                    //     //actions.menuStartDrag(event);
-                    // },
-                    // ontouchstart: (event) => {
-                    //     //actions.menuStartDrag(event);
-                    // },`
                 },
                 [
                     h('ab-feedback-menu-header-text', { class: 'ab-feedback-menu-header-text' }, 'User Feedback'),
@@ -55,16 +48,9 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                                 'aria-label': 'Close Feedback',
                                 class: 'ab-feedback-menu-close',
                                 id: 'ab-feedback-menu-close',
-                                onclick: closeFeedback(state) ,
-                                oncreate: () => {
-                                    tippy('#accessabar #ab-feedback-menu-close', {
-                                        arrow: true,
-                                        content: 'Close dialog',
-                                        placement: 'bottom',
-                                        theme: 'ab',
-                                    });
-                                },
-                                //onkeydown: handleButtonNavigation,
+                                onclick: [ closeFeedback, ] ,
+                                onmouseover: [aceAddTippy, {id: '#ab-feedback-menu-close', content: `Close feedback window?`}],
+                                onkeydown: handleButtonNavigation,
                                 role: 'button',
                                 tabIndex: 1,
                             },
@@ -100,16 +86,9 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                             'aria-label': 'Enjoying ACE',
                             class: 'ab-feedback-action-thumbs-up',
                             id: 'ab-feedback-action-thumbs-up',
-                            onclick: thumbsUpFeedback(state),
-                            oncreate: () => {
-                                tippy('#accessabar #ab-feedback-action-thumbs-up', {
-                                    arrow: true,
-                                    content: `Yes`,
-                                    placement: 'bottom',
-                                    theme: 'ab',
-                                });
-                            },
-                            //onkeydown: handleButtonNavigation,
+                            onclick: [ thumbsUpFeedback, ],
+                            onmouseover: [aceAddTippy, {id: '#ab-feedback-action-thumbs-up', content: `Yes`}],
+                            onkeydown: handleButtonNavigation,
                             role: 'button',
                             tabIndex: 1,
                         },
@@ -126,16 +105,9 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                             'aria-label': 'Not Enjoying ACE',
                             class: 'ab-feedback-action-thumbs-down',
                             id: 'ab-feedback-action-thumbs-down',
-                            onclick: thumbsDownFeedback(state),
-                            oncreate: () => {
-                                tippy('#accessabar #ab-feedback-action-thumbs-down', {
-                                    arrow: true,
-                                    content: 'No',
-                                    placement: 'bottom',
-                                    theme: 'ab',
-                                });
-                            },
-                            //onkeydown: handleButtonNavigation,
+                            onclick: [ thumbsDownFeedback, ],
+                            onmouseover: [aceAddTippy, {id: '#ab-feedback-action-thumbs-down', content: `No`}],
+                            onkeydown: handleButtonNavigation,
                             role: 'button',
                             tabIndex: 1,
                         },

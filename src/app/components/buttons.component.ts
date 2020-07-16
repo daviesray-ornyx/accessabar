@@ -15,6 +15,17 @@ import {magEnable} from '../actions/mag.actions';
 import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
+import hotkeys from 'hotkeys-js';
+
+// Handling keyboard shortcuts
+
+hotkeys('f5', function(event, handler){
+  // Prevent the default refresh event under WINDOWS system
+  event.preventDefault() 
+  alert('you pressed F5!') 
+});
+
+
 
 function handleButtonNavigation(_, event) {
   const {code, target} = event;

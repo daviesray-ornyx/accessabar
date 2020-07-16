@@ -244,7 +244,7 @@ declare namespace Accessabar {
         menuStopDrag(): Accessabar.IState;
         menuHandle(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => void;
         menuOpen(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
-        menuClose(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
+        menuClose(name: string): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState;
         menuHelp(): (state: Accessabar.IState, actions: Accessabar.IActions) => Accessabar.IState; 
         menuTextOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;
         menuRulerOpsSwitchInner(current: string): (state: Accessabar.IState) => Accessabar.IState;

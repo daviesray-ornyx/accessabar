@@ -1,10 +1,9 @@
 import {h} from 'hyperapp';
 import {handleButtonNavigation} from './buttons.component';
 import * as menus from './menus.component';
-import {menuClose, menuEndDrag, menuStartDrag} from '../actions/menu.actions';
+import {menuEndDrag, menuStartDrag} from '../actions/menu.actions';
 import {aceAddTippy} from '../actions/ace.actions';
 import * as actions from '../actions/menu.actions';
-import tippy from 'tippy.js';
 
 const menuConfigs = new Map([
   ['tts', {title: 'Text to Speech', menu: menus.ttsMenu}],
@@ -64,10 +63,10 @@ const menu = (state: Ace.State, menuName: string) => {
                       'aria-label': 'Feature Help',
                       class: 'ab-menu-help',
                       id: 'ab-menu-help',
-                      onclick: () => {
-                          actions.menuHelp(state, menuName);
-                      },
-                      onmouseover: [aceAddTippy, {id: '#ab-menu-help', content: 'Would you like some help?'}],
+                      onclick: () => [
+                        actions.menuHelp, {menuName}
+                      ],
+                      onmouseover: [aceAddTippy, {id: '#ab-menu-help', content: `Would you like some help on ${menuConfig.title}?`}],
                       onkeydown: handleButtonNavigation,
                       role: 'button',
                       tabIndex: 1,
@@ -85,21 +84,10 @@ const menu = (state: Ace.State, menuName: string) => {
                       'aria-label':  `Close ${menuConfig.title} Menu`,
                       class: 'ab-menu-close',
                       id: 'ab-menu-close',
-                      onclick: () => {
-                        console.log('logging state');
-                          console.log(state);
-                          //actions.menuClose(state, {menuName, title});
-                          alert('Just closed menu');
-                      },
-                      // oncreate: () => {
-                      //     tippy('#accessabar #ab-menu-close', {
-                      //         arrow: true,
-                      //         content: 'Close Menu',
-                      //         placement: 'bottom',
-                      //         theme: 'ab',
-                      //     });
-                      // },
-                      //onmouseover: [aceAddTippy, {id: '#ab-menu-close', content: 'Close Menu'}],
+                      onclick: () => [
+                        actions.menuClose, {menuName}
+                      ],
+                      onmouseover: [aceAddTippy, {id: '#ab-menu-close', content: 'Close Menu'}],
                       onkeydown: handleButtonNavigation,
                       role: 'button',
                       tabIndex: 1,
