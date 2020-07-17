@@ -91,6 +91,7 @@ declare namespace Ace {
     menuOffsetX: number;
     menuOffsetY: number;
     menuTitle: string;
+    shortcutKeysAdded: boolean;
   }
 
   interface StateMenus {

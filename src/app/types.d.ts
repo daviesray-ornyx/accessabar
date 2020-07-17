@@ -1,6 +1,7 @@
 declare namespace Accessabar {
     interface IState {
         abarHidden: boolean;
+        
 
         menuActive: boolean;
         menuCanDrag: boolean;
@@ -12,6 +13,7 @@ declare namespace Accessabar {
         menuEvent: boolean;
         menuHidden: boolean;
         menuTitle: string;
+        shortcutKeysAdded: boolean;
 
         ttsInitiated: boolean;
         ttsHoverSpeak: boolean;

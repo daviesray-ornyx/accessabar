@@ -18,7 +18,8 @@ import {srEnable} from '../actions/sr.actions';
 //import {menuOpen, menuClose} from './menu.actions';
 
   function addShortcutKeysListener(state: Ace.State) {
-    hotkeys('ctrl+shift+s,command+shift+s,', function(event, handler){
+        
+    hotkeys('ctrl+shift+s,command+shift+s,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
@@ -26,28 +27,28 @@ import {srEnable} from '../actions/sr.actions';
         //[menuOpen, {menuName: 'tts', title: 'Text to Speech'}, defaultFunc: ttsHoverEnable}];
     });
 
-    hotkeys('ctrl-+,command-+,', { splitKey: '-' }, function(event, handler){
+    hotkeys('ctrl-+,command-+,', { splitKey: '-' }, function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         fontIncSize(state);
     });
 
-    hotkeys('ctrl+-,command+-,', { splitKey: '+' }, function(event, handler){
+    hotkeys('ctrl+-,command+-,', { splitKey: '+' }, function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         fontDecSize(state);
     });
 
-    hotkeys('ctrl+r+f,command+r+f,', function(event, handler){
+    hotkeys('ctrl+r+f,command+r+f,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         fontSizingDisable(state);
     });
 
-    hotkeys('ctrl+shift+t,command+shift+t,', function(event, handler){
+    hotkeys('ctrl+shift+t,command+shift+t,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
@@ -59,16 +60,17 @@ import {srEnable} from '../actions/sr.actions';
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         menuOpen(state, {menuName: 'magnifier', title: 'Magnifier', defaultFunc: magEnable});
+        
     });
 
-    hotkeys('ctrl+shift+m,command+shift+m,', function(event, handler){
+    hotkeys('ctrl+shift+m,command+shift+m,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         menuOpen(state, {menuName: 'masking', title: 'Screen Masking', defaultFunc: maskEnable});
     });
 
-    hotkeys('ctrl+shift+r,command+shift+r,', function(event, handler){
+    hotkeys('ctrl+shift+r,command+shift+r,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
@@ -76,42 +78,42 @@ import {srEnable} from '../actions/sr.actions';
     });
        
 
-    hotkeys('ctrl+shift+g,command+shift+g,', function(event, handler){
+    hotkeys('ctrl+shift+g,command+shift+g,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         menuOpen(state, {menuName: 'speechRecognition', title: 'Speech Recognition', defaultFunc: srEnable,});
     });
 
-    hotkeys('ctrl+shift+t,command+shift+t,', function(event, handler){
+    hotkeys('ctrl+shift+t,command+shift+t,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         resetAll(state);
     });
 
-    hotkeys('shift+r,', function(event, handler){
+    hotkeys('shift+s,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         settingsOpen(state);
     });
 
-    hotkeys('shift+a,', function(event, handler){
+    hotkeys('shift+a,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         aboutOpen(state);
     });
 
-    hotkeys('shift+c,', function(event, handler){
+    hotkeys('shift+c,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
         closeAce(state);
     });
 
-    hotkeys('shift+h,', function(event, handler){
+    hotkeys('shift+h,', function(event){
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault() 
         //alert('About to enable Text to speech!') 
