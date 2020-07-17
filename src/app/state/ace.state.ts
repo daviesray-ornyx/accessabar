@@ -67,6 +67,18 @@ const stateMag: Ace.StateMag = {
   magSizeChangeStep: 0.1,
 };
 
+const stateFeedback: Ace.StateFeedback = {
+  // Feedback state Items
+  feedbackProvided: false,
+  feedbackActive: false,
+  feedbackHeight: new BigNumber(window.innerHeight).times(0.3).decimalPlaces(0).toNumber(), // Initialize at 30% of screen
+  feedbackHeightMin: 50,
+  feedbackWidth: new BigNumber(window.innerWidth).times(0.3).decimalPlaces(0).toNumber(),
+  feedbackWidthMin: 50,
+  feedbackPosX:  new BigNumber(window.innerWidth).dividedBy(2).minus(new BigNumber(window.innerWidth).times(0.3).dividedBy(4)).toNumber(),
+  feedbackPosY: new BigNumber(window.innerHeight).dividedBy(2).minus(new BigNumber(window.innerHeight).times(0.3).decimalPlaces(0).dividedBy(2)).toNumber(),
+};
+
 const stateMask: Ace.StateMask = {
   maskActive: false,
   maskColourCurrent: 'green',
@@ -174,6 +186,7 @@ const state = {
   ...stateToolbar,
   ...stateFont,
   ...stateMag,
+  ...stateFeedback,
   ...stateMask,
   ...stateMenus,
   ...stateDrag,

@@ -175,7 +175,6 @@ function ttsHightlightEnable(state: Ace.State) {
 
 function ttsSpeak(state: Ace.State, text: string) {
   const {ttsPitch, ttsRate, ttsVolume, ttsLang, ttsVoices, ttsVoice} = state;
-
   if (ttsVoices.length === 0) {
     return state;
   }

@@ -1,9 +1,18 @@
 import {apiSendEvent} from './api.actions';
 
 function closeAce(state) {
-  apiSendEvent('AceClosed');
-  window.ace.close();
-  return state;
+    if(state.feedbackProvided == true){
+        apiSendEvent('AceClosed');
+        window.ace.close();
+        return state;
+    }else{
+        return {
+            ...state,
+            feedbackActive: state.feedbackProvided ? false: true,
+        };
+        
+    }
+  
 }
 
 export default closeAce;

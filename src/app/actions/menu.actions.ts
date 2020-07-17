@@ -3,6 +3,7 @@ import {
   fxMenuDragEvents,
   fxMenuOpen,
 } from '../fx/menu.fx';
+import menuConfig from '../../config/menu.config.json5';
 
 function menuSpawn(state: Ace.State, opts) {
   const {menus} = state;
@@ -43,6 +44,7 @@ function menuFactory(
     },
   };
 }
+
 
 function menuMove(state: Ace.State) {
   if (!window.ace.mainElement) {
@@ -150,16 +152,29 @@ function menuOpen(
   ];
 }
 
-function menuClose(state: Ace.State, name: string) {
+function menuClose(state: Ace.State, opts: {menuName: string}) {
+  //const {menuName, title} = opts;
+
+  // return [state, fxMenuClose(state, menuName)];
   const {menus} = state;
   const menusCopy = menus;
 
-  delete menusCopy[name];
+  delete menusCopy[opts.menuName];
 
   return {
     ...state,
     menus: menusCopy,
   };
+
+}
+
+function menuHelp(state: Ace.State, opts: {menuName: string}) {
+  // open link in new tab
+  const helpURL = new URL(menuConfig[opts.menuName]['helpSection']);
+  window.open(helpURL.toString());
+  return {
+    ...state,
+  }
 }
 
 function menuTextOpsSwitchInner(state: Ace.State, current: string) {
@@ -179,6 +194,7 @@ function menuRulerOpsSwitchInner(state: Ace.State, current: string) {
 export {
   menuMove,
   menuClose,
+  menuHelp,
   menuOpen,
   menuRulerOpsSwitchInner,
   menuStartDrag,

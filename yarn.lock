@@ -5107,6 +5107,11 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.8.tgz#7539bd4bc1e0e0a895815a2e0262420b12858488"
   integrity sha512-f/wzC2QaWBs7t9IYqB4T3sR1xviIViXJRJTWBlx2Gf3g0Xi5vI7Yy4koXQ1c9OYDGHN9sBy1DQ2AB8fqZBWhUg==
 
+hotkeys-js@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/hotkeys-js/-/hotkeys-js-3.8.1.tgz#fa7051f73bf1dc92a8b8d580a40b247f91966376"
+  integrity sha512-YlhVQtyG9f1b7GhtzdhR0Pl+cImD1ZrKI6zYUa7QLd0zuThiL7RzZ+ANJyy7z+kmcCpNYBf5PjBa3CjiQ5PFpw==
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -5239,10 +5244,10 @@ human-signals@^1.1.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
 
-hyperapp@2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/hyperapp/-/hyperapp-2.0.8.tgz#6509a88ce21c43c6c51b98d40ca71e5b8e7b46ef"
-  integrity sha512-RZxmJ3G4VcR23RZfmK6U8KR7wHhXrbXAhKvjQuyg/kAv1bEIymdxUsrJAwtfXj0aasGU7CDQP70Gb2KwfxgJ/w==
+hyperapp@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/hyperapp/-/hyperapp-2.0.4.tgz#0be1bdfe46b28c73677adc408ce3a73f79cfd03f"
+  integrity sha512-1S0KIsyB97S/hH84GkuYjH/hmpnNQ546x16o+W7g/PnszxRPudJlwwGBKKnaRVL7x+dyevvuX4XLH67FooEt4w==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"

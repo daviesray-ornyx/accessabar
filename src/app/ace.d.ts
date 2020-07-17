@@ -60,6 +60,17 @@ declare namespace Ace {
     magWidthOffset: number;
   }
 
+  interface StateFeedback {
+    feedbackProvided: boolean;
+      feedbackActive: boolean;
+      feedbackHeight: number;
+      feedbackHeightMin: number,
+      feedbackWidth: number,
+      feedbackWidthMin: number
+      feedbackPosX: number,
+      feedbackPosY: number,
+  }
+  
   interface StateMask {
     maskActive: boolean;
     maskCustomActive: boolean;
@@ -80,6 +91,7 @@ declare namespace Ace {
     menuOffsetX: number;
     menuOffsetY: number;
     menuTitle: string;
+    shortcutKeysAdded: boolean;
   }
 
   interface StateMenus {
@@ -178,6 +190,7 @@ declare namespace Ace {
     extends StateToolbar,
       StateFont,
       StateMag,
+      StateFeedback,
       StateMask,
       StateMenus,
       StateDrag,
