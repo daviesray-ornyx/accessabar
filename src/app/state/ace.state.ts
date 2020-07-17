@@ -81,7 +81,7 @@ const stateFeedback: Ace.StateFeedback = {
 
 const stateMask: Ace.StateMask = {
   maskActive: false,
-  maskColourCurrent: 'red',
+  maskColourCurrent: 'green',
   maskColourCustomCurrent: '#fff',
   maskCustomActive: false,
   maskOpacity: '0.3',
