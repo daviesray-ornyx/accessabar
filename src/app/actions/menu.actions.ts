@@ -3,7 +3,7 @@ import {
   fxMenuDragEvents,
   fxMenuOpen,
 } from '../fx/menu.fx';
-import menuConfig from '../../config/menu.config.json5'
+import menuConfig from '../../config/menu.config.json5';
 
 function menuSpawn(state: Ace.State, opts) {
   const {menus} = state;
