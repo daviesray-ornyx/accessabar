@@ -27,7 +27,7 @@ const feedback = ({
     'ab-feedback-menu',
     {
       'aria-label': 'Feedback Dialog',
-      class: `ab-feedback-menu ab-draggable  ${feedbackActive && 'ab-hide'}`,
+      class: `ab-feedback-menu ab-draggable  ${!feedbackActive && 'ab-hide'}`,
       id: 'ab-feedback-menu',
       style: {
         left: `${feedbackPosX}px`,
