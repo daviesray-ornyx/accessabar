@@ -80,7 +80,7 @@
   "dependencies": {
     "@babel/runtime-corejs2": "7.10.5",
     "@simonwep/pickr": "1.7.2",
-    "@webcomponents/custom-elements": "1.4.1",
+    "@webcomponents/custom-elements": "1.4.2",
     "bignumber.js": "9.0.0",
     "hotkeys-js": "^3.8.1",
     "hyperapp": "2.0.4",
