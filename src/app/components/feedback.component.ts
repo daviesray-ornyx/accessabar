@@ -20,10 +20,6 @@ interface IFeedbackState {
 
 const feedback = ({
   feedbackActive,
-  feedbackHeight,
-  feedbackHeightMin,
-  feedbackWidth,
-  feedbackWidthMin,
   feedbackPosX,
   feedbackPosY,
 }: IFeedbackState) => {
@@ -31,13 +27,8 @@ const feedback = ({
     'ab-feedback-menu',
     {
       'aria-label': 'Feedback Dialog',
-      class: `ab-feedback-menu ab-draggable  ${
-        feedbackActive == true ? '' : 'ab-hide'
-      }`, // ${ false ? 'ab-hide' : ''}
+      class: `ab-feedback-menu ab-draggable  ${feedbackActive && 'ab-hide'}`,
       id: 'ab-feedback-menu',
-      oncreate: (el: HTMLElement) => {
-        //actions.menuUpdatePosition(el);
-      },
       style: {
         left: `${feedbackPosX}px`,
         top: `${feedbackPosY}px`,
@@ -66,7 +57,7 @@ const feedback = ({
                   'aria-label': 'Close Feedback',
                   class: 'ab-feedback-menu-close',
                   id: 'ab-feedback-menu-close',
-                  onclick: [closeFeedback],
+                  onclick: closeFeedback,
                   onmouseover: [
                     aceAddTippy,
                     {
@@ -118,7 +109,7 @@ const feedback = ({
               'aria-label': 'Enjoying ACE',
               class: 'ab-feedback-action-thumbs-up',
               id: 'ab-feedback-action-thumbs-up',
-              onclick: [thumbsUpFeedback],
+              onclick: thumbsUpFeedback,
               onmouseover: [
                 aceAddTippy,
                 {id: '#ab-feedback-action-thumbs-up', content: 'Yes'},
@@ -144,7 +135,7 @@ const feedback = ({
               'aria-label': 'Not Enjoying ACE',
               class: 'ab-feedback-action-thumbs-down',
               id: 'ab-feedback-action-thumbs-down',
-              onclick: [thumbsDownFeedback],
+              onclick: thumbsDownFeedback,
               onmouseover: [
                 aceAddTippy,
                 {id: '#ab-feedback-action-thumbs-down', content: 'No'},

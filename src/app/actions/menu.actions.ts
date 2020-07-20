@@ -41,10 +41,10 @@ function menuFactory(
       menuOffsetX: 0,
       menuOffsetY: bar.getBoundingClientRect().height,
       menuTitle: title,
+      shortcutKeysAdded: false,
     },
   };
 }
-
 
 function menuMove(state: Ace.State) {
   if (!window.ace.mainElement) {
@@ -165,7 +165,6 @@ function menuClose(state: Ace.State, opts: {menuName: string}) {
     ...state,
     menus: menusCopy,
   };
-
 }
 
 function menuHelp(state: Ace.State, opts: {menuName: string}) {
@@ -174,7 +173,7 @@ function menuHelp(state: Ace.State, opts: {menuName: string}) {
   window.open(helpURL.toString());
   return {
     ...state,
-  }
+  };
 }
 
 function menuTextOpsSwitchInner(state: Ace.State, current: string) {

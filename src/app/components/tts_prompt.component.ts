@@ -1,8 +1,7 @@
 import {h} from 'hyperapp';
 
 const ttsPrompt = (state: Ace.State) => {
-
-  if(state === undefined){
+  if (state === undefined) {
     return;
   }
 
@@ -12,11 +11,13 @@ const ttsPrompt = (state: Ace.State) => {
     ttsCurrentUtterSentenceIndex,
     ttsCurrentUtterSentenceWordIndex,
   } = state;
-  
 
   const wordArr: unknown[] = [];
 
-  if (ttsCurrentUtterSentences != undefined && ttsCurrentUtterSentences.length > 0) {
+  if (
+    ttsCurrentUtterSentences !== undefined &&
+    ttsCurrentUtterSentences.length > 0
+  ) {
     for (const [index, value] of ttsCurrentUtterSentences[
       ttsCurrentUtterSentenceIndex
     ].entries()) {

@@ -52,9 +52,6 @@ const stopButton = () => {
 };
 
 const ttsButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
   return h(
     'ab-bar-tts-button',
     {
@@ -176,9 +173,6 @@ const fontResetButton = ({fontSizingActive}: Ace.State) => {
 };
 
 const textOpsButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
   return h(
     'ab-bar-text-options-button',
     {
@@ -213,9 +207,6 @@ const textOpsButton = ({menus}: Ace.State) => {
 };
 
 const magButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
   return h(
     'ab-bar-mag-button',
     {
@@ -250,9 +241,6 @@ const magButton = ({menus}: Ace.State) => {
 };
 
 const maskButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
   return h(
     'ab-bar-mask-button',
     {
@@ -290,9 +278,6 @@ const maskButton = ({menus}: Ace.State) => {
 };
 
 const rulerButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
   return h(
     'ab-bar-ruler-button',
     {
@@ -331,9 +316,6 @@ const rulerButton = ({menus}: Ace.State) => {
 };
 
 const srButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
   return h(
     'ab-bar-sr-button',
     {
@@ -377,10 +359,6 @@ const srButton = ({menus}: Ace.State) => {
 };
 
 const ptButton = ({menus}: Ace.State) => {
-  if (menus == undefined) {
-    menus = {};
-  }
-
   return h(
     'ab-bar-pt-button',
     {
@@ -527,9 +505,6 @@ const closeButton = () => {
 };
 
 const hideButton = (state: Ace.State) => {
-  if (state === undefined) {
-    return;
-  }
   const {aceHidden} = state;
   return h(
     'ab-hide-button',

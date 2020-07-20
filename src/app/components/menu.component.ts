@@ -23,8 +23,6 @@ const menu = (state: Ace.State, menuName: string) => {
     menu: placeholderEl,
   };
 
-  const title = `${menuConfig.title} Menu`;
-
   return h(
     'ab-menu',
     {
