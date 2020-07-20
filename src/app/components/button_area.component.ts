@@ -1,11 +1,25 @@
 import {h} from 'hyperapp';
 import * as Buttons from './buttons.component';
+import {switchEl} from './menus.component';
+import {aceSpeakTooltipsToggle} from '../actions/ace.actions';
+
+const innerBarSettings = state => {
+  return [
+    h(
+      'ab-inner-bar-settings',
+      {class: 'ab-inner-bar-settings'},
+      switchEl(
+        state.aceSpeakTooltips,
+        aceSpeakTooltipsToggle,
+        'Speak Tooltips',
+        'Read tooltips aloud on hover'
+      )
+    ),
+  ];
+};
 
 // Contains all the buttons in Ace
 const buttonArea = (state: Ace.State) => {
-  if(state == undefined){
-    return;
-  }
   return h(
     'ab-button-area',
     {
@@ -13,18 +27,20 @@ const buttonArea = (state: Ace.State) => {
       class: 'ab-button-area ab-growable',
     },
     [
-      h('ab-button-section', {}, [
+      h('ab-button-section', {class: 'ab-flex'}, [
         h(
           'ab-button-group',
           {
             class: `ab-group ${
-              state.ttsHoverSpeak || state.ttsHighlightSpeak ? '' : 'ab-hide'
+              state.ttsHoverSpeak || state.ttsHighlightSpeak
+                ? 'ab-flex'
+                : 'ab-hide'
             }`,
             'aria-label': 'Sound controls',
           },
           [Buttons.stopButton()]
         ),
-        h('ab-button-group', {class: 'ab-group'}, [
+        h('ab-button-group', {class: 'ab-group ab-flex'}, [
           Buttons.ttsButton(state),
           Buttons.incButton(),
           Buttons.decButton(),
@@ -37,7 +53,8 @@ const buttonArea = (state: Ace.State) => {
           Buttons.ptButton(state),
         ]),
       ]),
-      h('ab-button-section', {}, [
+      h('ab-button-section', {class: 'ab-flex'}, [
+        innerBarSettings(state),
         Buttons.resetButton(),
         Buttons.settingsButton(state),
         Buttons.aboutButton(state),

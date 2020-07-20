@@ -2,6 +2,7 @@ declare namespace Ace {
   interface StateToolbar {
     aceHidden: boolean;
     aceTooltips: string[];
+    aceTooltipSpeakKeys: string[];
     aceOpenDefaults: boolean;
     aceSpeakTooltips: boolean;
   }
@@ -62,15 +63,15 @@ declare namespace Ace {
 
   interface StateFeedback {
     feedbackProvided: boolean;
-      feedbackActive: boolean;
-      feedbackHeight: number;
-      feedbackHeightMin: number,
-      feedbackWidth: number,
-      feedbackWidthMin: number
-      feedbackPosX: number,
-      feedbackPosY: number,
+    feedbackActive: boolean;
+    feedbackHeight: number;
+    feedbackHeightMin: number;
+    feedbackWidth: number;
+    feedbackWidthMin: number;
+    feedbackPosX: number;
+    feedbackPosY: number;
   }
-  
+
   interface StateMask {
     maskActive: boolean;
     maskCustomActive: boolean;

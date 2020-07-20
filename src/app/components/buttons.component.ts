@@ -1,6 +1,6 @@
 import {h} from 'hyperapp';
 import {ttsHoverEnable, ttsStopCurrent} from '../actions/tts.actions';
-import {aceAddTippy, aceHide} from '../actions/ace.actions';
+import {aceAddTippy, aceHide, aceSpeakTooltip} from '../actions/ace.actions';
 import {menuOpen} from '../actions/menu.actions';
 import {
   fontDecSize,
@@ -15,8 +15,6 @@ import {magEnable} from '../actions/mag.actions';
 import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
-
-
 
 function handleButtonNavigation(_, event) {
   const {code, target} = event;
@@ -39,6 +37,7 @@ const stopButton = () => {
       id: 'ab-stop',
       onclick: ttsStopCurrent,
       onmouseover: [aceAddTippy, {id: '#ab-stop', content: 'Stop'}],
+      onmouseenter: [aceSpeakTooltip, {id: '#ab-stop', content: 'Stop'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -53,9 +52,6 @@ const stopButton = () => {
 };
 
 const ttsButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
   return h(
     'ab-bar-tts-button',
     {
@@ -72,6 +68,10 @@ const ttsButton = ({menus}: Ace.State) => {
         {menuName: 'tts', title: 'Text to Speech', defaultFunc: ttsHoverEnable},
       ],
       onmouseover: [aceAddTippy, {id: '#ab-tts', content: 'Text to Speech'}],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-tts', content: 'Text to Speech'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -95,6 +95,10 @@ const incButton = () => {
       onclick: fontIncSize,
       onmouseover: [
         aceAddTippy,
+        {id: '#ab-font-increase', content: 'Increase Font Size'},
+      ],
+      onmouseenter: [
+        aceSpeakTooltip,
         {id: '#ab-font-increase', content: 'Increase Font Size'},
       ],
       onkeydown: handleButtonNavigation,
@@ -122,6 +126,10 @@ const decButton = () => {
         aceAddTippy,
         {id: '#ab-font-decrease', content: 'Decrease Font Size'},
       ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-font-decrease', content: 'Decrease Font Size'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -147,6 +155,10 @@ const fontResetButton = ({fontSizingActive}: Ace.State) => {
         aceAddTippy,
         {id: '#ab-font-reset', content: 'Reset Font Sizing'},
       ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-font-reset', content: 'Reset Font Sizing'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -161,9 +173,6 @@ const fontResetButton = ({fontSizingActive}: Ace.State) => {
 };
 
 const textOpsButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
   return h(
     'ab-bar-text-options-button',
     {
@@ -180,6 +189,10 @@ const textOpsButton = ({menus}: Ace.State) => {
         aceAddTippy,
         {id: '#ab-text-options', content: 'Text Options'},
       ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-text-options', content: 'Text Options'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -194,9 +207,6 @@ const textOpsButton = ({menus}: Ace.State) => {
 };
 
 const magButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
   return h(
     'ab-bar-mag-button',
     {
@@ -213,6 +223,10 @@ const magButton = ({menus}: Ace.State) => {
         {menuName: 'magnifier', title: 'Magnifier', defaultFunc: magEnable},
       ],
       onmouseover: [aceAddTippy, {id: '#ab-magnifier', content: 'Magnifier'}],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-magnifier', content: 'Magnifier'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -227,9 +241,6 @@ const magButton = ({menus}: Ace.State) => {
 };
 
 const maskButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
   return h(
     'ab-bar-mask-button',
     {
@@ -249,6 +260,10 @@ const maskButton = ({menus}: Ace.State) => {
         aceAddTippy,
         {id: '#ab-screen-mask', content: 'Screen Masking'},
       ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-screen-mask', content: 'Screen Masking'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -263,9 +278,6 @@ const maskButton = ({menus}: Ace.State) => {
 };
 
 const rulerButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
   return h(
     'ab-bar-ruler-button',
     {
@@ -286,6 +298,10 @@ const rulerButton = ({menus}: Ace.State) => {
         },
       ],
       onmouseover: [aceAddTippy, {id: '#ab-rulers', content: 'Reading Rulers'}],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-rulers', content: 'Reading Rulers'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -300,9 +316,6 @@ const rulerButton = ({menus}: Ace.State) => {
 };
 
 const srButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
   return h(
     'ab-bar-sr-button',
     {
@@ -328,6 +341,10 @@ const srButton = ({menus}: Ace.State) => {
         aceAddTippy,
         {id: '#ab-speech-recognition', content: 'Speech Recognition'},
       ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-speech-recognition', content: 'Speech Recognition'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -342,10 +359,6 @@ const srButton = ({menus}: Ace.State) => {
 };
 
 const ptButton = ({menus}: Ace.State) => {
-  if(menus == undefined){
-    menus = {};
-  }
-
   return h(
     'ab-bar-pt-button',
     {
@@ -363,6 +376,10 @@ const ptButton = ({menus}: Ace.State) => {
       ],
       onmouseover: [
         aceAddTippy,
+        {id: '#ab-page-translate', content: 'Page Translation'},
+      ],
+      onmouseenter: [
+        aceSpeakTooltip,
         {id: '#ab-page-translate', content: 'Page Translation'},
       ],
       onkeydown: handleButtonNavigation,
@@ -387,6 +404,7 @@ const resetButton = () => {
       id: 'ab-reset',
       onclick: resetAll,
       onmouseover: [aceAddTippy, {id: '#ab-reset', content: 'Reset All'}],
+      onmouseenter: [aceSpeakTooltip, {id: '#ab-reset', content: 'Reset All'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -416,6 +434,10 @@ const settingsButton = ({settingsHidden}: Ace.State) => {
         aceAddTippy,
         {id: '#ab-settings-button', content: 'Settings'},
       ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-settings-button', content: 'Settings'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -442,6 +464,10 @@ const aboutButton = ({aboutHidden}: Ace.State) => {
       id: 'ab-about-button',
       onclick: aboutOpen,
       onmouseover: [aceAddTippy, {id: '#ab-about-button', content: 'About'}],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-about-button', content: 'About'},
+      ],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -464,6 +490,7 @@ const closeButton = () => {
       id: 'ab-close',
       onclick: closeAce,
       onmouseover: [aceAddTippy, {id: '#ab-close', content: 'Close ACE'}],
+      onmouseenter: [aceSpeakTooltip, {id: '#ab-close', content: 'Close ACE'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: 0,
@@ -478,9 +505,6 @@ const closeButton = () => {
 };
 
 const hideButton = (state: Ace.State) => {
-  if(state === undefined){
-    return;
-  }
   const {aceHidden} = state;
   return h(
     'ab-hide-button',
@@ -493,6 +517,10 @@ const hideButton = (state: Ace.State) => {
       onclick: aceHide,
       onmouseover: [
         aceAddTippy,
+        {id: '#ab-hide', content: aceHidden ? 'Show ACE' : 'Hide ACE'},
+      ],
+      onmouseenter: [
+        aceSpeakTooltip,
         {id: '#ab-hide', content: aceHidden ? 'Show ACE' : 'Hide ACE'},
       ],
       onkeydown: handleButtonNavigation,
