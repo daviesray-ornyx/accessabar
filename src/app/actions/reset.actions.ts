@@ -5,6 +5,7 @@ function resetState(state: Ace.State) {
   const resetStateObj = {
     aceHidden: state.aceHidden,
     menus: state.menus,
+    feedbackProvided: state.feedbackProvided,
   };
 
   return {...aceState, ...resetStateObj};
