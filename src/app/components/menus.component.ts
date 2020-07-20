@@ -18,7 +18,11 @@ import {
   fontToggleList,
   fontToggleCurrent,
 } from '../actions/font.actions';
-import {aceAddTippy, aceCreatePickr} from '../actions/ace.actions';
+import {
+  aceAddTippy,
+  aceCreatePickr,
+  aceSpeakTooltip,
+} from '../actions/ace.actions';
 import {
   menuRulerOpsSwitchInner,
   menuTextOpsSwitchInner,
@@ -382,6 +386,10 @@ const textOptionsInnerLineSpacing = (state: Ace.State) => {
                   aceAddTippy,
                   {id: '#ab-ls-dec', content: 'Decrease'},
                 ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-ls-dec', content: 'Decrease'},
+                ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
               },
@@ -409,6 +417,10 @@ const textOptionsInnerLineSpacing = (state: Ace.State) => {
                 onclick: fontLineSpacingIncrement,
                 onmouseover: [
                   aceAddTippy,
+                  {id: '#ab-ls-inc', content: 'Increase'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
                   {id: '#ab-ls-inc', content: 'Increase'},
                 ],
                 onkeydown: handleButtonNavigation,
@@ -464,6 +476,10 @@ const textOptionsInnerLetterSpacing = (state: Ace.State) => {
                   aceAddTippy,
                   {id: '#ab-ks-dec', content: 'Decrease'},
                 ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-ks-dec', content: 'Decrease'},
+                ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
               },
@@ -491,6 +507,10 @@ const textOptionsInnerLetterSpacing = (state: Ace.State) => {
                 onclick: fontLetterSpacingIncrement,
                 onmouseover: [
                   aceAddTippy,
+                  {id: '#ab-ks-inc', content: 'Increase'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
                   {id: '#ab-ks-inc', content: 'Increase'},
                 ],
                 onkeydown: handleButtonNavigation,
@@ -655,6 +675,10 @@ const magMenu = (state: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-mag-scale-dec', content: 'Decrease Zoom'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-mag-scale-dec', content: 'Decrease Zoom'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -694,6 +718,10 @@ const magMenu = (state: Ace.State) => {
               ],
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-mag-scale-inc', content: 'Increase Zoom'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-mag-scale-inc', content: 'Increase Zoom'},
               ],
               onkeydown: handleButtonNavigation,
@@ -737,6 +765,10 @@ const magMenu = (state: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-mag-width-dec', content: 'Decrease Width'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-mag-width-dec', content: 'Decrease Width'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -764,6 +796,10 @@ const magMenu = (state: Ace.State) => {
               onclick: magWidthIncrease,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-mag-width-inc', content: 'Increase Width'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-mag-width-inc', content: 'Increase Width'},
               ],
               onkeydown: handleButtonNavigation,
@@ -808,6 +844,10 @@ const magMenu = (state: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-mag-height-dec', content: 'Decrease Height'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-mag-height-dec', content: 'Decrease Height'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -835,6 +875,10 @@ const magMenu = (state: Ace.State) => {
               onclick: magHeightIncrease,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-mag-height-inc', content: 'Increase Height'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-mag-height-inc', content: 'Increase Height'},
               ],
               onkeydown: handleButtonNavigation,
@@ -1017,6 +1061,10 @@ const maskMenu = (state: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-mask-opacity-dec', content: 'Decrease Opacity'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-mask-opacity-dec', content: 'Decrease Opacity'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -1044,6 +1092,10 @@ const maskMenu = (state: Ace.State) => {
               onclick: maskIncreaseOpacity,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-mask-opacity-inc', content: 'Increase Opacity'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-mask-opacity-inc', content: 'Increase Opacity'},
               ],
               onkeydown: handleButtonNavigation,
@@ -1232,6 +1284,13 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
                   content: 'Decrease Opacity',
                 },
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {
+                  id: '#ab-reading-ruler-opacity-dec',
+                  content: 'Decrease Opacity',
+                },
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -1259,6 +1318,13 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
               onclick: rulerReadingOpacityInc,
               onmouseover: [
                 aceAddTippy,
+                {
+                  id: '#ab-ruler-reading-opacity-inc',
+                  content: 'Increase Opacity',
+                },
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {
                   id: '#ab-ruler-reading-opacity-inc',
                   content: 'Increase Opacity',
@@ -1300,6 +1366,10 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-ruler-size-dec', content: 'Decrease Size'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-ruler-size-dec', content: 'Decrease Size'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -1323,6 +1393,10 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
               onclick: rulerSizeIncrease,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-ruler-size-inc', content: 'Increase Size'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-ruler-size-inc', content: 'Increase Size'},
               ],
               onkeydown: handleButtonNavigation,
@@ -1532,6 +1606,13 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
                   content: 'Decrease Opacity',
                 },
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {
+                  id: '#ab-pinhole-ruler-opacity-dec',
+                  content: 'Decrease Opacity',
+                },
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -1559,6 +1640,10 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
               onclick: rulerPinholeOpacityInc,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-ruler-pinhole-opacity-inc', content: 'Increase'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-ruler-pinhole-opacity-inc', content: 'Increase'},
               ],
               onkeydown: handleButtonNavigation,
@@ -1600,6 +1685,10 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-pinhole-ruler-size-dec', content: 'Decrease Size'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-pinhole-ruler-size-dec', content: 'Decrease Size'},
+              ],
               onkeydown: handleButtonNavigation,
               role: 'button',
             },
@@ -1623,6 +1712,10 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
               onclick: rulerPinholeSizeInc,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-ruler-pinhole-size-inc', content: 'Increase'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-ruler-pinhole-size-inc', content: 'Increase'},
               ],
               onkeydown: handleButtonNavigation,

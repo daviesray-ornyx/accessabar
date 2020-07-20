@@ -296,13 +296,17 @@ function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
     state.aceTooltips.push(opts.id);
   }
 
-  return [
-    {
-      ...state,
-      aceTooltips: state.aceTooltips,
-    },
-    state.aceSpeakTooltips && fxAceSpeakTooltip(state, opts),
-  ];
+  return {
+    ...state,
+    aceTooltips: state.aceTooltips,
+  };
+}
+
+function aceSpeakTooltip(
+  state: Ace.State,
+  opts: {id: string; content: string}
+) {
+  return [state, state.aceSpeakTooltips && fxAceSpeakTooltip(state, opts)];
 }
 
 function aceSpeakTooltipsToggle(state: Ace.State) {
@@ -323,4 +327,5 @@ export {
   aceCreatePickr,
   aceAddTippy,
   aceSpeakTooltipsToggle,
+  aceSpeakTooltip,
 };

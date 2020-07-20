@@ -2,7 +2,7 @@ import {h} from 'hyperapp';
 import {handleButtonNavigation} from './buttons.component';
 import * as menus from './menus.component';
 import {menuEndDrag, menuStartDrag} from '../actions/menu.actions';
-import {aceAddTippy} from '../actions/ace.actions';
+import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
 import * as actions from '../actions/menu.actions';
 
 const menuConfigs = new Map([
@@ -23,13 +23,13 @@ const menu = (state: Ace.State, menuName: string) => {
     menu: placeholderEl,
   };
 
-  const title =  `${menuConfig.title} Menu`;
+  const title = `${menuConfig.title} Menu`;
 
   return h(
     'ab-menu',
     {
       'aria-label': `${menuConfig.title} Menu`,
-      class: `ab-menu ab-draggable`,
+      class: 'ab-menu ab-draggable',
       id: `ab-menu-${menuName}`,
       style: {
         left: `${state.menus[menuName].menuPosX}px`,
@@ -54,52 +54,67 @@ const menu = (state: Ace.State, menuName: string) => {
             {class: 'ab-menu-header-text'},
             menuConfig.title
           ),
-          
-          h('ab-menu-buttons-container', {class: 'ab-menu-buttons-container'}, 
-          [
-              h(
-                  'ab-menu-help-button',
+
+          h('ab-menu-buttons-container', {class: 'ab-menu-buttons-container'}, [
+            h(
+              'ab-menu-help-button',
+              {
+                'aria-label': 'Feature Help',
+                class: 'ab-menu-help',
+                id: 'ab-menu-help',
+                onclick: () => [actions.menuHelp, {menuName}],
+                onmouseover: [
+                  aceAddTippy,
                   {
-                      'aria-label': 'Feature Help',
-                      class: 'ab-menu-help',
-                      id: 'ab-menu-help',
-                      onclick: () => [
-                        actions.menuHelp, {menuName}
-                      ],
-                      onmouseover: [aceAddTippy, {id: '#ab-menu-help', content: `Would you like some help on ${menuConfig.title}?`}],
-                      onkeydown: handleButtonNavigation,
-                      role: 'button',
-                      tabIndex: 1,
+                    id: '#ab-menu-help',
+                    content: `Would you like some help on ${menuConfig.title}?`,
                   },
-                  [
-                      h('ab-icon', {
-                          'aria-hidden': 'true',
-                          class: 'ab-icon ab-icon-help',
-                      }),
-                  ],
-              ),
-               h(
-                  'ab-menu-close-button',
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
                   {
-                      'aria-label':  `Close ${menuConfig.title} Menu`,
-                      class: 'ab-menu-close',
-                      id: 'ab-menu-close',
-                      onclick: () => [
-                        actions.menuClose, {menuName}
-                      ],
-                      onmouseover: [aceAddTippy, {id: '#ab-menu-close', content: 'Close Menu'}],
-                      onkeydown: handleButtonNavigation,
-                      role: 'button',
-                      tabIndex: 1,
+                    id: '#ab-menu-help',
+                    content: `Would you like some help on ${menuConfig.title}?`,
                   },
-                  [
-                      h('ab-icon', {
-                          'aria-hidden': 'true',
-                          class: 'ab-icon ab-icon-cross',
-                      }),
-                  ],
-              ),
-          ]), 
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabIndex: 1,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': 'true',
+                  class: 'ab-icon ab-icon-help',
+                }),
+              ]
+            ),
+            h(
+              'ab-menu-close-button',
+              {
+                'aria-label': `Close ${menuConfig.title} Menu`,
+                class: 'ab-menu-close',
+                id: 'ab-menu-close',
+                onclick: () => [actions.menuClose, {menuName}],
+                onmouseover: [
+                  aceAddTippy,
+                  {id: '#ab-menu-close', content: 'Close Menu'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-menu-close', content: 'Close Menu'},
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabIndex: 1,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': 'true',
+                  class: 'ab-icon ab-icon-cross',
+                }),
+              ]
+            ),
+          ]),
         ]
       ),
       menuConfig.menu(state),
