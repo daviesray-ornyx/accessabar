@@ -9,20 +9,20 @@ import aboutMenu from './components/about.component';
 import {switchEl} from './components/menus.component';
 import {aceSpeakTooltipsToggle} from './actions/ace.actions';
 
-const innerBarSettings = state => {
-  return [
-    h(
-      'ab-inner-bar-settings',
-      {class: 'ab-inner-bar-settings'},
-      switchEl(
-        state.aceSpeakTooltips,
-        aceSpeakTooltipsToggle,
-        'Speak Tooltips',
-        'Read tooltips aloud on hover'
-      )
-    ),
-  ];
-};
+// const innerBarSettings = state => {
+//   return [
+//     h(
+//       'ab-inner-bar-settings',
+//       {class: 'ab-inner-bar-settings'},
+//       switchEl(
+//         state.aceSpeakTooltips,
+//         aceSpeakTooltipsToggle,
+//         'Speak Tooltips',
+//         'Read tooltips aloud on hover'
+//       )
+//     ),
+//   ];
+// };
 
 const innerBar = state => {
   return h('ab-inner-bar', {class: 'ab-bar ab-growable'}, [
@@ -34,7 +34,7 @@ const innerBar = state => {
       {class: 'ab-button-area-container ab-bar-container ab-growable'},
       [buttonArea(state)]
     ),
-    innerBarSettings(state),
+    // innerBarSettings(state),
   ]);
 };
 
