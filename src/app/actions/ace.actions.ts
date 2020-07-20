@@ -291,26 +291,21 @@ function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
     setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
   }
 
-  try {
-    ttsStopCurrent(state);
-    setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
-
-    
-    tippy(`#accessabar ${opts.id}`, {
-      arrow: true,
-      content: opts.content,
-      placement: 'bottom',
-      theme: 'ab',
-    });
-    state.aceTooltips.push(opts.id);
-  } catch (error) {
-    console.log(error);
+  if (state.aceTooltips.indexOf(opts.id) !== -1) {
+    return state;
   }
-  
+
+  tippy(`#accessabar ${opts.id}`, {
+    arrow: true,
+    content: opts.content,
+    placement: 'bottom',
+    theme: 'ab',
+  });
+  state.aceTooltips.push(opts.id);
 
   return {
     ...state,
-    aceTooltips: state == undefined ? undefined : state.aceTooltips,
+    aceTooltips: state.aceTooltips,
   };
 }
 
