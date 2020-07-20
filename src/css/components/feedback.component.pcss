@@ -1,5 +1,5 @@
 #accessabar .ab-feedback-menu {
-    min-width: 10rem;
+    min-width: 40rem;
     background: var(--near-white);
     border: 4px solid var(--border-grey);
     z-index: 2140000010;
@@ -19,7 +19,7 @@
         
 
         &:hover {
-            cursor: move;
+            cursor: context-menu;
         }
 
         .ab-feedback-menu-header-text {
@@ -30,7 +30,7 @@
         .ab-feedback-menu-buttons-container{
             align-items: center;
             justify-content: space-between;
-            padding: 0.5em;
+            padding: 1em 0.5em;
 
             .ab-feedback-menu-help {
                 margin: 0.15em;
@@ -69,7 +69,7 @@
         margin-top: 2em;
         margin-left: 2em;
         margin-right:2em;
-        text-align: left;
+        text-align: center;
     }
 
     .ab-feedback-actions-container{
@@ -81,28 +81,48 @@
 
         .ab-feedback-action-thumbs-up{
             margin: 0.5em;
-            margin-right: 0em;
-            padding: 0.5em;
+            margin-right: 0.2em;
+            padding: 0.1em;
             cursor:pointer;
+            color: var(--active-green);
+            font-size: 2em;
 
             &:hover, &:focus {
                 /* background: var(--lighter-grey); */
                 cursor: pointer;
-                outline: 2px solid var(--blue-focus);
+                outline: 2px solid var(--active-green);
             }
         }   
         .ab-feedback-action-thumbs-down{
             margin: 0.5em;
-            margin-left: 0em;
-            padding: 0.5em;
+            margin-left: 0.2em;
+            padding: 0.1em;
             cursor:pointer;
+            color: var(--lighter-red);
+            font-size: 2em;
 
             &:hover, &:focus {
                 /* background: var(--lighter-grey); */
                 cursor: pointer;
                 outline: 2px solid var(--lighter-red);
             }
+
         } 
     }
+
+    .ab-feedback-tell-me-more-button {
+        margin: 0.5em 0.15em;
+        background: var(--near-black);
+        color: var(--font-colour);
+        padding: 0.4em;
+        display: inline-flex;
+
+        &:hover, &:focus {
+            background: var(--lighter-grey);
+            cursor: pointer;
+            outline: 2px solid var(dark-grey);
+        }
+    }
+
 }
 

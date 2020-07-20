@@ -1,7 +1,7 @@
 import { h } from 'hyperapp';
 import {aceAddTippy} from '../actions/ace.actions';
 import {handleButtonNavigation} from './buttons.component';
-import {thumbsUpFeedback, thumbsDownFeedback, closeFeedback} from '../actions/feedback.actions';
+import {thumbsUpFeedback, thumbsDownFeedback, tellMeMore, closeFeedback} from '../actions/feedback.actions';
 
 interface IFeedbackState {
     feedbackProvided: Accessabar.IState['feedbackProvided'];
@@ -71,7 +71,7 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                     class: `ab-feedback-prompt-text`,
                     id:'ab-feedback-prompt-text'
                 },
-                ['Are you enjoying ACE? ']
+                ['Have you enjoyed using ACE?']
             ),
             h(
                 'ab-feedback-actions-container',
@@ -119,7 +119,22 @@ const feedback = ({feedbackActive, feedbackHeight, feedbackHeightMin, feedbackWi
                         ],
                     )
                 ]
-            )
+            ),
+            h(
+                'ab-feedback-tell-me-more-button',
+                {
+                  'aria-controls': 'ab-feedback-tell-me-more-button',
+                  'aria-label': 'Tell Me More',
+                  class: 'ab-feedback-tell-me-more-button',
+                  id: 'ab-feedback-tell-me-more-button',
+                  onmouseover: [aceAddTippy, {id: '#ab-feedback-tell-me-more-button', content: `Tell Me More`}],
+                  onclick: tellMeMore,
+                  role: 'button',
+                },
+                [
+                  'Tell Me More'
+                ]
+            ),
         ]
     );
 };

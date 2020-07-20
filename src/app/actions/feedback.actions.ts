@@ -40,6 +40,16 @@ function showFeedback(state: Ace.State) {
     }
   }
 
+  function tellMeMore(state: Ace.State) {
+    // open link in new tab
+    const surveyLink = 'http://acetoolbar.com/';
+    window.open(surveyLink);
+    return {
+      ...state,
+    }
+  }
+  
+
   function closeFeedback(state: Ace.State) {
     apiSendEvent('Feedback Ignored');
     apiSendEvent('AceClosed');
@@ -56,6 +66,7 @@ export {
     showFeedback,
     thumbsUpFeedback,
     thumbsDownFeedback,
+    tellMeMore,
     settingcloseFeedbacksClose,
     closeFeedback
  };
