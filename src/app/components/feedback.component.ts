@@ -7,22 +7,7 @@ import {
   closeFeedback,
 } from '../actions/feedback.actions';
 
-interface IFeedbackState {
-  feedbackProvided: Accessabar.IState['feedbackProvided'];
-  feedbackActive: Accessabar.IState['feedbackActive'];
-  feedbackHeight: Accessabar.IState['feedbackHeight'];
-  feedbackHeightMin: Accessabar.IState['feedbackHeightMin'];
-  feedbackWidth: Accessabar.IState['feedbackWidth'];
-  feedbackWidthMin: Accessabar.IState['feedbackWidthMin'];
-  feedbackPosX: Accessabar.IState['feedbackPosX'];
-  feedbackPosY: Accessabar.IState['feedbackPosY'];
-}
-
-const feedback = ({
-  feedbackActive,
-  feedbackPosX,
-  feedbackPosY,
-}: IFeedbackState) => {
+const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
   return h(
     'ab-feedback-menu',
     {
