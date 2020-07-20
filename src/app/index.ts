@@ -41,7 +41,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '4';
+  private aceStateVersion = '5';
 
   // Position of Accessabar on the page.
   public position: string;
@@ -196,6 +196,7 @@ class AceController {
       state: {
         ...state,
         aceTooltips: initState.aceTooltips,
+        aceTooltipSpeakKeys: initState.aceTooltipSpeakKeys,
         ttsVoiceActive: initState.ttsVoiceActive,
       },
       version: this.aceStateVersion,

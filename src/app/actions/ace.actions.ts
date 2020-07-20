@@ -1,6 +1,6 @@
 import Pickr from '@simonwep/pickr';
 import tippy from 'tippy.js';
-import {ttsSpeak, ttsStopCurrent} from './tts.actions';
+import {fxAceSpeakTooltip} from '../fx/ace.fx';
 
 function aceMoveBody() {
   const {mainElement} = window.ace;
@@ -286,27 +286,23 @@ function aceCreatePickr(
 }
 
 function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
-  if (state.aceSpeakTooltips) {
-    ttsStopCurrent(state);
-    setTimeout(() => ttsSpeak(state, opts.content), 500); // speak tippy content
+  if (state.aceTooltips.indexOf(opts.id) === -1) {
+    tippy(`#accessabar ${opts.id}`, {
+      arrow: true,
+      content: opts.content,
+      placement: 'bottom',
+      theme: 'ab',
+    });
+    state.aceTooltips.push(opts.id);
   }
 
-  if (state.aceTooltips.indexOf(opts.id) !== -1) {
-    return state;
-  }
-
-  tippy(`#accessabar ${opts.id}`, {
-    arrow: true,
-    content: opts.content,
-    placement: 'bottom',
-    theme: 'ab',
-  });
-  state.aceTooltips.push(opts.id);
-
-  return {
-    ...state,
-    aceTooltips: state.aceTooltips,
-  };
+  return [
+    {
+      ...state,
+      aceTooltips: state.aceTooltips,
+    },
+    state.aceSpeakTooltips && fxAceSpeakTooltip(state, opts),
+  ];
 }
 
 function aceSpeakTooltipsToggle(state: Ace.State) {
