@@ -44,7 +44,7 @@
     "cache-loader": "4.1.0",
     "css-hot-loader": "1.4.4",
     "css-loader": "3.6.0",
-    "cypress": "4.10.0",
+    "cypress": "4.11.0",
     "eslint-plugin-cypress": "2.11.1",
     "file-loader": "6.0.0",
     "gts": "2.0.2",
