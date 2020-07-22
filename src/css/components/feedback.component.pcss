@@ -23,8 +23,10 @@
         }
 
         .ab-feedback-menu-header-text {
+            display:block;
             pointer-events: none;
             user-select: none;
+            text-align: center;
         }
 
         .ab-feedback-menu-buttons-container{
@@ -114,9 +116,10 @@
         margin: 0.5em 0.15em;
         background: var(--dark-grey);
         color: var(--font-colour);
-        padding: 0.6em 1em;
+        padding: 0.4em;
         display: inline-flex;
         cursor: pointer;
+        text-align:center;
 
         &:hover, &:focus {
             background: var(--lighter-grey);
@@ -124,6 +127,23 @@
             outline: 2px solid var(--dark-grey);
         }
 
+    }
+
+    .ab-feedback-close-button{
+        margin: 0.15em;
+        background: var(--dark-red);
+        color: var(--font-colour);
+        padding: 0.4em;
+        padding-left: 2.3em;
+        display: inline-flex;
+        width: 8em;
+        text-align: center;
+
+        &:hover, &:focus {
+            background: var(--lighter-red);
+            cursor: pointer;
+            outline: 2px solid var(--blue-focus);
+        }
     }
 
 }
