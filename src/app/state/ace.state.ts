@@ -6,6 +6,7 @@ const stateToolbar: Ace.StateToolbar = {
   aceTooltipSpeakKeys: [],
   aceOpenDefaults: true,
   aceSpeakTooltips: true,
+  aceTheme: 'default-theme'
 };
 
 const stateFont: Ace.StateFont = {
@@ -84,12 +85,12 @@ const stateFeedback: Ace.StateFeedback = {
   feedbackWidthMin: 50,
   feedbackPosX: new BigNumber(window.innerWidth)
     .dividedBy(2)
-    .minus(new BigNumber(window.innerWidth).times(0.3).dividedBy(4))
+    .minus(new BigNumber(window.innerWidth).times(0.6).dividedBy(4))
     .toNumber(),
   feedbackPosY: new BigNumber(window.innerHeight)
     .dividedBy(2)
     .minus(
-      new BigNumber(window.innerHeight).times(0.3).decimalPlaces(0).dividedBy(2)
+      new BigNumber(window.innerHeight).times(0.4).decimalPlaces(0).dividedBy(2)
     )
     .toNumber(),
 };

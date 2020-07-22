@@ -33,7 +33,7 @@ const underBar = state => {
  * Main container for all Ace elements
  */
 const mainView = state => {
-  return h('ab-grid', {class: 'ab-bar-grid'}, [
+  return h('ab-grid', {class: `ab-bar-grid ${state.aceTheme}` }, [
     innerBar(state),
     underBar(state),
     funcArea(state),
