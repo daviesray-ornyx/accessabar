@@ -8,24 +8,26 @@ function showFeedback(state: Ace.State) {
 }
 
 function thumbsUpFeedback(state: Ace.State) {
-  apiSendEvent('AceFeedbackPositive');
-  apiSendEvent('AceClosed');
-  window.ace.close();
+  if(state.feedbackProvided != true){
+    apiSendEvent('AceFeedbackNegative');
+  }
+  
   return {
     ...state,
     feedbackProvided: true,
-    feedbackActive: false,
+    feedbackActive: true,
   };
 }
 
 function thumbsDownFeedback(state: Ace.State) {
-  apiSendEvent('AceFeedbackNegative');
-  apiSendEvent('AceClosed');
-  window.ace.close();
+  if(state.feedbackProvided != true){
+    apiSendEvent('AceFeedbackNegative');
+  }
+  
   return {
     ...state,
     feedbackProvided: true,
-    feedbackActive: false,
+    feedbackActive: true,
   };
 }
 
@@ -35,17 +37,20 @@ function settingcloseFeedbacksClose(state: Ace.State) {
   window.ace.close();
   return {
     ...state,
-    feedbackProvided: false,
     feedbackActive: false,
   };
 }
 
   function tellMeMore(state: Ace.State) {
+    const surveyLink = 'https://docs.google.com/forms/d/e/1FAIpQLSfZZcV1Vz6DrNVXxGJ9cszlv5zrVg5MpJCeXqonZI5-8uWdBg/viewform';
     // open link in new tab
-    const surveyLink = 'http://acetoolbar.com/';
     window.open(surveyLink);
+    apiSendEvent('AceClosed');
+    window.ace.close();
     return {
       ...state,
+      feedbackProvided: true,
+      feedbackActive: false,
     }
   }
   
@@ -56,7 +61,6 @@ function settingcloseFeedbacksClose(state: Ace.State) {
     window.ace.close();
     return {
       ...state,
-      feedbackProvided: false,
       feedbackActive: false,
     }
   }

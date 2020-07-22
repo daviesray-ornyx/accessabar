@@ -2,6 +2,7 @@ import {h} from 'hyperapp';
 import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
 import {handleButtonNavigation} from './buttons.component';
 import {thumbsUpFeedback, thumbsDownFeedback, tellMeMore, closeFeedback} from '../actions/feedback.actions';
+import state from '../state/ace.state';
 
 const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
   return h(
@@ -129,7 +130,7 @@ const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
             {
                 'aria-controls': 'ab-feedback-tell-me-more-button',
                 'aria-label': 'Tell Me More',
-                class: 'ab-feedback-tell-me-more-button',
+                class: `ab-feedback-tell-me-more-button`,
                 id: 'ab-feedback-tell-me-more-button',
                 onmouseover: [aceAddTippy, {id: '#ab-feedback-tell-me-more-button', content: `Tell Me More`}],
                 onclick: tellMeMore,

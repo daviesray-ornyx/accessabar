@@ -5,6 +5,7 @@ import {
   settingsClose,
   settingsToggleSRLangList,
   settingsToggleTTSList,
+  settingsChangeTheme,
 } from '../actions/settings.actions';
 import {
   ttsChangePitch,
@@ -15,6 +16,8 @@ import {
 import {srChangeLang} from '../actions/sr.actions';
 import {switchEl} from './menus.component';
 import {aceSpeakTooltipsToggle} from '../actions/ace.actions';
+import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
+import {handleButtonNavigation} from './buttons.component';
 
 const settingsHeader = ({settingsHidden}) => {
   return h('ab-settings-header', {class: 'ab-modal-header'}, [
@@ -230,6 +233,100 @@ const settingsTooltipSection = (state: Ace.State) => {
   ];
 };
 
+const settingsThemesSection = (state: Ace.State) => {
+  return [
+    h(
+      'ab-settings-section-title',
+      {class: 'ab-modal-section-title'},
+      'Themes'
+    ),
+    h(
+      'ab-settings-section-info-text',
+      {class: 'ab-modal-section-info-text ab-modal-title'},
+      'Choose toolbar theme'
+    ),
+    h(
+      'ab-settings-section-theme-selector-container',
+      {class: 'ab-modal-section-group-row'},
+      [
+        h(
+          'ab-color-selector',
+          {
+            class:`ab-color-selector orange-selector ${state.aceTheme == 'orange-theme' ? 'ab-active' : ''}`,
+            id:'ab-color-selector-orange',
+            onclick: () => [settingsChangeTheme, 'orange-theme'],
+            onmouseover: [
+              aceAddTippy,
+              {
+                id: '#ab-color-selector-orange',
+                content: `Orange theme`,
+              },
+            ],
+            onmouseenter: [
+              aceSpeakTooltip,
+              {
+                id: '#ab-color-selector-orange',
+                content: `Orange theme`,
+              },
+            ],
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+          },
+        ),
+        h(
+          'ab-color-selector',
+          {
+            class: `ab-color-selector light-selector ${state.aceTheme == 'light-theme' ? 'ab-active' : ''}`,
+            id:'ab-color-selector-light',
+            onclick: () => [settingsChangeTheme, 'light-theme'],
+            onmouseover: [
+              aceAddTippy,
+              {
+                id: '#ab-color-selector-light',
+                content: `Light theme`,
+              },
+            ],
+            onmouseenter: [
+              aceSpeakTooltip,
+              {
+                id: '#ab-color-selector-light',
+                content: `Light theme`,
+              },
+            ],
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+          },
+        ),
+        h(
+          'ab-color-selector',
+          {
+            class:`ab-color-selector dark-selector ${state.aceTheme == 'dark-theme' ? 'ab-active' : ''}`,
+            id:'ab-color-selector-dark',
+            onclick: () => [settingsChangeTheme, 'dark-theme'],
+            onmouseover: [
+              aceAddTippy,
+              {
+                id: '#ab-color-selector-dark',
+                content: `Dark Theme`,
+              },
+            ],
+            onmouseenter: [
+              aceSpeakTooltip,
+              {
+                id: '#ab-color-selector-dark',
+                content: `Dark theme`,
+              },
+            ],
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+          },
+        ),
+      ]
+    )
+
+  ]
+};
+
 const settingsMenu = (state: Ace.State) => {
   return h(
     'ab-settings-menu',
@@ -245,6 +342,7 @@ const settingsMenu = (state: Ace.State) => {
         ...settingsTTSSection(state),
         ...settingsSRSection(state),
         ...settingsTooltipSection(state),
+        ...settingsThemesSection(state),
       ]),
       h('ab-settings-section-right', {class: 'ab-modal-section-right'}),
     ]
