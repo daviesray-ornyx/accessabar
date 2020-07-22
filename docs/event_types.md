@@ -16,6 +16,9 @@ Event | Description | Condition
 `AceScreenMask_On` | User has turned on the screen mask. | Toggle switch to 'on' state.
 `AceRulerReading_On` | User has turned on the reading ruler. | Toggle switch to 'on' state.
 `AceRulerPinhole_On` | User has turned on the pinhole ruler. | Toggle switch to 'on' state.
-`AceSpeechRecognition_On` | User has turned on speech recognition | Toggle switch to 'on' state.
-`AcePageTranslation_On` | User has turned on page translation | Toggle switch to 'on' state.
+`AceSpeechRecognition_On` | User has turned on speech recognition. | Toggle switch to 'on' state.
+`AcePageTranslation_On` | User has turned on page translation. | Toggle switch to 'on' state.
+`AceFeedbackPositive` | User has pressed 'Thumbs Up' on the feedback window. | Closing ACE for the first time.
+`AceFeedbackNegative` | User has pressed 'Thumbs Down' on the feedback window. | Closing ACE for the first time.
+`AceFeedbackIgnored` | User has pressed the close button on the feedback window. | Closing ACE for the first time.
  
