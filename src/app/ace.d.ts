@@ -5,6 +5,7 @@ declare namespace Ace {
     aceTooltipSpeakKeys: string[];
     aceOpenDefaults: boolean;
     aceSpeakTooltips: boolean;
+    aceTheme: string;
   }
 
   interface StateFont {

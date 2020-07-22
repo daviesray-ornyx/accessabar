@@ -1,11 +1,8 @@
 import {h} from 'hyperapp';
 import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
 import {handleButtonNavigation} from './buttons.component';
-import {
-  thumbsUpFeedback,
-  thumbsDownFeedback,
-  closeFeedback,
-} from '../actions/feedback.actions';
+import {thumbsUpFeedback, thumbsDownFeedback, tellMeMore, closeFeedback} from '../actions/feedback.actions';
+import state from '../state/ace.state';
 
 const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
   return h(
@@ -39,109 +36,110 @@ const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
               h(
                 'ab-feedback-menu-close-button',
                 {
-                  'aria-label': 'Close Feedback',
-                  class: 'ab-feedback-menu-close',
-                  id: 'ab-feedback-menu-close',
-                  onclick: closeFeedback,
-                  onmouseover: [
-                    aceAddTippy,
-                    {
-                      id: '#ab-feedback-menu-close',
-                      content: 'Close feedback window?',
-                    },
-                  ],
-                  onmouseenter: [
-                    aceSpeakTooltip,
-                    {
-                      id: '#ab-feedback-menu-close',
-                      content: 'Close feedback window?',
-                    },
-                  ],
-                  onkeydown: handleButtonNavigation,
-                  role: 'button',
-                  tabIndex: 1,
+                    'aria-label': 'Close Feedback',
+                    class: 'ab-feedback-menu-close',
+                    id: 'ab-feedback-menu-close',
+                    onclick: closeFeedback,
+                    onmouseover: [
+                        aceAddTippy,
+                        {
+                        id: '#ab-feedback-menu-close',
+                        content: 'Close feedback window?',
+                        },
+                    ],
+                    onmouseenter: [
+                        aceSpeakTooltip,
+                        {
+                        id: '#ab-feedback-menu-close',
+                        content: 'Close feedback window?',
+                        },
+                    ],
+                    onkeydown: handleButtonNavigation,
+                    role: 'button',
+                    tabIndex: 1,
                 },
                 [
-                  h('ab-icon', {
-                    'aria-hidden': 'true',
-                    class: 'ab-icon ab-icon-cross',
-                  }),
+                    h('ab-icon', {
+                        'aria-hidden': 'true',
+                        class: 'ab-icon ab-icon-cross',
+                    }),
                 ]
               ),
-            ]
-          ),
+            ],
+           ),
         ]
-      ),
-      h(
-        'ab-feedback-prompt-text',
-        {
-          'aria-label': 'Are you enjoying ACE?',
-          class: 'ab-feedback-prompt-text',
-          id: 'ab-feedback-prompt-text',
-        },
-        ['Are you enjoying ACE? ']
-      ),
-      h(
-        'ab-feedback-actions-container',
-        {
-          class: 'ab-feedback-actions-container',
-          id: 'ab-feedback-actions-container',
-        },
-        [
-          h(
-            'ab-feedback-action-thumbs-up',
+       ),
+        h(
+            'ab-feedback-prompt-text', 
             {
-              'aria-label': 'Enjoying ACE',
-              class: 'ab-feedback-action-thumbs-up',
-              id: 'ab-feedback-action-thumbs-up',
-              onclick: thumbsUpFeedback,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-feedback-action-thumbs-up', content: 'Yes'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-feedback-action-thumbs-up', content: 'Yes'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-              tabIndex: 1,
+                'aria-label': `Are you enjoying ACE?`,
+                class: `ab-feedback-prompt-text`,
+                id:'ab-feedback-prompt-text'
+            },
+            ['Have you enjoyed using ACE?']
+        ),
+        h(
+            'ab-feedback-actions-container',
+            {
+                class: `ab-feedback-actions-container`,
+                id:`ab-feedback-actions-container`
             },
             [
-              h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-thumbs-up',
-              }),
+                h(
+                    'ab-feedback-action-thumbs-up',
+                    {
+                        'aria-label': 'Enjoying ACE',
+                        class: 'ab-feedback-action-thumbs-up',
+                        id: 'ab-feedback-action-thumbs-up',
+                        onclick: [ thumbsUpFeedback, ],
+                        onmouseover: [aceAddTippy, {id: '#ab-feedback-action-thumbs-up', content: `Yes`}],
+                        onkeydown: handleButtonNavigation,
+                        role: 'button',
+                        tabIndex: 1,
+                    },
+                    [
+                        h('ab-icon', {
+                            'aria-hidden': 'true',
+                            class: 'ab-icon ab-icon-thumbs-up',
+                        }),
+                    ]
+                ),
+                h(
+                    'ab-feedback-action-thumbs-down',
+                    {
+                        'aria-label': 'Not Enjoying ACE',
+                        class: 'ab-feedback-action-thumbs-down',
+                        id: 'ab-feedback-action-thumbs-down',
+                        onclick: [ thumbsDownFeedback, ],
+                        onmouseover: [aceAddTippy, {id: '#ab-feedback-action-thumbs-down', content: `No`}],
+                        onkeydown: handleButtonNavigation,
+                        role: 'button',
+                        tabIndex: 1,
+                    },
+                    [
+                        h('ab-icon', {
+                            'aria-hidden': 'true',
+                            class: 'ab-icon ab-icon-thumbs-down',
+                        }),
+                    ],
+                )
             ]
-          ),
-          h(
-            'ab-feedback-action-thumbs-down',
+        ),
+        h(
+            'ab-feedback-tell-me-more-button',
             {
-              'aria-label': 'Not Enjoying ACE',
-              class: 'ab-feedback-action-thumbs-down',
-              id: 'ab-feedback-action-thumbs-down',
-              onclick: thumbsDownFeedback,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-feedback-action-thumbs-down', content: 'No'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-feedback-action-thumbs-down', content: 'No'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-              tabIndex: 1,
+                'aria-controls': 'ab-feedback-tell-me-more-button',
+                'aria-label': 'Tell Me More',
+                class: `ab-feedback-tell-me-more-button`,
+                id: 'ab-feedback-tell-me-more-button',
+                onmouseover: [aceAddTippy, {id: '#ab-feedback-tell-me-more-button', content: `Tell Me More`}],
+                onclick: tellMeMore,
+                role: 'button',
             },
             [
-              h('ab-icon', {
-                'aria-hidden': 'true',
-                class: 'ab-icon ab-icon-thumbs-down',
-              }),
+                'Tell Me More'
             ]
-          ),
-        ]
-      ),
+        ),
     ]
   );
 };
