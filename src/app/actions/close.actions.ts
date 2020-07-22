@@ -1,16 +1,14 @@
-import {apiSendEvent} from './api.actions';
+import {fxCloseAce} from '../fx/close.fx';
 
 function closeAce(state) {
-  if (state.feedbackProvided) {
-    apiSendEvent('AceClosed');
-    window.ace.close();
-    return state;
+  if (!state.feedbackProvided) {
+    return {
+      ...state,
+      feedbackActive: true,
+    };
   }
 
-  return {
-    ...state,
-    feedbackActive: !state.feedbackProvided,
-  };
+  return [state, fxCloseAce()];
 }
 
 export default closeAce;
