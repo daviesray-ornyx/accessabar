@@ -2,7 +2,6 @@ import {h} from 'hyperapp';
 import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
 import {handleButtonNavigation} from './buttons.component';
 import {thumbsUpFeedback, thumbsDownFeedback, tellMeMore, closeFeedback} from '../actions/feedback.actions';
-import state from '../state/ace.state';
 
 const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
   return h(
@@ -24,6 +23,7 @@ const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
           class: 'ab-feedback-menu-header ab-flex',
         },
         [
+            h('ab-spacer',{}, ['']),
           h(
             'ab-feedback-menu-header-text',
             {class: 'ab-feedback-menu-header-text'},
@@ -126,20 +126,45 @@ const feedback = ({feedbackActive, feedbackPosX, feedbackPosY}: Ace.State) => {
             ]
         ),
         h(
-            'ab-feedback-tell-me-more-button',
+            'ab-feedback-actions-contaner',
             {
-                'aria-controls': 'ab-feedback-tell-me-more-button',
-                'aria-label': 'Tell Me More',
-                class: `ab-feedback-tell-me-more-button`,
-                id: 'ab-feedback-tell-me-more-button',
-                onmouseover: [aceAddTippy, {id: '#ab-feedback-tell-me-more-button', content: `Tell Me More`}],
-                onclick: tellMeMore,
-                role: 'button',
+                class: `ab-feedback-actions-container`,
+                id:`ab-feedback-buttons-container`
             },
             [
-                'Tell Me More'
+                h(
+                    'ab-feedback-tell-me-more-button',
+                    {
+                        'aria-controls': 'ab-feedback-tell-me-more-button',
+                        'aria-label': 'Tell Me More',
+                        class: `ab-feedback-tell-me-more-button`,
+                        id: 'ab-feedback-tell-me-more-button',
+                        onmouseover: [aceAddTippy, {id: '#ab-feedback-tell-me-more-button', content: `Tell Me More`}],
+                        onclick: tellMeMore,
+                        role: 'button',
+                    },
+                    [
+                        'Tell Me More'
+                    ]
+                ),
+                h(
+                    'ab-feedback-close-button',
+                    {
+                        'aria-controls': 'ab-feedback-close-button',
+                        'aria-label': 'Close feedback',
+                        class: `ab-feedback-close-button`,
+                        id: 'ab-feedback-close-button',
+                        onmouseover: [aceAddTippy, {id: '#ab-feedback-close-button', content: `Close feedback`}],
+                        onclick: closeFeedback,
+                        role: 'button',
+                    },
+                    [
+                        'Close'
+                    ]
+                ),
             ]
-        ),
+        )
+        
     ]
   );
 };

@@ -252,6 +252,30 @@ const settingsThemesSection = (state: Ace.State) => {
         h(
           'ab-color-selector',
           {
+            class:`ab-color-selector default-selector ${state.aceTheme == 'default-theme' ? 'ab-active' : ''}`,
+            id:'ab-color-selector-dark',
+            onclick: () => [settingsChangeTheme, 'default-theme'],
+            onmouseover: [
+              aceAddTippy,
+              {
+                id: '#ab-color-selector-dark',
+                content: `Default Theme`,
+              },
+            ],
+            onmouseenter: [
+              aceSpeakTooltip,
+              {
+                id: '#ab-color-selector-dark',
+                content: `Default theme`,
+              },
+            ],
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+          },
+        ),
+        h(
+          'ab-color-selector',
+          {
             class:`ab-color-selector orange-selector ${state.aceTheme == 'orange-theme' ? 'ab-active' : ''}`,
             id:'ab-color-selector-orange',
             onclick: () => [settingsChangeTheme, 'orange-theme'],
