@@ -3,5 +3,6 @@
         "config:base",
         "schedule:nonOfficeHours"
     ],
-    "automerge": true
+    "automerge": true,
+    "baseBranches": ["nightly"]
 }
