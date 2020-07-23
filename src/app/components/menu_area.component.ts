@@ -1,8 +1,5 @@
 import {h} from 'hyperapp';
 import menu from './menu.component';
-import {addShortcutKeysListener} from '../actions/shortcuts.actions';
-
-// Add shortcut keys listener to menu
 
 // Contains all the menu and magnifier in Ace
 const menuArea = (state: Ace.State) => {
@@ -20,7 +17,6 @@ const menuArea = (state: Ace.State) => {
     'ab-menu-area',
     {
       class: `ab-menu-area ${state.menusHidden && 'ab-hide'}`,
-      onload: addShortcutKeysListener(state),
     },
     menus
   );
