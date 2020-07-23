@@ -6,7 +6,7 @@ const stateToolbar: Ace.StateToolbar = {
   aceTooltipSpeakKeys: [],
   aceOpenDefaults: true,
   aceSpeakTooltips: true,
-  aceTheme: 'default-theme'
+  aceTheme: 'default-theme',
 };
 
 const stateFont: Ace.StateFont = {
