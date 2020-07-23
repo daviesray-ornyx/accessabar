@@ -81,6 +81,7 @@ function fxMagMoveStop() {
     (dispatch, props) => {
       document.removeEventListener('mousemove', props.action);
       document.removeEventListener('touchmove', props.action);
+      magMoveHandle.pop();
     },
     {
       action: magMoveHandle[0],
@@ -115,6 +116,7 @@ function fxMagScrollStop() {
   return [
     (dispatch, props) => {
       window.removeEventListener('scroll', props.action);
+      magScrollHandle.pop();
     },
     {
       action: magScrollHandle[0],
@@ -127,4 +129,5 @@ export {
   fxMagResetState,
   fxMagDragEvents,
   fxMagScrollEvents,
+  fxMagMoveStop,
 };

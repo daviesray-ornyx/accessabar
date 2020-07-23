@@ -12,11 +12,20 @@ import {fxMagScrollEvents} from './mag.fx';
 import {fxRulerPinholeEvents, fxRulerReadingEvents} from './ruler.fx';
 import {fxSREnable} from './sr.fx';
 import {languageChangeAll} from '../actions/language.actions';
+import {ttsInit} from '../actions/tts.actions';
 
 const stateFuncs: {key: string; func: unknown}[] = [
   {
     key: 'ttsHoverSpeak',
+    func: ttsInit,
+  },
+  {
+    key: 'ttsHoverSpeak',
     func: state => [state, fxTTSHover(state)],
+  },
+  {
+    key: 'ttsHighlightSpeak',
+    func: ttsInit,
   },
   {
     key: 'ttsHighlightSpeak',

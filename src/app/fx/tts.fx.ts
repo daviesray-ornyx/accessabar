@@ -46,7 +46,6 @@ const hoverPassthrough = (dispatch, props) => {
 };
 
 function fxTTSHover(state: Ace.State) {
-  console.log(state.ttsHoverSpeak);
   return state.ttsHoverSpeak
     ? [
         (dispatch, props) => {
@@ -69,9 +68,22 @@ function fxTTSHover(state: Ace.State) {
     : [
         (dispatch, props) => {
           document.removeEventListener('mouseover', props.action);
+          hoverHandle.pop();
         },
         {action: hoverHandle[0]},
       ];
+}
+
+function fxTTSHoverEventStop(state: Ace.State) {
+  return (
+    state.ttsHoverSpeak && [
+      (dispatch, props) => {
+        document.removeEventListener('mouseover', props.action);
+        hoverHandle.pop();
+      },
+      {action: hoverHandle[0]},
+    ]
+  );
 }
 
 const highlightHandle: unknown[] = [];
@@ -105,9 +117,22 @@ function fxTTSHighlight(state: Ace.State) {
     : [
         (dispatch, props) => {
           document.removeEventListener('mouseup', props.action);
+          highlightHandle.pop();
         },
         {action: highlightHandle[0]},
       ];
+}
+
+function fxTTSHighlightEventStop(state: Ace.State) {
+  return (
+    state.ttsHighlightSpeak && [
+      (dispatch, props) => {
+        document.removeEventListener('mouseup', props.action);
+        highlightHandle.pop();
+      },
+      {action: highlightHandle[0]},
+    ]
+  );
 }
 
 const timeoutHandle: NodeJS.Timeout[] = [];
@@ -157,4 +182,12 @@ function fxTTSPrompt(state: Ace.State, utterance) {
   ];
 }
 
-export {fxTTSInit, fxTTSHighlight, fxTTSHover, fxTTSDelaySpeech, fxTTSPrompt};
+export {
+  fxTTSInit,
+  fxTTSHighlight,
+  fxTTSHover,
+  fxTTSDelaySpeech,
+  fxTTSPrompt,
+  fxTTSHighlightEventStop,
+  fxTTSHoverEventStop,
+};
