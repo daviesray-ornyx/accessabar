@@ -62,6 +62,7 @@ import {
 } from '../actions/ruler.actions';
 import {srToggle} from '../actions/sr.actions';
 import {
+  ptToggle,
   languageToggleCurrent,
   languageToggleList,
 } from '../actions/language.actions';
@@ -1832,7 +1833,12 @@ const ptMenu = (state: Ace.State) => {
     {class: 'ab-flex-column'},
     [
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-        // switchEl(state.languageActive, actions.languageToggleTranslation, 'Toggle Translation', 'Toggle the page translation'),
+        switchEl(
+          state.ptActive,
+          ptToggle,
+          'Activate Page Translation',
+          'Toggle Page Translation'
+        ),
       ]),
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
         h(
@@ -1860,8 +1866,8 @@ const ptMenu = (state: Ace.State) => {
                   {
                     'aria-labelledby': 'ab-custom-list-box',
                     class: `ab-custom-list-selection ${
-                      state.selectLanguageListActive ? 'ab-flex' : 'ab-hide'
-                    } ab-flex-column`,
+                      state.selectLanguageListActive ? 'ab-flex' : 'ab-hide' 
+                    } ab-flex-column ${state.ptActive ? 'disabled' : ''}`,
                     id: 'ab-language-list-selection',
                     role: 'listbox',
                   },

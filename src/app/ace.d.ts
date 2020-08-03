@@ -159,6 +159,7 @@ declare namespace Ace {
   }
 
   interface StateTranslation {
+    ptActive: boolean,
     languageActive: boolean;
     languageCurrentKey: string;
     selectLanguageListActive: boolean;
