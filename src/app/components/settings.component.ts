@@ -253,44 +253,20 @@ const settingsThemesSection = (state: Ace.State) => {
           'ab-color-selector',
           {
             class:`ab-color-selector default-selector ${state.aceTheme == 'default-theme' ? 'ab-active' : ''}`,
-            id:'ab-color-selector-dark',
+            id:'ab-color-selector-default',
             onclick: () => [settingsChangeTheme, 'default-theme'],
             onmouseover: [
               aceAddTippy,
               {
-                id: '#ab-color-selector-dark',
+                id: '#ab-color-selector-default',
                 content: `Default Theme`,
               },
             ],
             onmouseenter: [
               aceSpeakTooltip,
               {
-                id: '#ab-color-selector-dark',
+                id: '#ab-color-selector-default',
                 content: `Default theme`,
-              },
-            ],
-            onkeydown: handleButtonNavigation,
-            role: 'button',
-          },
-        ),
-        h(
-          'ab-color-selector',
-          {
-            class:`ab-color-selector orange-selector ${state.aceTheme == 'orange-theme' ? 'ab-active' : ''}`,
-            id:'ab-color-selector-orange',
-            onclick: () => [settingsChangeTheme, 'orange-theme'],
-            onmouseover: [
-              aceAddTippy,
-              {
-                id: '#ab-color-selector-orange',
-                content: `Orange theme`,
-              },
-            ],
-            onmouseenter: [
-              aceSpeakTooltip,
-              {
-                id: '#ab-color-selector-orange',
-                content: `Orange theme`,
               },
             ],
             onkeydown: handleButtonNavigation,
@@ -345,16 +321,30 @@ const settingsThemesSection = (state: Ace.State) => {
             role: 'button',
           },
         ),
-        
-        /*** --sky-blue: #87ceeb;
-    --pink: #FFC0CB;
-    --yellow: #f9f871;
-    --grass-green: #567d46;
-    --aqua-blue: #00FFFF;
-    --celery-green: #9DCE5C;
-    --grey: #b3b3b3;
-    --jade: #00a86b;
-    --magenta: #FF00FF; */
+        h(
+          'ab-color-selector',
+          {
+            class:`ab-color-selector orange-selector ${state.aceTheme == 'orange-theme' ? 'ab-active' : ''}`,
+            id:'ab-color-selector-orange',
+            onclick: () => [settingsChangeTheme, 'orange-theme'],
+            onmouseover: [
+              aceAddTippy,
+              {
+                id: '#ab-color-selector-orange',
+                content: `Orange theme`,
+              },
+            ],
+            onmouseenter: [
+              aceSpeakTooltip,
+              {
+                id: '#ab-color-selector-orange',
+                content: `Orange theme`,
+              },
+            ],
+            onkeydown: handleButtonNavigation,
+            role: 'button',
+          },
+        ),
     h(
       'ab-color-selector',
       {
@@ -364,14 +354,14 @@ const settingsThemesSection = (state: Ace.State) => {
         onmouseover: [
           aceAddTippy,
           {
-            id: '#ab-color-selector-dark',
+            id: '#ab-color-selector-sky-blue',
             content: `Sky Blue Theme`,
           },
         ],
         onmouseenter: [
           aceSpeakTooltip,
           {
-            id: '#ab-color-selector-dark',
+            id: '#ab-color-selector-sky-blue',
             content: `Sky Blue theme`,
           },
         ],
@@ -493,30 +483,6 @@ const settingsThemesSection = (state: Ace.State) => {
           {
             id: '#ab-color-selector-dark',
             content: `Celery Green theme`,
-          },
-        ],
-        onkeydown: handleButtonNavigation,
-        role: 'button',
-      },
-    ),
-    h(
-      'ab-color-selector',
-      {
-        class:`ab-color-selector grey-selector ${state.aceTheme == 'grey-theme' ? 'ab-active' : ''}`,
-        id:'ab-color-selector-grey',
-        onclick: () => [settingsChangeTheme, 'grey-theme'],
-        onmouseover: [
-          aceAddTippy,
-          {
-            id: '#ab-color-selector-grey',
-            content: `Grey Theme`,
-          },
-        ],
-        onmouseenter: [
-          aceSpeakTooltip,
-          {
-            id: '#ab-color-selector-grey',
-            content: `Grey theme`,
           },
         ],
         onkeydown: handleButtonNavigation,
