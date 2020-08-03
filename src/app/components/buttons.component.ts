@@ -15,6 +15,7 @@ import {magEnable} from '../actions/mag.actions';
 import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
+import {ptEnable} from '../actions/language.actions';
 
 function handleButtonNavigation(_, event) {
   const {code, target} = event;
@@ -372,7 +373,10 @@ const ptButton = ({menus}: Ace.State) => {
       id: 'ab-page-translate',
       onclick: [
         menuOpen,
-        {menuName: 'pageTranslate', title: 'Page Translation'},
+        {
+          menuName: 'pageTranslate', 
+          title: 'Page Translation',
+          defaultFunc: ptEnable},
       ],
       onmouseover: [
         aceAddTippy,

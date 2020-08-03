@@ -169,6 +169,7 @@ const stateSR: Ace.StateSR = {
 };
 
 const stateTranslation: Ace.StateTranslation = {
+  ptActive: false,
   languageActive: false,
   languageCurrentKey: '',
   selectLanguageListActive: false,

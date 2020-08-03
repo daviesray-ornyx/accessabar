@@ -3,6 +3,15 @@ import {getParents} from './ace.actions';
 import {apiGetTranslation, apiSendEvent} from './api.actions';
 import {fxLanguageChangeAll} from '../fx/language.fx';
 
+
+function ptEnable(state: Ace.State) {
+  apiSendEvent('AcePageTranslation_On');
+  return {
+    ...state,
+    ptActive: true,
+  };
+}
+
 function languageChangeAll(state: Ace.State, key?: string) {
   const {languageCurrentKey} = state;
   const currentKey: string = key || languageCurrentKey;
@@ -28,7 +37,6 @@ function languageChangeAll(state: Ace.State, key?: string) {
 }
 
 function languageToggleCurrent(state: Ace.State, key: string) {
-  apiSendEvent('AcePageTranslation_On');
   return [
     {
       ...state,
@@ -43,8 +51,18 @@ function languageToggleCurrent(state: Ace.State, key: string) {
 function languageToggleList(state: Ace.State) {
   return {
     ...state,
-    selectLanguageListActive: !state.selectLanguageListActive,
+    selectLanguageListActive: !state.selectLanguageListActive && state.ptActive,
   };
 }
 
-export {languageChangeAll, languageToggleCurrent, languageToggleList};
+function ptToggle(state: Ace.State){
+  const newState = {
+    ...state,
+    ptActive: !state.ptActive,
+    selectLanguageListActive: state.ptActive ? false : state.selectLanguageListActive,
+  };
+
+  apiSendEvent(`AcePageTranslation_${newState.ptActive ? 'On' : 'Off'}`);
+  return newState;
+}
+export {ptEnable, ptToggle, languageChangeAll, languageToggleCurrent, languageToggleList};
