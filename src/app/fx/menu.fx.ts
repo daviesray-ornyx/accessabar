@@ -38,6 +38,7 @@ function fxMenuMoveStop() {
     (dispatch, props) => {
       document.removeEventListener('mousemove', props.action);
       document.removeEventListener('touchmove', props.action);
+      menuMoveHandle.pop();
     },
     {
       action: menuMoveHandle[0],

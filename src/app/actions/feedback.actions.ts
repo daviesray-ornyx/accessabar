@@ -1,76 +1,51 @@
 import {apiSendEvent} from './api.actions';
-
-function showFeedback(state: Ace.State) {
-  return {
-    ...state,
-    feedbackActive: !state.feedbackProvided,
-  };
-}
+import {fxCloseAce} from '../fx/close.fx';
 
 function thumbsUpFeedback(state: Ace.State) {
-  if(state.feedbackProvided != true){
-    apiSendEvent('AceFeedbackNegative');
-  }
-  
+  !state.feedbackProvided && apiSendEvent('AceFeedbackPositive');
+
   return {
     ...state,
     feedbackProvided: true,
-    feedbackActive: true,
   };
 }
 
 function thumbsDownFeedback(state: Ace.State) {
-  if(state.feedbackProvided != true){
-    apiSendEvent('AceFeedbackNegative');
-  }
-  
+  !state.feedbackProvided && apiSendEvent('AceFeedbackNegative');
+
   return {
     ...state,
     feedbackProvided: true,
-    feedbackActive: true,
   };
 }
 
-function settingcloseFeedbacksClose(state: Ace.State) {
-  apiSendEvent('AceFeedbackIgnored');
-  apiSendEvent('AceClosed');
-  window.ace.close();
-  return {
-    ...state,
-    feedbackActive: false,
-  };
-}
+function tellMeMore(state: Ace.State) {
+  const surveyLink =
+    'https://docs.google.com/forms/d/e/1FAIpQLSfZZcV1Vz6DrNVXxGJ9cszlv5zrVg5MpJCeXqonZI5-8uWdBg/viewform';
+  // open link in new tab
+  window.open(surveyLink);
 
-  function tellMeMore(state: Ace.State) {
-    const surveyLink = 'https://docs.google.com/forms/d/e/1FAIpQLSfZZcV1Vz6DrNVXxGJ9cszlv5zrVg5MpJCeXqonZI5-8uWdBg/viewform';
-    // open link in new tab
-    window.open(surveyLink);
-    apiSendEvent('AceClosed');
-    window.ace.close();
-    return {
+  return [
+    {
       ...state,
       feedbackProvided: true,
       feedbackActive: false,
-    }
-  }
-  
+    },
+    fxCloseAce(),
+  ];
+}
 
-  function closeFeedback(state: Ace.State) {
-    apiSendEvent('Feedback Ignored');
-    apiSendEvent('AceClosed');
-    window.ace.close();
-    return {
+function closeFeedback(state: Ace.State) {
+  apiSendEvent('Feedback Ignored');
+  apiSendEvent('AceClosed');
+
+  return [
+    {
       ...state,
       feedbackActive: false,
-    }
-  }
+    },
+    fxCloseAce(),
+  ];
+}
 
-  
-export { 
-    showFeedback,
-    thumbsUpFeedback,
-    thumbsDownFeedback,
-    tellMeMore,
-    settingcloseFeedbacksClose,
-    closeFeedback
- };
+export {thumbsUpFeedback, thumbsDownFeedback, tellMeMore, closeFeedback};

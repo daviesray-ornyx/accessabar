@@ -26,7 +26,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.10.5';
+  public version = '0.11.1';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
@@ -41,7 +41,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '5';
+  private aceStateVersion = '6';
 
   // Position of Accessabar on the page.
   public position: string;
@@ -189,21 +189,21 @@ class AceController {
     this.aceState = state;
 
     if (!window.localStorage) {
-      return state;
+      return;
     }
 
     const stateObj = {
       state: {
         ...state,
-        aceTooltips: initState.aceTooltips,
-        aceTooltipSpeakKeys: initState.aceTooltipSpeakKeys,
-        ttsVoiceActive: initState.ttsVoiceActive,
+        aceTooltips: [],
+        aceTooltipSpeakKeys: [],
+        ttsInitiated: false,
+        ttsVoices: [],
       },
       version: this.aceStateVersion,
     };
 
     window.localStorage.setItem('aceLocalState', JSON.stringify(stateObj));
-    return state;
   }
 
   private getState(): Ace.State {

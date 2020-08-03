@@ -106,6 +106,7 @@ function menuStartDrag(
   const {menuOffsetX, menuOffsetY} = state.menus[opts.menuName];
   const ev = opts.ev.touches ? opts.ev.touches[0] : opts.ev;
   const {clientX, clientY} = ev;
+
   const newState = {
     ...state,
     menusCanDrag: true,
@@ -171,9 +172,7 @@ function menuHelp(state: Ace.State, opts: {menuName: string}) {
   // open link in new tab
   const helpURL = new URL(menuConfig[opts.menuName]['helpSection']);
   window.open(helpURL.toString());
-  return {
-    ...state,
-  };
+  return state;
 }
 
 function menuTextOpsSwitchInner(state: Ace.State, current: string) {

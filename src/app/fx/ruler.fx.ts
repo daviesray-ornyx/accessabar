@@ -44,6 +44,7 @@ function fxRulerMoveStop() {
     (dispatch, props) => {
       document.removeEventListener('mousemove', props.action);
       document.removeEventListener('touchmove', props.action);
+      rulerMoveHandle.pop();
     },
     {
       action: rulerMoveHandle[0],
@@ -51,4 +52,4 @@ function fxRulerMoveStop() {
   ];
 }
 
-export {fxRulerPinholeEvents, fxRulerReadingEvents};
+export {fxRulerPinholeEvents, fxRulerReadingEvents, fxRulerMoveStop};

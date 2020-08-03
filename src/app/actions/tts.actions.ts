@@ -248,7 +248,7 @@ function ttsChangeVoice(state: Ace.State, key: number) {
     return state;
   }
 
-  console.log(ttsVoices[key].name);
+  // console.log(ttsVoices[key].name);
 
   return {
     ...state,

@@ -7,27 +7,35 @@ const dragPassthrough = (dispatch, props) => {
 };
 
 function fxDragStartMouseEvents(state: Ace.State) {
-  return [
-    (dispatch, props) => {
-      document.addEventListener('mousemove', dragPassthrough(dispatch, props));
-      document.addEventListener('touchmove', dragPassthrough(dispatch, props));
-    },
-    {
-      action: (state, event) => {
-        const ev = event.touches ? event.touches[0] : event;
-        const {clientX, clientY} = ev;
-
-        event.preventDefault();
-
-        return {
-          ...state,
-          dragActive: true,
-          dragMouseX: clientX,
-          dragMouseY: clientY,
-        };
+  return (
+    dragCheckState(state) && [
+      (dispatch, props) => {
+        document.addEventListener(
+          'mousemove',
+          dragPassthrough(dispatch, props)
+        );
+        document.addEventListener(
+          'touchmove',
+          dragPassthrough(dispatch, props)
+        );
       },
-    },
-  ];
+      {
+        action: (state, event) => {
+          const ev = event.touches ? event.touches[0] : event;
+          const {clientX, clientY} = ev;
+
+          event.preventDefault();
+
+          return {
+            ...state,
+            dragActive: true,
+            dragMouseX: clientX,
+            dragMouseY: clientY,
+          };
+        },
+      },
+    ]
+  );
 }
 
 function dragCheckState(state: Ace.State) {
@@ -38,7 +46,7 @@ function dragCheckState(state: Ace.State) {
     rulerPinholeActive,
   } = state;
 
-  return !(
+  return (
     magActive ||
     menusDragActive !== '' ||
     rulerPinholeActive ||
@@ -48,24 +56,44 @@ function dragCheckState(state: Ace.State) {
 
 function fxDragStopMouseEvents(state: Ace.State) {
   return (
-    dragCheckState(state) && [
+    !dragCheckState(state) && [
       (dispatch, props) => {
         dispatch(props.action);
         document.removeEventListener('mousemove', dragHandle[0]);
         document.removeEventListener('touchmove', dragHandle[0]);
+        dragHandle.pop();
       },
       {
-        action: state => {
-          return {
-            ...state,
-            dragMouseX: 0,
-            dragMouseY: 0,
-            dragActive: false,
-          };
-        },
+        action: dragReset,
       },
     ]
   );
 }
 
-export {fxDragStartMouseEvents, fxDragStopMouseEvents};
+function dragReset(state) {
+  return {
+    ...state,
+    dragMouseX: 0,
+    dragMouseY: 0,
+    dragActive: false,
+  };
+}
+
+function fxDragStop() {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+
+      if (dragHandle.length > 0) {
+        document.removeEventListener('mousemove', dragHandle[0]);
+        document.removeEventListener('touchmove', dragHandle[0]);
+        dragHandle.pop();
+      }
+    },
+    {
+      action: dragReset,
+    },
+  ];
+}
+
+export {fxDragStartMouseEvents, fxDragStopMouseEvents, fxDragStop};
