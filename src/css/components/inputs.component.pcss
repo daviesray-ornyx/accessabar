@@ -83,3 +83,34 @@
         border: 4px solid var(--dark-red);
     }
 }
+
+#accessabar .ab-custom-action-button {
+    margin: 0.15em;
+    background: var(--dark-grey);
+    color: var(--font-colour);
+    padding: 1em;
+    display: inline-block;
+    width:fit-content;
+
+    &:hover, &:focus {
+        background: var(--lighter-grey);
+        cursor: pointer;
+        outline: 2px solid var(--blue-focus);
+    }
+
+    &.ab-close {
+        background: var(--dark-red);
+
+        &:hover, &:focus {
+            background: var(--lighter-red);
+        }
+    }
+
+    &.ab-warning {
+        background: var(--dark-orange);
+
+        &:hover, &:focus {
+            background: var(--lighter-orange);
+        }
+    }
+}

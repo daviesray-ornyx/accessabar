@@ -163,6 +163,7 @@ declare namespace Ace {
     languageActive: boolean;
     languageCurrentKey: string;
     selectLanguageListActive: boolean;
+    ptPageUrlCached:string;
   }
 
   interface StateTTS {

@@ -41,7 +41,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '6';
+  private aceStateVersion = '7';
 
   // Position of Accessabar on the page.
   public position: string;
