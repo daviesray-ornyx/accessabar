@@ -173,6 +173,7 @@ const stateTranslation: Ace.StateTranslation = {
   languageActive: false,
   languageCurrentKey: '',
   selectLanguageListActive: false,
+  ptPageUrlCached: '',
 };
 
 const stateTTS: Ace.StateTTS = {

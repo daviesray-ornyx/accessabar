@@ -65,6 +65,7 @@ import {
   ptToggle,
   languageToggleCurrent,
   languageToggleList,
+  ptBackToOriginalTranslation,
 } from '../actions/language.actions';
 
 const switchEl = (
@@ -1877,6 +1878,20 @@ const ptMenu = (state: Ace.State) => {
             ),
           ]
         ),
+      ]),
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+          h(
+            'ab-page-translation-reset-button',
+            {
+              'aria-label': 'Back to Original Text',
+              class: 'ab-custom-action-button',
+              id: 'ab-page-translation-reset-button',
+              role: 'button',
+              onkeydown: handleButtonNavigation,
+              onclick: ptBackToOriginalTranslation,
+            },
+            ['Back to original']
+          ),
       ]),
     ]
   );

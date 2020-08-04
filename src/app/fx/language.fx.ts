@@ -1,4 +1,4 @@
-import {languageChangeAll} from '../actions/language.actions';
+import {languageChangeAll, ptCachePage} from '../actions/language.actions';
 
 function fxLanguageChangeAll(key: string) {
   return [
@@ -12,4 +12,16 @@ function fxLanguageChangeAll(key: string) {
   ];
 }
 
-export {fxLanguageChangeAll};
+function fxPtCachePage(state: Ace.State){  
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+    },
+    {
+      state,
+      action: ptCachePage,
+    },
+  ];
+}
+
+export {fxLanguageChangeAll, fxPtCachePage};

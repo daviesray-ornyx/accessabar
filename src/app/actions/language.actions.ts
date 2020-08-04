@@ -1,15 +1,28 @@
 import languageConfig from '../../config/language.config.json5';
 import {getParents} from './ace.actions';
 import {apiGetTranslation, apiSendEvent} from './api.actions';
-import {fxLanguageChangeAll} from '../fx/language.fx';
+import {fxLanguageChangeAll, fxPtCachePage} from '../fx/language.fx';
 
 
 function ptEnable(state: Ace.State) {
   apiSendEvent('AcePageTranslation_On');
-  return {
+  const newState =  {
     ...state,
     ptActive: true,
   };
+  return [newState, fxPtCachePage(newState)];
+}
+
+function ptCachePage(state: Ace.State){
+  const parentElements = getParents();
+  parentElements.forEach(element => {
+    const originalTextContent = element.textContent || undefined;
+    element.dataset.original = originalTextContent;
+  })
+  return (state.ptPageUrlCached !=  window.location.href) ?  {
+      ...state,
+      ptPageUrlCached: window.location.href,
+    } : state;
 }
 
 function languageChangeAll(state: Ace.State, key?: string) {
@@ -37,14 +50,18 @@ function languageChangeAll(state: Ace.State, key?: string) {
 }
 
 function languageToggleCurrent(state: Ace.State, key: string) {
+
+  // Check if caching is necessary
+  const newState = {
+    ...state,
+    languageActive: true,
+    languageCurrentKey: key,
+    selectLanguageListActive: false,
+  }
   return [
-    {
-      ...state,
-      languageActive: true,
-      languageCurrentKey: key,
-      selectLanguageListActive: false,
-    },
-    fxLanguageChangeAll(key),
+    newState,
+    fxLanguageChangeAll(key), 
+    fxPtCachePage(newState),
   ];
 }
 
@@ -63,6 +80,23 @@ function ptToggle(state: Ace.State){
   };
 
   apiSendEvent(`AcePageTranslation_${newState.ptActive ? 'On' : 'Off'}`);
-  return newState;
+  return [newState, fxPtCachePage(newState)];
 }
-export {ptEnable, ptToggle, languageChangeAll, languageToggleCurrent, languageToggleList};
+
+function ptBackToOriginalTranslation(state: Ace.State){
+
+  if(state.ptPageUrlCached != window.location.href || !state.ptActive){
+    return state;
+  }
+
+  // pending logic to replace content
+  getParents().forEach(element => {
+    element.textContent = element.dataset.original || element.textContent;
+  });
+  
+  return {
+    ...state,
+    languageCurrentKey: '',
+  }
+}
+export {ptEnable, ptToggle, languageChangeAll, languageToggleCurrent, languageToggleList, ptBackToOriginalTranslation, ptCachePage};
