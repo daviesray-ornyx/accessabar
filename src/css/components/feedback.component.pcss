@@ -16,7 +16,7 @@
         font-family: var(--header-font);
         border-bottom: 1px solid var(--border-grey);
         text-shadow: 0 0 1px var(--near-white);
-        
+
 
         &:hover {
             cursor: context-menu;
@@ -62,7 +62,7 @@
                     cursor: pointer;
                     outline: 2px solid var(--blue-focus);
                 }
-            }                        
+            }
         }
     }
 
@@ -76,40 +76,34 @@
 
     .ab-feedback-actions-container{
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         padding: 0.5em;
         margin:1em;
-        display:block;
+        display: flex;
 
         .ab-feedback-action-thumbs-up{
             margin: 0.5em;
-            margin-right: 0.2em;
-            padding: 0.1em;
-            cursor:pointer;
-            color: var(--active-green);
-            font-size: 2em;
+            padding: 0.5em;
+            background: var(--active-green);
 
             &:hover, &:focus {
                 /* background: var(--lighter-grey); */
                 cursor: pointer;
-                outline: 2px solid var(--active-green);
+                outline: 2px solid var(--blue-focus);
             }
-        }   
+        }
         .ab-feedback-action-thumbs-down{
             margin: 0.5em;
-            margin-left: 0.2em;
-            padding: 0.1em;
-            cursor:pointer;
-            color: var(--lighter-red);
-            font-size: 2em;
+            padding: 0.5em;
+            background: var(--lighter-red);
 
             &:hover, &:focus {
                 /* background: var(--lighter-grey); */
                 cursor: pointer;
-                outline: 2px solid var(--lighter-red);
+                outline: 2px solid var(--blue-focus);
             }
 
-        } 
+        }
     }
 
     .ab-feedback-tell-me-more-button {
