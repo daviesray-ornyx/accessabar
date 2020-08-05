@@ -159,11 +159,11 @@ declare namespace Ace {
   }
 
   interface StateTranslation {
-    ptActive: boolean,
+    ptActive: boolean;
     languageActive: boolean;
     languageCurrentKey: string;
     selectLanguageListActive: boolean;
-    ptPageUrlCached:string;
+    ptPageUrlCached: string;
   }
 
   interface StateTTS {

@@ -1803,6 +1803,9 @@ const srMenu = (state: Ace.State) => {
         'Activate Speech Recognition'
       ),
     ]),
+    h('ab-inner-menu-section', {class: 'ab-menu-content'}, [
+      h('ab-sr-last-dictation', {}, []),
+    ]),
   ]);
 };
 
@@ -1867,7 +1870,7 @@ const ptMenu = (state: Ace.State) => {
                   {
                     'aria-labelledby': 'ab-custom-list-box',
                     class: `ab-custom-list-selection ${
-                      state.selectLanguageListActive ? 'ab-flex' : 'ab-hide' 
+                      state.selectLanguageListActive ? 'ab-flex' : 'ab-hide'
                     } ab-flex-column ${state.ptActive ? 'disabled' : ''}`,
                     id: 'ab-language-list-selection',
                     role: 'listbox',
@@ -1880,18 +1883,18 @@ const ptMenu = (state: Ace.State) => {
         ),
       ]),
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-          h(
-            'ab-page-translation-reset-button',
-            {
-              'aria-label': 'Back to Original Text',
-              class: 'ab-custom-action-button',
-              id: 'ab-page-translation-reset-button',
-              role: 'button',
-              onkeydown: handleButtonNavigation,
-              onclick: ptBackToOriginalTranslation,
-            },
-            ['Back to original']
-          ),
+        h(
+          'ab-page-translation-reset-button',
+          {
+            'aria-label': 'Back to Original Text',
+            class: 'ab-custom-action-button',
+            id: 'ab-page-translation-reset-button',
+            role: 'button',
+            onkeydown: handleButtonNavigation,
+            onclick: ptBackToOriginalTranslation,
+          },
+          ['Back to original']
+        ),
       ]),
     ]
   );
