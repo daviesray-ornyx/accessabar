@@ -156,6 +156,7 @@ declare namespace Ace {
     srLang: string;
     srLangName: string;
     srLangListActive: boolean;
+    srLastDictation: string;
   }
 
   interface StateTranslation {

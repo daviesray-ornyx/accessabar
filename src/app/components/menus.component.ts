@@ -1804,7 +1804,33 @@ const srMenu = (state: Ace.State) => {
       ),
     ]),
     h('ab-inner-menu-section', {class: 'ab-menu-content'}, [
-      h('ab-sr-last-dictation', {}, []),
+      h(
+        'ab-sr-last-dictation',
+        {
+          'aria-label': 'Shows the last dictation',
+          class: 'ab-sr-last-dictation',
+        },
+        [
+          h(
+            'ab-sr-last-dictation-header',
+            {class: 'ab-sr-last-dictation-header'},
+            'Last Dictation:'
+          ),
+          h(
+            'ab-sr-last-dictation-text',
+            {class: 'ab-sr-last-dictation-text'},
+            state.srLastDictation.length > 0
+              ? state.srLastDictation
+              : [
+                  h(
+                    'ab-sr-last-dictation-text-placeholder',
+                    {class: 'ab-sr-last-dictation-placeholder'},
+                    'Please use Speech Recognition to show the last dictation.'
+                  ),
+                ]
+          ),
+        ]
+      ),
     ]),
   ]);
 };

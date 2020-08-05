@@ -166,6 +166,7 @@ const stateSR: Ace.StateSR = {
   srLangName: 'English',
   srLangListActive: false,
   srRuntime: false,
+  srLastDictation: '',
 };
 
 const stateTranslation: Ace.StateTranslation = {
