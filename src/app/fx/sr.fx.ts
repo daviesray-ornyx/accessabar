@@ -1,4 +1,10 @@
-import {srAddEvents, srInitRuntime, srStart} from '../actions/sr.actions';
+import {
+  srAddEvents,
+  srFillLastDictation,
+  srHandleResult,
+  srInitRuntime,
+  srStart,
+} from '../actions/sr.actions';
 
 function fxSREnable(state: Ace.State) {
   return state.srActive
@@ -35,4 +41,28 @@ function fxSREnable(state: Ace.State) {
       ];
 }
 
-export {fxSREnable};
+function fxSRAddEvents(state) {
+  return [
+    (dispatch, props) => {
+      props.runtime.onresult = event => dispatch(props.action, event);
+    },
+    {
+      action: srHandleResult,
+      runtime: state.srRuntime,
+    },
+  ];
+}
+
+function fxSRFillLastDictate(dictation: string) {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action, dictation);
+    },
+    {
+      dictation,
+      action: srFillLastDictation,
+    },
+  ];
+}
+
+export {fxSREnable, fxSRAddEvents, fxSRFillLastDictate};

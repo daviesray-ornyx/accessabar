@@ -1,6 +1,6 @@
 import ISO6391 from 'iso-639-1';
 import {apiSendEvent} from './api.actions';
-import {fxSREnable} from '../fx/sr.fx';
+import {fxSRAddEvents, fxSREnable, fxSRFillLastDictate} from '../fx/sr.fx';
 
 declare let webkitSpeechRecognition: {
   prototype: SpeechRecognition;
@@ -62,22 +62,30 @@ function srEnable(state: Ace.State) {
 
 function srAddEvents(state: Ace.State) {
   const {srRuntime} = state;
-  if (typeof srRuntime === 'boolean') {
-    return state;
-  }
 
-  srRuntime.onresult = srHandleResult;
-  return state;
+  return typeof srRuntime === 'boolean' ? state : [state, fxSRAddEvents(state)];
 }
 
-function srHandleResult(event: SpeechRecognitionEvent) {
+function srHandleResult(state: Ace.State, event: SpeechRecognitionEvent) {
   const finalSentence: string[] = [];
+  let finalSentenceJoined = '';
 
   for (const alt of event.results[event.results.length - 1]) {
     finalSentence.push(alt.transcript);
   }
 
-  srOutput(finalSentence.join(''));
+  finalSentenceJoined = finalSentence.join('');
+
+  srOutput(finalSentenceJoined);
+
+  return [state, fxSRFillLastDictate(finalSentenceJoined)];
+}
+
+function srFillLastDictation(state: Ace.State, dictation: string) {
+  return {
+    ...state,
+    srLastDictation: String(dictation),
+  };
 }
 
 function srOutput(str: string) {
@@ -120,4 +128,13 @@ function srChangeLang(state: Ace.State, lang: string) {
   };
 }
 
-export {srAddEvents, srChangeLang, srToggle, srEnable, srInitRuntime, srStart};
+export {
+  srAddEvents,
+  srChangeLang,
+  srToggle,
+  srEnable,
+  srInitRuntime,
+  srStart,
+  srHandleResult,
+  srFillLastDictation,
+};

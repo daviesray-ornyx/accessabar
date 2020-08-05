@@ -156,14 +156,15 @@ declare namespace Ace {
     srLang: string;
     srLangName: string;
     srLangListActive: boolean;
+    srLastDictation: string;
   }
 
   interface StateTranslation {
-    ptActive: boolean,
+    ptActive: boolean;
     languageActive: boolean;
     languageCurrentKey: string;
     selectLanguageListActive: boolean;
-    ptPageUrlCached:string;
+    ptPageUrlCached: string;
   }
 
   interface StateTTS {
