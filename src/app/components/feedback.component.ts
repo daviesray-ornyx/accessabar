@@ -1,6 +1,9 @@
 import {h} from 'hyperapp';
-import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
-import {handleButtonNavigation} from './buttons.component';
+import {
+  aceAddTippy,
+  aceSpeakTooltip,
+  handleButtonNavigation,
+} from '../actions/ace.actions';
 import {
   thumbsUpFeedback,
   thumbsDownFeedback,

@@ -1,6 +1,11 @@
 import {h} from 'hyperapp';
 import {ttsHoverEnable, ttsStopCurrent} from '../actions/tts.actions';
-import {aceAddTippy, aceHide, aceSpeakTooltip} from '../actions/ace.actions';
+import {
+  handleButtonNavigation,
+  aceAddTippy,
+  aceHide,
+  aceSpeakTooltip,
+} from '../actions/ace.actions';
 import {menuOpen} from '../actions/menu.actions';
 import {
   fontDecSize,
@@ -16,18 +21,6 @@ import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
 import {ptEnable} from '../actions/language.actions';
-
-function handleButtonNavigation(_, event) {
-  const {code, target} = event;
-
-  if (!code || !target) {
-    return;
-  }
-
-  if (code === 'Enter' || code === 'Space') {
-    target.click();
-  }
-}
 
 const stopButton = () => {
   return h(
@@ -374,9 +367,10 @@ const ptButton = ({menus}: Ace.State) => {
       onclick: [
         menuOpen,
         {
-          menuName: 'pageTranslate', 
+          menuName: 'pageTranslate',
           title: 'Page Translation',
-          defaultFunc: ptEnable},
+          defaultFunc: ptEnable,
+        },
       ],
       onmouseover: [
         aceAddTippy,
@@ -567,5 +561,4 @@ export {
   settingsButton,
   aboutButton,
   hideButton,
-  handleButtonNavigation,
 };
