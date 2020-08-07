@@ -10,8 +10,8 @@ import {fxTTSInit} from './fx/tts.fx';
 declare global {
   // tslint:disable-next-line
   interface Window {
-    ace: AceController;
-    pickr: any;
+    aceRuntimeProxy: AceController;
+    pickr: Pickr;
   }
 }
 
@@ -67,7 +67,7 @@ class AceController {
     moveBody,
   }: Ace.AceConfig = {}) {
     // Allows easy access during runtime to separate parts of the code
-    window.ace = this;
+    window.aceRuntimeProxy = this;
 
     // -- enableButton --
     if (enableButton) {

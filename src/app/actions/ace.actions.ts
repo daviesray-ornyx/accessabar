@@ -3,7 +3,7 @@ import tippy from 'tippy.js';
 import {fxAceSpeakTooltip} from '../fx/ace.fx';
 
 function aceMoveBody() {
-  const {mainElement} = window.ace;
+  const {mainElement} = window.aceRuntimeProxy;
 
   if (mainElement) {
     const rect = mainElement.getBoundingClientRect();
@@ -13,7 +13,7 @@ function aceMoveBody() {
 
 function aceResize(state: Ace.State) {
   const {aceHidden} = state;
-  const {mainElement} = window.ace;
+  const {mainElement} = window.aceRuntimeProxy;
 
   if (!mainElement) {
     return state;
@@ -49,7 +49,7 @@ function acePruneFuncs(
 
 function aceHide(state: Ace.State) {
   const {aceHidden} = state;
-  const {mainElement, moveBody} = window.ace;
+  const {mainElement, moveBody} = window.aceRuntimeProxy;
 
   if (!mainElement) {
     return state;
@@ -94,7 +94,10 @@ function getParents(): Set<HTMLElement> {
   // and get elements to walk
   for (const el of elements) {
     // Do not add ace or elements with no children
-    if (el !== window.ace.mainElement && el.childNodes.length !== 0) {
+    if (
+      el !== window.aceRuntimeProxy.mainElement &&
+      el.childNodes.length !== 0
+    ) {
       taggedElements.push(el);
     }
   }
