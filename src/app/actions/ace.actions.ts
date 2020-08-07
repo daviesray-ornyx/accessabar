@@ -136,8 +136,19 @@ function getParents(): Set<HTMLElement> {
       continue;
     }
 
-    // Do not add duplicates
+    // filter out unneeded meta elements
+    if (
+      parent.tagName === 'SCRIPT' ||
+      parent.tagName === 'HEAD' ||
+      parent.tagName === 'LINK' ||
+      parent.tagName === 'META' ||
+      parent.tagName === 'STYLE'
+    ) {
+      continue;
+    }
+
     if (parentElements.has(parent)) {
+      // Do not add duplicates
       continue;
     }
 
