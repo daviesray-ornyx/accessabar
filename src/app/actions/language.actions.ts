@@ -14,15 +14,20 @@ function ptEnable(state: Ace.State) {
 }
 
 function ptCachePage(state: Ace.State){
+  if(state.ptPageUrlCached ==  window.location.href){
+    return state;
+  }
+  
   const parentElements = getParents();
   parentElements.forEach(element => {
     const originalTextContent = element.textContent || undefined;
     element.dataset.original = originalTextContent;
-  })
-  return (state.ptPageUrlCached !=  window.location.href) ?  {
-      ...state,
-      ptPageUrlCached: window.location.href,
-    } : state;
+  });
+  
+  return {
+    ...state,
+    ptPageUrlCached: window.location.href,
+  }
 }
 
 function languageChangeAll(state: Ace.State, key?: string) {
@@ -73,9 +78,20 @@ function languageToggleList(state: Ace.State) {
 }
 
 function ptToggle(state: Ace.State){
+  if(state.ptPageUrlCached != window.location.href){
+    return state;
+  }
+
+  // pending logic to replace content
+
+  getParents().forEach(element => {
+    element.textContent = element.dataset.original || element.textContent;
+  });
+
   const newState = {
     ...state,
     ptActive: !state.ptActive,
+    languageCurrentKey: '',
     selectLanguageListActive: state.ptActive ? false : state.selectLanguageListActive,
   };
 
@@ -83,20 +99,4 @@ function ptToggle(state: Ace.State){
   return [newState, fxPtCachePage(newState)];
 }
 
-function ptBackToOriginalTranslation(state: Ace.State){
-
-  if(state.ptPageUrlCached != window.location.href || !state.ptActive){
-    return state;
-  }
-
-  // pending logic to replace content
-  getParents().forEach(element => {
-    element.textContent = element.dataset.original || element.textContent;
-  });
-  
-  return {
-    ...state,
-    languageCurrentKey: '',
-  }
-}
-export {ptEnable, ptToggle, languageChangeAll, languageToggleCurrent, languageToggleList, ptBackToOriginalTranslation, ptCachePage};
+export {ptEnable, ptToggle, languageChangeAll, languageToggleCurrent, languageToggleList, ptCachePage};
