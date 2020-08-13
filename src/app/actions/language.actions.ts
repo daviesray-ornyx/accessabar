@@ -13,7 +13,7 @@ function ptEnable(state: Ace.State) {
 }
 
 function ptCachePage(state: Ace.State) {
-  if (state.ptPageUrlCached == window.location.href) {
+  if (state.ptPageUrlCached === window.location.href) {
     return state;
   }
 
@@ -72,7 +72,7 @@ function languageToggleList(state: Ace.State) {
 }
 
 function ptToggle(state: Ace.State) {
-  if (state.ptPageUrlCached != window.location.href) {
+  if (state.ptPageUrlCached !== window.location.href) {
     return state;
   }
 
