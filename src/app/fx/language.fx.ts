@@ -12,7 +12,7 @@ function fxLanguageChangeAll(key: string) {
   ];
 }
 
-function fxPtCachePage(state: Ace.State){  
+function fxPtCachePage(state: Ace.State) {
   return [
     (dispatch, props) => {
       dispatch(props.action);

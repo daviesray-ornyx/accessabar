@@ -21,8 +21,8 @@
     "test": "ava && cypress run",
     "serve": "serve ./public/",
     "now-build": "yarn bp",
-    "check": "gts check src/**/*.ts",
-    "fix": "gts fix src/**/*.ts"
+    "check": "gts check",
+    "fix": "gts fix"
   },
   "devDependencies": {
     "@babel/core": "7.10.5",

@@ -374,9 +374,10 @@ const ptButton = ({menus}: Ace.State) => {
       onclick: [
         menuOpen,
         {
-          menuName: 'pageTranslate', 
+          menuName: 'pageTranslate',
           title: 'Page Translation',
-          defaultFunc: ptEnable},
+          defaultFunc: ptEnable,
+        },
       ],
       onmouseover: [
         aceAddTippy,
