@@ -87,7 +87,7 @@ const aboutVersionSection = () => {
   return [
     h('ab-about-section-title', {class: 'ab-modal-section-title'}, 'Version'),
     h('ab-about-sr-lang', {class: 'ab-modal-section-group'}, [
-      window.ace.version,
+      window.aceRuntimeProxy.version,
       // Links need to be added here
     ]),
   ];

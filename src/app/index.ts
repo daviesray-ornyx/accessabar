@@ -10,8 +10,8 @@ import {fxTTSInit} from './fx/tts.fx';
 declare global {
   // tslint:disable-next-line
   interface Window {
-    ace: AceController;
-    pickr: any;
+    aceRuntimeProxy: AceController;
+    pickr: Pickr;
   }
 }
 
@@ -26,7 +26,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.11.1';
+  public version = '0.11.5';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
@@ -41,7 +41,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '7';
+  private aceStateVersion = '8';
 
   // Position of Accessabar on the page.
   public position: string;
@@ -67,7 +67,7 @@ class AceController {
     moveBody,
   }: Ace.AceConfig = {}) {
     // Allows easy access during runtime to separate parts of the code
-    window.ace = this;
+    window.aceRuntimeProxy = this;
 
     // -- enableButton --
     if (enableButton) {

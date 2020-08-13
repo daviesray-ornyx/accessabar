@@ -24,7 +24,7 @@ const buttonArea = (state: Ace.State) => {
     'ab-button-area',
     {
       'aria-role': 'toolbar',
-      class: 'ab-button-area ab-growable',
+      class: 'ab-button-area ab-growable ab-flex-wrap',
     },
     [
       h('ab-button-section', {class: 'ab-flex'}, [
@@ -40,7 +40,7 @@ const buttonArea = (state: Ace.State) => {
           },
           [Buttons.stopButton()]
         ),
-        h('ab-button-group', {class: 'ab-group ab-flex'}, [
+        h('ab-button-group', {class: 'ab-group ab-flex ab-flex-wrap'}, [
           Buttons.ttsButton(state),
           Buttons.incButton(),
           Buttons.decButton(),
@@ -53,7 +53,7 @@ const buttonArea = (state: Ace.State) => {
           Buttons.ptButton(state),
         ]),
       ]),
-      h('ab-button-section', {class: 'ab-flex'}, [
+      h('ab-button-section', {class: 'ab-flex ab-flex-wrap'}, [
         innerBarSettings(state),
         Buttons.resetButton(),
         Buttons.settingsButton(state),

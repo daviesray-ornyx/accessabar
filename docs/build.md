@@ -1,4 +1,4 @@
-# Building Accessabar
+# Building ACE
 ## Getting the source
 Clone the source from GitHub:
 ```
@@ -18,7 +18,7 @@ yarn install
 ```
 
 ## Building
-Once dependencies have been installed, build Accessabar with the following command:
+Once dependencies have been installed, build ACE with the following command:
 ```
 yarn run build
 ```

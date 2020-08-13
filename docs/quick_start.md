@@ -4,7 +4,7 @@ There are three main install options:
 
 #### ** CDN **
 
-The quickest way to add Accessabar to a website is via a CDN.
+The quickest way to add ACE to a website is via a CDN.
 
 Add the script and CSS files to the website:
 ```html
@@ -12,7 +12,7 @@ Add the script and CSS files to the website:
 <script src="https://cdn.jsdelivr.net/npm/@handsfree/accessabar@latest/public/dist/accessabar/accessabar.bundle.js"></script>
 ```
 
-Configure Accessabar by adding a script to the website:
+Configure ACE by adding a script to the website:
 ```html
 <body>
 
@@ -29,7 +29,7 @@ Configure Accessabar by adding a script to the website:
 </body>
 ```
 
-Accessabar will open when `enableButton` is clicked.
+ACE will open when `enableButton` is clicked.
 
 #### ** ES6 Module **
 
@@ -38,7 +38,7 @@ Install the package `@handsfree/accessabar`:
 yarn add @handsfree/accessabar
 ```
 
-Import Accessabar:
+Import ACE:
 ```javascript
 import '@handsfree/accessabar/public/dist/accessabar/app.css';
 import Accessabar from '@handsfree/accessabar';
@@ -78,7 +78,7 @@ Add the script and CSS files to the website:
 <script src="path/to/accessabar/accessabar.bundle.js"></script>
 ```
 
-Configure Accessabar by adding a script to the website:
+Configure ACE by adding a script to the website:
 ```html
 <body>
 
@@ -95,6 +95,6 @@ Configure Accessabar by adding a script to the website:
 </body>
 ```
 
-Accessabar will open when `enableButton` is clicked.
+ACE will open when `enableButton` is clicked.
 
 <!-- tabs:end -->

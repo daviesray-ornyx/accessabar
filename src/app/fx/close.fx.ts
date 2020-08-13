@@ -27,7 +27,7 @@ function fxCloseAce() {
       dispatch(props.events);
       dispatch(props.stateSave);
 
-      window.ace.close();
+      window.aceRuntimeProxy.close();
     },
     {
       events: stopEvents,

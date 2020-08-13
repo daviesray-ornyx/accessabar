@@ -21,11 +21,11 @@ function menuFactory(
   name: string,
   title: string
 ): {[x: string]: Ace.StateMenu} {
-  if (!window.ace.mainElement) {
+  if (!window.aceRuntimeProxy.mainElement) {
     return {};
   }
 
-  const bar = window.ace.mainElement.querySelector('ab-inner-bar');
+  const bar = window.aceRuntimeProxy.mainElement.querySelector('ab-inner-bar');
 
   if (!bar) {
     return {};
@@ -47,13 +47,13 @@ function menuFactory(
 }
 
 function menuMove(state: Ace.State) {
-  if (!window.ace.mainElement) {
+  if (!window.aceRuntimeProxy.mainElement) {
     return state;
   }
 
   const {menusDragActive, menus, dragMouseX, dragMouseY} = state;
   const {menuInitialX, menuInitialY} = menus[menusDragActive];
-  const menu = window.ace.mainElement.querySelector(
+  const menu = window.aceRuntimeProxy.mainElement.querySelector(
     `#ab-menu-${menusDragActive}`
   );
 

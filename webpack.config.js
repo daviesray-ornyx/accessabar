@@ -198,11 +198,11 @@ const mainSettings = (entries, dev, devServer, dash, verbose) => {
           ],
         },
         {
-          test: /\.(png|jpg|gif)$/,
+          test: /\.(png|jpg|gif|svg)$/,
           use: [imageFileLoader],
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2)$/,
+          test: /\.(eot|ttf|woff|woff2)$/,
           use: [fontFileLoader],
         },
         {
