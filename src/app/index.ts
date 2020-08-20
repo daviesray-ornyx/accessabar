@@ -44,6 +44,12 @@ class AceController {
   // Floating button position if enabled.
   public floatingButtonPosition = '';
 
+  // Floating button default offset
+  public floatingButtonOffsetDefault = 20;
+
+  // Floating button offset if enabled.
+  public floatingButtonOffset = 0;
+
   // Copy of ace state for interop.
   private aceState: Ace.State = initState;
 
@@ -69,6 +75,7 @@ class AceController {
 
   constructor({
     buttonFloatPosition = '',
+    buttonFloatOffset = 0,
     enableButton = '',
     bindTo = 'body',
     position = 'top',
@@ -89,10 +96,15 @@ class AceController {
       this.initEnableButton();
     }
 
-    // -- buttonFloatPosition --
+    // -- buttonFloat --
+
+    if (buttonFloatOffset > 0) {
+      this.floatingButtonOffset = buttonFloatOffset;
+    }
 
     if (buttonFloatPosition) {
-      this.createFloatingButton(buttonFloatPosition);
+      this.floatingButtonPosition = buttonFloatPosition;
+      this.createFloatingButton();
     }
 
     // -- bindTo --
@@ -162,7 +174,7 @@ class AceController {
     this.disableRenderState();
 
     if (this.floatingButtonPosition) {
-      this.createFloatingButton(this.floatingButtonPosition);
+      this.createFloatingButton();
     }
 
     delete this.mainElement;
@@ -354,7 +366,7 @@ class AceController {
    * Creates a floating button for opening ACE.
    */
 
-  private createFloatingButton(position: string) {
+  private createFloatingButton() {
     const floatingButtonContainerEl = document.createElement(
       'ab-floating-button-container'
     );
@@ -365,29 +377,43 @@ class AceController {
     this.floatingButton = floatingButtonContainerEl;
     this.initFloatingButton();
 
-    switch (position) {
+    switch (this.floatingButtonPosition) {
       case 'top-right':
         floatingButtonContainerEl.classList.add('ab-fb-top-right');
+        floatingButtonContainerEl.style.top = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.right = `${this.floatingButtonOffsetDefault}px`;
         document.body.appendChild(floatingButtonContainerEl);
-        this.floatingButtonPosition = position;
         break;
       case 'top-left':
         floatingButtonContainerEl.classList.add('ab-fb-top-left');
+        floatingButtonContainerEl.style.top = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.left = `${this.floatingButtonOffsetDefault}px`;
         document.body.appendChild(floatingButtonContainerEl);
-        this.floatingButtonPosition = position;
         break;
       case 'bottom-right':
         floatingButtonContainerEl.classList.add('ab-fb-bottom-right');
+        floatingButtonContainerEl.style.bottom = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.right = `${this.floatingButtonOffsetDefault}px`;
         document.body.appendChild(floatingButtonContainerEl);
-        this.floatingButtonPosition = position;
         break;
       case 'bottom-left':
         floatingButtonContainerEl.classList.add('ab-fb-bottom-left');
+        floatingButtonContainerEl.style.bottom = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.left = `${this.floatingButtonOffsetDefault}px`;
         document.body.appendChild(floatingButtonContainerEl);
-        this.floatingButtonPosition = position;
         break;
       default:
-        throw Error(`[Ace] Error: position '${position}' is not valid`);
+        throw Error(
+          `[Ace] Error: position '${this.floatingButtonPosition}' is not valid`
+        );
     }
   }
 

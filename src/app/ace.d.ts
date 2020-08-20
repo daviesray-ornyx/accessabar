@@ -236,6 +236,7 @@ declare namespace Ace {
 
   interface AceConfig {
     buttonFloatPosition?: string;
+    buttonFloatOffset?: number;
     enableButton?: string;
     bindTo?: string;
     position?: string;
