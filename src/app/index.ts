@@ -1,6 +1,7 @@
 import {app} from 'hyperapp';
 import initState from './state/ace.state';
 import view from './main.view';
+import floatingButtonView from './floatingButton.view';
 import {apiSendEvent} from './actions/api.actions';
 import {aceMoveBody} from './actions/ace.actions';
 import subResize from './subscriptions/resize.subscription';
@@ -37,6 +38,12 @@ class AceController {
   // A reference to the Ace element when rendered.
   public mainElement: HTMLElement | undefined;
 
+  // A reference to the floating button if enabled.
+  public floatingButton: HTMLElement | undefined;
+
+  // Floating button position if enabled.
+  public floatingButtonPosition = '';
+
   // Copy of ace state for interop.
   private aceState: Ace.State = initState;
 
@@ -61,6 +68,7 @@ class AceController {
   public loaded = false;
 
   constructor({
+    buttonFloatPosition = '',
     enableButton = '',
     bindTo = 'body',
     position = 'top',
@@ -79,6 +87,12 @@ class AceController {
       this.buttonElement = buttonEl;
 
       this.initEnableButton();
+    }
+
+    // -- buttonFloatPosition --
+
+    if (buttonFloatPosition) {
+      this.createFloatingButton(buttonFloatPosition);
     }
 
     // -- bindTo --
@@ -131,6 +145,7 @@ class AceController {
   }
 
   private openSilent() {
+    this.removeFloatingButton();
     this.toggleShow();
     this.createSpace();
   }
@@ -145,6 +160,10 @@ class AceController {
     }
 
     this.disableRenderState();
+
+    if (this.floatingButtonPosition) {
+      this.createFloatingButton(this.floatingButtonPosition);
+    }
 
     delete this.mainElement;
   }
@@ -224,6 +243,16 @@ class AceController {
     }
 
     return parsedState.state;
+  }
+
+  private createFloatingButtonApp(containerEl: HTMLElement) {
+    const appConfig = {
+      view: floatingButtonView,
+      init: {},
+      node: containerEl,
+    };
+
+    return app(appConfig);
   }
 
   private createApp(containerEl: HTMLElement) {
@@ -312,6 +341,57 @@ class AceController {
   }
 
   /**
+   * Removes the floating button for opening ACE.
+   */
+
+  private removeFloatingButton() {
+    if (this.floatingButton) {
+      document.body.removeChild(this.floatingButton);
+    }
+  }
+
+  /**
+   * Creates a floating button for opening ACE.
+   */
+
+  private createFloatingButton(position: string) {
+    const floatingButtonContainerEl = document.createElement(
+      'ab-floating-button-container'
+    );
+    const haBind = document.createElement('div');
+    floatingButtonContainerEl.appendChild(haBind);
+
+    this.createFloatingButtonApp(haBind);
+    this.floatingButton = floatingButtonContainerEl;
+    this.initFloatingButton();
+
+    switch (position) {
+      case 'top-right':
+        floatingButtonContainerEl.classList.add('ab-fb-top-right');
+        document.body.appendChild(floatingButtonContainerEl);
+        this.floatingButtonPosition = position;
+        break;
+      case 'top-left':
+        floatingButtonContainerEl.classList.add('ab-fb-top-left');
+        document.body.appendChild(floatingButtonContainerEl);
+        this.floatingButtonPosition = position;
+        break;
+      case 'bottom-right':
+        floatingButtonContainerEl.classList.add('ab-fb-bottom-right');
+        document.body.appendChild(floatingButtonContainerEl);
+        this.floatingButtonPosition = position;
+        break;
+      case 'bottom-left':
+        floatingButtonContainerEl.classList.add('ab-fb-bottom-left');
+        document.body.appendChild(floatingButtonContainerEl);
+        this.floatingButtonPosition = position;
+        break;
+      default:
+        throw Error(`[Ace] Error: position '${position}' is not valid`);
+    }
+  }
+
+  /**
    * Sets the dynamic styles of the container element.
    */
 
@@ -339,6 +419,15 @@ class AceController {
   private initEnableButton() {
     if (this.buttonElement) {
       this.buttonElement.addEventListener('click', this.open.bind(this));
+    }
+  }
+
+  /**
+   * Adds an click event listener to the enable button.
+   */
+  private initFloatingButton() {
+    if (this.floatingButton) {
+      this.floatingButton.addEventListener('click', this.open.bind(this));
     }
   }
 }
