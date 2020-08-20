@@ -15,9 +15,11 @@ import {
 } from '../actions/tts.actions';
 import {srChangeLang} from '../actions/sr.actions';
 import {switchEl} from './menus.component';
-import {aceSpeakTooltipsToggle} from '../actions/ace.actions';
+import {
+  aceSpeakTooltipsToggle,
+  handleButtonNavigation,
+} from '../actions/ace.actions';
 import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
-import {handleButtonNavigation} from './buttons.component';
 
 const settingsHeader = ({settingsHidden}) => {
   return h('ab-settings-header', {class: 'ab-modal-header'}, [

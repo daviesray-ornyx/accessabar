@@ -330,6 +330,20 @@ function aceSpeakTooltipsToggle(state: Ace.State) {
   };
 }
 
+function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
+  const {code, target} = event;
+
+  if (!code || !target) {
+    return state;
+  }
+
+  if (code === 'Enter' || code === 'Space') {
+    (target as HTMLElement).click();
+  }
+
+  return state;
+}
+
 export {
   aceResize,
   aceMoveBody,
@@ -342,4 +356,5 @@ export {
   aceAddTippy,
   aceSpeakTooltipsToggle,
   aceSpeakTooltip,
+  handleButtonNavigation,
 };
