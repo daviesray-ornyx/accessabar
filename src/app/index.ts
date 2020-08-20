@@ -27,7 +27,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.11.6';
+  public version = '0.11.7';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
