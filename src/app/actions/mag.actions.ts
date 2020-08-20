@@ -155,12 +155,16 @@ function magMove(state: Ace.State) {
     magBorder,
   } = state;
 
-  if (!window.ace.mainElement || !magCanDrag) {
+  if (!window.aceRuntimeProxy.mainElement || !magCanDrag) {
     return state;
   }
 
-  const mag = window.ace.mainElement.querySelector('#ab-magnifier-window');
-  const magPage = window.ace.mainElement.querySelector('#ab-magnifier-page');
+  const mag = window.aceRuntimeProxy.mainElement.querySelector(
+    '#ab-magnifier-window'
+  );
+  const magPage = window.aceRuntimeProxy.mainElement.querySelector(
+    '#ab-magnifier-page'
+  );
 
   if (
     !mag ||
@@ -256,11 +260,11 @@ function magScroll(state: Ace.State) {
   // ab-icon will be used to position clientX and clientY
   const scrollOffsets = getScrollOffsets();
 
-  if (!window.ace.mainElement) {
+  if (!window.aceRuntimeProxy.mainElement) {
     return state;
   }
 
-  const magPage = window.ace.mainElement.querySelector(
+  const magPage = window.aceRuntimeProxy.mainElement.querySelector(
     '#ab-magnifier-page'
   ) as HTMLIFrameElement;
 
@@ -282,11 +286,13 @@ function magUpdatePosition(state: Ace.State) {
   const {magScale, magPosX, magPosY} = state;
   const magEl = document.getElementById('ab-magnifier-window');
 
-  if (!window.ace.mainElement) {
+  if (!window.aceRuntimeProxy.mainElement) {
     return state;
   }
 
-  const magPage = window.ace.mainElement.querySelector('#ab-magnifier-page');
+  const magPage = window.aceRuntimeProxy.mainElement.querySelector(
+    '#ab-magnifier-page'
+  );
 
   if (
     !magEl ||
@@ -368,11 +374,11 @@ function magEnable(state: Ace.State) {
 }
 
 function magUpdateSize(state) {
-  if (!window.ace.mainElement) {
+  if (!window.aceRuntimeProxy.mainElement) {
     return state;
   }
 
-  const mag = window.ace.mainElement.querySelector(
+  const mag = window.aceRuntimeProxy.mainElement.querySelector(
     '#ab-magnifier-window'
   ) as HTMLElement;
 

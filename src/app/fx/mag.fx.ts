@@ -16,8 +16,8 @@ function fxMagAddPageContent(state: Ace.State) {
 
 function fxMagResetState(state: Ace.State) {
   const bar =
-    window?.ace?.mainElement &&
-    window.ace.mainElement.querySelector('ab-inner-bar');
+    window?.aceRuntimeProxy?.mainElement &&
+    window.aceRuntimeProxy.mainElement.querySelector('ab-inner-bar');
   return (
     !state.magActive && [
       (dispatch, props) => {

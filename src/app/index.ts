@@ -1,6 +1,7 @@
 import {app} from 'hyperapp';
 import initState from './state/ace.state';
 import view from './main.view';
+import floatingButtonView from './floatingButton.view';
 import {apiSendEvent} from './actions/api.actions';
 import {aceMoveBody} from './actions/ace.actions';
 import subResize from './subscriptions/resize.subscription';
@@ -10,8 +11,8 @@ import {fxTTSInit} from './fx/tts.fx';
 declare global {
   // tslint:disable-next-line
   interface Window {
-    ace: AceController;
-    pickr: any;
+    aceRuntimeProxy: AceController;
+    pickr: Pickr;
   }
 }
 
@@ -26,7 +27,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.11.4';
+  public version = '0.11.6';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
@@ -36,6 +37,18 @@ class AceController {
 
   // A reference to the Ace element when rendered.
   public mainElement: HTMLElement | undefined;
+
+  // A reference to the floating button if enabled.
+  public floatingButton: HTMLElement | undefined;
+
+  // Floating button position if enabled.
+  public floatingButtonPosition = '';
+
+  // Floating button default offset
+  public floatingButtonOffsetDefault = 20;
+
+  // Floating button offset if enabled.
+  public floatingButtonOffset = 0;
 
   // Copy of ace state for interop.
   private aceState: Ace.State = initState;
@@ -61,13 +74,15 @@ class AceController {
   public loaded = false;
 
   constructor({
+    buttonFloatPosition = '',
+    buttonFloatOffset = 0,
     enableButton = '',
     bindTo = 'body',
     position = 'top',
     moveBody,
   }: Ace.AceConfig = {}) {
     // Allows easy access during runtime to separate parts of the code
-    window.ace = this;
+    window.aceRuntimeProxy = this;
 
     // -- enableButton --
     if (enableButton) {
@@ -79,6 +94,17 @@ class AceController {
       this.buttonElement = buttonEl;
 
       this.initEnableButton();
+    }
+
+    // -- buttonFloat --
+
+    if (buttonFloatOffset > 0) {
+      this.floatingButtonOffset = buttonFloatOffset;
+    }
+
+    if (buttonFloatPosition) {
+      this.floatingButtonPosition = buttonFloatPosition;
+      this.createFloatingButton();
     }
 
     // -- bindTo --
@@ -131,6 +157,7 @@ class AceController {
   }
 
   private openSilent() {
+    this.removeFloatingButton();
     this.toggleShow();
     this.createSpace();
   }
@@ -145,6 +172,10 @@ class AceController {
     }
 
     this.disableRenderState();
+
+    if (this.floatingButtonPosition) {
+      this.createFloatingButton();
+    }
 
     delete this.mainElement;
   }
@@ -224,6 +255,16 @@ class AceController {
     }
 
     return parsedState.state;
+  }
+
+  private createFloatingButtonApp(containerEl: HTMLElement) {
+    const appConfig = {
+      view: floatingButtonView,
+      init: {},
+      node: containerEl,
+    };
+
+    return app(appConfig);
   }
 
   private createApp(containerEl: HTMLElement) {
@@ -312,6 +353,71 @@ class AceController {
   }
 
   /**
+   * Removes the floating button for opening ACE.
+   */
+
+  private removeFloatingButton() {
+    if (this.floatingButton) {
+      document.body.removeChild(this.floatingButton);
+    }
+  }
+
+  /**
+   * Creates a floating button for opening ACE.
+   */
+
+  private createFloatingButton() {
+    const floatingButtonContainerEl = document.createElement(
+      'ab-floating-button-container'
+    );
+    const haBind = document.createElement('div');
+    floatingButtonContainerEl.appendChild(haBind);
+
+    this.createFloatingButtonApp(haBind);
+    this.floatingButton = floatingButtonContainerEl;
+    this.initFloatingButton();
+
+    switch (this.floatingButtonPosition) {
+      case 'top-right':
+        floatingButtonContainerEl.classList.add('ab-fb-top-right');
+        floatingButtonContainerEl.style.top = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.right = `${this.floatingButtonOffsetDefault}px`;
+        document.body.appendChild(floatingButtonContainerEl);
+        break;
+      case 'top-left':
+        floatingButtonContainerEl.classList.add('ab-fb-top-left');
+        floatingButtonContainerEl.style.top = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.left = `${this.floatingButtonOffsetDefault}px`;
+        document.body.appendChild(floatingButtonContainerEl);
+        break;
+      case 'bottom-right':
+        floatingButtonContainerEl.classList.add('ab-fb-bottom-right');
+        floatingButtonContainerEl.style.bottom = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.right = `${this.floatingButtonOffsetDefault}px`;
+        document.body.appendChild(floatingButtonContainerEl);
+        break;
+      case 'bottom-left':
+        floatingButtonContainerEl.classList.add('ab-fb-bottom-left');
+        floatingButtonContainerEl.style.bottom = `${
+          this.floatingButtonOffsetDefault + this.floatingButtonOffset
+        }px`;
+        floatingButtonContainerEl.style.left = `${this.floatingButtonOffsetDefault}px`;
+        document.body.appendChild(floatingButtonContainerEl);
+        break;
+      default:
+        throw Error(
+          `[Ace] Error: position '${this.floatingButtonPosition}' is not valid`
+        );
+    }
+  }
+
+  /**
    * Sets the dynamic styles of the container element.
    */
 
@@ -339,6 +445,15 @@ class AceController {
   private initEnableButton() {
     if (this.buttonElement) {
       this.buttonElement.addEventListener('click', this.open.bind(this));
+    }
+  }
+
+  /**
+   * Adds an click event listener to the enable button.
+   */
+  private initFloatingButton() {
+    if (this.floatingButton) {
+      this.floatingButton.addEventListener('click', this.open.bind(this));
     }
   }
 }

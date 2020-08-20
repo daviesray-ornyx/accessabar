@@ -1,8 +1,8 @@
 # Methods
-List of Accessabar's methods.
+List of ACE's methods.
 
 ## open()
-Opens Accessabar in the configured position.
+Opens ACE in the configured position.
 
 Example:
 ```javascript
@@ -14,7 +14,7 @@ accessabar.open();
 ```
 
 ## close()
-Closes Accessabar.
+Closes ACE.
 
 Example:
 ```javascript

@@ -249,7 +249,7 @@ const settingsThemesSection = (state: Ace.State) => {
       [
         h('ab-color-selector', {
           class: `ab-color-selector default-selector ${
-            state.aceTheme == 'default-theme' ? 'ab-active' : ''
+            state.aceTheme === 'default-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-default',
           onclick: () => [settingsChangeTheme, 'default-theme'],
@@ -272,7 +272,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector light-selector ${
-            state.aceTheme == 'light-theme' ? 'ab-active' : ''
+            state.aceTheme === 'light-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-light',
           onclick: () => [settingsChangeTheme, 'light-theme'],
@@ -295,7 +295,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector dark-selector ${
-            state.aceTheme == 'dark-theme' ? 'ab-active' : ''
+            state.aceTheme === 'dark-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-dark',
           onclick: () => [settingsChangeTheme, 'dark-theme'],
@@ -318,7 +318,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector orange-selector ${
-            state.aceTheme == 'orange-theme' ? 'ab-active' : ''
+            state.aceTheme === 'orange-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-orange',
           onclick: () => [settingsChangeTheme, 'orange-theme'],
@@ -341,7 +341,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector sky-blue-selector ${
-            state.aceTheme == 'sky-blue-theme' ? 'ab-active' : ''
+            state.aceTheme === 'sky-blue-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-sky-blue',
           onclick: () => [settingsChangeTheme, 'sky-blue-theme'],
@@ -364,7 +364,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector pink-selector ${
-            state.aceTheme == 'pink-theme' ? 'ab-active' : ''
+            state.aceTheme === 'pink-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-pink',
           onclick: () => [settingsChangeTheme, 'pink-theme'],
@@ -387,7 +387,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector yellow-selector ${
-            state.aceTheme == 'yellow-theme' ? 'ab-active' : ''
+            state.aceTheme === 'yellow-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-yellow',
           onclick: () => [settingsChangeTheme, 'yellow-theme'],
@@ -410,7 +410,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector grass-green-selector ${
-            state.aceTheme == 'grass-green-theme' ? 'ab-active' : ''
+            state.aceTheme === 'grass-green-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-grass-green',
           onclick: () => [settingsChangeTheme, 'grass-green-theme'],
@@ -433,7 +433,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector aqua-blue-selector ${
-            state.aceTheme == 'aqua-blue-theme' ? 'ab-active' : ''
+            state.aceTheme === 'aqua-blue-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-aqua-blue',
           onclick: () => [settingsChangeTheme, 'aqua-blue-theme'],
@@ -456,7 +456,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector celery-green-selector ${
-            state.aceTheme == 'celery-green-theme' ? 'ab-active' : ''
+            state.aceTheme === 'celery-green-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-celery-green',
           onclick: () => [settingsChangeTheme, 'celery-green-theme'],
@@ -479,7 +479,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector jade-selector ${
-            state.aceTheme == 'jade-theme' ? 'ab-active' : ''
+            state.aceTheme === 'jade-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-jade',
           onclick: () => [settingsChangeTheme, 'jade-theme'],
@@ -502,7 +502,7 @@ const settingsThemesSection = (state: Ace.State) => {
         }),
         h('ab-color-selector', {
           class: `ab-color-selector magenta-selector ${
-            state.aceTheme == 'magenta-theme' ? 'ab-active' : ''
+            state.aceTheme === 'magenta-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-magenta',
           onclick: () => [settingsChangeTheme, 'magenta-theme'],

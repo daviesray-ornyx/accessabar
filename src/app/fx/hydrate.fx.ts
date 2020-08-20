@@ -127,7 +127,7 @@ function hydrateFromState(state: Ace.State, dispatch) {
 function fxHydrate(state: Ace.State) {
   return [
     (dispatch, props) => {
-      if (window.ace.loaded) {
+      if (window.aceRuntimeProxy.loaded) {
         props.action(state, dispatch);
         return () => {};
       }
