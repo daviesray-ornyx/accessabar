@@ -240,6 +240,7 @@ declare namespace Ace {
     enableButton?: string;
     bindTo?: string;
     position?: string;
+    fixedNavigation?: string;
     moveBody?: boolean;
   }
 

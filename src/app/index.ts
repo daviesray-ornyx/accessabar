@@ -3,7 +3,11 @@ import initState from './state/ace.state';
 import view from './main.view';
 import floatingButtonView from './floatingButton.view';
 import {apiSendEvent} from './actions/api.actions';
-import {aceMoveBody} from './actions/ace.actions';
+import {
+  aceMoveBody,
+  acePushFixedNav,
+  aceResetFixedNav,
+} from './actions/ace.actions';
 import subResize from './subscriptions/resize.subscription';
 import {fxHydrate} from './fx/hydrate.fx';
 import {fxTTSInit} from './fx/tts.fx';
@@ -56,6 +60,9 @@ class AceController {
   // Increment state version to clear saved state on clients.
   private aceStateVersion = '8';
 
+  // Support pushing fixed navigation below ACE for compatibility.
+  public fixedNavigationSelector = '';
+
   // Position of Accessabar on the page.
   public position: string;
 
@@ -79,6 +86,7 @@ class AceController {
     enableButton = '',
     bindTo = 'body',
     position = 'top',
+    fixedNavigation,
     moveBody,
   }: Ace.AceConfig = {}) {
     // Allows easy access during runtime to separate parts of the code
@@ -129,6 +137,12 @@ class AceController {
 
     this.position = position;
 
+    // -- fixedNavigation --
+
+    if (fixedNavigation) {
+      this.fixedNavigationSelector = String(fixedNavigation);
+    }
+
     // -- moveBody --
     switch (typeof moveBody) {
       default:
@@ -178,6 +192,9 @@ class AceController {
     }
 
     delete this.mainElement;
+
+    const event = new CustomEvent('aceClose');
+    window.dispatchEvent(event);
   }
 
   private enableRenderState() {
@@ -284,16 +301,19 @@ class AceController {
   }
 
   private createSpace() {
-    if (!this.moveBody) {
-      return;
+    if (this.fixedNavigationSelector) {
+      window.addEventListener('scroll', acePushFixedNav, {passive: true});
+      window.addEventListener('aceClose', aceResetFixedNav);
     }
 
     if (this.loaded) {
-      aceMoveBody();
+      this.moveBody && aceMoveBody();
+      acePushFixedNav();
       return;
     }
 
     window.addEventListener('aceLoad', aceMoveBody);
+    window.addEventListener('aceLoad', acePushFixedNav);
   }
 
   /**
