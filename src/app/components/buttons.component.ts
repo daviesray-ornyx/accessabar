@@ -1,5 +1,5 @@
 import {h} from 'hyperapp';
-import {ttsHoverEnable, ttsStopCurrent} from '../actions/tts.actions';
+import {ttsHoverEnable} from '../actions/tts.actions';
 import {
   handleButtonNavigation,
   aceAddTippy,
@@ -21,29 +21,6 @@ import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
 import {ptEnable} from '../actions/language.actions';
-
-const stopButton = () => {
-  return h(
-    'ab-bar-stop-button',
-    {
-      'aria-label': 'Stop',
-      class: 'ab-bar-button',
-      id: 'ab-stop',
-      onclick: ttsStopCurrent,
-      onmouseover: [aceAddTippy, {id: '#ab-stop', content: 'Stop'}],
-      onmouseenter: [aceSpeakTooltip, {id: '#ab-stop', content: 'Stop'}],
-      onkeydown: handleButtonNavigation,
-      role: 'button',
-      tabIndex: 0,
-    },
-    [
-      h('ab-icon', {
-        'aria-hidden': 'true',
-        class: 'ab-icon ab-icon-stop',
-      }),
-    ]
-  );
-};
 
 const ttsButton = ({menus}: Ace.State) => {
   return h(
@@ -547,7 +524,6 @@ const hideButton = (state: Ace.State) => {
 export {
   closeButton,
   ttsButton,
-  stopButton,
   incButton,
   fontResetButton,
   decButton,

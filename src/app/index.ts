@@ -10,7 +10,6 @@ import {
 } from './actions/ace.actions';
 import subResize from './subscriptions/resize.subscription';
 import {fxHydrate} from './fx/hydrate.fx';
-import {fxTTSInit} from './fx/tts.fx';
 
 declare global {
   // tslint:disable-next-line
@@ -31,7 +30,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.11.9';
+  public version = '0.11.10';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
@@ -58,7 +57,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '8';
+  private aceStateVersion = '9';
 
   // Support pushing fixed navigation below ACE for compatibility.
   public fixedNavigationSelector = '';
@@ -245,8 +244,6 @@ class AceController {
         ...state,
         aceTooltips: [],
         aceTooltipSpeakKeys: [],
-        ttsInitiated: false,
-        ttsVoices: [],
       },
       version: this.aceStateVersion,
     };
@@ -289,7 +286,7 @@ class AceController {
 
     const appConfig = {
       view,
-      init: [state, fxTTSInit(state), fxHydrate(state)],
+      init: [state, fxHydrate(state)],
       node: containerEl,
       subscriptions: (st: Ace.State) => {
         this.saveState(st);

@@ -7,12 +7,7 @@ import {
   settingsToggleTTSList,
   settingsChangeTheme,
 } from '../actions/settings.actions';
-import {
-  ttsChangePitch,
-  ttsChangeRate,
-  ttsChangeVoice,
-  ttsChangeVolume,
-} from '../actions/tts.actions';
+import {ttsChangeVoice} from '../actions/tts.actions';
 import {srChangeLang} from '../actions/sr.actions';
 import {switchEl} from './menus.component';
 import {
@@ -56,10 +51,7 @@ const settingsTTSSection = ({
   ttsVoices,
   ttsVoiceListActive,
   ttsCurrentVoiceName,
-  ttsVolume,
-  ttsRate,
-  ttsPitch,
-}) => {
+}: Ace.State) => {
   const factoryCfg: Ace.ListItem[] = [];
   let customListVoices = h(
     'ab-setting-placeholder',
@@ -112,57 +104,6 @@ const settingsTTSSection = ({
     h('ab-settings-tts-voice', {class: 'ab-modal-section-group'}, [
       h('ab-setting-title', {class: 'ab-modal-title'}, 'Voice'),
       customListVoices,
-    ]),
-    h('ab-settings-tts-volume', {class: 'ab-modal-section-group'}, [
-      h(
-        'ab-setting-title',
-        {id: 'ab-setting-title-volume', class: 'ab-modal-title'},
-        'Volume'
-      ),
-      h('input', {
-        'aria-labelledby': 'ab-setting-title-volume',
-        class: 'ab-range',
-        type: 'range',
-        onchange: [ttsChangeVolume, ev => ev.target.value],
-        min: '0',
-        max: '1',
-        step: '0.05',
-        value: ttsVolume,
-      }),
-    ]),
-    h('ab-settings-tts-rate', {class: 'ab-modal-section-group'}, [
-      h(
-        'ab-setting-title',
-        {id: 'ab-setting-title-speed', class: 'ab-modal-title'},
-        'Speed'
-      ),
-      h('input', {
-        'aria-labelledby': 'ab-setting-title-speed',
-        class: 'ab-range',
-        type: 'range',
-        onchange: [ttsChangeRate, ev => ev.target.value],
-        min: '0',
-        max: '1',
-        step: '0.05',
-        value: ttsRate,
-      }),
-    ]),
-    h('ab-settings-tts-pitch', {class: 'ab-modal-section-group'}, [
-      h(
-        'ab-setting-title',
-        {id: 'ab-setting-title-pitch', class: 'ab-modal-title'},
-        'Pitch'
-      ),
-      h('input', {
-        'aria-labelledby': 'ab-setting-title-pitch',
-        class: 'ab-range',
-        type: 'range',
-        onchange: [ttsChangePitch, ev => ev.target.value],
-        min: '0',
-        max: '1',
-        step: '0.05',
-        value: ttsPitch,
-      }),
     ]),
   ];
 };

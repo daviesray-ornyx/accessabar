@@ -28,18 +28,6 @@ const buttonArea = (state: Ace.State) => {
     },
     [
       h('ab-button-section', {class: 'ab-flex'}, [
-        h(
-          'ab-button-group',
-          {
-            class: `ab-group ${
-              state.ttsHoverSpeak || state.ttsHighlightSpeak
-                ? 'ab-flex'
-                : 'ab-hide'
-            }`,
-            'aria-label': 'Sound controls',
-          },
-          [Buttons.stopButton()]
-        ),
         h('ab-button-group', {class: 'ab-group ab-flex ab-flex-wrap'}, [
           Buttons.ttsButton(state),
           Buttons.incButton(),

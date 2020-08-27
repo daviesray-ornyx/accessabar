@@ -2,7 +2,6 @@ import {h} from 'hyperapp';
 import buttonArea from './components/button_area.component';
 import {hideButton} from './components/buttons.component';
 import menuArea from './components/menu_area.component';
-import ttsPrompt from './components/tts_prompt.component';
 import funcArea from './components/function_area.component';
 import settingsMenu from './components/settings.component';
 import aboutMenu from './components/about.component';
@@ -25,7 +24,6 @@ const underBar = state => {
     h('ab-hide-button-container', {class: 'ab-hide-button-container ab-flex'}, [
       hideButton(state),
     ]),
-    ttsPrompt(state),
   ]);
 };
 

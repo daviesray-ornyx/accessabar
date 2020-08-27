@@ -21,7 +21,7 @@ function fxAceSpeakTooltip(
       }));
 
       setTimeout(() => {
-        ttsSpeak(state, props.content); // speak tippy content
+        dispatch(ttsSpeak, props.content); // speak tippy content
         dispatch(dState => {
           const {
             aceTooltipSpeakKeys: dAceTooltipSpeakKeys,
