@@ -177,24 +177,14 @@ declare namespace Ace {
     ttsInitiated: boolean;
     ttsHoverSpeak: boolean;
     ttsHighlightSpeak: boolean;
-    ttsPitch: string;
-    ttsRate: string;
-    ttsVolume: string;
-    ttsLang: string;
-    ttsVoice?: SpeechSynthesisVoice;
+    ttsVoice: TTSVoice;
     ttsVoiceListActive: boolean;
     ttsCurrentVoiceName: string;
-    ttsVoices: SpeechSynthesisVoice[];
+    ttsVoices: TTSVoice[];
     ttsHoverTimeout: NodeJS.Timeout | boolean;
     ttsHighlightTimeout: NodeJS.Timeout | boolean;
     ttsVoiceActive: boolean;
-    ttsCurrentUtterText: string;
-    ttsCurrentUtterWords: string[];
-    ttsCurrentUtterSentences: string[][];
-    ttsCurrentUtterSentenceIndex: number;
-    ttsCurrentUtterSentenceWordIndex: number;
-    ttsCurrentUtterWordIndex: number;
-    ttsCurrentUtterCharIndex: number;
+    ttsAudio: HTMLAudioElement;
   }
 
   interface State
@@ -242,9 +232,12 @@ declare namespace Ace {
   }
 
   interface AceConfig {
+    buttonFloatPosition?: string;
+    buttonFloatOffset?: number;
     enableButton?: string;
     bindTo?: string;
     position?: string;
+    fixedNavigation?: string;
     moveBody?: boolean;
   }
 
@@ -257,6 +250,22 @@ declare namespace Ace {
   interface SavedState {
     version: string;
     state: State;
+  }
+
+  interface TranslateData {
+    strings: string[];
+    from: string;
+    to: string;
+  }
+
+  interface TTSData {
+    text: string;
+    lang: string;
+  }
+
+  interface TTSVoice {
+    name: string;
+    lang: string;
   }
 
   interface DragEvent extends MouseEvent, TouchEvent {}

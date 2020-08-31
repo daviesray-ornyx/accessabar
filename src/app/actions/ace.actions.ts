@@ -11,6 +11,45 @@ function aceMoveBody() {
   }
 }
 
+function acePushFixedNav() {
+  const {fixedNavigationSelector, mainElement} = window.aceRuntimeProxy;
+
+  if (!fixedNavigationSelector) {
+    return;
+  }
+
+  const fixedNavEl = document.querySelector(fixedNavigationSelector);
+
+  if (!fixedNavEl || !mainElement) {
+    return;
+  }
+
+  const aceRect = mainElement.getBoundingClientRect();
+  const navRect = fixedNavEl.getBoundingClientRect();
+
+  if (navRect.y >= aceRect.y + aceRect.height) {
+    return;
+  }
+
+  (fixedNavEl as HTMLElement).style.top = `${aceRect.height + 25}px`;
+}
+
+function aceResetFixedNav() {
+  const {fixedNavigationSelector} = window.aceRuntimeProxy;
+
+  if (!fixedNavigationSelector) {
+    return;
+  }
+
+  const fixedNavEl = document.querySelector(fixedNavigationSelector);
+
+  if (!fixedNavEl) {
+    return;
+  }
+
+  (fixedNavEl as HTMLElement).style.top = '0px';
+}
+
 function aceResize(state: Ace.State) {
   const {aceHidden} = state;
   const {mainElement} = window.aceRuntimeProxy;
@@ -330,6 +369,20 @@ function aceSpeakTooltipsToggle(state: Ace.State) {
   };
 }
 
+function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
+  const {code, target} = event;
+
+  if (!code || !target) {
+    return state;
+  }
+
+  if (code === 'Enter' || code === 'Space') {
+    (target as HTMLElement).click();
+  }
+
+  return state;
+}
+
 export {
   aceResize,
   aceMoveBody,
@@ -342,4 +395,7 @@ export {
   aceAddTippy,
   aceSpeakTooltipsToggle,
   aceSpeakTooltip,
+  handleButtonNavigation,
+  acePushFixedNav,
+  aceResetFixedNav,
 };

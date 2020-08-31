@@ -26,8 +26,7 @@ function settingsToggleSRLangList(state: Ace.State) {
   };
 }
 
-
-function settingsChangeTheme(state: Ace.State, themeName: string){
+function settingsChangeTheme(state: Ace.State, themeName: string) {
   return {
     ...state,
     aceTheme: themeName,

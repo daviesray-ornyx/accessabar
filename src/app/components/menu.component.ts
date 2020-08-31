@@ -1,8 +1,11 @@
 import {h} from 'hyperapp';
-import {handleButtonNavigation} from './buttons.component';
 import * as menus from './menus.component';
 import {menuEndDrag, menuStartDrag} from '../actions/menu.actions';
-import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
+import {
+  aceAddTippy,
+  aceSpeakTooltip,
+  handleButtonNavigation,
+} from '../actions/ace.actions';
 import * as actions from '../actions/menu.actions';
 
 const menuConfigs = new Map([

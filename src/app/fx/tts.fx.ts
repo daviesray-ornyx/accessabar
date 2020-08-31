@@ -1,41 +1,10 @@
 import {
   ttsHandleHighlight,
   ttsHandleHover,
-  ttsHandlePrompt,
   ttsSpeak,
+  ttsPlayAudio,
 } from '../actions/tts.actions';
-
-function fxTTSInit(state: Ace.State) {
-  return (
-    !state.ttsInitiated && [
-      // setup voices
-      [
-        (dispatch, props) => {
-          props.voices.length > 1 &&
-            dispatch((state: Ace.State) => ({
-              ...state,
-              ttsVoices: props.voices,
-            }));
-
-          window.speechSynthesis.onvoiceschanged = () => {
-            const voices = window.speechSynthesis.getVoices();
-            if (voices.length > 1) {
-              dispatch((state: Ace.State) => {
-                return {
-                  ...state,
-                  ttsVoices: window.speechSynthesis.getVoices(),
-                };
-              });
-            }
-          };
-        },
-        {
-          voices: window?.speechSynthesis.getVoices(),
-        },
-      ],
-    ]
-  );
-}
+import {apiGetTTS} from '../actions/api.actions';
 
 const hoverHandle: unknown[] = [];
 const hoverPassthrough = (dispatch, props) => {
@@ -161,33 +130,28 @@ function fxTTSDelaySpeech(state: Ace.State, currentText: string) {
   ];
 }
 
-function fxTTSPrompt(state: Ace.State, utterance) {
+function fxTTSPlayAudio(data: Ace.TTSData) {
   return [
     (dispatch, props) => {
-      utterance.onstart = event => {
-        dispatch(props.action, event);
-      };
+      apiGetTTS(data).then(audioData => {
+        if (audioData?.success !== 'true') {
+          return;
+        }
 
-      utterance.onboundary = event => {
-        dispatch(props.action, event);
-      };
-
-      utterance.onend = event => {
-        dispatch(props.action, event);
-      };
+        dispatch(props.action, audioData?.id);
+      });
     },
     {
-      action: ttsHandlePrompt,
+      action: ttsPlayAudio,
     },
   ];
 }
 
 export {
-  fxTTSInit,
   fxTTSHighlight,
   fxTTSHover,
   fxTTSDelaySpeech,
-  fxTTSPrompt,
   fxTTSHighlightEventStop,
   fxTTSHoverEventStop,
+  fxTTSPlayAudio,
 };

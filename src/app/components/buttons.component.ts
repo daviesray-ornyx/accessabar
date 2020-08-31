@@ -1,6 +1,11 @@
 import {h} from 'hyperapp';
-import {ttsHoverEnable, ttsStopCurrent} from '../actions/tts.actions';
-import {aceAddTippy, aceHide, aceSpeakTooltip} from '../actions/ace.actions';
+import {ttsHoverEnable} from '../actions/tts.actions';
+import {
+  handleButtonNavigation,
+  aceAddTippy,
+  aceHide,
+  aceSpeakTooltip,
+} from '../actions/ace.actions';
 import {menuOpen} from '../actions/menu.actions';
 import {
   fontDecSize,
@@ -16,41 +21,6 @@ import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
 import {ptEnable} from '../actions/language.actions';
-
-function handleButtonNavigation(_, event) {
-  const {code, target} = event;
-
-  if (!code || !target) {
-    return;
-  }
-
-  if (code === 'Enter' || code === 'Space') {
-    target.click();
-  }
-}
-
-const stopButton = () => {
-  return h(
-    'ab-bar-stop-button',
-    {
-      'aria-label': 'Stop',
-      class: 'ab-bar-button',
-      id: 'ab-stop',
-      onclick: ttsStopCurrent,
-      onmouseover: [aceAddTippy, {id: '#ab-stop', content: 'Stop'}],
-      onmouseenter: [aceSpeakTooltip, {id: '#ab-stop', content: 'Stop'}],
-      onkeydown: handleButtonNavigation,
-      role: 'button',
-      tabIndex: 0,
-    },
-    [
-      h('ab-icon', {
-        'aria-hidden': 'true',
-        class: 'ab-icon ab-icon-stop',
-      }),
-    ]
-  );
-};
 
 const ttsButton = ({menus}: Ace.State) => {
   return h(
@@ -374,9 +344,10 @@ const ptButton = ({menus}: Ace.State) => {
       onclick: [
         menuOpen,
         {
-          menuName: 'pageTranslate', 
+          menuName: 'pageTranslate',
           title: 'Page Translation',
-          defaultFunc: ptEnable},
+          defaultFunc: ptEnable,
+        },
       ],
       onmouseover: [
         aceAddTippy,
@@ -553,7 +524,6 @@ const hideButton = (state: Ace.State) => {
 export {
   closeButton,
   ttsButton,
-  stopButton,
   incButton,
   fontResetButton,
   decButton,
@@ -567,5 +537,4 @@ export {
   settingsButton,
   aboutButton,
   hideButton,
-  handleButtonNavigation,
 };

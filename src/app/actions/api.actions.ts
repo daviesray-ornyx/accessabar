@@ -50,7 +50,7 @@ async function apiSendEvent(eventType: string) {
   await handleRequest('https://ace-ctrl.acetoolbar.com/api/v1/event/add', req);
 }
 
-async function apiGetTranslation(data: {[x: string]: any}) {
+async function apiGetTranslation(data: Ace.TranslateData) {
   const req = {
     body: JSON.stringify(data),
     method: 'POST',
@@ -62,4 +62,16 @@ async function apiGetTranslation(data: {[x: string]: any}) {
   return handleRequest('https://trans.acetoolbar.com/api/v1/translate', req);
 }
 
-export {apiSendEvent, apiGetTranslation};
+async function apiGetTTS(data: Ace.TTSData) {
+  const req = {
+    body: JSON.stringify(data),
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    headers: {'Content-Type': 'application/json'},
+  };
+
+  return handleRequest('https://ace-tts.acetoolbar.com/api/v1/text', req);
+}
+
+export {apiSendEvent, apiGetTranslation, apiGetTTS};

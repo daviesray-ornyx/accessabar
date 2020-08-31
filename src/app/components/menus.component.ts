@@ -1,6 +1,5 @@
 import fontConfig from '../../config/fonts.config.json5';
 import languageConfig from '../../config/language.config.json5';
-import {handleButtonNavigation} from './buttons.component';
 import {h} from 'hyperapp';
 import BigNumber from 'bignumber.js';
 import {ttsHightlightToggle, ttsHoverToggle} from '../actions/tts.actions';
@@ -22,6 +21,7 @@ import {
   aceAddTippy,
   aceCreatePickr,
   aceSpeakTooltip,
+  handleButtonNavigation,
 } from '../actions/ace.actions';
 import {
   menuRulerOpsSwitchInner,

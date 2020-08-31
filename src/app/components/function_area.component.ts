@@ -4,8 +4,6 @@ import mask from './mask.component';
 import {rulerReadingBar, rulerPinhole} from './ruler.component';
 import feedback from './feedback.component';
 
-
-
 const funcArea = state => {
   return h('ab-func-area', {class: 'ab-func-area'}, [
     mag(state),

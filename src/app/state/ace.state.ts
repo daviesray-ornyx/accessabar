@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import voices from '../../config/tts.config.json5';
 
 const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
@@ -184,27 +185,20 @@ const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {
 };
 
 const stateTTS: Ace.StateTTS = {
-  ttsCurrentUtterCharIndex: 0,
-  ttsCurrentUtterSentenceIndex: 0,
-  ttsCurrentUtterSentenceWordIndex: 0,
-  ttsCurrentUtterSentences: [],
-  ttsCurrentUtterText: '',
-  ttsCurrentUtterWordIndex: 0,
-  ttsCurrentUtterWords: [],
-  ttsCurrentVoiceName: 'Click to choose voice',
+  ttsCurrentVoiceName: 'English (British)',
   ttsHighlightSpeak: false,
   ttsHighlightTimeout: false,
   ttsHoverSpeak: false,
   ttsHoverTimeout: false,
   ttsInitiated: false,
-  ttsLang: 'en',
-  ttsPitch: '1',
-  ttsRate: '1',
-  ttsVoice: undefined,
+  ttsVoice: {
+    name: 'English (British)',
+    lang: 'en-GB',
+  },
   ttsVoiceActive: false,
   ttsVoiceListActive: false,
-  ttsVoices: [],
-  ttsVolume: '1',
+  ttsVoices: voices,
+  ttsAudio: new Audio(),
 };
 
 const state = {
