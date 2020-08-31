@@ -5,6 +5,7 @@
     "es6": true,
     "node": true
   },
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "node/no-unpublished-require": "off",
     "node/no-unsupported-features/es-syntax": ["error", {

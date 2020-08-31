@@ -50,7 +50,6 @@ const rulerPinhole = ({
         class: 'ab-pinhole-ruler-handle ab-top',
         style: {
           background: 'black',
-          // opacity: rulerPinholeOpacity,
           opacity: 0.65,
           height: `${handleHeight1}px`,
         },

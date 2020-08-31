@@ -167,6 +167,12 @@ declare namespace Ace {
     ptPageUrlCached: string;
   }
 
+  interface StateKeyboardShortcuts{
+    kbsReady: boolean,
+    kbsCurrentCombination: string,
+    kbsCount: number,
+  }
+
   interface StateTTS {
     ttsInitiated: boolean;
     ttsHoverSpeak: boolean;
@@ -204,6 +210,7 @@ declare namespace Ace {
       StateAbout,
       StateSR,
       StateTranslation,
+      StateKeyboardShortcuts,
       StateTTS {}
 
   interface FuncConfig {

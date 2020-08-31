@@ -6,6 +6,8 @@ import {aceMoveBody} from './actions/ace.actions';
 import subResize from './subscriptions/resize.subscription';
 import {fxHydrate} from './fx/hydrate.fx';
 import {fxTTSInit} from './fx/tts.fx';
+import state from './state/ace.state';
+import {subKeyDownHelper, subKeyUpHelper} from './subscriptions/keyboard_shortcuts.subscriptions';
 
 declare global {
   // tslint:disable-next-line
@@ -235,7 +237,7 @@ class AceController {
       node: containerEl,
       subscriptions: (st: Ace.State) => {
         this.saveState(st);
-        return [subResize()];
+        return [subResize(), subKeyDownHelper(), subKeyUpHelper()];
       },
     };
 
@@ -306,7 +308,6 @@ class AceController {
 
       // If page is not ready, wait until it is
       document.addEventListener('DOMContentLoaded', renderFunc.bind(this));
-
       return;
     }
   }
