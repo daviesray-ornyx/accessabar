@@ -173,8 +173,11 @@ declare namespace Ace {
     ttsHighlightSpeak: boolean;
     ttsVoice: TTSVoice;
     ttsVoiceListActive: boolean;
+    ttsGenderListActive: boolean;
     ttsCurrentVoiceName: string;
     ttsVoices: TTSVoice[];
+    ttsGenders: string[];
+    ttsGender: string;
     ttsHoverTimeout: NodeJS.Timeout | boolean;
     ttsHighlightTimeout: NodeJS.Timeout | boolean;
     ttsVoiceActive: boolean;
@@ -254,6 +257,7 @@ declare namespace Ace {
   interface TTSData {
     text: string;
     lang: string;
+    gender: string;
   }
 
   interface TTSVoice {

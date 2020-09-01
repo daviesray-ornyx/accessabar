@@ -19,6 +19,13 @@ function settingsToggleTTSList(state: Ace.State) {
   };
 }
 
+function settingsToggleTTSGenderList(state: Ace.State) {
+  return {
+    ...state,
+    ttsGenderListActive: !state.ttsGenderListActive,
+  };
+}
+
 function settingsToggleSRLangList(state: Ace.State) {
   return {
     ...state,
@@ -38,5 +45,6 @@ export {
   settingsClose,
   settingsToggleSRLangList,
   settingsToggleTTSList,
+  settingsToggleTTSGenderList,
   settingsChangeTheme,
 };

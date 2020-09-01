@@ -191,8 +191,11 @@ const stateTTS: Ace.StateTTS = {
   },
   ttsVoiceActive: false,
   ttsVoiceListActive: false,
+  ttsGenderListActive: false,
   ttsVoices: voices,
   ttsAudio: new Audio(),
+  ttsGenders: ['Neutral', 'Female', 'Male'],
+  ttsGender: 'Neutral',
 };
 
 const state = {
