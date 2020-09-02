@@ -10,7 +10,6 @@ import {
 } from '../fx/tts.fx';
 
 function ttsHandleHover(state: Ace.State, event: MouseEvent) {
-  const {ttsHoverTimeout} = state;
   const {target} = event;
   const selection = window.getSelection();
 
@@ -22,10 +21,6 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   selection.selectAllChildren(target as Node);
 
   const currentText = selection.toString();
-
-  if (ttsHoverTimeout && typeof ttsHoverTimeout !== 'boolean') {
-    clearTimeout(ttsHoverTimeout);
-  }
 
   return [state, fxTTSDelaySpeech(state, currentText)];
 }

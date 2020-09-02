@@ -178,8 +178,6 @@ declare namespace Ace {
     ttsVoices: TTSVoice[];
     ttsGenders: string[];
     ttsGender: string;
-    ttsHoverTimeout: NodeJS.Timeout | boolean;
-    ttsHighlightTimeout: NodeJS.Timeout | boolean;
     ttsVoiceActive: boolean;
     ttsAudio: HTMLAudioElement;
   }

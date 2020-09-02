@@ -181,9 +181,7 @@ const stateTranslation: Ace.StateTranslation = {
 const stateTTS: Ace.StateTTS = {
   ttsCurrentVoiceName: 'English (British)',
   ttsHighlightSpeak: false,
-  ttsHighlightTimeout: false,
   ttsHoverSpeak: false,
-  ttsHoverTimeout: false,
   ttsInitiated: false,
   ttsVoice: {
     name: 'English (British)',
