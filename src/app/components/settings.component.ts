@@ -22,7 +22,7 @@ const settingsHeader = ({settingsHidden}) => {
     h(
       'ab-logo',
       {
-        class: 'ab-logo-large ab-modal-logo',
+        class: 'ab-modal-logo',
         'aria-label': 'Ace logo',
       },
       [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'})]
