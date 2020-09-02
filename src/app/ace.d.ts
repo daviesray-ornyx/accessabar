@@ -2,7 +2,7 @@ declare namespace Ace {
   interface StateToolbar {
     aceHidden: boolean;
     aceTooltips: string[];
-    aceTooltipSpeakKeys: string[];
+    aceTooltipSpeakTimeout: number;
     aceOpenDefaults: boolean;
     aceSpeakTooltips: boolean;
     aceTheme: string;

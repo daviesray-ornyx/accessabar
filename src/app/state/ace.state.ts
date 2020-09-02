@@ -4,7 +4,7 @@ import voices from '../../config/tts.config.json5';
 const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
   aceTooltips: [],
-  aceTooltipSpeakKeys: [],
+  aceTooltipSpeakTimeout: 0,
   aceOpenDefaults: true,
   aceSpeakTooltips: true,
   aceTheme: 'default-theme',

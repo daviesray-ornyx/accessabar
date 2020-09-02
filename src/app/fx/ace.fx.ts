@@ -6,38 +6,21 @@ function fxAceSpeakTooltip(
 ) {
   return [
     (dispatch, props) => {
-      const {aceTooltipSpeakKeys} = state;
-      if (aceTooltipSpeakKeys.indexOf(props.id) !== -1) {
-        return () => {};
+      const {aceTooltipSpeakTimeout} = state;
+
+      if (aceTooltipSpeakTimeout) {
+        clearTimeout(aceTooltipSpeakTimeout);
       }
 
-      ttsStopCurrent(state);
-
-      aceTooltipSpeakKeys.push(props.id);
-
-      dispatch(dState => ({
-        ...dState,
-        aceTooltipSpeakKeys,
-      }));
-
-      setTimeout(() => {
+      const to = setTimeout(() => {
+        ttsStopCurrent(state);
         dispatch(ttsSpeak, props.content); // speak tippy content
-        dispatch(dState => {
-          const {
-            aceTooltipSpeakKeys: dAceTooltipSpeakKeys,
-          } = dState as Ace.State;
-
-          dAceTooltipSpeakKeys.splice(
-            dAceTooltipSpeakKeys.indexOf(props.id),
-            1
-          );
-
-          return {
-            ...dState,
-            aceTooltipSpeakKeys: dAceTooltipSpeakKeys,
-          };
-        });
       }, 500);
+
+      dispatch({
+        ...state,
+        aceTooltipSpeakTimeout: to,
+      });
 
       return () => {};
     },
