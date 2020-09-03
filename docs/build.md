@@ -23,4 +23,6 @@ Once dependencies have been installed, build ACE with the following command:
 yarn run build
 ```
 
-Built files will be outputted to `./public/dist/accessabar`.
+Build files will be outputted to `./public/dist/accessabar`.
+
+For more information about adding ACE to a website, go [here](add_to_website.md).

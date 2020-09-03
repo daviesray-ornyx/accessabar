@@ -1,8 +1,6 @@
 # Adding to a Website
-If ACE was built from source, copy the `./public/dist/accessabar` folder to an accessible place within the website's directory.
-
 ## Adding to the HTML
-Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`.
+Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`. And a configuration script must be provided inside the document `body`.
 
 ```html
 <!DOCTYPE html>
@@ -20,7 +18,17 @@ Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`
   	 *  PAGE CONTENT
   	 *  ------------
   	-->
+
+    <script>
+        const ace = new Accessabar({
+            // Position to show ACE button
+            buttonFloatPosition: 'top-right',
+        });
+    </script>
   </body>
 </html>
 ```
+
+> Note: Have a look at the [Configuration Options](config.md) to tweak ACE further.
+
 
