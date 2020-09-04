@@ -30,7 +30,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.11.11';
+  public version = '0.11.12';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
@@ -57,7 +57,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '10';
+  private aceStateVersion = '11';
 
   // Support pushing fixed navigation below ACE for compatibility.
   public fixedNavigationSelector = '';
