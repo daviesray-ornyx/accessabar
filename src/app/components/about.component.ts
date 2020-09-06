@@ -3,11 +3,9 @@ import {aboutClose} from '../actions/about.actions';
 
 const aboutHeader = ({aboutHidden}) => {
   return h('ab-about-header', {class: 'ab-modal-header'}, [
-    h(
-      'ab-logo',
-      {class: 'ab-logo-large ab-modal-logo', 'aria-label': 'Ace logo'},
-      [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'})]
-    ),
+    h('ab-logo', {class: 'ab-modal-logo', 'aria-label': 'Ace logo'}, [
+      h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'}),
+    ]),
     h(
       'ab-about-header-title',
       {class: 'ab-modal-header-title'},

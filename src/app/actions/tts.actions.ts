@@ -10,7 +10,6 @@ import {
 } from '../fx/tts.fx';
 
 function ttsHandleHover(state: Ace.State, event: MouseEvent) {
-  const {ttsHoverTimeout} = state;
   const {target} = event;
   const selection = window.getSelection();
 
@@ -22,10 +21,6 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   selection.selectAllChildren(target as Node);
 
   const currentText = selection.toString();
-
-  if (ttsHoverTimeout && typeof ttsHoverTimeout !== 'boolean') {
-    clearTimeout(ttsHoverTimeout);
-  }
 
   return [state, fxTTSDelaySpeech(state, currentText)];
 }
@@ -116,6 +111,7 @@ function ttsSpeak(state: Ace.State, text: string) {
   const data: Ace.TTSData = {
     text,
     lang: ttsVoice.lang,
+    gender: state.ttsGender,
   };
 
   return [state, fxTTSPlayAudio(data)];
@@ -126,7 +122,6 @@ function ttsStopCurrent(state: Ace.State) {
 
   if (ttsAudio && typeof ttsAudio.pause === 'function') {
     ttsAudio.pause();
-    -1;
   }
 
   return state;
@@ -168,6 +163,15 @@ function ttsChangeVoice(state: Ace.State, key: number) {
   };
 }
 
+function ttsChangeGender(state: Ace.State, key: number) {
+  const {ttsGenders} = state;
+
+  return {
+    ...state,
+    ttsGender: ttsGenders[key],
+  };
+}
+
 export {
   ttsSpeak,
   ttsHandleHover,
@@ -182,4 +186,5 @@ export {
   ttsHightlightEnable,
   ttsHoverEnable,
   ttsPlayAudio,
+  ttsChangeGender,
 };

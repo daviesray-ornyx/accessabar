@@ -3,6 +3,7 @@ import {
   ttsHandleHover,
   ttsSpeak,
   ttsPlayAudio,
+  ttsStopCurrent,
 } from '../actions/tts.actions';
 import {apiGetTTS} from '../actions/api.actions';
 
@@ -104,20 +105,20 @@ function fxTTSHighlightEventStop(state: Ace.State) {
   );
 }
 
-const timeoutHandle: NodeJS.Timeout[] = [];
+let timeoutHandle: number;
 
 function fxTTSDelaySpeech(state: Ace.State, currentText: string) {
-  for (const handle of timeoutHandle) {
-    clearTimeout(handle);
+  if (timeoutHandle) {
+    clearTimeout(timeoutHandle);
   }
 
   return [
     (dispatch, props) => {
-      const to = setTimeout(
-        () => dispatch(props.action, props.currentText),
-        500
-      );
-      timeoutHandle.push(to);
+      const to = setTimeout(() => {
+        ttsStopCurrent(state);
+        dispatch(props.action, props.currentText);
+      }, 500);
+      timeoutHandle = to;
 
       return () => {
         clearTimeout(to);

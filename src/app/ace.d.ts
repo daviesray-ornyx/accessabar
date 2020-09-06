@@ -2,7 +2,7 @@ declare namespace Ace {
   interface StateToolbar {
     aceHidden: boolean;
     aceTooltips: string[];
-    aceTooltipSpeakKeys: string[];
+    aceTooltipSpeakTimeout: number;
     aceOpenDefaults: boolean;
     aceSpeakTooltips: boolean;
     aceTheme: string;
@@ -179,10 +179,11 @@ declare namespace Ace {
     ttsHighlightSpeak: boolean;
     ttsVoice: TTSVoice;
     ttsVoiceListActive: boolean;
+    ttsGenderListActive: boolean;
     ttsCurrentVoiceName: string;
     ttsVoices: TTSVoice[];
-    ttsHoverTimeout: NodeJS.Timeout | boolean;
-    ttsHighlightTimeout: NodeJS.Timeout | boolean;
+    ttsGenders: string[];
+    ttsGender: string;
     ttsVoiceActive: boolean;
     ttsAudio: HTMLAudioElement;
   }
@@ -261,6 +262,7 @@ declare namespace Ace {
   interface TTSData {
     text: string;
     lang: string;
+    gender: string;
   }
 
   interface TTSVoice {

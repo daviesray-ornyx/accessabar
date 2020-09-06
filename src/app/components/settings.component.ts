@@ -6,8 +6,9 @@ import {
   settingsToggleSRLangList,
   settingsToggleTTSList,
   settingsChangeTheme,
+  settingsToggleTTSGenderList,
 } from '../actions/settings.actions';
-import {ttsChangeVoice} from '../actions/tts.actions';
+import {ttsChangeGender, ttsChangeVoice} from '../actions/tts.actions';
 import {srChangeLang} from '../actions/sr.actions';
 import {switchEl} from './menus.component';
 import {
@@ -21,7 +22,7 @@ const settingsHeader = ({settingsHidden}) => {
     h(
       'ab-logo',
       {
-        class: 'ab-logo-large ab-modal-logo',
+        class: 'ab-modal-logo',
         'aria-label': 'Ace logo',
       },
       [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'})]
@@ -50,9 +51,13 @@ const settingsHeader = ({settingsHidden}) => {
 const settingsTTSSection = ({
   ttsVoices,
   ttsVoiceListActive,
+  ttsGenderListActive,
   ttsCurrentVoiceName,
+  ttsGenders,
+  ttsGender,
 }: Ace.State) => {
-  const factoryCfg: Ace.ListItem[] = [];
+  const factoryCfgVoices: Ace.ListItem[] = [];
+  const factoryCfgGenders: Ace.ListItem[] = [];
   let customListVoices = h(
     'ab-setting-placeholder',
     {class: 'ab-modal-placeholder'},
@@ -61,7 +66,7 @@ const settingsTTSSection = ({
 
   if (ttsVoices && ttsVoices.length > 0) {
     for (const [key, obj] of ttsVoices.entries()) {
-      factoryCfg.push({
+      factoryCfgVoices.push({
         key,
         name: obj.name,
         action: (state, actionKey: number) => {
@@ -83,8 +88,8 @@ const settingsTTSSection = ({
       });
     }
 
-    const listItems = customListItemFactory(factoryCfg);
-    const customListObj = {
+    const listItems = customListItemFactory(factoryCfgVoices);
+    const customListObjVoices = {
       listItems,
       active: ttsVoiceListActive,
       currentItem: ttsCurrentVoiceName,
@@ -92,8 +97,41 @@ const settingsTTSSection = ({
       customListID: 'ab-custom-list-tts-voices',
     };
 
-    customListVoices = customList(customListObj);
+    customListVoices = customList(customListObjVoices);
   }
+
+  for (const [key, name] of ttsGenders.entries()) {
+    factoryCfgGenders.push({
+      key,
+      name,
+      action: (state, actionKey: number) => {
+        return [
+          state,
+          [
+            (dispatch, props) => {
+              dispatch(props.toggleSettings);
+              dispatch(props.changeGender, props.key);
+            },
+            {
+              toggleSettings: settingsToggleTTSGenderList,
+              changeGender: ttsChangeGender,
+              key: actionKey,
+            },
+          ],
+        ];
+      },
+    });
+  }
+
+  const listItems = customListItemFactory(factoryCfgGenders);
+  const customListObjGenders = {
+    listItems,
+    active: ttsGenderListActive,
+    currentItem: ttsGender,
+    openList: settingsToggleTTSGenderList,
+    customListID: 'ab-custom-list-tts-genders',
+  };
+  const customListGenders = customList(customListObjGenders);
 
   return [
     h(
@@ -104,6 +142,10 @@ const settingsTTSSection = ({
     h('ab-settings-tts-voice', {class: 'ab-modal-section-group'}, [
       h('ab-setting-title', {class: 'ab-modal-title'}, 'Voice'),
       customListVoices,
+    ]),
+    h('ab-settings-tts-gender', {class: 'ab-modal-section-group'}, [
+      h('ab-setting-title', {class: 'ab-modal-title'}, 'Gender'),
+      customListGenders,
     ]),
   ];
 };

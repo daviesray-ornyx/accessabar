@@ -4,7 +4,7 @@ import voices from '../../config/tts.config.json5';
 const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
   aceTooltips: [],
-  aceTooltipSpeakKeys: [],
+  aceTooltipSpeakTimeout: 0,
   aceOpenDefaults: true,
   aceSpeakTooltips: true,
   aceTheme: 'default-theme',
@@ -187,9 +187,7 @@ const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {
 const stateTTS: Ace.StateTTS = {
   ttsCurrentVoiceName: 'English (British)',
   ttsHighlightSpeak: false,
-  ttsHighlightTimeout: false,
   ttsHoverSpeak: false,
-  ttsHoverTimeout: false,
   ttsInitiated: false,
   ttsVoice: {
     name: 'English (British)',
@@ -197,8 +195,11 @@ const stateTTS: Ace.StateTTS = {
   },
   ttsVoiceActive: false,
   ttsVoiceListActive: false,
+  ttsGenderListActive: false,
   ttsVoices: voices,
   ttsAudio: new Audio(),
+  ttsGenders: ['Neutral', 'Female', 'Male'],
+  ttsGender: 'Neutral',
 };
 
 const state = {

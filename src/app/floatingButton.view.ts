@@ -14,6 +14,8 @@ const floatingButton = () => {
     h('ab-fb-info', {id: 'ab-fb-info', class: 'ab-fb-info'}, [
       h('img', {class: 'ab-fb-circle-img-inline', src: aceLogoWhite}),
       'Accessibility',
+      h('br'),
+      'Tools',
     ]),
   ]);
 };
