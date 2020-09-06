@@ -240,7 +240,7 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
       case 'alt,r':
         // open reading bar
         if (newState.rulerReadingActive) {
-          return;
+          return newState;
         }
         return [newState, fxRulerShow(newState)];
       case 'r,+':
