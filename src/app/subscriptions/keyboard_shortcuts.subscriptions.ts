@@ -20,7 +20,7 @@ const subKeyUp = (dispatch, props) => {
   
   window.addEventListener('keyup', hander);
   
-  return () => window.removeEventListener('keyup');
+  return () => window.removeEventListener('keyup', handler);
 };
   
 const subKeyUpHelper = () => [subKeyUp, {action: buildKeyCombination}];
