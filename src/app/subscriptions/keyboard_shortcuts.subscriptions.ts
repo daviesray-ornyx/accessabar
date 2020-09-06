@@ -15,7 +15,7 @@ const subKeyDownHelper = () => [subKeyDown, {action: buildKeyCombination}];
 
 const subKeyUp = (dispatch, props) => {
   const hander = event => {
-    dispatch([props.action, event]);
+    dispatch(props.action, event);
   };
   
   window.addEventListener('keyup', hander);
