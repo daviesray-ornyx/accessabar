@@ -246,7 +246,7 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
       case 'r,+':
       case 'r,=':
         if (!newState.rulerReadingActive) {
-          return;
+          return newState;
         }
         return [newState, fxRulerSizeIncrease(newState)];
       case 'r,-':
