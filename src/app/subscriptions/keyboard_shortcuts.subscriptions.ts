@@ -8,7 +8,7 @@ const subKeyDown = (dispatch, props) => {
 
   window.addEventListener('keydown', hander);
 
-  return () => window.removeEventListener('keydown');
+  return () => window.removeEventListener('keydown', handler);
 };
 
 const subKeyDownHelper = () => [subKeyDown, {action: buildKeyCombination}];
