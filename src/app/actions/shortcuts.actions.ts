@@ -287,7 +287,6 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
       case 'alt,s':
         return [newState, fxSREnable(newState)];
       default:
-        // if no match is found. Clear combination value
         return {
           ...state,
           kbsKeyCombination: '',
