@@ -178,6 +178,12 @@ const stateTranslation: Ace.StateTranslation = {
   ptPageUrlCached: '',
 };
 
+const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {
+  kbsReady: true,
+  kbsCount: 0,
+  kbsKeyCombination: '',
+};
+
 const stateTTS: Ace.StateTTS = {
   ttsCurrentVoiceName: 'English (British)',
   ttsHighlightSpeak: false,
@@ -209,6 +215,7 @@ const state = {
   ...stateAbout,
   ...stateSR,
   ...stateTranslation,
+  ...stateKeyboardShortcut,
   ...stateTTS,
 };
 

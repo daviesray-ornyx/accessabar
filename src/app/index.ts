@@ -10,6 +10,12 @@ import {
 } from './actions/ace.actions';
 import subResize from './subscriptions/resize.subscription';
 import {fxHydrate} from './fx/hydrate.fx';
+import {fxTTSInit} from './fx/tts.fx';
+import state from './state/ace.state';
+import {
+  subKeyDownHelper,
+  subKeyUpHelper,
+} from './subscriptions/keyboard_shortcuts.subscriptions';
 
 declare global {
   // tslint:disable-next-line
@@ -57,7 +63,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '11';
+  private aceStateVersion = '12';
 
   // Support pushing fixed navigation below ACE for compatibility.
   public fixedNavigationSelector = '';
@@ -290,7 +296,7 @@ class AceController {
       node: containerEl,
       subscriptions: (st: Ace.State) => {
         this.saveState(st);
-        return [subResize()];
+        return [subResize(), subKeyDownHelper(), subKeyUpHelper()];
       },
     };
 
@@ -364,7 +370,6 @@ class AceController {
 
       // If page is not ready, wait until it is
       document.addEventListener('DOMContentLoaded', renderFunc.bind(this));
-
       return;
     }
   }
