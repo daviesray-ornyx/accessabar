@@ -1,10 +1,8 @@
 import fontConfig from '../../config/fonts.config.json5';
-import {apiSendEvent} from './api.actions';
-import {ttsStopCurrent} from './tts.actions';
-
-import {fxTTSHighlight, fxTTSHover, fxTTSDelaySpeech} from '../fx/tts.fx';
-
 import {
+  fxTTSEnable,
+  fxTTSStopAll,
+  fxTTSHandleHighlight,
   fxFontFamilyChange,
   fxFontSizeIncrease,
   fxFontSizeDecrease,
@@ -25,43 +23,65 @@ import {
   fxSREnable,
 } from '../fx/shortcuts.fx';
 
+function isModifierKey(event: KeyboardEvent) {
+  return (
+    event.key === 'Alt' ||
+    event.key === 'Option' ||
+    event.key === 'Control' ||
+    event.key === 'Shift'
+  );
+}
+
+function concatWithSeparator(list: string[], separator: string) {
+  let concatString = '';
+  list.forEach(element => {
+    concatString =
+      concatString +
+      (concatString.length > 0 && element.length > 0 ? separator : '') +
+      element;
+  });
+  return concatString;
+}
+
+function buildModifierKeys(event: KeyboardEvent) {
+  const altKey = event.altKey ? 'alt' : '';
+  const ctrlKey = event.ctrlKey ? 'ctrl' : '';
+  const shiftKey = event.shiftKey ? 'shift' : '';
+  return concatWithSeparator([altKey, ctrlKey, shiftKey], ',');
+}
 function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
   if (!state.kbsReady) {
     return state;
   }
 
   if (eventData.type === 'keydown') {
-    if (state.kbsCurrentCombination.split(',').length === 3) {
-      return {
-        ...state,
-        kbsCurrentCombination: '',
-        kbsCount: 0,
-        kbsReady: true,
-      };
+    if (isModifierKey(eventData)) {
+      return state;
     }
 
-    if (
-      state.kbsCurrentCombination.indexOf(eventData.key) !== -1 ||
-      eventData.repeat
-    ) {
+    if (eventData.repeat) {
       return state;
     }
 
     const keyToAdd = eventData.key === ',' ? '@' : eventData.key.toLowerCase();
-    const newCombination =
-      state.kbsCurrentCombination +
-      (state.kbsCurrentCombination.length > 0 ? ',' : '') +
+
+    const newKbsKeyCombination =
+      state.kbsKeyCombination +
+      (state.kbsKeyCombination.length > 0 ? ',' : '') +
       keyToAdd;
-    const newCount = state.kbsCount + 1;
+
     const newState = {
       ...state,
-      kbsCurrentCombination: newCombination,
-      kbsCount: newCount,
+      kbsKeyCombination: newKbsKeyCombination,
+      kbsCount: state.kbsCount + 1,
     };
     return newState;
   } else if (eventData.type === 'keyup') {
-    const newCount = state.kbsCount <= 0 ? 0 : state.kbsCount - 1;
+    if (isModifierKey(eventData)) {
+      return state;
+    }
 
+    const newCount = state.kbsCount <= 0 ? 0 : state.kbsCount - 1;
     if (newCount > 0) {
       return {
         ...state,
@@ -69,48 +89,28 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
       };
     }
 
+    const modifierCombination = buildModifierKeys(eventData);
+    const fullKbsCombination =
+      modifierCombination +
+      (modifierCombination.length > 0 && state.kbsKeyCombination.length > 0
+        ? ','
+        : '') +
+      state.kbsKeyCombination;
+
     let newState = {
       ...state,
-      kbsCurrentCombination: '',
-      kbsCount: 0,
+      kbsKeyCombination: '',
+      kbsCount: newCount,
       kbsReady: true,
     };
-    switch (state.kbsCurrentCombination) {
+
+    switch (fullKbsCombination) {
       case 'alt,shift,p':
-        ttsStopCurrent(newState);
-        newState = {
-          ...newState,
-          ttsHoverSpeak: true,
-          ttsHighlightSpeak: false,
-        };
-        apiSendEvent('AceTTSHover_On');
-        return [newState, fxTTSHighlight(newState), fxTTSHover(newState)];
+        return [newState, fxTTSEnable(newState)];
       case 'alt,shift,s':
-        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-          window.speechSynthesis.cancel();
-        }
-
-        newState = {
-          ...newState,
-          ttsHoverSpeak: false,
-          ttsHighlightSpeak: false,
-        };
-
-        ttsStopCurrent(newState);
-        return newState;
+        return [newState, fxTTSStopAll(newState)];
       case 'alt,shift,h':
-        // first check if hover is enabled and disable
-        ttsStopCurrent(newState);
-        // Reading highlighted text
-        // eslint-disable-next-line no-case-declarations
-        const selection = window.getSelection();
-
-        if (!selection) {
-          return newState;
-        }
-        // eslint-disable-next-line no-case-declarations
-        const currentText = selection.toString();
-        return [newState, fxTTSDelaySpeech(newState, currentText)];
+        return [newState, fxTTSHandleHighlight(newState)];
       case 'alt,i':
         // Increase font
         return [newState, fxFontSizeIncrease(newState)];
@@ -290,11 +290,13 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
         // if no match is found. Clear combination value
         return {
           ...state,
-          kbsCurrentCombination: '',
+          kbsKeyCombination: '',
           kbsCount: 0,
           kbsReady: true,
         };
     }
+  } else {
+    return state;
   }
 }
 

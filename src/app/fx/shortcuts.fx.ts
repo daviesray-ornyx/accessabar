@@ -1,4 +1,9 @@
 import {
+  ttsHoverEnable,
+  ttsStopAll,
+  ttsHandleHighlight,
+} from '../actions/tts.actions';
+import {
   fontChangeFamilyAll,
   fontDecSize,
   fontIncSize,
@@ -23,6 +28,43 @@ import {
 } from '../actions/ruler.actions';
 
 import {srEnable} from '../actions/sr.actions';
+
+function fxTTSEnable(state: Ace.State) {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+    },
+    {
+      state,
+      action: ttsHoverEnable,
+    },
+  ];
+}
+
+function fxTTSStopAll(state: Ace.State) {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+    },
+    {
+      state,
+      action: ttsStopAll,
+    },
+  ];
+}
+
+//ttsHandleHighlight
+function fxTTSHandleHighlight(state: Ace.State) {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+    },
+    {
+      state,
+      action: ttsHandleHighlight,
+    },
+  ];
+}
 
 function fxFontFamilyChange(state: Ace.State, key: string) {
   return [
@@ -241,6 +283,9 @@ function fxSREnable(state: Ace.State) {
 }
 
 export {
+  fxTTSEnable,
+  fxTTSStopAll,
+  fxTTSHandleHighlight,
   fxFontFamilyChange,
   fxFontSizeIncrease,
   fxFontSizeDecrease,

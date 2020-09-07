@@ -2,7 +2,6 @@ import languageConfig from '../../config/language.config.json5';
 import {getParents} from './ace.actions';
 import {apiGetTranslation, apiSendEvent} from './api.actions';
 import {fxLanguageChangeAll, fxPtCachePage} from '../fx/language.fx';
-import {addShortcutKeysListener} from './shortcuts.actions';
 
 function ptEnable(state: Ace.State) {
   apiSendEvent('AcePageTranslation_On');
@@ -10,10 +9,6 @@ function ptEnable(state: Ace.State) {
     ...state,
     ptActive: true,
   };
-
-  // Testing for keyboard shortcuts
-  addShortcutKeysListener(state);
-      alert('Added event listerner');
   return [newState, fxPtCachePage(newState)];
 }
 

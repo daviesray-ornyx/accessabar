@@ -167,10 +167,10 @@ declare namespace Ace {
     ptPageUrlCached: string;
   }
 
-  interface StateKeyboardShortcuts{
-    kbsReady: boolean,
-    kbsCurrentCombination: string,
-    kbsCount: number,
+  interface StateKeyboardShortcuts {
+    kbsReady: boolean;
+    kbsKeyCombination: string;
+    kbsCount: number;
   }
 
   interface StateTTS {

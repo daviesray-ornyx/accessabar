@@ -180,8 +180,8 @@ const stateTranslation: Ace.StateTranslation = {
 
 const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {
   kbsReady: true,
-  kbsCurrentCombination: '',
   kbsCount: 0,
+  kbsKeyCombination: '',
 };
 
 const stateTTS: Ace.StateTTS = {
