@@ -252,7 +252,7 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
       case 'r,-':
       case 'r,_':
         if (!newState.rulerReadingActive) {
-          return;
+          return newState;
         }
         return [newState, fxRulerSizeDecrease(newState)];
       case 'alt,shift,o':
