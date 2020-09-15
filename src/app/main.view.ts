@@ -5,12 +5,16 @@ import menuArea from './components/menu_area.component';
 import funcArea from './components/function_area.component';
 import settingsMenu from './components/settings.component';
 import aboutMenu from './components/about.component';
+import isMobile from 'is-mobile';
 
 const innerBar = state => {
+  const mobile = isMobile();
+
   return h('ab-inner-bar', {class: 'ab-bar ab-growable'}, [
-    h('ab-logo', {class: 'ab-logo', 'aria-label': 'Ace logo'}, [
-      h('ab-logo-img', {class: 'ab-logo-img', alt: 'Ace Logo'}),
-    ]),
+    !mobile &&
+      h('ab-logo', {class: 'ab-logo', 'aria-label': 'Ace logo'}, [
+        h('ab-logo-img', {class: 'ab-logo-img', alt: 'Ace Logo'}),
+      ]),
     h(
       'ab-button-area-container',
       {class: 'ab-button-area-container ab-bar-container ab-growable'},

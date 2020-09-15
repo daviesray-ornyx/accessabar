@@ -16,6 +16,7 @@ import {
   handleButtonNavigation,
 } from '../actions/ace.actions';
 import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
+import isMobile from 'is-mobile';
 
 const settingsHeader = ({settingsHidden}) => {
   return h('ab-settings-header', {class: 'ab-modal-header'}, [
@@ -512,6 +513,8 @@ const settingsThemesSection = (state: Ace.State) => {
 };
 
 const settingsMenu = (state: Ace.State) => {
+  const mobile = isMobile();
+
   return h(
     'ab-settings-menu',
     {
@@ -523,8 +526,8 @@ const settingsMenu = (state: Ace.State) => {
       settingsHeader(state),
       h('ab-settings-section-left', {class: 'ab-modal-section-left'}),
       h('ab-settings-section', {class: 'ab-modal-section'}, [
-        ...settingsTTSSection(state),
-        ...settingsSRSection(state),
+        ...(!mobile ? settingsTTSSection(state) : []),
+        ...(!mobile ? settingsSRSection(state) : []),
         ...settingsTooltipSection(state),
         ...settingsThemesSection(state),
       ]),
