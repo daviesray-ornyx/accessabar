@@ -1,5 +1,5 @@
 #accessabar .ab-menu {
-    min-width: 10rem;
+    max-width: 100vw;
     background: var(--near-white);
     border: 4px solid var(--border-grey);
     z-index: 2140000010;
@@ -8,14 +8,19 @@
     .ab-menu-header {
         align-items: center;
         justify-content: space-between;
-        padding: 0.5em;
+        padding: 0.15em;
         background: var(--bg-grey);
-        font-size: 1.25rem;
+        font-size: 1rem;
         color: var(--alt-font-colour);
         font-family: var(--header-font);
         font-weight: 700;
         border-bottom: 1px solid var(--border-grey);
         text-shadow: 0 0 1px var(--near-white);
+
+        @media (--for-tablet-landscape-up) {
+            padding: 0 0.5em;
+            font-size: 1.25rem;
+        }
 
         &:hover {
             cursor: move;
@@ -26,17 +31,29 @@
             user-select: none;
         }
 
+        .ab-menu-drag-handle {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            align-self: stretch;
+        }
+
         .ab-menu-buttons-container{
             align-items: center;
             justify-content: space-between;
             padding: 0.5em;
 
             .ab-menu-help {
-                margin: 0.15em;
+                margin: 0.1em;
                 background: var(--near-black);
                 color: var(--font-colour);
-                padding: 0.4em;
+                padding: 0.25em;
                 display: inline-flex;
+
+                @media (--for-tablet-landscape-up) {
+                    padding: 0.4em;
+                    margin: 0.15em;
+                }
 
                 &:hover, &:focus {
                     background: var(--lighter-grey);
@@ -48,11 +65,16 @@
             /* TODO: Make button object */
 
             .ab-menu-close {
-                margin: 0.15em;
+                margin: 0.1em;
                 background: var(--dark-red);
                 color: var(--font-colour);
-                padding: 0.4em;
+                padding: 0.25em;
                 display: inline-flex;
+
+                @media (--for-tablet-landscape-up) {
+                    padding: 0.4em;
+                    margin: 0.15em;
+                }
 
                 &:hover, &:focus {
                     background: var(--lighter-red);
@@ -68,10 +90,15 @@
 }
 
 #accessabar .ab-menu-content {
-    padding: 0.5em;
+    padding: 0.1em;
     display: flex;
     flex-direction: column;
-    font-size: 1.1em;
+    font-size: 1rem;
+
+    @media (--for-tablet-landscape-up) {
+        padding: 0.5em;
+        font-size: 1.1rem;
+    }
 }
 
 #accessabar .ab-menu-tabs {
@@ -79,12 +106,20 @@
     display: flex;
 
     .ab-menu-tab-button {
-        margin: 0 0.25em;
-        padding: 0.5em;
+        margin: 0 0.1em;
+        padding: 0.2em;
+        text-align: center;
+        display: flex;
+        align-items: center;
         opacity: 0.8;
         transition: opacity 0.25s;
-        letter-spacing: 0.5px;
         font-weight: 500;
+
+        @media (--for-tablet-landscape-up) {
+            margin: 0 0.25em;
+            padding: 0.5em;
+            letter-spacing: 0.5px;
+        }
 
         &.ab-active {
             opacity: 1;
