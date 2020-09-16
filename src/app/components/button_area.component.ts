@@ -21,7 +21,7 @@ const innerBarSettings = state => {
 
 // Contains all the buttons in Ace
 const buttonArea = (state: Ace.State) => {
-  const mobile = isMobile();
+  const mobile = isMobile({tablet: true});
   return h(
     'ab-button-area',
     {

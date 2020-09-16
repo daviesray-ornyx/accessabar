@@ -513,7 +513,7 @@ const settingsThemesSection = (state: Ace.State) => {
 };
 
 const settingsMenu = (state: Ace.State) => {
-  const mobile = isMobile();
+  const mobile = isMobile({tablet: true});
 
   return h(
     'ab-settings-menu',

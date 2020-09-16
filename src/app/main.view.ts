@@ -8,7 +8,7 @@ import aboutMenu from './components/about.component';
 import isMobile from 'is-mobile';
 
 const innerBar = state => {
-  const mobile = isMobile();
+  const mobile = isMobile({tablet: true});
 
   return h('ab-inner-bar', {class: 'ab-bar ab-growable'}, [
     !mobile &&
