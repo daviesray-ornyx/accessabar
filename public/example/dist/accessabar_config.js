@@ -1,3 +1,3 @@
 const accessabar = new Accessabar({
-    enableButton: '#enable',
+  enableButton: '#enable',
 });

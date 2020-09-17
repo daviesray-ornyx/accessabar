@@ -55,3 +55,11 @@ ACE by default adds a margin to the document `body` to push page content below t
 
 If `bindTo` is set to a selector that is not `body`, then `moveBody` default becomes `false`.
 
+### fillWidth
+| Default | Type
+| --- | ---
+| `false` | `boolean`
+
+If `true`, ACE will have a width of `100%` to fill the containing element.
+
+If `false`, ACE will have a width of `100vw` to be contained within the browser window.

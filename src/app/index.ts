@@ -71,6 +71,9 @@ class AceController {
   // Position of Accessabar on the page.
   public position: string;
 
+  // Should ACE fill the width of the containing element.
+  public fillWidth: boolean;
+
   /**
    * If enabled, the margin top of the document's body
    * will equal Ace's height. This will move the page's content
@@ -91,6 +94,7 @@ class AceController {
     enableButton = '',
     bindTo = 'body',
     position = 'top',
+    fillWidth = false,
     fixedNavigation,
     moveBody,
   }: Ace.AceConfig = {}) {
@@ -141,6 +145,10 @@ class AceController {
     }
 
     this.position = position;
+
+    // -- fillWidth --
+
+    this.fillWidth = Boolean(fillWidth);
 
     // -- fixedNavigation --
 
@@ -331,6 +339,7 @@ class AceController {
 
         containerEl.id = 'accessabar';
         containerEl.setAttribute('aria-label', 'Start of Ace toolbar.');
+        containerEl.style.width = this.fillWidth ? '100%' : '100vw';
         this.mainElement = containerEl;
         this.bindTo.insertAdjacentElement('afterbegin', containerEl);
         containerEl.appendChild(haBind);
