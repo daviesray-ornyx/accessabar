@@ -65,12 +65,6 @@ declare namespace Ace {
   interface StateFeedback {
     feedbackProvided: boolean;
     feedbackActive: boolean;
-    feedbackHeight: number;
-    feedbackHeightMin: number;
-    feedbackWidth: number;
-    feedbackWidthMin: number;
-    feedbackPosX: number;
-    feedbackPosY: number;
   }
 
   interface StateMask {
