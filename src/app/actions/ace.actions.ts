@@ -1,6 +1,7 @@
 import Pickr from '@simonwep/pickr';
 import tippy from 'tippy.js';
 import {fxAceSpeakTooltip} from '../fx/ace.fx';
+import {menuFixOutOfBounds} from './menu.actions';
 
 function aceMoveBody() {
   const {mainElement} = window.aceRuntimeProxy;
@@ -80,7 +81,17 @@ function aceResize(state: Ace.State) {
 
   aceChangeWidth();
   aceMoveBody();
-  return state;
+  return [
+    state,
+    [
+      (dispatch, props) => {
+        dispatch(props.action);
+      },
+      {
+        action: menuFixOutOfBounds,
+      },
+    ],
+  ];
 }
 
 function acePruneFuncs(

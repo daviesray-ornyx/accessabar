@@ -98,6 +98,51 @@ function menuMove(state: Ace.State) {
   };
 }
 
+function menuFixOutOfBounds(state: Ace.State) {
+  const {menus} = state;
+  const cMenus = menus;
+
+  if (!window.aceRuntimeProxy.mainElement) {
+    return state;
+  }
+
+  for (const index of Object.keys(cMenus)) {
+    const menu = window.aceRuntimeProxy.mainElement.querySelector(
+      `#ab-menu-${index}`
+    );
+
+    if (!menu) {
+      return state;
+    }
+
+    const rect = menu.getBoundingClientRect();
+    const windowWidth = window.innerWidth - rect.width;
+    const windowHeight = window.innerHeight - rect.height;
+
+    if (cMenus[index].menuPosX < 0) {
+      cMenus[index].menuPosX = 0;
+      cMenus[index].menuOffsetX = 0;
+    }
+
+    if (cMenus[index].menuPosX > windowWidth) {
+      cMenus[index].menuPosX = windowWidth;
+      cMenus[index].menuOffsetX = windowWidth;
+    }
+
+    if (cMenus[index].menuPosY < 0) {
+      cMenus[index].menuPosY = 0;
+      cMenus[index].menuOffsetY = 0;
+    }
+
+    if (cMenus[index].menuPosY > windowHeight) {
+      cMenus[index].menuPosY = windowHeight;
+      cMenus[index].menuOffsetY = windowHeight;
+    }
+  }
+
+  return {...state, menus: cMenus};
+}
+
 function menuStartDrag(
   state: Ace.State,
   opts: {ev: Ace.DragEvent; menuName: string}
@@ -199,4 +244,5 @@ export {
   menuTextOpsSwitchInner,
   menuEndDrag,
   menuSpawn,
+  menuFixOutOfBounds,
 };

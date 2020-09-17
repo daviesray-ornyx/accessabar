@@ -1,7 +1,7 @@
 import {aceResize} from '../actions/ace.actions';
 
-function subResize() {
-  return subResizeAce();
+function fxResize() {
+  return fxResizeAce();
 }
 
 const resizeHandle: unknown[] = [];
@@ -11,19 +11,14 @@ const resizePassthrough = (dispatch, props) => {
   return resizeHandle[0];
 };
 
-function subResizeAce() {
+function fxResizeAce() {
   return [
     (dispatch, props) => {
       window.addEventListener('resize', resizePassthrough(dispatch, props), {
         passive: true,
       });
 
-      return () => {
-        window.removeEventListener(
-          'resize',
-          resizePassthrough(dispatch, props)
-        );
-      };
+      return () => {};
     },
     {
       action: aceResize,
@@ -31,4 +26,4 @@ function subResizeAce() {
   ];
 }
 
-export default subResize;
+export default fxResize;

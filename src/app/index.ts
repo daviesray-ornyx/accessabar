@@ -8,10 +8,8 @@ import {
   acePushFixedNav,
   aceResetFixedNav,
 } from './actions/ace.actions';
-import subResize from './subscriptions/resize.subscription';
+import fxResize from './fx/resize.fx';
 import {fxHydrate} from './fx/hydrate.fx';
-import {fxTTSInit} from './fx/tts.fx';
-import state from './state/ace.state';
 import {
   subKeyDownHelper,
   subKeyUpHelper,
@@ -313,11 +311,11 @@ class AceController {
 
     const appConfig = {
       view,
-      init: [state, fxHydrate(state)],
+      init: [state, fxHydrate(state), fxResize()],
       node: containerEl,
       subscriptions: (st: Ace.State) => {
         this.saveState(st);
-        return [subResize(), subKeyDownHelper(), subKeyUpHelper()];
+        return [subKeyDownHelper(), subKeyUpHelper()];
       },
     };
 
