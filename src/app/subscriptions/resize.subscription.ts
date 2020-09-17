@@ -1,7 +1,7 @@
 import {aceResize} from '../actions/ace.actions';
 
 function subResize() {
-  return [subResizeAce()];
+  return subResizeAce();
 }
 
 const resizeHandle: unknown[] = [];
