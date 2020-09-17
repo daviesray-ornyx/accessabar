@@ -11,6 +11,18 @@ function aceMoveBody() {
   }
 }
 
+function aceChangeWidth() {
+  const {mainElement, fillWidth} = window.aceRuntimeProxy;
+
+  if (fillWidth) {
+    return;
+  }
+
+  if (mainElement) {
+    mainElement.style.width = `${window.innerWidth}px`;
+  }
+}
+
 function acePushFixedNav() {
   const {fixedNavigationSelector, mainElement} = window.aceRuntimeProxy;
 
@@ -66,6 +78,7 @@ function aceResize(state: Ace.State) {
     return state;
   }
 
+  aceChangeWidth();
   aceMoveBody();
   return state;
 }

@@ -63,7 +63,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '12';
+  private aceStateVersion = '14';
 
   // Support pushing fixed navigation below ACE for compatibility.
   public fixedNavigationSelector = '';
@@ -257,7 +257,6 @@ class AceController {
       state: {
         ...state,
         aceTooltips: [],
-        aceTooltipSpeakKeys: [],
       },
       version: this.aceStateVersion,
     };
@@ -280,6 +279,20 @@ class AceController {
 
     if (parsedState.version !== this.aceStateVersion) {
       return initState;
+    }
+
+    const stateKeys = Object.keys(parsedState.state);
+    const initStateKeys = Object.keys(initState);
+
+    // check state schema is intact and shallow check.
+    if (stateKeys.length !== initStateKeys.length) {
+      return initState;
+    }
+
+    for (let i = 0; i < initStateKeys.length; i++) {
+      if (stateKeys[i] !== initStateKeys[i]) {
+        return initState;
+      }
     }
 
     return parsedState.state;
@@ -339,7 +352,9 @@ class AceController {
 
         containerEl.id = 'accessabar';
         containerEl.setAttribute('aria-label', 'Start of Ace toolbar.');
-        containerEl.style.width = this.fillWidth ? '100%' : '100vw';
+        containerEl.style.width = this.fillWidth
+          ? '100%'
+          : `${window.innerWidth}px`;
         this.mainElement = containerEl;
         this.bindTo.insertAdjacentElement('afterbegin', containerEl);
         containerEl.appendChild(haBind);

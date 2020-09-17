@@ -62,4 +62,4 @@ If `bindTo` is set to a selector that is not `body`, then `moveBody` default bec
 
 If `true`, ACE will have a width of `100%` to fill the containing element.
 
-If `false`, ACE will have a width of `100vw` to be contained within the browser window.
+If `false`, ACE's width will be set to `window.innerWidth`.
