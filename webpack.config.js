@@ -230,13 +230,7 @@ const mainSettings = (entries, dev, devServer, dash, verbose) => {
             : []),
           ...(dash ? [new DashboardPlugin()] : []),
         ]
-      : [
-          ...sharedPlugins,
-          new OfflinePlugin({
-            autoUpdate: true,
-            relativePaths: true,
-          }),
-        ],
+      : [...sharedPlugins],
     devtool: dev ? 'inline-source-map' : false,
     devServer: {
       contentBase: './public/',
