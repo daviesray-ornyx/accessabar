@@ -288,7 +288,7 @@ class AceController {
     }
 
     for (let i = 0; i < initStateKeys.length; i++) {
-      if (stateKeys[i] !== initStateKeys[i]) {
+      if (stateKeys.indexOf(initStateKeys[i]) === -1) {
         return initState;
       }
     }
