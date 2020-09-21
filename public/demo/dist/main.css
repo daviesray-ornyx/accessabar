@@ -452,7 +452,7 @@ Content
 
 */
 .has-bg main {
-  background: url("../img/footprint.svg") no-repeat fixed 95% 1em/30% auto; }
+  background: url("footprint.svg") no-repeat fixed 95% 1em/30% auto; }
 
 @supports (display: grid) {
   main {
@@ -695,7 +695,7 @@ img {
 .nav--toggle {
   -webkit-appearance: none;
   appearance: none;
-  background: url("../img/close.svg") no-repeat 50% 50%/20px auto;
+  background: url("close.svg") no-repeat 50% 50%/20px auto;
   border: none;
   height: 30px;
   position: absolute;
@@ -706,7 +706,7 @@ img {
   z-index: 10; }
 
 .is-collapsed .nav--toggle {
-  background-image: url("../img/menu.svg"); }
+  background-image: url("menu.svg"); }
 
 @supports (display: grid) {
   @media (min-width: 40em) {
