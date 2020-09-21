@@ -1,3 +1,3 @@
 const ace = new Accessabar({
-  enableButton: '#enable-ace',
+  buttonFloatPosition: 'top-right',
 });
