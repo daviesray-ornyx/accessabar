@@ -24,20 +24,20 @@
         lang: 'nl-NL',
     },
     {
-        name: 'English (Australia)',
-        lang: 'en-AU',
-    },
-    {
-        name: 'English (India)',
-        lang: 'en-IN',
-    },
-    {
         name: 'English (UK)',
         lang: 'en-GB',
     },
     {
         name: 'English (US)',
         lang: 'en-US',
+    },
+    {
+        name: 'English (Australia)',
+        lang: 'en-AU',
+    },
+    {
+        name: 'English (India)',
+        lang: 'en-IN',
     },
     {
         name: 'Filipino (Philippines)',
@@ -48,12 +48,12 @@
         lang: 'fi-FI',
     },
     {
-        name: 'French (Canada)',
-        lang: 'fr-CA',
-    },
-    {
         name: 'French (France)',
         lang: 'fr-FR',
+    },
+    {
+        name: 'French (Canada)',
+        lang: 'fr-CA',
     },
     {
         name: 'German (Germany)',
@@ -116,12 +116,12 @@
         lang: 'pl-PL',
     },
     {
-        name: 'Portuguese (Brazil)',
-        lang: 'pt-BR',
-    },
-    {
         name: 'Portuguese (Portugal)',
         lang: 'pt-PT',
+    },
+    {
+        name: 'Portuguese (Brazil)',
+        lang: 'pt-BR',
     },
     {
         name: 'Russian (Russia)',

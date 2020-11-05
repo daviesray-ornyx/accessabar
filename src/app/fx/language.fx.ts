@@ -1,4 +1,5 @@
 import {languageChangeAll, ptCachePage} from '../actions/language.actions';
+import {ttsChangeVoice} from '../actions/tts.actions';
 
 function fxLanguageChangeAll(key: string) {
   return [
@@ -24,4 +25,16 @@ function fxPtCachePage(state: Ace.State) {
   ];
 }
 
-export {fxLanguageChangeAll, fxPtCachePage};
+function fxPtSwitchTTS(key: number) {
+  return [
+    (dispatch, props) => {
+      console.log(key);
+      dispatch(props.action, key);
+    },
+    {
+      action: ttsChangeVoice,
+    },
+  ];
+}
+
+export {fxLanguageChangeAll, fxPtCachePage, fxPtSwitchTTS};

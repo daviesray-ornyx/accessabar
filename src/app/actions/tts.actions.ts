@@ -1,12 +1,9 @@
-import BigNumber from 'bignumber.js';
-import {apiGetTTS, apiSendEvent} from './api.actions';
+import {apiSendEvent} from './api.actions';
 import {
   fxTTSDelaySpeech,
   fxTTSHighlight,
   fxTTSHover,
-  fxTTSInit,
   fxTTSPlayAudio,
-  fxTTSPrompt,
 } from '../fx/tts.fx';
 
 function ttsHandleHover(state: Ace.State, event: MouseEvent) {
