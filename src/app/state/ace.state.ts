@@ -182,6 +182,10 @@ const stateTTS: Ace.StateTTS = {
   ttsGender: 'Neutral',
 };
 
+const stateSimplify: Ace.StateSimplify = {
+  simplifyHidden: true,
+};
+
 const state = {
   ...stateToolbar,
   ...stateFont,
@@ -197,6 +201,7 @@ const state = {
   ...stateTranslation,
   ...stateKeyboardShortcut,
   ...stateTTS,
+  ...stateSimplify,
 };
 
 export default state;
