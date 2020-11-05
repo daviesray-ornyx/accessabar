@@ -21,6 +21,7 @@ import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
 import {ptEnable} from '../actions/language.actions';
+import {simplifyOpen} from '../actions/simplify.actions';
 
 const ttsButton = ({menus}: Ace.State) => {
   return h(
@@ -370,6 +371,39 @@ const ptButton = ({menus}: Ace.State) => {
   );
 };
 
+const simplifyButton = ({simplifyHidden}: Ace.State) => {
+  return h(
+    'ab-bar-simplify-button',
+    {
+      'aria-controls': 'ab-simplify',
+      'aria-expanded': String(!simplifyHidden),
+      'aria-haspopup': 'true',
+      'aria-label': 'Simplify page',
+      'aria-pressed': String(!simplifyHidden),
+      class: 'ab-bar-button',
+      id: 'ab-simplify-button',
+      onclick: simplifyOpen,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-simplify-button', content: 'Simplify Page'},
+      ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-settings-button', content: 'Simplify Page'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-simplify',
+      }),
+    ]
+  );
+};
+
 const resetButton = () => {
   return h(
     'ab-bar-reset-button',
@@ -533,6 +567,7 @@ export {
   rulerButton,
   srButton,
   ptButton,
+  simplifyButton,
   resetButton,
   settingsButton,
   aboutButton,

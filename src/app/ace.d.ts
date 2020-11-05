@@ -182,6 +182,10 @@ declare namespace Ace {
     ttsAudio: HTMLAudioElement;
   }
 
+  interface StateSimplify {
+    simplifyHidden: boolean;
+  }
+
   interface State
     extends StateToolbar,
       StateFont,
@@ -196,7 +200,8 @@ declare namespace Ace {
       StateSR,
       StateTranslation,
       StateKeyboardShortcuts,
-      StateTTS {}
+      StateTTS,
+      StateSimplify {}
 
   interface FuncConfig {
     attrNames: {

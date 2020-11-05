@@ -6,6 +6,7 @@ import funcArea from './components/function_area.component';
 import settingsMenu from './components/settings.component';
 import aboutMenu from './components/about.component';
 import isMobile from 'is-mobile';
+import simplifyEl from './components/simplify.component';
 
 const innerBar = state => {
   const mobile = isMobile({
@@ -45,6 +46,7 @@ const mainView = state => {
     menuArea(state),
     settingsMenu(state),
     aboutMenu(state),
+    simplifyEl(state),
   ]);
 };
 
