@@ -156,6 +156,10 @@ const stateTranslation: Ace.StateTranslation = {
   languageCurrentKey: '',
   selectLanguageListActive: false,
   ptPageUrlCached: '',
+  ptTTSVoiceBackup: {
+    name: 'English (British)',
+    lang: 'en-GB',
+  },
 };
 
 const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {

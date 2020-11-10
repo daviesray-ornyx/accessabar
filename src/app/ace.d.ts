@@ -159,6 +159,7 @@ declare namespace Ace {
     languageCurrentKey: string;
     selectLanguageListActive: boolean;
     ptPageUrlCached: string;
+    ptTTSVoiceBackup: TTSVoice;
   }
 
   interface StateKeyboardShortcuts {
