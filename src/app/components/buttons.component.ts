@@ -1,5 +1,5 @@
 import {h} from 'hyperapp';
-import {ttsHoverEnable} from '../actions/tts.actions';
+import {ttsHightlightEnable} from '../actions/tts.actions';
 import {
   handleButtonNavigation,
   aceAddTippy,
@@ -37,7 +37,11 @@ const ttsButton = ({menus}: Ace.State) => {
       id: 'ab-tts',
       onclick: [
         menuOpen,
-        {menuName: 'tts', title: 'Text to Speech', defaultFunc: ttsHoverEnable},
+        {
+          menuName: 'tts',
+          title: 'Text to Speech',
+          defaultFunc: ttsHightlightEnable,
+        },
       ],
       onmouseover: [aceAddTippy, {id: '#ab-tts', content: 'Text to Speech'}],
       onmouseenter: [
