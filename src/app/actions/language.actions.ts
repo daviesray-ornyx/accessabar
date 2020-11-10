@@ -45,7 +45,6 @@ function languageChangeAll(state: Ace.State, key?: string) {
   let ttsVoiceSwitch = false;
   let ttsVoiceKey = 0;
   for (const [key, obj] of ttsVoices.entries()) {
-    console.log(key, obj);
     if (
       obj.name
         .toLowerCase()
@@ -106,6 +105,11 @@ function ptToggle(state: Ace.State) {
   const newState = {
     ...state,
     ptActive: !state.ptActive,
+    ...(!state.ptActive && {ptTTSVoiceBackup: state.ttsVoice}),
+    ...(state.ptActive && {
+      ttsVoice: state.ptTTSVoiceBackup,
+      ttsCurrentVoiceName: state.ptTTSVoiceBackup.name,
+    }),
     languageCurrentKey: '',
     selectLanguageListActive: state.ptActive
       ? false
