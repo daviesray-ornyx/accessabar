@@ -44,7 +44,8 @@ const buttonArea = (state: Ace.State) => {
           !mobile && Buttons.rulerButton(state),
           !mobile && Buttons.srButton(state),
           Buttons.ptButton(state),
-          Buttons.simplifyButton(state),
+          // disable until further notice
+          // Buttons.simplifyButton(state),
         ]),
       ]),
       h('ab-button-section', {class: 'ab-flex ab-flex-wrap'}, [

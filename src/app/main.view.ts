@@ -46,7 +46,8 @@ const mainView = state => {
     menuArea(state),
     settingsMenu(state),
     aboutMenu(state),
-    simplifyEl(state),
+    // disable until further notice
+    // simplifyEl(state),
   ]);
 };
 
