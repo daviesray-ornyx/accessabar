@@ -276,7 +276,7 @@ const rulerButton = ({menus}: Ace.State) => {
       onmouseover: [aceAddTippy, {id: '#ab-rulers', content: 'Reading Rulers'}],
       onmouseenter: [
         aceSpeakTooltip,
-        {id: '#ab-rulers', content: 'Reading Rulers'},
+        {id: '#ab-rulers', content: 'reading Rulers'},
       ],
       onkeydown: handleButtonNavigation,
       role: 'button',
