@@ -1,6 +1,6 @@
 {
   "name": "@handsfree/accessabar",
-  "version": "0.11.18",
+  "version": "0.11.19",
   "description": "Accessabar is a toolbar that provides a range of features to make any website accessible.",
   "author": "Elliott Judd <elliott.judd@hands-free.co.uk>",
   "license": "AGPL-3.0-or-later",
@@ -82,7 +82,6 @@
     "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
-    "@mozilla/readability": "^0.3.0",
     "@simonwep/pickr": "1.7.2",
     "@typescript-eslint/parser": "3.10.1",
     "@webcomponents/custom-elements": "1.4.2",
