@@ -185,6 +185,7 @@ declare namespace Ace {
 
   interface StateSimplify {
     simplifyHidden: boolean;
+    simplifyText: string;
   }
 
   interface State
@@ -269,6 +270,10 @@ declare namespace Ace {
   interface TTSVoice {
     name: string;
     lang: string;
+  }
+
+  interface SimplifyData {
+    html: string;
   }
 
   interface DragEvent extends MouseEvent, TouchEvent {}

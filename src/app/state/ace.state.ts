@@ -188,6 +188,7 @@ const stateTTS: Ace.StateTTS = {
 
 const stateSimplify: Ace.StateSimplify = {
   simplifyHidden: true,
+  simplifyText: '',
 };
 
 const state = {

@@ -1,7 +1,5 @@
 import {h} from 'hyperapp';
 import {simplifyClose} from '../actions/simplify.actions';
-import {Readability} from '@mozilla/readability';
-import DOMPurify from 'dompurify';
 
 const simplifyHeader = ({simplifyHidden}) => {
   return h('ab-simplify-header', {class: 'ab-modal-header'}, [
@@ -28,8 +26,6 @@ const simplifyHeader = ({simplifyHidden}) => {
 };
 
 const simplifyEl = (state: Ace.State) => {
-  const documentClone = document.cloneNode(true);
-  const article = new Readability(documentClone).parse();
   return h(
     'ab-simplify',
     {
@@ -41,10 +37,11 @@ const simplifyEl = (state: Ace.State) => {
       simplifyHeader(state),
       h('ab-simplify-section-left', {class: 'ab-modal-section-left'}),
       h('ab-simplify-section', {class: 'ab-modal-section'}, [
-        h('iframe', {
-          class: 'ab-simplify-content',
-          srcdoc: DOMPurify.sanitize(article.content),
-        }),
+        h(
+          'ab-simplify-content',
+          {class: 'ab-simplify-content'},
+          state.simplifyText.trim()
+        ),
       ]),
       h('ab-simplify-section-right', {class: 'ab-modal-section-right'}),
     ]
