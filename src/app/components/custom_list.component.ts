@@ -21,7 +21,18 @@ const customList = ({
       {
         class: `ab-custom-list-box ab-flex ${active ? 'ab-active' : ''}`,
         id: customListID,
+        tabindex: 0,
         onclick: openList,
+        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+          const {type, code} = event;
+          if (code !== 'Enter') {
+            return state;
+          }
+          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
+            return state;
+          }
+          return openList(state);
+        },
       },
       currentItem
     ),
@@ -48,7 +59,18 @@ const customListItemFactory = (listItems: Ace.ListItem[]): VNode[] => {
       {
         class: 'ab-custom-list-selection-item',
         onclick: [obj.action, obj.key],
+        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+          const {type, code} = event;
+          if (code !== 'Enter') {
+            return state;
+          }
+          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
+            return state;
+          }
+          return [obj.action, obj.key];
+        },
         role: 'option',
+        tabindex: 0,
       },
       obj.name
     );

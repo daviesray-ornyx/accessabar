@@ -188,6 +188,13 @@ declare namespace Ace {
     ttsAudio: HTMLAudioElement;
   }
 
+  interface StateTabbing {
+    tabContainerCurrent: string;
+    tabContainerActive: boolean;
+    tabContainerActivator: string;
+    tabParentContainer: string;
+  }
+
   interface State
     extends StateToolbar,
       StateFont,
@@ -202,6 +209,7 @@ declare namespace Ace {
       StateSR,
       StateTranslation,
       StateKeyboardShortcuts,
+      StateTabbing,
       StateTTS {}
 
   interface FuncConfig {

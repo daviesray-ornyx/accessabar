@@ -35,17 +35,21 @@ function tellMeMore(state: Ace.State) {
   ];
 }
 
-function closeFeedback(state: Ace.State) {
-  apiSendEvent('Feedback Ignored');
-  apiSendEvent('AceClosed');
+function closeFeedback(state: Ace.State, event: KeyboardEvent) {
+  const {code} = event;
+  if (code === 'Enter' || event.type === 'click') {
+    apiSendEvent('Feedback Ignored');
+    apiSendEvent('AceClosed');
 
-  return [
-    {
-      ...state,
-      feedbackActive: false,
-    },
-    fxCloseAce(),
-  ];
+    return [
+      {
+        ...state,
+        feedbackActive: false,
+      },
+      fxCloseAce(),
+    ];
+  }
+  return state;
 }
 
 export {thumbsUpFeedback, thumbsDownFeedback, tellMeMore, closeFeedback};

@@ -1,4 +1,4 @@
-import {menuMove, menuSpawn} from '../actions/menu.actions';
+import {menuMove, menuSpawn, menuSetFocus} from '../actions/menu.actions';
 import {fxDragStartMouseEvents, fxDragStopMouseEvents} from './drag.fx';
 
 function fxMenuDragEvents(state: Ace.State) {
@@ -79,10 +79,27 @@ function fxMenuDefaultFunction(
   );
 }
 
+function fxMenuFocus(state: Ace.State, menuName: string) {
+  return (
+    Object.keys(state.menus).indexOf(menuName) !== -1 && [
+      (dispatch, props) => {
+        dispatch(props.action, props.opts);
+      },
+      {
+        action: menuSetFocus,
+        opts: {
+          menuName,
+        },
+      },
+    ]
+  );
+}
+
 export {
   fxMenuMoveStart,
   fxMenuDragEvents,
   fxMenuMoveStop,
   fxMenuOpen,
   fxMenuDefaultFunction,
+  fxMenuFocus,
 };

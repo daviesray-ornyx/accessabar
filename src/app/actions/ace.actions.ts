@@ -1,6 +1,10 @@
 import Pickr from '@simonwep/pickr';
 import tippy from 'tippy.js';
 import {fxAceSpeakTooltip} from '../fx/ace.fx';
+import tabConfig from '../../config/tab.config.json5';
+import {functionNameConfig, fxMenuClose} from '../fx/shortcuts.fx';
+import {fxMenuFocus} from '../fx/menu.fx';
+import {fxMenuOpen} from '../fx/shortcuts.fx';
 
 function aceMoveBody() {
   const {mainElement} = window.aceRuntimeProxy;
@@ -369,17 +373,271 @@ function aceSpeakTooltipsToggle(state: Ace.State) {
   };
 }
 
-function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
-  const {code, target} = event;
+function findNextEl(state: Ace.State, target: HTMLElement) {
+  if (state.tabContainerCurrent === undefined) {
+    return undefined;
+  }
 
+  const tabbingContainer = document.getElementById(state.tabContainerCurrent);
+  if (!state.tabContainerActive) {
+    // Not yet into the correct tabbing container
+    const firstFocusableElement = tabbingContainer?.querySelector(
+      "[tabindex='0']"
+    ); // get the first element in the container
+    return firstFocusableElement;
+  }
+  const tabIndexElements = tabbingContainer?.querySelectorAll("[tabindex='0']");
+
+  if (tabIndexElements === undefined) {
+    return undefined;
+  }
+  let found = false;
+  for (const elementIndex in tabIndexElements) {
+    if (tabIndexElements[elementIndex].classList === undefined) {
+      continue;
+    }
+    if (
+      found &&
+      !tabIndexElements[elementIndex].classList.contains('ab-hide')
+    ) {
+      return tabIndexElements[elementIndex];
+    }
+    if (tabIndexElements[elementIndex] === target) {
+      found = true;
+    }
+  }
+  return undefined; // No tab element within container. Check if tabContainer and see how to handle.
+}
+
+function findPrevEl(state: Ace.State, target: HTMLElement) {
+  if (state.tabContainerCurrent === undefined) {
+    return undefined;
+  }
+
+  const tabbingContainer = document.getElementById(state.tabContainerCurrent);
+  if (!state.tabContainerActive) {
+    return undefined;
+  }
+  const tabIndexElements = tabbingContainer?.querySelectorAll("[tabindex='0']");
+
+  if (tabIndexElements === undefined) {
+    return undefined;
+  }
+  let found = false;
+  for (let i = tabIndexElements?.length - 1; i >= 0; i--) {
+    if (tabIndexElements[i] === target) {
+      found = true;
+      continue; // move on to the next iteration
+    }
+    if (found && !tabIndexElements[i].classList.contains('ab-hide')) {
+      return tabIndexElements[i]; // Item returned cannot be hidden
+    }
+  }
+  return undefined; // No next container exists, hence we stop searching for nextEl.
+}
+
+function handleSelectNavigation(state: Ace.State, event: KeyboardEvent) {
+  // this will enable us handle keycode as well
+  event.preventDefault();
+  const selectElement = event.target as HTMLElement;
+
+  const {code, target} = event;
   if (!code || !target) {
     return state;
   }
 
-  if (code === 'Enter' || code === 'Space') {
-    (target as HTMLElement).click();
+  let tabElement = '';
+  const tabElementsIds: string[] = [];
+  for (const key in tabConfig) {
+    if (tabConfig[key]['id'] === selectElement.id) {
+      tabElement = tabConfig[key];
+    }
+    tabElementsIds.push(tabConfig[key]['id']);
   }
 
+  const funcName = tabElement['function'];
+  if (code === 'Enter') {
+    return [state, functionNameConfig[funcName](state)];
+  }
+  return state; // this is if no action is done
+}
+
+function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
+  // eslint-disable-next-line prefer-const
+  event.preventDefault();
+  const {code, target} = event;
+  if (!code || !target) {
+    return state;
+  }
+
+  let tabElement = '';
+  const tabElementsIds: string[] = [];
+  for (const key in tabConfig) {
+    if (tabConfig[key]['id'] === (target as HTMLElement).id) {
+      tabElement = tabConfig[key];
+    }
+    tabElementsIds.push(tabConfig[key]['id']);
+  }
+
+  if (code === 'Enter' || code === 'Space') {
+    const funcName = tabElement['function'];
+    if (tabElement['type'] === 'action button') {
+      return [state, functionNameConfig[funcName](state)];
+    } else if (tabElement['type'] === 'menu button') {
+      for (const menuName in state.menus) {
+        if (
+          state.menus[menuName].menuActive &&
+          menuName === tabElement['menuName']
+        ) {
+          return state;
+        }
+      }
+
+      const newState = {
+        ...state,
+        tabContainerActive: false,
+        tabContainerCurrent: tabElement['containerId'],
+        tabContainerActivator: (target as HTMLElement).id,
+      };
+
+      event.preventDefault();
+      if (tabElement['menuName'] !== undefined) {
+        return [
+          newState,
+          fxMenuOpen(
+            newState,
+            tabElement['menuName'],
+            tabElement['title'],
+            tabElement['defaultFunc']
+          ),
+          fxMenuFocus(newState, tabElement['menuName']),
+        ];
+      }
+      return [
+        newState,
+        fxMenuOpen(
+          newState,
+          tabElement['menuName'],
+          tabElement['title'],
+          tabElement['defaultFunc']
+        ),
+      ];
+    } else if (tabElement['type'] === 'menu header button') {
+      for (const name in state.menus) {
+        if (state.menus[name].menuActive) {
+          return [state, functionNameConfig[funcName](state, name)];
+        }
+      }
+    } else if (tabElement['type'] === 'tab button') {
+      const newState = {
+        ...state,
+        tabContainerActive: false,
+        tabContainerCurrent: tabElement['containerId'],
+        tabContainerActivator: (target as HTMLElement).id,
+        tabParentContainer: state.tabContainerCurrent,
+      };
+
+      event.preventDefault();
+      return [
+        newState,
+        functionNameConfig[funcName](newState, tabElement['option']),
+      ];
+    } else if (tabElement['type'] === 'listbox') {
+      return [state, functionNameConfig[funcName](state)];
+    } else if (tabElement['type'] === 'color selector') {
+      return [state, functionNameConfig[funcName](state, tabElement['option'])];
+    } else if (
+      tabElement['type'] === 'settings menu button' ||
+      tabElement['type'] === 'about menu button' ||
+      tabElement['type'] === 'close menu button'
+    ) {
+      const newState = {
+        ...state,
+        tabContainerActive: false,
+        tabContainerCurrent: tabElement['containerId'],
+        tabContainerActivator: (target as HTMLElement).id,
+      };
+
+      event.preventDefault();
+      return [newState, functionNameConfig[funcName](newState)];
+    } else {
+      return state;
+    }
+  } else if (code === 'Esc') {
+    if (state.menus !== undefined && Object.keys(state.menus).length > 0) {
+      const menuName = Object.keys(state.menus)[0];
+      const newState = {
+        ...state,
+        tabContainerCurrent: 'ab-button-area',
+        tabContainerActivator: '',
+      };
+      document.getElementById(state.tabContainerActivator)?.focus();
+      return [newState, fxMenuClose(newState, menuName)];
+    }
+    return {
+      ...state,
+      settingsHidden: true,
+      aboutHidden: true,
+      feedbackActive: false,
+    };
+  } else if (code === 'Tab') {
+    let newState = state;
+    if (!state.tabContainerActive) {
+      newState = {
+        ...newState,
+        tabContainerActive: true,
+      };
+    }
+
+    const focusElement = event.shiftKey
+      ? findPrevEl(state, target as HTMLElement)
+      : findNextEl(state, target as HTMLElement);
+
+    if (focusElement === undefined) {
+      let tabContainerActivatorElement;
+      for (const key in tabConfig) {
+        if (tabConfig[key]['id'] === state.tabContainerActivator) {
+          tabContainerActivatorElement = tabConfig[key];
+        }
+      }
+      if (tabContainerActivatorElement === undefined) {
+        return newState;
+      }
+      document.getElementById(state.tabContainerActivator)?.focus();
+      if (tabContainerActivatorElement['type'] === 'tab button') {
+        newState = {
+          ...state,
+          tabContainerActive: true,
+          tabContainerCurrent: state.tabParentContainer,
+          tabContainerActivator: '',
+        };
+      } else if (tabElement['type'] === 'menu button') {
+        newState = {
+          ...newState,
+          tabContainerActive: false,
+          tabContainerCurrent: 'ab-button-area',
+          tabContainerActivator: '',
+        };
+      }
+      return newState;
+    } else {
+      event.preventDefault();
+      (focusElement as HTMLElement).focus();
+      return newState;
+    }
+  }
+  return state;
+}
+
+function handleStatelessdClick(state: Ace.State, event: KeyboardEvent) {
+  event.preventDefault();
+  const {code, target} = event;
+  if (!code || !target) {
+    return state;
+  }
+  if (code === 'Enter') {
+    (target as HTMLElement).click();
+  }
   return state;
 }
 
@@ -396,6 +654,8 @@ export {
   aceSpeakTooltipsToggle,
   aceSpeakTooltip,
   handleButtonNavigation,
+  handleSelectNavigation,
+  handleStatelessdClick,
   acePushFixedNav,
   aceResetFixedNav,
 };

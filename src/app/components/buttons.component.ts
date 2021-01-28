@@ -21,6 +21,7 @@ import {maskEnable} from '../actions/mask.actions';
 import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
 import {ptEnable} from '../actions/language.actions';
+import {fxMenuFocus} from '../fx/menu.fx';
 
 const ttsButton = ({menus}: Ace.State) => {
   return h(
@@ -103,7 +104,7 @@ const decButton = () => {
       ],
       onkeydown: handleButtonNavigation,
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {
@@ -275,7 +276,7 @@ const rulerButton = ({menus}: Ace.State) => {
       ],
       onkeydown: handleButtonNavigation,
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {
@@ -357,7 +358,30 @@ const ptButton = ({menus}: Ace.State) => {
         aceSpeakTooltip,
         {id: '#ab-page-translate', content: 'Page Translation'},
       ],
-      onkeydown: handleButtonNavigation,
+      onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+        const {type, code} = event;
+        if (code !== 'Enter') {
+          return state;
+        }
+        if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
+          return state;
+        }
+        const newState = {
+          ...state,
+          tabContainerActive: false,
+          tabContainerCurrent: 'ab-menu-pageTranslate',
+          tabContainerActivator: 'ab-page-translate',
+        };
+        document.getElementById('ab-menu-pageTranslate')?.focus();
+        return [
+          menuOpen(newState, {
+            menuName: 'pageTranslate',
+            title: 'Page Translation',
+            defaultFunc: ptEnable,
+          }),
+          fxMenuFocus(newState, 'pageTranslate'),
+        ];
+      },
       role: 'button',
       tabindex: 0,
     },
@@ -382,7 +406,7 @@ const resetButton = () => {
       onmouseenter: [aceSpeakTooltip, {id: '#ab-reset', content: 'Reset All'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {
@@ -415,7 +439,7 @@ const settingsButton = ({settingsHidden}: Ace.State) => {
       ],
       onkeydown: handleButtonNavigation,
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {
@@ -445,7 +469,7 @@ const aboutButton = ({aboutHidden}: Ace.State) => {
       ],
       onkeydown: handleButtonNavigation,
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {
@@ -468,7 +492,7 @@ const closeButton = () => {
       onmouseenter: [aceSpeakTooltip, {id: '#ab-close', content: 'Close ACE'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {
@@ -508,7 +532,7 @@ const hideButton = (state: Ace.State) => {
         ev => ev.target,
       ],
       role: 'button',
-      tabIndex: 0,
+      tabIndex: -0,
     },
     [
       h('ab-icon', {

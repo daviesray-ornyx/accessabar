@@ -12,7 +12,8 @@ const innerBarSettings = state => {
         state.aceSpeakTooltips,
         aceSpeakTooltipsToggle,
         'Speak Tooltips',
-        'Read tooltips aloud on hover'
+        'Read tooltips aloud on hover',
+        'ab-switch-menu-speak-tooltip'
       )
     ),
   ];
@@ -25,6 +26,7 @@ const buttonArea = (state: Ace.State) => {
     {
       'aria-role': 'toolbar',
       class: 'ab-button-area ab-growable ab-flex-wrap',
+      id: 'ab-button-area',
     },
     [
       h('ab-button-section', {class: 'ab-flex'}, [

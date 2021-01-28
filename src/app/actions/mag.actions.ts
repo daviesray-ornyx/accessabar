@@ -36,8 +36,6 @@ function magScaleIncrease(state: Ace.State) {
 
   const pScaleAdd = pScale.plus(magScaleStep).toFixed(1);
 
-  // console.log(pScaleAdd);
-
   return {
     ...state,
     magScale: pScaleAdd,
@@ -394,12 +392,6 @@ function magUpdateSize(state) {
     document.defaultView.getComputedStyle(mag).height,
     10
   );
-
-  //  var startWidth = parseInt(mag.style.width);
-  // //  var startHeight = parseInt(mag.style.height);
-  // console.log('resize');
-  // console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
-
   return {
     ...state,
     magWidth: newWidth,
