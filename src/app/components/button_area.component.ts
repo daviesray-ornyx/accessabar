@@ -2,6 +2,7 @@ import {h} from 'hyperapp';
 import * as Buttons from './buttons.component';
 import {switchEl} from './menus.component';
 import {aceSpeakTooltipsToggle} from '../actions/ace.actions';
+import isMobile from 'is-mobile';
 
 const innerBarSettings = state => {
   return [
@@ -21,6 +22,10 @@ const innerBarSettings = state => {
 
 // Contains all the buttons in Ace
 const buttonArea = (state: Ace.State) => {
+  const mobile = isMobile({
+    tablet: true,
+    featureDetect: true,
+  });
   return h(
     'ab-button-area',
     {
@@ -30,21 +35,34 @@ const buttonArea = (state: Ace.State) => {
     },
     [
       h('ab-button-section', {class: 'ab-flex'}, [
+        h(
+          'ab-button-group',
+          {
+            class: `ab-group ${
+              state.ttsHoverSpeak || state.ttsHighlightSpeak
+                ? 'ab-flex'
+                : 'ab-hide'
+            }`,
+            'aria-label': 'Sound controls',
+          },
+          [Buttons.stopButton()]
+        ),
         h('ab-button-group', {class: 'ab-group ab-flex ab-flex-wrap'}, [
-          Buttons.ttsButton(state),
+          !mobile && Buttons.ttsButton(state),
           Buttons.incButton(),
           Buttons.decButton(),
           Buttons.fontResetButton(state),
           Buttons.textOpsButton(state),
-          Buttons.magButton(state),
+          !mobile && Buttons.magButton(state),
           Buttons.maskButton(state),
-          Buttons.rulerButton(state),
-          Buttons.srButton(state),
+          !mobile && Buttons.rulerButton(state),
+          !mobile && Buttons.srButton(state),
           Buttons.ptButton(state),
+          Buttons.simplifyButton(state),
         ]),
       ]),
       h('ab-button-section', {class: 'ab-flex ab-flex-wrap'}, [
-        innerBarSettings(state),
+        !mobile && innerBarSettings(state),
         Buttons.resetButton(),
         Buttons.settingsButton(state),
         Buttons.aboutButton(state),

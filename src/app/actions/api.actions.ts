@@ -74,4 +74,16 @@ async function apiGetTTS(data: Ace.TTSData) {
   return handleRequest('https://ace-tts.acetoolbar.com/api/v1/text', req);
 }
 
-export {apiSendEvent, apiGetTranslation, apiGetTTS};
+async function apiGetSimplify(data: Ace.SimplifyData) {
+  const req = {
+    body: JSON.stringify(data),
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    headers: {'Content-Type': 'application/json'},
+  };
+
+  return handleRequest('https://simplify.acetoolbar.com/api/v1/simplify', req);
+}
+
+export {apiSendEvent, apiGetTranslation, apiGetTTS, apiGetSimplify};

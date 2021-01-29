@@ -5,6 +5,7 @@ import tabConfig from '../../config/tab.config.json5';
 import {functionNameConfig, fxMenuClose} from '../fx/shortcuts.fx';
 import {fxMenuFocus} from '../fx/menu.fx';
 import {fxMenuOpen} from '../fx/shortcuts.fx';
+import {menuFixOutOfBounds} from './menu.actions';
 
 function aceMoveBody() {
   const {mainElement} = window.aceRuntimeProxy;
@@ -12,6 +13,18 @@ function aceMoveBody() {
   if (mainElement) {
     const rect = mainElement.getBoundingClientRect();
     document.body.style.marginTop = `${rect.height}px`;
+  }
+}
+
+function aceChangeWidth() {
+  const {mainElement, fillWidth} = window.aceRuntimeProxy;
+
+  if (fillWidth) {
+    return;
+  }
+
+  if (mainElement) {
+    mainElement.style.width = `${window.innerWidth}px`;
   }
 }
 
@@ -70,8 +83,19 @@ function aceResize(state: Ace.State) {
     return state;
   }
 
+  aceChangeWidth();
   aceMoveBody();
-  return state;
+  return [
+    state,
+    [
+      (dispatch, props) => {
+        dispatch(props.action);
+      },
+      {
+        action: menuFixOutOfBounds,
+      },
+    ],
+  ];
 }
 
 function acePruneFuncs(
@@ -629,18 +653,6 @@ function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
   return state;
 }
 
-function handleStatelessdClick(state: Ace.State, event: KeyboardEvent) {
-  event.preventDefault();
-  const {code, target} = event;
-  if (!code || !target) {
-    return state;
-  }
-  if (code === 'Enter') {
-    (target as HTMLElement).click();
-  }
-  return state;
-}
-
 export {
   aceResize,
   aceMoveBody,
@@ -655,7 +667,6 @@ export {
   aceSpeakTooltip,
   handleButtonNavigation,
   handleSelectNavigation,
-  handleStatelessdClick,
   acePushFixedNav,
   aceResetFixedNav,
 };

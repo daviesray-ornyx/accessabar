@@ -1,70 +1,9 @@
 #accessabar .ab-feedback-menu {
-    min-width: 40rem;
     background: var(--near-white);
     border: 4px solid var(--border-grey);
     z-index: 2140000010;
     box-shadow: 0 2px 2px var(--shadow-grey);
     text-align:center;
-
-    .ab-feedback-menu-header {
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.5em;
-        background: var(--light-grey);
-        font-size: 1rem;
-        color: var(--alt-font-colour);
-        font-family: var(--header-font);
-        border-bottom: 1px solid var(--border-grey);
-        text-shadow: 0 0 1px var(--near-white);
-
-
-        &:hover {
-            cursor: context-menu;
-        }
-
-        .ab-feedback-menu-header-text {
-            display:block;
-            pointer-events: none;
-            user-select: none;
-            text-align: center;
-        }
-
-        .ab-feedback-menu-buttons-container{
-            align-items: center;
-            justify-content: space-between;
-            padding: 1em 0.5em;
-
-            .ab-feedback-menu-help {
-                margin: 0.15em;
-                background: var(--near-black);
-                color: var(--font-colour);
-                padding: 0.4em;
-                display: inline-flex;
-
-                &:hover, &:focus {
-                    background: var(--lighter-grey);
-                    cursor: pointer;
-                    outline: 2px solid var(--blue-focus);
-                }
-            }
-
-            /* TODO: Make button object */
-
-            .ab-feedback-menu-close {
-                margin: 0.15em;
-                background: var(--dark-red);
-                color: var(--font-colour);
-                padding: 0.4em;
-                display: inline-flex;
-
-                &:hover, &:focus {
-                    background: var(--lighter-red);
-                    cursor: pointer;
-                    outline: 2px solid var(--blue-focus);
-                }
-            }
-        }
-    }
 
     .ab-feedback-prompt-text{
         display:block;

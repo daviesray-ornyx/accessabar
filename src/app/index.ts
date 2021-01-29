@@ -8,10 +8,8 @@ import {
   acePushFixedNav,
   aceResetFixedNav,
 } from './actions/ace.actions';
-import subResize from './subscriptions/resize.subscription';
+import fxResize from './fx/resize.fx';
 import {fxHydrate} from './fx/hydrate.fx';
-import {fxTTSInit} from './fx/tts.fx';
-import state from './state/ace.state';
 import {
   subKeyDownHelper,
   subKeyUpHelper,
@@ -36,7 +34,7 @@ customElements.define('ace-app', AceElement);
 
 // Entry point for Ace.
 class AceController {
-  public version = '0.11.12';
+  public version = '0.11.20';
 
   // Element in page that activates Ace.
   public buttonElement: Element | undefined;
@@ -63,13 +61,16 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '12';
+  private aceStateVersion = '17';
 
   // Support pushing fixed navigation below ACE for compatibility.
   public fixedNavigationSelector = '';
 
   // Position of Accessabar on the page.
   public position: string;
+
+  // Should ACE fill the width of the containing element.
+  public fillWidth: boolean;
 
   /**
    * If enabled, the margin top of the document's body
@@ -91,6 +92,7 @@ class AceController {
     enableButton = '',
     bindTo = 'body',
     position = 'top',
+    fillWidth = false,
     fixedNavigation,
     moveBody,
   }: Ace.AceConfig = {}) {
@@ -141,6 +143,10 @@ class AceController {
     }
 
     this.position = position;
+
+    // -- fillWidth --
+
+    this.fillWidth = Boolean(fillWidth);
 
     // -- fixedNavigation --
 
@@ -249,7 +255,6 @@ class AceController {
       state: {
         ...state,
         aceTooltips: [],
-        aceTooltipSpeakKeys: [],
       },
       version: this.aceStateVersion,
     };
@@ -274,6 +279,20 @@ class AceController {
       return initState;
     }
 
+    const stateKeys = Object.keys(parsedState.state);
+    const initStateKeys = Object.keys(initState);
+
+    // check state schema is intact and shallow check.
+    if (stateKeys.length !== initStateKeys.length) {
+      return initState;
+    }
+
+    for (let i = 0; i < initStateKeys.length; i++) {
+      if (stateKeys.indexOf(initStateKeys[i]) === -1) {
+        return initState;
+      }
+    }
+
     return parsedState.state;
   }
 
@@ -292,11 +311,11 @@ class AceController {
 
     const appConfig = {
       view,
-      init: [state, fxHydrate(state)],
+      init: [state, fxHydrate(state), fxResize()],
       node: containerEl,
       subscriptions: (st: Ace.State) => {
         this.saveState(st);
-        return [subResize(), subKeyDownHelper(), subKeyUpHelper()];
+        return [subKeyDownHelper(), subKeyUpHelper()];
       },
     };
 
@@ -331,6 +350,9 @@ class AceController {
 
         containerEl.id = 'accessabar';
         containerEl.setAttribute('aria-label', 'Start of Ace toolbar.');
+        containerEl.style.width = this.fillWidth
+          ? '100%'
+          : `${window.innerWidth}px`;
         this.mainElement = containerEl;
         this.bindTo.insertAdjacentElement('afterbegin', containerEl);
         containerEl.appendChild(haBind);

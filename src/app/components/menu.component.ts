@@ -47,19 +47,26 @@ const menu = (state: Ace.State, menuName: string) => {
         {
           'aria-label': 'Hold left mouse button to drag the menu',
           class: 'ab-menu-header ab-flex',
-          onmousedown: [menuStartDrag, ev => ({menuName, ev})],
-          ontouchstart: [menuStartDrag, ev => ({menuName, ev})],
-          onmouseup: menuEndDrag,
-          ontouchend: menuEndDrag,
-          ontouchcancel: menuEndDrag,
         },
         [
           h(
-            'ab-menu-header-text',
-            {class: 'ab-menu-header-text'},
-            menuConfig.title
+            'ab-menu-drag-handle',
+            {
+              class: 'ab-menu-drag-handle',
+              onmousedown: [menuStartDrag, ev => ({menuName, ev})],
+              ontouchstart: [menuStartDrag, ev => ({menuName, ev})],
+              onmouseup: menuEndDrag,
+              ontouchend: menuEndDrag,
+              ontouchcancel: menuEndDrag,
+            },
+            h(
+              'ab-menu-header-text',
+              {
+                class: 'ab-menu-header-text',
+              },
+              menuConfig.title
+            )
           ),
-
           h('ab-menu-buttons-container', {class: 'ab-menu-buttons-container'}, [
             h(
               'ab-menu-help-button',

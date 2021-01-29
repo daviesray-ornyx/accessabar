@@ -1,5 +1,5 @@
 import {h} from 'hyperapp';
-import {ttsHoverEnable} from '../actions/tts.actions';
+import {ttsHightlightEnable, ttsStopCurrent} from '../actions/tts.actions';
 import {
   handleButtonNavigation,
   aceAddTippy,
@@ -22,6 +22,36 @@ import {rulerReadingEnable} from '../actions/ruler.actions';
 import {srEnable} from '../actions/sr.actions';
 import {ptEnable} from '../actions/language.actions';
 import {fxMenuFocus} from '../fx/menu.fx';
+import {simplifyOpen} from '../actions/simplify.actions';
+
+const stopButton = () => {
+  return h(
+    'ab-bar-stop-button',
+    {
+      'aria-label': 'Stop',
+      class: 'ab-bar-button',
+      id: 'ab-stop',
+      onclick: ttsStopCurrent,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-stop', content: 'Stop Current Text to Speech'},
+      ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-stop', content: 'Stop Current Text to Speech'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-stop',
+      }),
+    ]
+  );
+};
 
 const ttsButton = ({menus}: Ace.State) => {
   return h(
@@ -37,7 +67,11 @@ const ttsButton = ({menus}: Ace.State) => {
       id: 'ab-tts',
       onclick: [
         menuOpen,
-        {menuName: 'tts', title: 'Text to Speech', defaultFunc: ttsHoverEnable},
+        {
+          menuName: 'tts',
+          title: 'Text to Speech',
+          defaultFunc: ttsHightlightEnable,
+        },
       ],
       onmouseover: [aceAddTippy, {id: '#ab-tts', content: 'Text to Speech'}],
       onmouseenter: [
@@ -272,7 +306,7 @@ const rulerButton = ({menus}: Ace.State) => {
       onmouseover: [aceAddTippy, {id: '#ab-rulers', content: 'Reading Rulers'}],
       onmouseenter: [
         aceSpeakTooltip,
-        {id: '#ab-rulers', content: 'Reading Rulers'},
+        {id: '#ab-rulers', content: 'reading Rulers'},
       ],
       onkeydown: handleButtonNavigation,
       role: 'button',
@@ -389,6 +423,39 @@ const ptButton = ({menus}: Ace.State) => {
       h('ab-icon', {
         'aria-hidden': 'true',
         class: 'ab-icon ab-icon-translate',
+      }),
+    ]
+  );
+};
+
+const simplifyButton = ({simplifyHidden}: Ace.State) => {
+  return h(
+    'ab-bar-simplify-button',
+    {
+      'aria-controls': 'ab-simplify',
+      'aria-expanded': String(!simplifyHidden),
+      'aria-haspopup': 'true',
+      'aria-label': 'Simplify page',
+      'aria-pressed': String(!simplifyHidden),
+      class: 'ab-bar-button',
+      id: 'ab-simplify-button',
+      onclick: simplifyOpen,
+      onmouseover: [
+        aceAddTippy,
+        {id: '#ab-simplify-button', content: 'Simplify Page'},
+      ],
+      onmouseenter: [
+        aceSpeakTooltip,
+        {id: '#ab-settings-button', content: 'Simplify Page'},
+      ],
+      onkeydown: handleButtonNavigation,
+      role: 'button',
+      tabIndex: 0,
+    },
+    [
+      h('ab-icon', {
+        'aria-hidden': 'true',
+        class: 'ab-icon ab-icon-simplify',
       }),
     ]
   );
@@ -557,8 +624,10 @@ export {
   rulerButton,
   srButton,
   ptButton,
+  simplifyButton,
   resetButton,
   settingsButton,
   aboutButton,
   hideButton,
+  stopButton,
 };

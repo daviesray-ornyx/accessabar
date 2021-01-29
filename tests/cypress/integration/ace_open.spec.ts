@@ -1,6 +1,6 @@
 context('ACE Open', () => {
   beforeEach(() => {
-    cy.visit('/example/');
+    cy.visit('/button/');
   });
 
   it('Should open ACE', () => {

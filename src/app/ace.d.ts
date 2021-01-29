@@ -65,12 +65,6 @@ declare namespace Ace {
   interface StateFeedback {
     feedbackProvided: boolean;
     feedbackActive: boolean;
-    feedbackHeight: number;
-    feedbackHeightMin: number;
-    feedbackWidth: number;
-    feedbackWidthMin: number;
-    feedbackPosX: number;
-    feedbackPosY: number;
   }
 
   interface StateMask {
@@ -165,6 +159,7 @@ declare namespace Ace {
     languageCurrentKey: string;
     selectLanguageListActive: boolean;
     ptPageUrlCached: string;
+    ptTTSVoiceBackup: TTSVoice;
   }
 
   interface StateKeyboardShortcuts {
@@ -194,6 +189,10 @@ declare namespace Ace {
     tabContainerActivator: string;
     tabParentContainer: string;
   }
+  interface StateSimplify {
+    simplifyHidden: boolean;
+    simplifyText: string;
+  }
 
   interface State
     extends StateToolbar,
@@ -210,7 +209,9 @@ declare namespace Ace {
       StateTranslation,
       StateKeyboardShortcuts,
       StateTabbing,
-      StateTTS {}
+      StateTTS,
+      StateTTS,
+      StateSimplify {}
 
   interface FuncConfig {
     attrNames: {
@@ -246,6 +247,7 @@ declare namespace Ace {
     enableButton?: string;
     bindTo?: string;
     position?: string;
+    fillWidth?: boolean;
     fixedNavigation?: string;
     moveBody?: boolean;
   }
@@ -276,6 +278,10 @@ declare namespace Ace {
   interface TTSVoice {
     name: string;
     lang: string;
+  }
+
+  interface SimplifyData {
+    html: string;
   }
 
   interface DragEvent extends MouseEvent, TouchEvent {}

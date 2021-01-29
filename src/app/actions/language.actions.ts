@@ -1,7 +1,12 @@
 import languageConfig from '../../config/language.config.json5';
+import ttsVoices from '../../config/tts.config.json5';
 import {getParents} from './ace.actions';
 import {apiGetTranslation, apiSendEvent} from './api.actions';
-import {fxLanguageChangeAll, fxPtCachePage} from '../fx/language.fx';
+import {
+  fxLanguageChangeAll,
+  fxPtCachePage,
+  fxPtSwitchTTS,
+} from '../fx/language.fx';
 
 function ptEnable(state: Ace.State) {
   apiSendEvent('AcePageTranslation_On');
@@ -36,6 +41,21 @@ function languageChangeAll(state: Ace.State, key?: string) {
     return state;
   }
 
+  // attempt to find similar tts voice
+  let ttsVoiceSwitch = false;
+  let ttsVoiceKey = 0;
+  for (const [key, obj] of ttsVoices.entries()) {
+    if (
+      obj.name
+        .toLowerCase()
+        .includes(languageConfig[currentKey].name.toLowerCase())
+    ) {
+      ttsVoiceKey = key;
+      ttsVoiceSwitch = true;
+      break;
+    }
+  }
+
   const currentLanguageCode = languageConfig[currentKey].code || 'en';
   const parentElements = getParents();
 
@@ -50,7 +70,7 @@ function languageChangeAll(state: Ace.State, key?: string) {
     element.textContent = req?.trans[0] || elementTextContent;
   });
 
-  return state;
+  return [state, ttsVoiceSwitch && fxPtSwitchTTS(ttsVoiceKey)];
 }
 
 function languageToggleCurrent(state: Ace.State, key: string) {
@@ -85,6 +105,11 @@ function ptToggle(state: Ace.State) {
   const newState = {
     ...state,
     ptActive: !state.ptActive,
+    ...(!state.ptActive && {ptTTSVoiceBackup: state.ttsVoice}),
+    ...(state.ptActive && {
+      ttsVoice: state.ptTTSVoiceBackup,
+      ttsCurrentVoiceName: state.ptTTSVoiceBackup.name,
+    }),
     languageCurrentKey: '',
     selectLanguageListActive: state.ptActive
       ? false

@@ -1,6 +1,6 @@
 context('ACE Hide', () => {
   beforeEach(() => {
-    cy.visit('/example/');
+    cy.visit('/button/');
     cy.get('#enable').click();
   });
 
