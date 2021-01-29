@@ -13,6 +13,17 @@ const simplifyHeader = ({simplifyHidden}) => {
         'aria-pressed': String(simplifyHidden),
         class: 'ab-modal-close-button',
         onclick: simplifyClose,
+        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+          const {type, code} = event;
+          if (code !== 'Enter') {
+            return state;
+          }
+          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
+            return state;
+          }
+          return simplifyClose;
+        },
+        tabindex: 0,
         role: 'button',
       },
       [

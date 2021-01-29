@@ -646,6 +646,8 @@ function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
       return newState;
     } else {
       event.preventDefault();
+      console.log('focus element');
+      console.log(focusElement);
       (focusElement as HTMLElement).focus();
       return newState;
     }

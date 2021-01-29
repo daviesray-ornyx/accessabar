@@ -367,6 +367,13 @@
         function: '_languageToggleList',
     },
 
+    simplifyPage: {
+        id: 'ab-simplify-button',
+        type: 'settings menu button',
+        function: '_simplifyOpen',
+        containerId: 'ab-simplify',
+    },
+
     aceSpeakTooltipsToggle: {
         id: 'ab-switch-menu-speak-tooltip',
         type: 'action button',

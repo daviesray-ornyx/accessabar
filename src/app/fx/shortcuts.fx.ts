@@ -75,6 +75,7 @@ import {aboutOpen} from '../actions/about.actions';
 import closeAce from '../actions/close.actions';
 import {fxFontSizingDisable} from './font.fx';
 import {ptToggle} from '../actions/language.actions';
+import {simplifyOpen} from '../actions/simplify.actions';
 
 const functionNameConfig = {
   _menuHelp: fxMenuHelp,
@@ -123,6 +124,7 @@ const functionNameConfig = {
   _srEnable: fxSREnable,
   _srToggle: fxSrToggle,
   _ptToggle: fxPtToggle,
+  _simplifyOpen: fxSimplifyOpen,
   _aceSpeakTooltipsToggle: fxAceSpeakTooltipsToggle,
   _resetAll: fxResetAll,
   _settingsOpen: fxSettingsOpen,
@@ -754,6 +756,18 @@ function fxPtToggle(state: Ace.State) {
   ];
 }
 
+function fxSimplifyOpen(state: Ace.State) {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+    },
+    {
+      state,
+      action: simplifyOpen,
+    },
+  ];
+}
+
 function fxResetAll(state: Ace.State) {
   // resetAll
   return [
@@ -908,6 +922,7 @@ export {
   fxPinholeSizeIncrease,
   fxPinholeSizeDecrease,
   fxSREnable,
+  fxSimplifyOpen,
   fxAceSpeakTooltipsToggle,
   fxResetAll,
   fxSettingsOpen,
