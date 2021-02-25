@@ -1,4 +1,4 @@
-# Building ACE
+# Building ACCESSANGEL
 ## Getting the source
 Clone the source from GitHub:
 ```
@@ -18,11 +18,11 @@ yarn install
 ```
 
 ## Building
-Once dependencies have been installed, build ACE with the following command:
+Once dependencies have been installed, build ACCESSANGEL with the following command:
 ```
 yarn run build
 ```
 
 Build files will be outputted to `./public/dist/accessabar`.
 
-For more information about adding ACE to a website, go [here](add_to_website.md).
+For more information about adding ACCESSANGEL to a website, go [here](add_to_website.md).
