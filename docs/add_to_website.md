@@ -21,7 +21,7 @@ Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`
 
     <script>
         const ace = new Accessabar({
-            // Position to show ACE button
+            // Position to show ACCESSANGEL button
             buttonFloatPosition: 'top-right',
         });
     </script>
@@ -29,6 +29,6 @@ Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`
 </html>
 ```
 
-> Note: Have a look at the [Configuration Options](config.md) to tweak ACE further.
+> Note: Have a look at the [Configuration Options](config.md) to tweak ACCESSANGEL further.
 
 
