@@ -29,6 +29,6 @@ Two files must be added to the page's HTML, `accessabar.bundle.js` and `app.css`
 </html>
 ```
 
-> Note: Have a look at the [Configuration Options](config.md) to tweak ACCESSANGEL further.
+> Note: Have a look at the [Configuration Options](config.md) to tweak ACE further.
 
 
