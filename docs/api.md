@@ -1,6 +1,6 @@
 # API
 ## open()
-Opens ACCESSANGEL.
+Opens ACE.
 
 Example:
 ```javascript
@@ -10,7 +10,7 @@ ace.open();
 ```
 
 ## close()
-Closes ACCESSANGEL
+Closes ACE
 
 Example:
 ```javascript
