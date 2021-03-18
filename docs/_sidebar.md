@@ -1,6 +1,6 @@
 - [Quick Start](quick_start.md)
 - Installing from Source
-    - [Building ACCESSANGEL](build.md)
+    - [Building ACE](build.md)
     - [Adding to a Website](add_to_website.md)
 - [Configuration](config.md)
 - [API](api.md)
