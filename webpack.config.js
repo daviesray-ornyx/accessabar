@@ -131,6 +131,16 @@ const config = env => {
     };
   }
 
+  if (env.extension && env.extension === 'enabled') {
+    fontFileLoader = {
+      loader: 'url-loader',
+    };
+
+    imageFileLoader = {
+      loader: 'url-loader',
+    };
+  }
+
   /* eslint-disable no-use-before-define */
   return mainSettings(entries, dev, devServer, dash, verbose);
 };
