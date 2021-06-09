@@ -6,7 +6,7 @@ const stateToolbar: Ace.StateToolbar = {
   aceTooltips: [],
   aceTooltipSpeakTimeout: 0,
   aceOpenDefaults: true,
-  aceSpeakTooltips: true,
+  aceSpeakTooltips: false,
   aceTheme: 'default-theme',
 };
 

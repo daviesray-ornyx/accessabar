@@ -552,25 +552,25 @@ const hideButton = (state: Ace.State) => {
     'ab-hide-button',
     {
       'aria-controls': 'accessabar',
-      'aria-label': 'Hide ACE',
+      // 'aria-label': 'Hide AccessAngel',
       'aria-pressed': aceHidden ? 'true' : 'false',
       class: 'ab-hide-button',
       id: 'ab-hide',
       onclick: aceHide,
       onmouseover: [
         aceAddTippy,
-        {id: '#ab-hide', content: aceHidden ? 'Show ACE' : 'Hide ACE'},
+        {id: '#ab-hide', content: aceHidden ? 'Show AccessAngel' : 'Hide AccessAngel'},
       ],
       onmouseenter: [
         aceSpeakTooltip,
-        {id: '#ab-hide', content: aceHidden ? 'Show ACE' : 'Hide ACE'},
+        {id: '#ab-hide', content: aceHidden ? 'Show AccessAngel' : 'Hide AccessAngel'},
       ],
       onkeydown: handleButtonNavigation,
       onchange: [
         el => {
           const {_tippy: tip} = el;
 
-          tip.setContent(aceHidden ? 'Show ACE' : 'Hide ACE');
+          tip.setContent(aceHidden ? 'Hide AccessAngel' : 'Show AccessAngel');
         },
         ev => ev.target,
       ],
