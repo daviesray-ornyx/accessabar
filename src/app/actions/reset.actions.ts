@@ -1,5 +1,7 @@
 import aceState from '../state/ace.state';
 import {fontReset} from './font.actions';
+import {ptResetAll} from './language.actions';
+import {magResetAll} from './mag.actions';
 
 function resetState(state: Ace.State) {
   const resetStateObj = {
@@ -17,6 +19,8 @@ function resetFunctions(state: Ace.State) {
   state.fontColourActive && fontReset(state, 'fontColour');
   state.fontLineSpacingActive && fontReset(state, 'fontLineSpacing');
   state.fontLetterSpacingActive && fontReset(state, 'fontLetterSpacing');
+  state.ptActive && ptResetAll(state);
+  state.magActive && magResetAll(state);
 }
 
 function resetAll(state: Ace.State) {

@@ -432,6 +432,24 @@ function magEndDrag(state: Ace.State) {
   return [newState, fxMagDragEvents(newState)];
 }
 
+function magResetAll(state: Ace.State) {
+  const newState = {
+    ...state,
+    magActive: false,
+  };
+
+  apiSendEvent('AceMagnifier_Off');
+
+  return [
+    newState,
+    [
+      newState.magActive && fxMagAddPageContent(newState),
+      fxMagResetState(newState),
+      fxMagScrollEvents(newState),
+    ],
+  ];
+}
+
 export {
   magScaleIncrease,
   magScaleDecrease,
@@ -449,4 +467,5 @@ export {
   magWidthDecrease,
   magWidthIncrease,
   getScrollOffsets,
+  magResetAll,
 };
