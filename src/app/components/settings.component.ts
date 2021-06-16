@@ -37,7 +37,9 @@ const settingsHeader = ({settingsHidden}) => {
         'aria-pressed': String(settingsHidden),
         class: 'ab-modal-close-button',
         onclick: settingsClose,
+        onkeydown: settingsClose,
         role: 'button',
+        tabindex: 0,
       },
       [
         h('ab-icon', {
@@ -61,7 +63,10 @@ const settingsTTSSection = ({
   const factoryCfgGenders: Ace.ListItem[] = [];
   let customListVoices = h(
     'ab-setting-placeholder',
-    {class: 'ab-modal-placeholder'},
+    {
+      class: 'ab-modal-placeholder',
+      tabindex: 0,
+    },
     ['Please open Text to Speech to choose a voice.']
   );
 
@@ -213,7 +218,8 @@ const settingsTooltipSection = (state: Ace.State) => {
         state.aceSpeakTooltips,
         aceSpeakTooltipsToggle,
         'Read tooltips aloud on hover',
-        'Read tooltips aloud on hover'
+        'Read tooltips aloud on hover',
+        'ab-switch-settings-tooltip-speak'
       ),
     ]),
   ];
@@ -253,6 +259,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector light-selector ${
@@ -276,6 +283,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector dark-selector ${
@@ -299,6 +307,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector orange-selector ${
@@ -322,6 +331,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector sky-blue-selector ${
@@ -345,6 +355,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector pink-selector ${
@@ -368,6 +379,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector yellow-selector ${
@@ -391,6 +403,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector grass-green-selector ${
@@ -414,6 +427,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector aqua-blue-selector ${
@@ -437,6 +451,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector celery-green-selector ${
@@ -460,6 +475,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector jade-selector ${
@@ -483,6 +499,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
         h('ab-color-selector', {
           class: `ab-color-selector magenta-selector ${
@@ -506,6 +523,7 @@ const settingsThemesSection = (state: Ace.State) => {
           ],
           onkeydown: handleButtonNavigation,
           role: 'button',
+          tabindex: 0,
         }),
       ]
     ),

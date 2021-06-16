@@ -5,11 +5,15 @@ function settingsOpen(state: Ace.State) {
   };
 }
 
-function settingsClose(state: Ace.State) {
-  return {
-    ...state,
-    settingsHidden: true,
-  };
+function settingsClose(state: Ace.State, event: KeyboardEvent) {
+  const {code} = event;
+  if (code === 'Enter' || event.type === 'click') {
+    return {
+      ...state,
+      settingsHidden: true,
+    };
+  }
+  return state;
 }
 
 function settingsToggleTTSList(state: Ace.State) {

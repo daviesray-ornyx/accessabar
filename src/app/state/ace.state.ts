@@ -168,6 +168,13 @@ const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {
   kbsKeyCombination: '',
 };
 
+const stateTabbing: Ace.StateTabbing = {
+  tabContainerCurrent: 'ab-button-area',
+  tabContainerActive: true,
+  tabContainerActivator: '',
+  tabParentContainer: '',
+};
+
 const stateTTS: Ace.StateTTS = {
   ttsCurrentVoiceName: 'English (British)',
   ttsHighlightSpeak: false,
@@ -205,6 +212,7 @@ const state = {
   ...stateSR,
   ...stateTranslation,
   ...stateKeyboardShortcut,
+  ...stateTabbing,
   ...stateTTS,
   ...stateSimplify,
 };

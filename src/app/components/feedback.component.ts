@@ -1,9 +1,5 @@
 import {h} from 'hyperapp';
-import {
-  aceAddTippy,
-  aceSpeakTooltip,
-  handleButtonNavigation,
-} from '../actions/ace.actions';
+import {aceAddTippy} from '../actions/ace.actions';
 import {
   thumbsUpFeedback,
   thumbsDownFeedback,
@@ -47,9 +43,22 @@ const feedback = ({feedbackActive}: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-feedback-action-thumbs-up', content: 'Yes'},
               ],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return thumbsUpFeedback;
+              },
               role: 'button',
-              tabIndex: 1,
+              tabIndex: 0,
             },
             [
               h('ab-icon', {
@@ -69,9 +78,22 @@ const feedback = ({feedbackActive}: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-feedback-action-thumbs-down', content: 'No'},
               ],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return thumbsDownFeedback;
+              },
               role: 'button',
-              tabIndex: 1,
+              tabIndex: 0,
             },
             [
               h('ab-icon', {
@@ -104,7 +126,22 @@ const feedback = ({feedbackActive}: Ace.State) => {
                 },
               ],
               onclick: tellMeMore,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return tellMeMore;
+              },
               role: 'button',
+              tabindex: 0,
             },
             ['Tell Me More']
           ),
@@ -120,7 +157,22 @@ const feedback = ({feedbackActive}: Ace.State) => {
                 {id: '#ab-feedback-close-button', content: 'Close feedback'},
               ],
               onclick: closeFeedback,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [closeFeedback, event];
+              },
               role: 'button',
+              tabindex: 0,
             },
             ['Close']
           ),

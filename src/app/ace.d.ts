@@ -183,6 +183,12 @@ declare namespace Ace {
     ttsAudio: HTMLAudioElement;
   }
 
+  interface StateTabbing {
+    tabContainerCurrent: string;
+    tabContainerActive: boolean;
+    tabContainerActivator: string;
+    tabParentContainer: string;
+  }
   interface StateSimplify {
     simplifyHidden: boolean;
     simplifyText: string;
@@ -202,6 +208,8 @@ declare namespace Ace {
       StateSR,
       StateTranslation,
       StateKeyboardShortcuts,
+      StateTabbing,
+      StateTTS,
       StateTTS,
       StateSimplify {}
 
