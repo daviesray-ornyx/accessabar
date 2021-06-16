@@ -1,6 +1,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-case-declarations */
 import fontConfig from '../../config/fonts.config.json5';
+import {
+  fxDragStartMouseEvents,
+  fxDragStopMouseEvents,
+  fxDragStop,
+} from '../fx/drag.fx';
 
 import {
   fxTTSEnable,
@@ -328,5 +333,12 @@ function openMenu(state: Ace.State, menuName, title, defaultFunc) {
   return [state, fxMenuOpen(state, menuName, title, defaultFunc)];
 }
 
+function focusHelper(state: Ace.State, eventData: MouseEvent) {
+  if (eventData.type !== 'click') {
+    return state;
+  }
+
+  return [state, fxDragStopMouseEvents(state)];
+}
 export default buildKeyCombination;
-export {buildKeyCombination, openMenu};
+export {buildKeyCombination, openMenu, focusHelper};

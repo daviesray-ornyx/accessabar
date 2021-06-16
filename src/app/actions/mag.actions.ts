@@ -6,6 +6,11 @@ import {
   fxMagResetState,
   fxMagScrollEvents,
 } from '../fx/mag.fx';
+import {
+  fxDragStartMouseEvents,
+  fxDragStopMouseEvents,
+  fxDragStop,
+} from '../fx/drag.fx';
 
 function getScrollOffsets() {
   const doc = document,
@@ -428,18 +433,11 @@ function magResetAll(state: Ace.State) {
   const newState = {
     ...state,
     magActive: false,
+    magCanDrag: false,
   };
 
   apiSendEvent('AceMagnifier_Off');
-
-  return [
-    newState,
-    [
-      newState.magActive && fxMagAddPageContent(newState),
-      fxMagResetState(newState),
-      fxMagScrollEvents(newState),
-    ],
-  ];
+  return [newState];
 }
 
 export {

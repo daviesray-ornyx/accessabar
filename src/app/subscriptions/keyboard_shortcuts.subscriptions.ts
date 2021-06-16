@@ -1,4 +1,4 @@
-import buildKeyCombination from '../actions/shortcuts.actions';
+import {buildKeyCombination, focusHelper} from '../actions/shortcuts.actions';
 
 // KeyDown Subscription
 const subKeyDown = (dispatch, props) => {
@@ -25,4 +25,13 @@ const subKeyUp = (dispatch, props) => {
 
 const subKeyUpHelper = () => [subKeyUp, {action: buildKeyCombination}];
 
-export {subKeyDownHelper, subKeyUpHelper};
+const subMouseEvent = (dispatch, props) => {
+  const handler = event => {
+    dispatch(props.action, event);
+  };
+
+  window.addEventListener('click', handler);
+  return () => window.removeEventListener('click', handler);
+};
+const subMouseEventHelper = () => [subMouseEvent, {action: focusHelper}];
+export {subKeyDownHelper, subKeyUpHelper, subMouseEventHelper};

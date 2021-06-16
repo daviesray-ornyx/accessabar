@@ -13,6 +13,7 @@ import {fxHydrate} from './fx/hydrate.fx';
 import {
   subKeyDownHelper,
   subKeyUpHelper,
+  subMouseDownHeloer,
 } from './subscriptions/keyboard_shortcuts.subscriptions';
 
 declare global {
@@ -315,7 +316,7 @@ class AceController {
       node: containerEl,
       subscriptions: (st: Ace.State) => {
         this.saveState(st);
-        return [subKeyDownHelper(), subKeyUpHelper()];
+        return [subKeyDownHelper(), subKeyUpHelper(), subMouseDownHeloer()];
       },
     };
 
