@@ -399,7 +399,7 @@ function aceSpeakTooltipsToggle(state: Ace.State) {
 
 function findNextEl(state: Ace.State, target: HTMLElement) {
   if (state.tabContainerCurrent === undefined) {
-    return undefined;
+    return;
   }
 
   const tabbingContainer = document.getElementById(state.tabContainerCurrent);
@@ -413,7 +413,7 @@ function findNextEl(state: Ace.State, target: HTMLElement) {
   const tabIndexElements = tabbingContainer?.querySelectorAll("[tabindex='0']");
 
   if (tabIndexElements === undefined) {
-    return undefined;
+    return;
   }
   let found = false;
   for (const elementIndex in tabIndexElements) {
@@ -430,22 +430,22 @@ function findNextEl(state: Ace.State, target: HTMLElement) {
       found = true;
     }
   }
-  return undefined; // No tab element within container. Check if tabContainer and see how to handle.
+  return; // No tab element within container. Check if tabContainer and see how to handle.
 }
 
 function findPrevEl(state: Ace.State, target: HTMLElement) {
   if (state.tabContainerCurrent === undefined) {
-    return undefined;
+    return;
   }
 
   const tabbingContainer = document.getElementById(state.tabContainerCurrent);
   if (!state.tabContainerActive) {
-    return undefined;
+    return;
   }
   const tabIndexElements = tabbingContainer?.querySelectorAll("[tabindex='0']");
 
   if (tabIndexElements === undefined) {
-    return undefined;
+    return;
   }
   let found = false;
   for (let i = tabIndexElements?.length - 1; i >= 0; i--) {
@@ -457,7 +457,7 @@ function findPrevEl(state: Ace.State, target: HTMLElement) {
       return tabIndexElements[i]; // Item returned cannot be hidden
     }
   }
-  return undefined; // No next container exists, hence we stop searching for nextEl.
+  return; // No next container exists, hence we stop searching for nextEl.
 }
 
 function handleSelectNavigation(state: Ace.State, event: KeyboardEvent) {
@@ -486,147 +486,220 @@ function handleSelectNavigation(state: Ace.State, event: KeyboardEvent) {
   return state; // this is if no action is done
 }
 
-function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
-  // eslint-disable-next-line prefer-const
-  event.preventDefault();
-  const {code, target} = event;
-  if (!code || !target) {
-    return state;
-  }
-
-  let tabElement = '';
-  const tabElementsIds: string[] = [];
-  for (const key in tabConfig) {
-    if (tabConfig[key]['id'] === (target as HTMLElement).id) {
-      tabElement = tabConfig[key];
-    }
-    tabElementsIds.push(tabConfig[key]['id']);
-  }
-
-  if (code === 'Enter' || code === 'Space') {
-    const funcName = tabElement['function'];
-    if (tabElement['type'] === 'action button') {
+function handleActionButtonKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  const {code} = event;
+  const funcName = tabElement['function'];
+  switch (code) {
+    case 'Enter':
       return [state, functionNameConfig[funcName](state)];
-    } else if (tabElement['type'] === 'menu button') {
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      console.log('Almost into handling tab keypresss');
+      return handleTabKeyPress(state, event, tabElement);
+    default:
+      return state;
+  }
+}
+
+function handleMenuButtonKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: unknown
+) {
+  const {code} = event;
+  switch (code) {
+    case 'Enter':
       for (const menuName in state.menus) {
-        if (
-          state.menus[menuName].menuActive &&
-          menuName === tabElement['menuName']
-        ) {
+        if (state.menus[menuName].menuActive && menuName === menuName) {
           return state;
         }
       }
+      return state;
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      return handleTabKeyPress(state, event, tabElement);
+    default:
+      return state;
+  }
+}
 
-      const newState = {
-        ...state,
-        tabContainerActive: false,
-        tabContainerCurrent: tabElement['containerId'],
-        tabContainerActivator: (target as HTMLElement).id,
-      };
-
-      event.preventDefault();
-      if (tabElement['menuName'] !== undefined) {
-        return [
-          newState,
-          fxMenuOpen(
-            newState,
-            tabElement['menuName'],
-            tabElement['title'],
-            tabElement['defaultFunc']
-          ),
-          fxMenuFocus(newState, tabElement['menuName']),
-        ];
-      }
-      return [
-        newState,
-        fxMenuOpen(
-          newState,
-          tabElement['menuName'],
-          tabElement['title'],
-          tabElement['defaultFunc']
-        ),
-      ];
-    } else if (tabElement['type'] === 'menu header button') {
+function handleMenuHeaderButtonKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  const {code} = event;
+  const funcName = tabElement['function'];
+  switch (code) {
+    case 'Enter':
       for (const name in state.menus) {
         if (state.menus[name].menuActive) {
           return [state, functionNameConfig[funcName](state, name)];
         }
       }
-    } else if (tabElement['type'] === 'tab button') {
-      const newState = {
-        ...state,
-        tabContainerActive: false,
-        tabContainerCurrent: tabElement['containerId'],
-        tabContainerActivator: (target as HTMLElement).id,
-        tabParentContainer: state.tabContainerCurrent,
-      };
+      return state;
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      return handleTabKeyPress(state, event, tabElement);
+    default:
+      return state;
+  }
+}
 
-      event.preventDefault();
+function handleTabButtonKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  const {code, target} = event;
+  const funcName = tabElement['function'];
+  const newState = {
+    ...state,
+    tabContainerActive: false,
+    tabContainerCurrent: tabElement['containerId'],
+    tabContainerActivator: (target as HTMLElement).id,
+    tabParentContainer: state.tabContainerCurrent,
+  };
+  switch (code) {
+    case 'Enter':
       return [
         newState,
         functionNameConfig[funcName](newState, tabElement['option']),
       ];
-    } else if (tabElement['type'] === 'listbox') {
-      return [state, functionNameConfig[funcName](state)];
-    } else if (tabElement['type'] === 'color selector') {
-      return [state, functionNameConfig[funcName](state, tabElement['option'])];
-    } else if (
-      tabElement['type'] === 'settings menu button' ||
-      tabElement['type'] === 'about menu button' ||
-      tabElement['type'] === 'close menu button'
-    ) {
-      const newState = {
-        ...state,
-        tabContainerActive: false,
-        tabContainerCurrent: tabElement['containerId'],
-        tabContainerActivator: (target as HTMLElement).id,
-      };
-
-      event.preventDefault();
-      return [newState, functionNameConfig[funcName](newState)];
-    } else {
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      return handleTabKeyPress(state, event, tabElement);
+    default:
       return state;
-    }
-  } else if (code === 'Esc') {
-    if (state.menus !== undefined && Object.keys(state.menus).length > 0) {
-      const menuName = Object.keys(state.menus)[0];
-      const newState = {
-        ...state,
-        tabContainerCurrent: 'ab-button-area',
-        tabContainerActivator: '',
-      };
-      document.getElementById(state.tabContainerActivator)?.focus();
-      return [newState, fxMenuClose(newState, menuName)];
-    }
-    return {
+  }
+}
+
+function handleLisboxKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  const {code} = event;
+  const funcName = tabElement['function'];
+  switch (code) {
+    case 'Enter':
+      return [state, functionNameConfig[funcName](state)];
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      return handleTabKeyPress(state, event, tabElement);
+    default:
+      return state;
+  }
+}
+
+function handleColorSelectorKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  const {code} = event;
+  const funcName = tabElement['function'];
+  switch (code) {
+    case 'Enter':
+      return [state, functionNameConfig[funcName](state, tabElement['option'])];
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      return handleTabKeyPress(state, event, tabElement);
+    default:
+      return state;
+  }
+}
+
+function handleCommoMenuButtonsKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  // settings, about, close menu buttons
+  const {code, target} = event;
+  const funcName = tabElement['function'];
+  const newState = {
+    ...state,
+    tabContainerActive: false,
+    tabContainerCurrent: tabElement['containerId'],
+    tabContainerActivator: (target as HTMLElement).id,
+  };
+  switch (code) {
+    case 'Enter':
+      return [newState, functionNameConfig[funcName](newState)];
+    case 'Esc':
+      return handleEscKeyPress(state);
+    case 'Tab':
+      return handleTabKeyPress(state, event, tabElement);
+    default:
+      return state;
+  }
+}
+
+function handleEscKeyPress(state: Ace.State) {
+  if (state.menus !== undefined && Object.keys(state.menus).length > 0) {
+    const menuName = Object.keys(state.menus)[0];
+    const newState = {
       ...state,
-      settingsHidden: true,
-      aboutHidden: true,
-      feedbackActive: false,
+      tabContainerCurrent: 'ab-button-area',
+      tabContainerActivator: '',
     };
-  } else if (code === 'Tab') {
-    let newState = state;
-    if (!state.tabContainerActive) {
-      newState = {
-        ...newState,
-        tabContainerActive: true,
-      };
+    document.getElementById(state.tabContainerActivator)?.focus();
+    return [newState, fxMenuClose(newState, menuName)];
+  }
+  return {
+    ...state,
+    settingsHidden: true,
+    aboutHidden: true,
+    feedbackActive: false,
+  };
+}
+
+function getTabContainerActivatorElement(state: Ace.State) {
+  let tabContainerActivatorElement;
+  for (const key in tabConfig) {
+    if (tabConfig[key]['id'] === state.tabContainerActivator) {
+      tabContainerActivatorElement = tabConfig[key];
     }
+  }
+  return tabContainerActivatorElement;
+}
+function handleTabKeyPress(
+  state: Ace.State,
+  event: KeyboardEvent,
+  tabElement: any
+) {
+  const {target} = event;
+  let newState = state;
+  if (!state.tabContainerActive) {
+    newState = {
+      ...newState,
+      tabContainerActive: true,
+    };
+  }
 
-    const focusElement = event.shiftKey
-      ? findPrevEl(state, target as HTMLElement)
-      : findNextEl(state, target as HTMLElement);
+  const focusElement = event.shiftKey
+    ? findPrevEl(state, target as HTMLElement)
+    : findNextEl(state, target as HTMLElement);
 
-    if (focusElement === undefined) {
-      let tabContainerActivatorElement;
-      for (const key in tabConfig) {
-        if (tabConfig[key]['id'] === state.tabContainerActivator) {
-          tabContainerActivatorElement = tabConfig[key];
-        }
-      }
-      if (tabContainerActivatorElement === undefined) {
-        return newState;
-      }
+  const tabContainerActivatorElement = getTabContainerActivatorElement(state);
+  if (tabContainerActivatorElement === undefined) {
+    event.preventDefault();
+    return newState;
+  }
+  switch (focusElement) {
+    case undefined:
+      // Get tab container activator element
       document.getElementById(state.tabContainerActivator)?.focus();
       if (tabContainerActivatorElement['type'] === 'tab button') {
         newState = {
@@ -644,11 +717,58 @@ function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
         };
       }
       return newState;
-    } else {
+    default:
       event.preventDefault();
       (focusElement as HTMLElement).focus();
       return newState;
+  }
+}
+
+function handleButtonNavigation(state: Ace.State, event: KeyboardEvent) {
+  // eslint-disable-next-line prefer-const
+  console.log('Into handling navigation');
+  event.preventDefault();
+  const {code, target} = event;
+  if (!code || !target) {
+    return state;
+  }
+
+  console.log('Past code_ target test');
+  let tabElement = '';
+  const tabElementsIds: string[] = [];
+  for (const key in tabConfig) {
+    if (tabConfig[key]['id'] === (target as HTMLElement).id) {
+      tabElement = tabConfig[key];
     }
+    tabElementsIds.push(tabConfig[key]['id']);
+  }
+
+  console.log('tabelement found');
+  console.log(tabElement);
+  switch (tabElement['type']) {
+    case 'action button':
+      console.log('Just before action button call');
+      handleActionButtonKeyPress(state, event, tabElement);
+      break;
+    case 'menu button':
+      handleMenuButtonKeyPress(state, event, tabElement);
+      break;
+    case 'menu header button':
+      return handleMenuHeaderButtonKeyPress(state, event, tabElement);
+    case 'tab button':
+      return handleTabButtonKeyPress(state, event, tabElement);
+    case 'listbox':
+      return handleLisboxKeyPress(state, event, tabElement);
+    case 'color selector':
+      return handleColorSelectorKeyPress(state, event, tabElement);
+    case 'settings menu button':
+      return handleCommoMenuButtonsKeyPress(state, event, tabElement);
+    case 'about menu button':
+      return handleCommoMenuButtonsKeyPress(state, event, tabElement);
+    case 'close menu button':
+      return handleCommoMenuButtonsKeyPress(state, event, tabElement);
+    default:
+      return state;
   }
   return state;
 }

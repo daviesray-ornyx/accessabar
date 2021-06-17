@@ -6,6 +6,12 @@ interface CustomList {
   active: boolean;
   customListID: string;
   openList(state: Ace.State): unknown;
+  openListKeyPress?(state: Ace.State): unknown;
+}
+
+function enterKeyPressed(event: KeyboardEvent) {
+  const {code} = event;
+  return code === 'Enter';
 }
 
 const customList = ({
@@ -23,16 +29,8 @@ const customList = ({
         id: customListID,
         tabindex: 0,
         onclick: openList,
-        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
-          const {type, code} = event;
-          if (code !== 'Enter') {
-            return state;
-          }
-          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
-            return state;
-          }
-          return openList(state);
-        },
+        onkeydown: (state, event) =>
+          enterKeyPressed(event) ? openList(state) : state,
       },
       currentItem
     ),
@@ -59,16 +57,8 @@ const customListItemFactory = (listItems: Ace.ListItem[]): VNode[] => {
       {
         class: 'ab-custom-list-selection-item',
         onclick: [obj.action, obj.key],
-        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
-          const {type, code} = event;
-          if (code !== 'Enter') {
-            return state;
-          }
-          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
-            return state;
-          }
-          return [obj.action, obj.key];
-        },
+        onkeydown: (state, event) =>
+          enterKeyPressed(event) ? [obj.action, obj.key] : state,
         role: 'option',
         tabindex: 0,
       },

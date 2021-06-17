@@ -160,6 +160,7 @@ declare namespace Ace {
     selectLanguageListActive: boolean;
     ptPageUrlCached: string;
     ptTTSVoiceBackup: TTSVoice;
+    parentElements: Set<HTMLElement>;
   }
 
   interface StateKeyboardShortcuts {
@@ -189,6 +190,7 @@ declare namespace Ace {
     tabContainerActivator: string;
     tabParentContainer: string;
   }
+
   interface StateSimplify {
     simplifyHidden: boolean;
     simplifyText: string;

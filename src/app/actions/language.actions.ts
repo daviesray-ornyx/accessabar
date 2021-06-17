@@ -31,6 +31,7 @@ function ptCachePage(state: Ace.State) {
   return {
     ...state,
     ptPageUrlCached: window.location.href,
+    parentElements: parentElements,
   };
 }
 
@@ -44,12 +45,13 @@ async function getTranslation(
     to: currentLanguageCode,
   });
 
+  const {parentElements} = state;
+
   const translateTextArray = req?.trans;
-  const parentElements = getParents();
-  let index = 0;
-  parentElements.forEach(element => {
-    element.textContent = translateTextArray[index] || '';
-    index++;
+  Array.from(parentElements).forEach((element, index) => {
+    if (element) {
+      element.textContent = translateTextArray[index];
+    }
   });
   return state;
 }
@@ -97,7 +99,7 @@ function languageToggleCurrent(state: Ace.State, key: string) {
     languageCurrentKey: key,
     selectLanguageListActive: false,
   };
-  return [newState, fxLanguageChangeAll(key)]; // page only changed on ptEnable
+  return [newState, fxLanguageChangeAll(key), fxPtCachePage(newState)];
 }
 
 function languageToggleList(state: Ace.State) {
