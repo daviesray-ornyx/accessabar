@@ -2,6 +2,7 @@ import {
   fxMenuDefaultFunction,
   fxMenuDragEvents,
   fxMenuOpen,
+  fxMenuFocus,
 } from '../fx/menu.fx';
 import menuConfig from '../../config/menu.config.json5';
 
@@ -44,6 +45,12 @@ function menuFactory(
       shortcutKeysAdded: false,
     },
   };
+}
+
+function menuSetFocus(state: Ace.State, opts: {menuName: string}) {
+  const menuElement = document.getElementById(`ab-menu-${opts.menuName}`);
+  menuElement?.focus();
+  return state;
 }
 
 function menuMove(state: Ace.State) {
@@ -194,14 +201,12 @@ function menuOpen(
     [
       fxMenuOpen(state, menuName, title),
       defaultFunc && fxMenuDefaultFunction(state, defaultFunc),
+      fxMenuFocus(state, menuName),
     ],
   ];
 }
 
 function menuClose(state: Ace.State, opts: {menuName: string}) {
-  //const {menuName, title} = opts;
-
-  // return [state, fxMenuClose(state, menuName)];
   const {menus} = state;
   const menusCopy = menus;
 
@@ -239,6 +244,7 @@ export {
   menuClose,
   menuHelp,
   menuOpen,
+  menuSetFocus,
   menuRulerOpsSwitchInner,
   menuStartDrag,
   menuTextOpsSwitchInner,

@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import voices from '../../config/tts.config.json5';
+import {getParents} from '../actions/ace.actions';
 
 const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
@@ -160,12 +161,20 @@ const stateTranslation: Ace.StateTranslation = {
     name: 'English (British)',
     lang: 'en-GB',
   },
+  parentElements: new Set<HTMLElement>(),
 };
 
 const stateKeyboardShortcut: Ace.StateKeyboardShortcuts = {
   kbsReady: true,
   kbsCount: 0,
   kbsKeyCombination: '',
+};
+
+const stateTabbing: Ace.StateTabbing = {
+  tabContainerCurrent: 'ab-button-area',
+  tabContainerActive: true,
+  tabContainerActivator: '',
+  tabParentContainer: '',
 };
 
 const stateTTS: Ace.StateTTS = {
@@ -205,6 +214,7 @@ const state = {
   ...stateSR,
   ...stateTranslation,
   ...stateKeyboardShortcut,
+  ...stateTabbing,
   ...stateTTS,
   ...stateSimplify,
 };

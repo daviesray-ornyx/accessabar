@@ -1,6 +1,10 @@
 import {h} from 'hyperapp';
 import * as menus from './menus.component';
-import {menuEndDrag, menuStartDrag} from '../actions/menu.actions';
+import {
+  menuEndDrag,
+  menuStartDrag,
+  menuSetFocus,
+} from '../actions/menu.actions';
 import {
   aceAddTippy,
   aceSpeakTooltip,
@@ -87,7 +91,7 @@ const menu = (state: Ace.State, menuName: string) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
-                tabIndex: 1,
+                tabindex: 0,
               },
               [
                 h('ab-icon', {
@@ -113,7 +117,7 @@ const menu = (state: Ace.State, menuName: string) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
-                tabIndex: 1,
+                tabIndex: 0,
               },
               [
                 h('ab-icon', {

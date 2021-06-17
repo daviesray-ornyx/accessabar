@@ -66,18 +66,23 @@ import {
   languageToggleCurrent,
   languageToggleList,
 } from '../actions/language.actions';
+import {fxAceCreatePickr} from '../fx/shortcuts.fx';
 
 const switchEl = (
   switchState: boolean,
   switchAction: (state: Ace.State) => unknown,
   labelText: string,
-  ariaLabel: string
+  ariaLabel: string,
+  elementId?: string
 ) => {
   return h(
     'ab-switch-label',
     {
+      id: `${elementId !== undefined ? elementId : ''}`,
       class: 'ab-label',
       onclick: switchAction,
+      onkeydown: handleButtonNavigation,
+      tabindex: 0,
     },
     [
       h(
@@ -109,7 +114,8 @@ const ttsMenu = (state: Ace.State) => {
         state.ttsHoverSpeak,
         ttsHoverToggle,
         'Speak on hover',
-        'Toggle speak on hover'
+        'Toggle speak on hover',
+        'ab-switch-speak-on-hover'
       ),
     ]),
     h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
@@ -117,7 +123,8 @@ const ttsMenu = (state: Ace.State) => {
         state.ttsHighlightSpeak,
         ttsHightlightToggle,
         'Speak only highlighted',
-        'Toggle speak only highlighted text'
+        'Toggle speak only highlighted text',
+        'ab-switch-speak-highlighted'
       ),
     ]),
   ]);
@@ -141,7 +148,18 @@ const textOptionsInnerFont = (state: Ace.State) => {
       {
         class: 'ab-custom-list-selection-item',
         onclick: [fontToggleCurrent, key],
+        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+          const {type, code} = event;
+          if (code !== 'Enter') {
+            return state;
+          }
+          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
+            return state;
+          }
+          return [fontToggleCurrent, key];
+        },
         role: 'option',
+        tabindex: 0,
         style: {
           fontFamily: obj.family,
         },
@@ -152,71 +170,92 @@ const textOptionsInnerFont = (state: Ace.State) => {
     fontList.push(item);
   }
 
-  return h('ab-text-options-inner-menu-font', {class: 'ab-flex-column'}, [
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      switchEl(
-        state.fontActive,
-        fontFamilyToggle,
-        'Toggle Font Type',
-        'Toggle the page font type'
-      ),
-    ]),
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      h(
-        'ab-font-options-menu',
-        {
-          class: 'ab-font-options',
-        },
-        [
-          h(
-            'ab-custom-list',
-            {class: 'ab-custom-list ab-flex ab-flex-column'},
-            [
-              h(
-                'ab-custom-list-box',
-                {
-                  class: `ab-custom-list-box ab-flex ${
-                    state.selectFontListActive ? 'ab-active' : ''
-                  }`,
-                  id: 'ab-custom-list-box',
-                  onclick: fontToggleList,
-                  style: {
-                    fontFamily: currentFontFamily,
+  return h(
+    'ab-text-options-inner-menu-font',
+    {class: 'ab-flex-column', id: 'ab-text-options-inner-menu-font'},
+    [
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        switchEl(
+          state.fontActive,
+          fontFamilyToggle,
+          'Toggle Font Type',
+          'Toggle the page font type',
+          'ab-switch-font-family-foggle'
+        ),
+      ]),
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        h(
+          'ab-font-options-menu',
+          {
+            class: 'ab-font-options',
+          },
+          [
+            h(
+              'ab-custom-list',
+              {class: 'ab-custom-list ab-flex ab-flex-column'},
+              [
+                h(
+                  'ab-custom-list-box',
+                  {
+                    class: `ab-custom-list-box ab-flex ${
+                      state.selectFontListActive ? 'ab-active' : ''
+                    }`,
+                    id: 'ab-custom-list-box-font',
+                    onclick: fontToggleList,
+                    onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                      const {type, code} = event;
+                      if (code !== 'Enter') {
+                        return state;
+                      }
+                      if (
+                        type !== 'keydown' &&
+                        type !== 'click' &&
+                        type !== 'keypress'
+                      ) {
+                        return state;
+                      }
+                      return fontToggleList;
+                    },
+                    style: {
+                      fontFamily: currentFontFamily,
+                    },
+                    tabindex: 0,
                   },
-                },
-                currentFont
-              ),
-              h(
-                'ab-custom-list-selection',
-                {
-                  'aria-labelledby': 'ab-custom-list-box',
-                  class: `ab-custom-list-selection ${
-                    state.selectFontListActive ? 'ab-flex' : 'ab-hide'
-                  } ab-flex-column`,
-                  id: 'ab-font-list-selection',
-                  role: 'listbox',
-                },
-                fontList
-              ),
-            ]
-          ),
-        ]
-      ),
-    ]),
-  ]);
+                  currentFont
+                ),
+                h(
+                  'ab-custom-list-selection',
+                  {
+                    'aria-labelledby': 'ab-custom-list-box',
+                    class: `ab-custom-list-selection ${
+                      state.selectFontListActive ? 'ab-flex' : 'ab-hide'
+                    } ab-flex-column`,
+                    id: 'ab-font-list-selection',
+                    role: 'listbox',
+                  },
+                  fontList
+                ),
+              ]
+            ),
+          ]
+        ),
+      ]),
+    ]
+  );
 };
 
 const textOptionsInnerTextColour = (state: Ace.State) => {
   return h(
     'ab-text-options-inner-menu-colour',
-    {class: 'ab-flex ab-flex-column'},
+    {class: 'ab-flex ab-flex-column', id: 'ab-text-options-inner-menu-colour'},
     [
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
         switchEl(
           state.fontColourActive,
           fontColourToggle,
           'Toggle Text Colour',
-          'Toggle the page text colour'
+          'Toggle the page text colour',
+          'ab-switch-font-color-toggle'
         ),
       ]),
       h('ab-inner-menu-section', {class: 'ab-box'}, [
@@ -232,8 +271,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'red' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'red'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'red'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to blue',
@@ -241,8 +294,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'blue' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'blue'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'blue'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to green',
@@ -250,8 +317,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'green' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'green'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'green'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to yellow',
@@ -259,8 +340,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'yellow' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'yellow'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'yellow'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to orange',
@@ -268,8 +363,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'orange' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'orange'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'orange'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to purple',
@@ -277,8 +386,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'purple' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'purple'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'purple'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to black',
@@ -286,8 +409,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'black' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'black'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'black'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to grey',
@@ -295,8 +432,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'grey' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'grey'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'grey'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
               h('ab-colour', {
                 'aria-label': 'Change font colour to white',
@@ -304,8 +455,22 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                   state.fontColourCurrent === 'white' ? 'ab-active' : ''
                 }`,
                 onclick: [fontColourChangeSingle, 'white'],
-                onkeydown: handleButtonNavigation,
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [fontColourChangeSingle, 'white'];
+                },
                 role: 'button',
+                tabindex: 0,
               }),
             ]),
           ]
@@ -338,8 +503,28 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
                       action: fontColourChangeCustom,
                     },
                   ],
-                  onkeydown: handleButtonNavigation,
+                  onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                    const {type, code} = event;
+                    if (code !== 'Enter') {
+                      return state;
+                    }
+                    if (
+                      type !== 'keydown' &&
+                      type !== 'click' &&
+                      type !== 'keypress'
+                    ) {
+                      return state;
+                    }
+                    return [
+                      fxAceCreatePickr,
+                      {
+                        id: '#ab-font-colour-custom-box',
+                        action: fontColourChangeCustom,
+                      },
+                    ];
+                  },
                   role: 'button',
+                  tabindex: 0,
                   style: {background: state.fontColourCustomCurrent},
                 }),
               ]
@@ -354,14 +539,18 @@ const textOptionsInnerTextColour = (state: Ace.State) => {
 const textOptionsInnerLineSpacing = (state: Ace.State) => {
   return h(
     'ab-text-options-inner-menu-line-spacing',
-    {class: 'ab-flex ab-flex-column'},
+    {
+      class: 'ab-flex ab-flex-column',
+      id: 'ab-text-options-inner-menu-line-spacing',
+    },
     [
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
         switchEl(
           state.fontLineSpacingActive,
           fontLineSpacingToggle,
           'Toggle Line Spacing',
-          'Toggle the page line spacing'
+          'Toggle the page line spacing',
+          'ab-switch-fontLineSpacingToggle'
         ),
       ]),
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
@@ -393,6 +582,7 @@ const textOptionsInnerLineSpacing = (state: Ace.State) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
+                tabindex: 0,
               },
               [
                 h('ab-icon', {
@@ -426,6 +616,7 @@ const textOptionsInnerLineSpacing = (state: Ace.State) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
+                tabindex: 0,
               },
               [
                 h('ab-icon', {
@@ -444,14 +635,18 @@ const textOptionsInnerLineSpacing = (state: Ace.State) => {
 const textOptionsInnerLetterSpacing = (state: Ace.State) => {
   return h(
     'ab-text-options-inner-menu-letter-spacing',
-    {class: 'ab-flex ab-flex-column'},
+    {
+      class: 'ab-flex ab-flex-column',
+      id: 'ab-text-options-inner-menu-letter-spacing',
+    },
     [
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
         switchEl(
           state.fontLetterSpacingActive,
           fontLetterSpacingToggle,
           'Toggle Letter Spacing',
-          'Toggle the page letter spacing'
+          'Toggle the page letter spacing',
+          'ab-switch-fontLetterSpacingToggle'
         ),
       ]),
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
@@ -483,6 +678,7 @@ const textOptionsInnerLetterSpacing = (state: Ace.State) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
+                tabindex: 0,
               },
               [
                 h('ab-icon', {
@@ -516,6 +712,7 @@ const textOptionsInnerLetterSpacing = (state: Ace.State) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
+                tabindex: 0,
               },
               [
                 h('ab-icon', {
@@ -558,9 +755,11 @@ const textOptionsMenu = (state: Ace.State) => {
           class: `ab-menu-tab-button ${
             state.textOpsInnerMenuCurrent === 'font' ? 'ab-active' : ''
           }`,
+          id: 'ab-tab-button-font',
           onclick: [menuTextOpsSwitchInner, 'font'],
           onkeydown: handleButtonNavigation,
           role: 'tab',
+          tabindex: 0,
         },
         'Font'
       ),
@@ -572,9 +771,11 @@ const textOptionsMenu = (state: Ace.State) => {
           class: `ab-menu-tab-button ${
             state.textOpsInnerMenuCurrent === 'text_colour' ? 'ab-active' : ''
           }`,
+          id: 'ab-tab-button-text-color',
           onclick: [menuTextOpsSwitchInner, 'text_colour'],
           onkeydown: handleButtonNavigation,
           role: 'tab',
+          tabindex: 0,
         },
         'Text Colour'
       ),
@@ -586,9 +787,11 @@ const textOptionsMenu = (state: Ace.State) => {
           class: `ab-menu-tab-button ${
             state.textOpsInnerMenuCurrent === 'line_spacing' ? 'ab-active' : ''
           }`,
+          id: 'ab-tab-button-line-spacing',
           onclick: [menuTextOpsSwitchInner, 'line_spacing'],
           onkeydown: handleButtonNavigation,
           role: 'tab',
+          tabindex: 0,
         },
         'Line Spacing'
       ),
@@ -604,9 +807,11 @@ const textOptionsMenu = (state: Ace.State) => {
               ? 'ab-active'
               : ''
           }`,
+          id: 'ab-tab-button-letter-spacing',
           onclick: [menuTextOpsSwitchInner, 'letter_spacing'],
           onkeydown: handleButtonNavigation,
           role: 'tab',
+          tabindex: 0,
         },
         'Letter Spacing'
       ),
@@ -639,7 +844,13 @@ const magMenu = (state: Ace.State) => {
 
   return h('ab-mag-inner-menu', {class: 'ab-menu-content'}, [
     h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      switchEl(state.magActive, magToggle, 'Show Magnifier', 'Show magnifier'),
+      switchEl(
+        state.magActive,
+        magToggle,
+        'Show Magnifier',
+        'Show magnifier',
+        'ab-switch-mag-toggle'
+      ),
     ]),
     h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
       h(
@@ -682,6 +893,7 @@ const magMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -727,6 +939,7 @@ const magMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -772,6 +985,7 @@ const magMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -805,6 +1019,7 @@ const magMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -851,6 +1066,7 @@ const magMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -884,6 +1100,7 @@ const magMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -908,7 +1125,8 @@ const maskMenu = (state: Ace.State) => {
         state.maskActive,
         maskToggle,
         'Show Screen Mask',
-        'Show screen mask'
+        'Show screen mask',
+        'ab-switch-maskToggle'
       ),
     ]),
     h('ab-inner-menu-section', {class: 'ab-box'}, [
@@ -924,8 +1142,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'red' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'red'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'red'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to blue',
@@ -933,8 +1165,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'blue' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'blue'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'blue'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to green',
@@ -942,7 +1188,21 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'green' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'green'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'green'];
+              },
+              tabindex: 0,
               role: 'button',
             }),
             h('ab-colour', {
@@ -951,8 +1211,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'yellow' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'yellow'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'yellow'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to orange',
@@ -960,8 +1234,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'orange' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'orange'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'orange'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to purple',
@@ -969,8 +1257,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'purple' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'purple'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'purple'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to black',
@@ -978,8 +1280,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'black' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'black'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'black'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to grey',
@@ -987,8 +1303,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'grey' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'grey'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'grey'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
             h('ab-colour', {
               'aria-label': 'Change mask colour to white',
@@ -996,8 +1326,22 @@ const maskMenu = (state: Ace.State) => {
                 state.maskColourCurrent === 'white' ? 'ab-active' : ''
               }`,
               onclick: [maskChangeColour, 'white'],
-              onkeydown: handleButtonNavigation,
+              onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                const {type, code} = event;
+                if (code !== 'Enter') {
+                  return state;
+                }
+                if (
+                  type !== 'keydown' &&
+                  type !== 'click' &&
+                  type !== 'keypress'
+                ) {
+                  return state;
+                }
+                return [maskChangeColour, 'white'];
+              },
               role: 'button',
+              tabindex: 0,
             }),
           ]),
         ]
@@ -1032,6 +1376,7 @@ const maskMenu = (state: Ace.State) => {
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
+                tabindex: 0,
                 style: {background: state.maskColourCustomCurrent},
               }),
             ]
@@ -1068,6 +1413,7 @@ const maskMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -1101,6 +1447,7 @@ const maskMenu = (state: Ace.State) => {
               ],
               onkeydown: handleButtonNavigation,
               role: 'button',
+              tabindex: 0,
             },
             [
               h('ab-icon', {
@@ -1120,300 +1467,442 @@ const rulerOptionsInnerReading = (state: Ace.State) => {
     state.rulerReadingOpacity
   ).times(100);
 
-  return h('ab-ruler-options-inner-menu-reading', {class: 'ab-flex-column'}, [
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      switchEl(
-        state.rulerReadingActive,
-        rulerReadingToggle,
-        'Toggle Reading Ruler',
-        'Toggle the reading ruler'
-      ),
-    ]),
-    h('ab-inner-menu-section', {class: 'ab-box'}, [
-      h(
-        'ab-colour-presets',
-        {class: 'ab-colour-presets ab-growable ab-flex-column'},
-        [
-          h('ab-inner-menu-title', {class: 'ab-title'}, 'Presets'),
-          h('ab-colours', {class: 'ab-colours'}, [
-            h('ab-colour', {
-              'aria-label': 'Change colour to red',
-              class: `ab-colour ab-red ${
-                state.rulerReadingColourCurrent === 'red' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'red'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to blue',
-              class: `ab-colour ab-blue ${
-                state.rulerReadingColourCurrent === 'blue' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'blue'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to green',
-              class: `ab-colour ab-green ${
-                state.rulerReadingColourCurrent === 'green' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'green'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to yellow',
-              class: `ab-colour ab-yellow ${
-                state.rulerReadingColourCurrent === 'yellow' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'yellow'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to orange',
-              class: `ab-colour ab-orange ${
-                state.rulerReadingColourCurrent === 'orange' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'orange'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to purple',
-              class: `ab-colour ab-purple ${
-                state.rulerReadingColourCurrent === 'purple' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'purple'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to black',
-              class: `ab-colour ab-black ${
-                state.rulerReadingColourCurrent === 'black' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'black'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to grey',
-              class: `ab-colour ab-grey ${
-                state.rulerReadingColourCurrent === 'grey' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'grey'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change colour to white',
-              class: `ab-colour ab-white ${
-                state.rulerReadingColourCurrent === 'white' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangeReadingColour, 'white'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-          ]),
-        ]
-      ),
-      h(
-        'ab-colour-custom',
-        {class: 'ab-colour-custom ab-growable ab-flex-column'},
-        [
-          h('ab-inner-menu-title', {class: 'ab-title'}, 'Custom'),
-          h(
-            'ab-inner-menu-desc',
-            {id: 'ab-custom-colour-desc-reading-mask', class: 'ab-desc'},
-            ['Click to select', h('br'), 'custom colour.']
-          ),
-          h(
-            'ab-custom-colour-container',
-            {class: 'ab-custom-container ab-flex'},
-            [
-              h('ab-custom-colour-box', {
-                'aria-labelledby': 'ab-custom-colour-desc-reading-mask',
-                'aria-pressed': state.rulerReadingCustomColourActive
-                  ? 'true'
-                  : 'false',
-                class: `ab-custom-box ${
-                  state.rulerReadingCustomColourActive ? 'ab-active' : ''
+  return h(
+    'ab-ruler-options-inner-menu-reading',
+    {class: 'ab-flex-column', id: 'ab-ruler-options-inner-menu-reading'},
+    [
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        switchEl(
+          state.rulerReadingActive,
+          rulerReadingToggle,
+          'Toggle Reading Ruler',
+          'Toggle the reading ruler',
+          'ab-switch-rulerReadingToggle'
+        ),
+      ]),
+      h('ab-inner-menu-section', {class: 'ab-box'}, [
+        h(
+          'ab-colour-presets',
+          {class: 'ab-colour-presets ab-growable ab-flex-column'},
+          [
+            h('ab-inner-menu-title', {class: 'ab-title'}, 'Presets'),
+            h('ab-colours', {class: 'ab-colours'}, [
+              h('ab-colour', {
+                'aria-label': 'Change colour to red',
+                class: `ab-colour ab-red ${
+                  state.rulerReadingColourCurrent === 'red' ? 'ab-active' : ''
                 }`,
-                id: 'ab-reading-ruler-colour-custom-box',
+                onclick: [rulerChangeReadingColour, 'red'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'red'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to blue',
+                class: `ab-colour ab-blue ${
+                  state.rulerReadingColourCurrent === 'blue' ? 'ab-active' : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'blue'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'blue'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to green',
+                class: `ab-colour ab-green ${
+                  state.rulerReadingColourCurrent === 'green' ? 'ab-active' : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'green'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'green'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to yellow',
+                class: `ab-colour ab-yellow ${
+                  state.rulerReadingColourCurrent === 'yellow'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'yellow'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'yellow'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to orange',
+                class: `ab-colour ab-orange ${
+                  state.rulerReadingColourCurrent === 'orange'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'orange'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'orange'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to purple',
+                class: `ab-colour ab-purple ${
+                  state.rulerReadingColourCurrent === 'purple'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'purple'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'purple'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to black',
+                class: `ab-colour ab-black ${
+                  state.rulerReadingColourCurrent === 'black' ? 'ab-active' : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'black'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'black'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to grey',
+                class: `ab-colour ab-grey ${
+                  state.rulerReadingColourCurrent === 'grey' ? 'ab-active' : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'grey'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'grey'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change colour to white',
+                class: `ab-colour ab-white ${
+                  state.rulerReadingColourCurrent === 'white' ? 'ab-active' : ''
+                }`,
+                onclick: [rulerChangeReadingColour, 'white'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangeReadingColour, 'white'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+            ]),
+          ]
+        ),
+        h(
+          'ab-colour-custom',
+          {class: 'ab-colour-custom ab-growable ab-flex-column'},
+          [
+            h('ab-inner-menu-title', {class: 'ab-title'}, 'Custom'),
+            h(
+              'ab-inner-menu-desc',
+              {id: 'ab-custom-colour-desc-reading-mask', class: 'ab-desc'},
+              ['Click to select', h('br'), 'custom colour.']
+            ),
+            h(
+              'ab-custom-colour-container',
+              {class: 'ab-custom-container ab-flex'},
+              [
+                h('ab-custom-colour-box', {
+                  'aria-labelledby': 'ab-custom-colour-desc-reading-mask',
+                  'aria-pressed': state.rulerReadingCustomColourActive
+                    ? 'true'
+                    : 'false',
+                  class: `ab-custom-box ${
+                    state.rulerReadingCustomColourActive ? 'ab-active' : ''
+                  }`,
+                  id: 'ab-reading-ruler-colour-custom-box',
+                  onmouseover: [
+                    aceCreatePickr,
+                    {
+                      id: '#ab-reading-ruler-colour-custom-box',
+                      action: rulerChangeReadingCustomColour,
+                    },
+                  ],
+                  onkeydown: handleButtonNavigation,
+                  role: 'button',
+                  tabindex: 0,
+                  style: {background: state.rulerReadingCustomColourCurrent},
+                }),
+              ]
+            ),
+          ]
+        ),
+      ]),
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        h(
+          'ab-counter',
+          {
+            'aria-valuemax': '90',
+            'aria-valuemin': '20',
+            'aria-valuenow': rulerReadingOpacityPercentage,
+            'aria-valuetext': `${rulerReadingOpacityPercentage}%`,
+            class: 'ab-counter ab-growable',
+            role: 'spinbutton',
+          },
+          [
+            h(
+              'ab-counter-decrease',
+              {
+                'aria-label': 'Decrease reading ruler opacity',
+                class: 'ab-dec ab-bar-button',
+                id: 'ab-reading-ruler-opacity-dec',
+                onclick: rulerReadingOpacityDec,
                 onmouseover: [
-                  aceCreatePickr,
+                  aceAddTippy,
                   {
-                    id: '#ab-reading-ruler-colour-custom-box',
-                    action: rulerChangeReadingCustomColour,
+                    id: '#ab-reading-ruler-opacity-dec',
+                    content: 'Decrease Opacity',
+                  },
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {
+                    id: '#ab-reading-ruler-opacity-dec',
+                    content: 'Decrease Opacity',
                   },
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
-                style: {background: state.rulerReadingCustomColourCurrent},
-              }),
-            ]
-          ),
-        ]
-      ),
-    ]),
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      h(
-        'ab-counter',
-        {
-          'aria-valuemax': '90',
-          'aria-valuemin': '20',
-          'aria-valuenow': rulerReadingOpacityPercentage,
-          'aria-valuetext': `${rulerReadingOpacityPercentage}%`,
-          class: 'ab-counter ab-growable',
-          role: 'spinbutton',
-        },
-        [
-          h(
-            'ab-counter-decrease',
-            {
-              'aria-label': 'Decrease reading ruler opacity',
-              class: 'ab-dec ab-bar-button',
-              id: 'ab-reading-ruler-opacity-dec',
-              onclick: rulerReadingOpacityDec,
-              onmouseover: [
-                aceAddTippy,
-                {
-                  id: '#ab-reading-ruler-opacity-dec',
-                  content: 'Decrease Opacity',
-                },
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {
-                  id: '#ab-reading-ruler-opacity-dec',
-                  content: 'Decrease Opacity',
-                },
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-minus',
-              }),
-            ]
-          ),
-          h('ab-count-container', {class: 'ab-count-container'}, [
-            h('ab-count-header', {class: 'ab-count-header'}, 'Opacity'),
-            h(
-              'ab-count-value',
-              {class: 'ab-count'},
-              `${rulerReadingOpacityPercentage}%`
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-minus',
+                }),
+              ]
             ),
-          ]),
-          h(
-            'ab-counter-increase',
-            {
-              'aria-label': 'Increase reading ruler opacity',
-              class: 'ab-inc ab-bar-button',
-              id: 'ab-reading-ruler-opacity-inc',
-              onclick: rulerReadingOpacityInc,
-              onmouseover: [
-                aceAddTippy,
-                {
-                  id: '#ab-ruler-reading-opacity-inc',
-                  content: 'Increase Opacity',
-                },
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {
-                  id: '#ab-ruler-reading-opacity-inc',
-                  content: 'Increase Opacity',
-                },
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-plus',
-              }),
-            ]
-          ),
-        ]
-      ),
-    ]),
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      h(
-        'ab-counter',
-        {
-          'aria-valuemax': String(state.rulerHeightMax),
-          'aria-valuemin': '1',
-          'aria-valuenow': String(state.rulerHeight),
-          'aria-valuetext': String(state.rulerHeight),
-          class: 'ab-counter ab-growable',
-          role: 'spinbutton',
-        },
-        [
-          h(
-            'ab-counter-decrease',
-            {
-              'aria-label': 'Decrease ruler size',
-              class: 'ab-dec ab-bar-button',
-              id: 'ab-ruler-size-dec',
-              onclick: rulerSizeDecrease,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-ruler-size-dec', content: 'Decrease Size'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-ruler-size-dec', content: 'Decrease Size'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-minus',
-              }),
-            ]
-          ),
-          h('ab-count-container', {class: 'ab-count-container'}, [
-            h('ab-count-header', {class: 'ab-count-header'}, 'Size'),
-            h('ab-count-value', {class: 'ab-count'}, state.rulerHeight),
-          ]),
-          h(
-            'ab-counter-increase',
-            {
-              'aria-label': 'Increase ruler size',
-              class: 'ab-inc ab-bar-button',
-              id: 'ab-ruler-size-inc',
-              onclick: rulerSizeIncrease,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-ruler-size-inc', content: 'Increase Size'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-ruler-size-inc', content: 'Increase Size'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-plus',
-              }),
-            ]
-          ),
-        ]
-      ),
-    ]),
-  ]);
+            h('ab-count-container', {class: 'ab-count-container'}, [
+              h('ab-count-header', {class: 'ab-count-header'}, 'Opacity'),
+              h(
+                'ab-count-value',
+                {class: 'ab-count'},
+                `${rulerReadingOpacityPercentage}%`
+              ),
+            ]),
+            h(
+              'ab-counter-increase',
+              {
+                'aria-label': 'Increase reading ruler opacity',
+                class: 'ab-inc ab-bar-button',
+                id: 'ab-reading-ruler-opacity-inc',
+                onclick: rulerReadingOpacityInc,
+                onmouseover: [
+                  aceAddTippy,
+                  {
+                    id: '#ab-ruler-reading-opacity-inc',
+                    content: 'Increase Opacity',
+                  },
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {
+                    id: '#ab-ruler-reading-opacity-inc',
+                    content: 'Increase Opacity',
+                  },
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-plus',
+                }),
+              ]
+            ),
+          ]
+        ),
+      ]),
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        h(
+          'ab-counter',
+          {
+            'aria-valuemax': String(state.rulerHeightMax),
+            'aria-valuemin': '1',
+            'aria-valuenow': String(state.rulerHeight),
+            'aria-valuetext': String(state.rulerHeight),
+            class: 'ab-counter ab-growable',
+            role: 'spinbutton',
+          },
+          [
+            h(
+              'ab-counter-decrease',
+              {
+                'aria-label': 'Decrease ruler size',
+                class: 'ab-dec ab-bar-button',
+                id: 'ab-ruler-size-dec',
+                onclick: rulerSizeDecrease,
+                onmouseover: [
+                  aceAddTippy,
+                  {id: '#ab-ruler-size-dec', content: 'Decrease Size'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-ruler-size-dec', content: 'Decrease Size'},
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-minus',
+                }),
+              ]
+            ),
+            h('ab-count-container', {class: 'ab-count-container'}, [
+              h('ab-count-header', {class: 'ab-count-header'}, 'Size'),
+              h('ab-count-value', {class: 'ab-count'}, state.rulerHeight),
+            ]),
+            h(
+              'ab-counter-increase',
+              {
+                'aria-label': 'Increase ruler size',
+                class: 'ab-inc ab-bar-button',
+                id: 'ab-ruler-size-inc',
+                onclick: rulerSizeIncrease,
+                onmouseover: [
+                  aceAddTippy,
+                  {id: '#ab-ruler-size-inc', content: 'Increase Size'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-ruler-size-inc', content: 'Increase Size'},
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-plus',
+                }),
+              ]
+            ),
+          ]
+        ),
+      ]),
+    ]
+  );
 };
 
 const rulerOptionsInnerPinhole = (state: Ace.State) => {
@@ -1423,316 +1912,456 @@ const rulerOptionsInnerPinhole = (state: Ace.State) => {
     state.rulerPinholeOpacity
   ).times(100);
 
-  return h('ab-ruler-options-inner-menu-pinhole', {class: 'ab-flex-column'}, [
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      switchEl(
-        state.rulerPinholeActive,
-        rulerPinholeToggle,
-        'Toggle Pinhole',
-        'Toggle the pinhole ruler'
-      ),
-    ]),
-    // Masked outer section color
-    h('ab-inner-menu-section', {class: 'ab-box'}, [
-      h(
-        'ab-colour-presets',
-        {class: 'ab-colour-presets ab-growable ab-flex-column'},
-        [
-          h('ab-inner-menu-title', {class: 'ab-title'}, 'Presets'),
-          h('ab-colours', {class: 'ab-colours'}, [
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to red',
-              class: `ab-colour ab-red ${
-                state.rulerPinholeMaskColourCurrent === 'red' ? 'ab-active' : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'red'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to blue',
-              class: `ab-colour ab-blue ${
-                state.rulerPinholeMaskColourCurrent === 'blue'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'blue'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to green',
-              class: `ab-colour ab-green ${
-                state.rulerPinholeMaskColourCurrent === 'green'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'green'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to yellow',
-              class: `ab-colour ab-yellow ${
-                state.rulerPinholeMaskColourCurrent === 'yellow'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'yellow'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to orange',
-              class: `ab-colour ab-orange ${
-                state.rulerPinholeMaskColourCurrent === 'orange'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'orange'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to purple',
-              class: `ab-colour ab-purple ${
-                state.rulerPinholeMaskColourCurrent === 'purple'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'purple'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to black',
-              class: `ab-colour ab-black ${
-                state.rulerPinholeMaskColourCurrent === 'black'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'black'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to grey',
-              class: `ab-colour ab-grey ${
-                state.rulerPinholeMaskColourCurrent === 'grey'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'grey'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-            h('ab-colour', {
-              'aria-label': 'Change mask colour to white',
-              class: `ab-colour ab-white ${
-                state.rulerPinholeMaskColourCurrent === 'white'
-                  ? 'ab-active'
-                  : ''
-              }`,
-              onclick: [rulerChangePinholeMaskColour, 'white'],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            }),
-          ]),
-        ]
-      ),
-      h(
-        'ab-colour-custom',
-        {class: 'ab-colour-custom ab-growable ab-flex-column'},
-        [
-          h('ab-inner-menu-title', {class: 'ab-title'}, 'Custom'),
-          h(
-            'ab-inner-menu-desc',
-            {id: 'ab-custom-colour-desc-pinhole-mask', class: 'ab-desc'},
-            ['Click to select', h('br'), 'custom colour.']
-          ),
-          h(
-            'ab-custom-colour-container',
-            {class: 'ab-custom-container ab-flex'},
-            [
-              h('ab-custom-colour-box', {
-                'aria-labelledby': 'ab-custom-colour-desc-pinhole-mask',
-                'aria-pressed': state.rulerPinholeMaskCustomActive
-                  ? 'true'
-                  : 'false',
-                class: `ab-custom-box ${
-                  state.rulerPinholeMaskCustomActive ? 'ab-active' : ''
+  return h(
+    'ab-ruler-options-inner-menu-pinhole',
+    {class: 'ab-flex-column', id: 'ab-ruler-options-inner-menu-pinhole'},
+    [
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        switchEl(
+          state.rulerPinholeActive,
+          rulerPinholeToggle,
+          'Toggle Pinhole',
+          'Toggle the pinhole ruler',
+          'ab-switch-rulerPinholeToggle'
+        ),
+      ]),
+      // Masked outer section color
+      h('ab-inner-menu-section', {class: 'ab-box'}, [
+        h(
+          'ab-colour-presets',
+          {class: 'ab-colour-presets ab-growable ab-flex-column'},
+          [
+            h('ab-inner-menu-title', {class: 'ab-title'}, 'Presets'),
+            h('ab-colours', {class: 'ab-colours'}, [
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to red',
+                class: `ab-colour ab-red ${
+                  state.rulerPinholeMaskColourCurrent === 'red'
+                    ? 'ab-active'
+                    : ''
                 }`,
-                id: 'ab-pinhole-mask-colour-custom-box',
+                onclick: [rulerChangePinholeMaskColour, 'red'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'red'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to blue',
+                class: `ab-colour ab-blue ${
+                  state.rulerPinholeMaskColourCurrent === 'blue'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'blue'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'blue'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to green',
+                class: `ab-colour ab-green ${
+                  state.rulerPinholeMaskColourCurrent === 'green'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'green'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'green'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to yellow',
+                class: `ab-colour ab-yellow ${
+                  state.rulerPinholeMaskColourCurrent === 'yellow'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'yellow'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'yellow'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to orange',
+                class: `ab-colour ab-orange ${
+                  state.rulerPinholeMaskColourCurrent === 'orange'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'orange'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'orange'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to purple',
+                class: `ab-colour ab-purple ${
+                  state.rulerPinholeMaskColourCurrent === 'purple'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'purple'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'purple'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to black',
+                class: `ab-colour ab-black ${
+                  state.rulerPinholeMaskColourCurrent === 'black'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'black'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'black'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to grey',
+                class: `ab-colour ab-grey ${
+                  state.rulerPinholeMaskColourCurrent === 'grey'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'grey'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'grey'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+              h('ab-colour', {
+                'aria-label': 'Change mask colour to white',
+                class: `ab-colour ab-white ${
+                  state.rulerPinholeMaskColourCurrent === 'white'
+                    ? 'ab-active'
+                    : ''
+                }`,
+                onclick: [rulerChangePinholeMaskColour, 'white'],
+                onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                  const {type, code} = event;
+                  if (code !== 'Enter') {
+                    return state;
+                  }
+                  if (
+                    type !== 'keydown' &&
+                    type !== 'click' &&
+                    type !== 'keypress'
+                  ) {
+                    return state;
+                  }
+                  return [rulerChangePinholeMaskColour, 'white'];
+                },
+                role: 'button',
+                tabindex: 0,
+              }),
+            ]),
+          ]
+        ),
+        h(
+          'ab-colour-custom',
+          {class: 'ab-colour-custom ab-growable ab-flex-column'},
+          [
+            h('ab-inner-menu-title', {class: 'ab-title'}, 'Custom'),
+            h(
+              'ab-inner-menu-desc',
+              {id: 'ab-custom-colour-desc-pinhole-mask', class: 'ab-desc'},
+              ['Click to select', h('br'), 'custom colour.']
+            ),
+            h(
+              'ab-custom-colour-container',
+              {class: 'ab-custom-container ab-flex'},
+              [
+                h('ab-custom-colour-box', {
+                  'aria-labelledby': 'ab-custom-colour-desc-pinhole-mask',
+                  'aria-pressed': state.rulerPinholeMaskCustomActive
+                    ? 'true'
+                    : 'false',
+                  class: `ab-custom-box ${
+                    state.rulerPinholeMaskCustomActive ? 'ab-active' : ''
+                  }`,
+                  id: 'ab-pinhole-mask-colour-custom-box',
+                  onmouseover: [
+                    aceCreatePickr,
+                    {
+                      id: '#ab-pinhole-mask-colour-custom-box',
+                      action: rulerChangePinholeMaskCustomColour,
+                    },
+                  ],
+                  onkeydown: handleButtonNavigation,
+                  role: 'button',
+                  tabindex: 0,
+                  style: {
+                    background: state.rulerPinholeMaskColourCustomCurrent,
+                  },
+                }),
+              ]
+            ),
+          ]
+        ),
+      ]),
+      // End outer section color
+
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        h(
+          'ab-counter',
+          {
+            'aria-valuemax': '90',
+            'aria-valuemin': '20',
+            'aria-valuenow': rulerPinholeOpacityPercentage,
+            'aria-valuetext': `${rulerPinholeOpacityPercentage}%`,
+            class: 'ab-counter ab-growable',
+            role: 'spinbutton',
+          },
+          [
+            h(
+              'ab-counter-decrease',
+              {
+                'aria-label': 'Decrease pinhole ruler opacity',
+                class: 'ab-dec ab-bar-button',
+                id: 'ab-pinhole-ruler-opacity-dec',
+                onclick: rulerPinholeOpacityDec,
                 onmouseover: [
-                  aceCreatePickr,
+                  aceAddTippy,
                   {
-                    id: '#ab-pinhole-mask-colour-custom-box',
-                    action: rulerChangePinholeMaskCustomColour,
+                    id: '#ab-pinhole-ruler-opacity-dec',
+                    content: 'Decrease Opacity',
+                  },
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {
+                    id: '#ab-pinhole-ruler-opacity-dec',
+                    content: 'Decrease Opacity',
                   },
                 ],
                 onkeydown: handleButtonNavigation,
                 role: 'button',
-                style: {background: state.rulerPinholeMaskColourCustomCurrent},
-              }),
-            ]
-          ),
-        ]
-      ),
-    ]),
-    // End outer section color
-
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      h(
-        'ab-counter',
-        {
-          'aria-valuemax': '90',
-          'aria-valuemin': '20',
-          'aria-valuenow': rulerPinholeOpacityPercentage,
-          'aria-valuetext': `${rulerPinholeOpacityPercentage}%`,
-          class: 'ab-counter ab-growable',
-          role: 'spinbutton',
-        },
-        [
-          h(
-            'ab-counter-decrease',
-            {
-              'aria-label': 'Decrease pinhole ruler opacity',
-              class: 'ab-dec ab-bar-button',
-              id: 'ab-pinhole-ruler-opacity-dec',
-              onclick: rulerPinholeOpacityDec,
-              onmouseover: [
-                aceAddTippy,
-                {
-                  id: '#ab-pinhole-ruler-opacity-dec',
-                  content: 'Decrease Opacity',
-                },
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {
-                  id: '#ab-pinhole-ruler-opacity-dec',
-                  content: 'Decrease Opacity',
-                },
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-minus',
-              }),
-            ]
-          ),
-          h('ab-count-container', {class: 'ab-count-container'}, [
-            h('ab-count-header', {class: 'ab-count-header'}, 'Opacity'),
-            h(
-              'ab-count-value',
-              {class: 'ab-count'},
-              `${rulerPinholeOpacityPercentage}%`
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-minus',
+                }),
+              ]
             ),
-          ]),
-          h(
-            'ab-counter-increase',
-            {
-              'aria-label': 'Increase pinhole ruler opacity',
-              class: 'ab-inc ab-bar-button',
-              id: 'ab-pinhole-ruler-opacity-inc',
-              onclick: rulerPinholeOpacityInc,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-ruler-pinhole-opacity-inc', content: 'Increase'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-ruler-pinhole-opacity-inc', content: 'Increase'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-plus',
-              }),
-            ]
-          ),
-        ]
-      ),
-    ]),
-    h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
-      h(
-        'ab-counter',
-        {
-          'aria-valuemax': String(
-            state.rulerPinholeCentreHeightMax /
-              state.rulerPinholeCentreHeightStep
-          ),
-          'aria-valuemin': '1',
-          'aria-valuenow': String(size),
-          'aria-valuetext': String(size),
-          class: 'ab-counter ab-growable',
-          role: 'spinbutton',
-        },
-        [
-          h(
-            'ab-counter-decrease',
-            {
-              'aria-label': 'Decrease pinhole ruler size',
-              class: 'ab-dec ab-bar-button',
-              id: 'ab-pinhole-ruler-size-dec',
-              onclick: rulerPinholeSizeDec,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-pinhole-ruler-size-dec', content: 'Decrease Size'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-pinhole-ruler-size-dec', content: 'Decrease Size'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-minus',
-              }),
-            ]
-          ),
-          h('ab-count-container', {class: 'ab-count-container'}, [
-            h('ab-count-header', {class: 'ab-count-header'}, 'Size'),
-            h('ab-count-value', {class: 'ab-count'}, size),
-          ]),
-          h(
-            'ab-counter-increase',
-            {
-              'aria-label': 'Increase pinhole ruler size',
-              class: 'ab-inc ab-bar-button',
-              id: 'ab-pinhole-ruler-size-inc',
-              onclick: rulerPinholeSizeInc,
-              onmouseover: [
-                aceAddTippy,
-                {id: '#ab-ruler-pinhole-size-inc', content: 'Increase'},
-              ],
-              onmouseenter: [
-                aceSpeakTooltip,
-                {id: '#ab-ruler-pinhole-size-inc', content: 'Increase'},
-              ],
-              onkeydown: handleButtonNavigation,
-              role: 'button',
-            },
-            [
-              h('ab-icon', {
-                'aria-hidden': true,
-                class: 'ab-icon ab-icon-plus',
-              }),
-            ]
-          ),
-        ]
-      ),
-    ]),
-  ]);
+            h('ab-count-container', {class: 'ab-count-container'}, [
+              h('ab-count-header', {class: 'ab-count-header'}, 'Opacity'),
+              h(
+                'ab-count-value',
+                {class: 'ab-count'},
+                `${rulerPinholeOpacityPercentage}%`
+              ),
+            ]),
+            h(
+              'ab-counter-increase',
+              {
+                'aria-label': 'Increase pinhole ruler opacity',
+                class: 'ab-inc ab-bar-button',
+                id: 'ab-pinhole-ruler-opacity-inc',
+                onclick: rulerPinholeOpacityInc,
+                onmouseover: [
+                  aceAddTippy,
+                  {id: '#ab-ruler-pinhole-opacity-inc', content: 'Increase'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-ruler-pinhole-opacity-inc', content: 'Increase'},
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-plus',
+                }),
+              ]
+            ),
+          ]
+        ),
+      ]),
+      h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
+        h(
+          'ab-counter',
+          {
+            'aria-valuemax': String(
+              state.rulerPinholeCentreHeightMax /
+                state.rulerPinholeCentreHeightStep
+            ),
+            'aria-valuemin': '1',
+            'aria-valuenow': String(size),
+            'aria-valuetext': String(size),
+            class: 'ab-counter ab-growable',
+            role: 'spinbutton',
+          },
+          [
+            h(
+              'ab-counter-decrease',
+              {
+                'aria-label': 'Decrease pinhole ruler size',
+                class: 'ab-dec ab-bar-button',
+                id: 'ab-pinhole-ruler-size-dec',
+                onclick: rulerPinholeSizeDec,
+                onmouseover: [
+                  aceAddTippy,
+                  {id: '#ab-pinhole-ruler-size-dec', content: 'Decrease Size'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-pinhole-ruler-size-dec', content: 'Decrease Size'},
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-minus',
+                }),
+              ]
+            ),
+            h('ab-count-container', {class: 'ab-count-container'}, [
+              h('ab-count-header', {class: 'ab-count-header'}, 'Size'),
+              h('ab-count-value', {class: 'ab-count'}, size),
+            ]),
+            h(
+              'ab-counter-increase',
+              {
+                'aria-label': 'Increase pinhole ruler size',
+                class: 'ab-inc ab-bar-button',
+                id: 'ab-pinhole-ruler-size-inc',
+                onclick: rulerPinholeSizeInc,
+                onmouseover: [
+                  aceAddTippy,
+                  {id: '#ab-ruler-pinhole-size-inc', content: 'Increase'},
+                ],
+                onmouseenter: [
+                  aceSpeakTooltip,
+                  {id: '#ab-ruler-pinhole-size-inc', content: 'Increase'},
+                ],
+                onkeydown: handleButtonNavigation,
+                role: 'button',
+                tabindex: 0,
+              },
+              [
+                h('ab-icon', {
+                  'aria-hidden': true,
+                  class: 'ab-icon ab-icon-plus',
+                }),
+              ]
+            ),
+          ]
+        ),
+      ]),
+    ]
+  );
 };
 
 const rulerOptionsInnerMenus = new Map([
@@ -1760,9 +2389,11 @@ const rulerOptionsMenu = (state: Ace.State) => {
           class: `ab-menu-tab-button ${
             state.rulerOpsInnerMenuCurrent === 'reading' ? 'ab-active' : ''
           }`,
+          id: 'ab-tab-button-reading',
           onclick: [menuRulerOpsSwitchInner, 'reading'],
           onkeydown: handleButtonNavigation,
           role: 'tab',
+          tabindex: 0,
         },
         'Reading'
       ),
@@ -1774,9 +2405,11 @@ const rulerOptionsMenu = (state: Ace.State) => {
           class: `ab-menu-tab-button ${
             state.rulerOpsInnerMenuCurrent === 'pinhole' ? 'ab-active' : ''
           }`,
+          id: 'ab-tab-button-pinhole',
           onclick: [menuRulerOpsSwitchInner, 'pinhole'],
           onkeydown: handleButtonNavigation,
           role: 'tab',
+          tabindex: 0,
         },
         'Pinhole'
       ),
@@ -1799,7 +2432,8 @@ const srMenu = (state: Ace.State) => {
         state.srActive,
         srToggle,
         'Activate Speech Recognition',
-        'Activate Speech Recognition'
+        'Activate Speech Recognition',
+        'ab-switch-srToggle'
       ),
     ]),
     h('ab-inner-menu-section', {class: 'ab-menu-content'}, [
@@ -1849,7 +2483,18 @@ const ptMenu = (state: Ace.State) => {
       {
         class: 'ab-custom-list-selection-item',
         onclick: [languageToggleCurrent, key],
+        onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+          const {type, code} = event;
+          if (code !== 'Enter') {
+            return state;
+          }
+          if (type !== 'keydown' && type !== 'click' && type !== 'keypress') {
+            return state;
+          }
+          return [languageToggleCurrent, key];
+        },
         role: 'option',
+        tabindex: 0,
       },
       obj.name
     );
@@ -1866,7 +2511,8 @@ const ptMenu = (state: Ace.State) => {
           state.ptActive,
           ptToggle,
           'Activate Page Translation',
-          'Toggle Page Translation'
+          'Toggle Page Translation',
+          'ab-switch-ptToggle'
         ),
       ]),
       h('ab-inner-menu-section', {class: 'ab-box ab-flex-column'}, [
@@ -1884,9 +2530,24 @@ const ptMenu = (state: Ace.State) => {
                   'ab-custom-list-box',
                   {
                     class: 'ab-custom-list-box ab-flex ab-active',
-                    id: 'ab-custom-list-box',
+                    id: 'ab-custom-list-box-language',
                     onclick: languageToggleList,
+                    onkeydown: (state: Ace.State, event: KeyboardEvent) => {
+                      const {type, code} = event;
+                      if (code !== 'Enter') {
+                        return state;
+                      }
+                      if (
+                        type !== 'keydown' &&
+                        type !== 'click' &&
+                        type !== 'keypress'
+                      ) {
+                        return state;
+                      }
+                      return languageToggleList;
+                    },
                     style: {},
+                    tabindex: 0,
                   },
                   currentLanguage
                 ),

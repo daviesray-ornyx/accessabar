@@ -19,7 +19,9 @@ const aboutHeader = ({aboutHidden}) => {
         'aria-pressed': String(aboutHidden),
         class: 'ab-modal-close-button',
         onclick: aboutClose,
+        onkeydown: aboutClose,
         role: 'button',
+        tabindex: 0,
       },
       [
         h('ab-icon', {

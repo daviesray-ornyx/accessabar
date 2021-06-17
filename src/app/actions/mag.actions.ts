@@ -6,6 +6,11 @@ import {
   fxMagResetState,
   fxMagScrollEvents,
 } from '../fx/mag.fx';
+import {
+  fxDragStartMouseEvents,
+  fxDragStopMouseEvents,
+  fxDragStop,
+} from '../fx/drag.fx';
 
 function getScrollOffsets() {
   const doc = document,
@@ -35,8 +40,6 @@ function magScaleIncrease(state: Ace.State) {
   }
 
   const pScaleAdd = pScale.plus(magScaleStep).toFixed(1);
-
-  // console.log(pScaleAdd);
 
   return {
     ...state,
@@ -394,12 +397,6 @@ function magUpdateSize(state) {
     document.defaultView.getComputedStyle(mag).height,
     10
   );
-
-  //  var startWidth = parseInt(mag.style.width);
-  // //  var startHeight = parseInt(mag.style.height);
-  // console.log('resize');
-  // console.log('newWidth: ' + newWidth + ', newHeight: ' + newHeight);
-
   return {
     ...state,
     magWidth: newWidth,
@@ -432,6 +429,17 @@ function magEndDrag(state: Ace.State) {
   return [newState, fxMagDragEvents(newState)];
 }
 
+function magResetAll(state: Ace.State) {
+  const newState = {
+    ...state,
+    magActive: false,
+    magCanDrag: false,
+  };
+
+  apiSendEvent('AceMagnifier_Off');
+  return [newState];
+}
+
 export {
   magScaleIncrease,
   magScaleDecrease,
@@ -449,4 +457,5 @@ export {
   magWidthDecrease,
   magWidthIncrease,
   getScrollOffsets,
+  magResetAll,
 };

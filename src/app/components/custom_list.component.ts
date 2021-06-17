@@ -6,6 +6,12 @@ interface CustomList {
   active: boolean;
   customListID: string;
   openList(state: Ace.State): unknown;
+  openListKeyPress?(state: Ace.State): unknown;
+}
+
+function enterKeyPressed(event: KeyboardEvent) {
+  const {code} = event;
+  return code === 'Enter';
 }
 
 const customList = ({
@@ -21,7 +27,10 @@ const customList = ({
       {
         class: `ab-custom-list-box ab-flex ${active ? 'ab-active' : ''}`,
         id: customListID,
+        tabindex: 0,
         onclick: openList,
+        onkeydown: (state, event) =>
+          enterKeyPressed(event) ? openList(state) : state,
       },
       currentItem
     ),
@@ -48,7 +57,10 @@ const customListItemFactory = (listItems: Ace.ListItem[]): VNode[] => {
       {
         class: 'ab-custom-list-selection-item',
         onclick: [obj.action, obj.key],
+        onkeydown: (state, event) =>
+          enterKeyPressed(event) ? [obj.action, obj.key] : state,
         role: 'option',
+        tabindex: 0,
       },
       obj.name
     );

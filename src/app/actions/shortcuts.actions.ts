@@ -1,4 +1,12 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-case-declarations */
 import fontConfig from '../../config/fonts.config.json5';
+import {
+  fxDragStartMouseEvents,
+  fxDragStopMouseEvents,
+  fxDragStop,
+} from '../fx/drag.fx';
+
 import {
   fxTTSEnable,
   fxTTSStopAll,
@@ -21,6 +29,8 @@ import {
   fxPinholeSizeIncrease,
   fxPinholeSizeDecrease,
   fxSREnable,
+  fxMenuOpen,
+  fxMenuClose,
 } from '../fx/shortcuts.fx';
 
 function isModifierKey(event: KeyboardEvent) {
@@ -49,7 +59,9 @@ function buildModifierKeys(event: KeyboardEvent) {
   const shiftKey = event.shiftKey ? 'shift' : '';
   return concatWithSeparator([altKey, ctrlKey, shiftKey], ',');
 }
+
 function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
+  //eventData.preventDefault(); // prevent default action
   if (!state.kbsReady) {
     return state;
   }
@@ -77,6 +89,29 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
     };
     return newState;
   } else if (eventData.type === 'keyup') {
+    if (eventData.key === 'Escape') {
+      // Need to close topmost open menus at the moment
+      if (Object.keys(state.menus).length > 0) {
+        const menuName = Object.keys(state.menus)[0];
+        // Need to adjust tabbing container settings
+        const newState = {
+          ...state,
+          tabContainerActive: true,
+          tabContainerCurrent: 'ab-button-area',
+          tabContainerActivator: '',
+        };
+        // tabContainerActivator
+        const activatorButton = document.getElementById(
+          state.tabContainerActivator
+        );
+        if (activatorButton) {
+          activatorButton.focus();
+        }
+        return [newState, fxMenuClose(state, menuName)];
+      }
+      return state;
+    }
+
     if (isModifierKey(eventData)) {
       return state;
     }
@@ -287,16 +322,23 @@ function buildKeyCombination(state: Ace.State, eventData: KeyboardEvent) {
       case 'alt,s':
         return [newState, fxSREnable(newState)];
       default:
-        return {
-          ...state,
-          kbsKeyCombination: '',
-          kbsCount: 0,
-          kbsReady: true,
-        };
+        return newState;
     }
   } else {
     return state;
   }
 }
 
+function openMenu(state: Ace.State, menuName, title, defaultFunc) {
+  return [state, fxMenuOpen(state, menuName, title, defaultFunc)];
+}
+
+function focusHelper(state: Ace.State, eventData: MouseEvent) {
+  if (eventData.type !== 'click') {
+    return state;
+  }
+
+  return [state, fxDragStopMouseEvents(state)];
+}
 export default buildKeyCombination;
+export {buildKeyCombination, openMenu, focusHelper};
