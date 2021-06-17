@@ -18,16 +18,14 @@ function ptEnable(state: Ace.State) {
 }
 
 function ptCachePage(state: Ace.State) {
-  if (state.ptPageUrlCached === window.location.href) {
-    return state;
-  }
-
   const parentElements = getParents();
-  parentElements.forEach(element => {
-    const originalTextContent = element.textContent || undefined;
-    element.dataset.original = originalTextContent;
-  });
-
+  if (state.ptPageUrlCached !== window.location.href) {
+    // ensures that we don't override the original language text
+    parentElements.forEach(element => {
+      const originalTextContent = element.textContent || undefined;
+      element.dataset.original = originalTextContent;
+    });
+  }
   return {
     ...state,
     ptPageUrlCached: window.location.href,
