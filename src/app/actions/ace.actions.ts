@@ -1,5 +1,5 @@
 import Pickr from '@simonwep/pickr';
-import tippy from 'tippy.js';
+import tippy, {Tippy} from 'tippy.js';
 import {fxAceSpeakTooltip} from '../fx/ace.fx';
 import tabConfig from '../../config/tab.config.json5';
 import {functionNameConfig, fxMenuClose} from '../fx/shortcuts.fx';
@@ -147,7 +147,6 @@ function aceHide(state: Ace.State) {
   if (moveBody) {
     document.body.style.marginTop = '2px';
   }
-
   return {...state, aceHidden: true, menusHidden: true};
 }
 
@@ -367,16 +366,19 @@ function aceCreatePickr(
 }
 
 function aceAddTippy(state: Ace.State, opts: {id: string; content: string}) {
-  if (state.aceTooltips.indexOf(opts.id) === -1) {
-    tippy(`#accessabar ${opts.id}`, {
-      arrow: true,
-      content: opts.content,
-      placement: 'bottom',
-      theme: 'ab',
-    });
-    state.aceTooltips.push(opts.id);
+  const tooltipContent = state.aceTooltips.get(opts.id);
+  if (tooltipContent && tooltipContent === opts.content) {
+    return state;
   }
 
+  tippy(`#accessabar ${opts.id}`, {
+    arrow: true,
+    content: opts.content,
+    placement: 'bottom',
+    theme: 'ab',
+  });
+
+  state.aceTooltips.set(opts.id, opts.content);
   return {
     ...state,
     aceTooltips: state.aceTooltips,

@@ -62,7 +62,7 @@ class AceController {
   private aceState: Ace.State = initState;
 
   // Increment state version to clear saved state on clients.
-  private aceStateVersion = '17';
+  private aceStateVersion = '18';
 
   // Support pushing fixed navigation below ACE for compatibility.
   public fixedNavigationSelector = '';
