@@ -24,9 +24,9 @@ const settingsHeader = ({settingsHidden}) => {
       'ab-logo',
       {
         class: 'ab-modal-logo',
-        'aria-label': 'Ace logo',
+        'aria-label': 'AccessAngel logo',
       },
-      [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'Ace Logo'})]
+      [h('ab-logo-img', {class: 'ab-logo-img-word', alt: 'AccessAngel Logo'})]
     ),
     h('ab-settings-header-title', {class: 'ab-modal-header-title'}, 'Settings'),
     h(
@@ -541,7 +541,7 @@ const settingsMenu = (state: Ace.State) => {
     {
       id: 'ab-settings',
       class: `ab-modal ${state.settingsHidden ? 'ab-hide' : ''}`,
-      'aria-label': 'Ace settings',
+      'aria-label': 'AccessAngel settings',
     },
     [
       settingsHeader(state),
