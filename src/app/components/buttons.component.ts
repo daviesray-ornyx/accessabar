@@ -583,11 +583,17 @@ const hideButton = (state: Ace.State) => {
       onclick: aceHide,
       onmouseover: [
         aceAddTippy,
-        {id: '#ab-hide', content: aceHidden ? 'Show AccessAngel' : 'Hide AccessAngel'},
+        {
+          id: '#ab-hide',
+          content: aceHidden ? 'Show AccessAngel' : 'Hide AccessAngel',
+        },
       ],
       onmouseenter: [
         aceSpeakTooltip,
-        {id: '#ab-hide', content: aceHidden ? 'Show AccessAngel' : 'Hide AccessAngel'},
+        {
+          id: '#ab-hide',
+          content: aceHidden ? 'Show AccessAngel' : 'Hide AccessAngel',
+        },
       ],
       onkeydown: handleButtonNavigation,
       onchange: [

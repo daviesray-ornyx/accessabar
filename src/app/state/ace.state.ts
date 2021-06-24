@@ -1,10 +1,9 @@
 import BigNumber from 'bignumber.js';
 import voices from '../../config/tts.config.json5';
-import {getParents} from '../actions/ace.actions';
 
 const stateToolbar: Ace.StateToolbar = {
   aceHidden: false,
-  aceTooltips: [],
+  aceTooltips: new Map(),
   aceTooltipSpeakTimeout: 0,
   aceOpenDefaults: true,
   aceSpeakTooltips: false,
