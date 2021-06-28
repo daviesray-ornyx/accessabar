@@ -64,13 +64,13 @@ class AceController {
   // Increment state version to clear saved state on clients.
   private aceStateVersion = '18';
 
-  // Support pushing fixed navigation below ACE for compatibility.
+  // Support pushing fixed navigation below AccessAngel for compatibility.
   public fixedNavigationSelector = '';
 
   // Position of Accessabar on the page.
   public position: string;
 
-  // Should ACE fill the width of the containing element.
+  // Should AccessAngel fill the width of the containing element.
   public fillWidth: boolean;
 
   /**
@@ -398,7 +398,7 @@ class AceController {
   }
 
   /**
-   * Removes the floating button for opening ACE.
+   * Removes the floating button for opening AccessAngel.
    */
 
   private removeFloatingButton() {
@@ -408,7 +408,7 @@ class AceController {
   }
 
   /**
-   * Creates a floating button for opening ACE.
+   * Creates a floating button for opening AccessAngel.
    */
 
   private createFloatingButton() {

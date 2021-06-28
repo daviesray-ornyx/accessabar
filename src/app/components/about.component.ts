@@ -1,5 +1,6 @@
 import {h} from 'hyperapp';
 import {aboutClose} from '../actions/about.actions';
+import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
 
 const aboutHeader = ({aboutHidden}) => {
   return h('ab-about-header', {class: 'ab-modal-header'}, [
@@ -18,8 +19,17 @@ const aboutHeader = ({aboutHidden}) => {
         'aria-label': 'Close About',
         'aria-pressed': String(aboutHidden),
         class: 'ab-modal-close-button',
+        id: 'ab-about-close-button',
         onclick: aboutClose,
         onkeydown: aboutClose,
+        onmouseover: [
+          aceAddTippy,
+          {id: '#ab-about-close-button', content: 'Close About Menu'},
+        ],
+        onmouseenter: [
+          aceSpeakTooltip,
+          {id: '#ab-about-close-button', content: 'Close About Menu'},
+        ],
         role: 'button',
         tabindex: 0,
       },
