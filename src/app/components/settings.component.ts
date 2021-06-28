@@ -343,7 +343,7 @@ const settingsThemesSection = (state: Ace.State) => {
           tabindex: 0,
         }),
         h('ab-color-selector', {
-          class: `ab-color-selector ab-sky-blue ${
+          class: `ab-color-selector sky-blue-selector ${
             state.aceTheme === 'sky-blue-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-sky-blue',
