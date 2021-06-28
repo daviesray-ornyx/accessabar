@@ -551,12 +551,12 @@ const closeButton = () => {
   return h(
     'ab-bar-close-button',
     {
-      'aria-label': 'Close ACE',
+      'aria-label': 'Close AccessAngel',
       class: 'ab-bar-button ab-close',
       id: 'ab-close',
       onclick: closeAce,
-      onmouseover: [aceAddTippy, {id: '#ab-close', content: 'Close ACE'}],
-      onmouseenter: [aceSpeakTooltip, {id: '#ab-close', content: 'Close ACE'}],
+      onmouseover: [aceAddTippy, {id: '#ab-close', content: 'Close AccessAngel'}],
+      onmouseenter: [aceSpeakTooltip, {id: '#ab-close', content: 'Close AccessAngel'}],
       onkeydown: handleButtonNavigation,
       role: 'button',
       tabIndex: -0,

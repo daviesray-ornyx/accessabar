@@ -1,5 +1,5 @@
 import {h} from 'hyperapp';
-import {aceAddTippy} from '../actions/ace.actions';
+import {aceAddTippy, aceSpeakTooltip} from '../actions/ace.actions';
 import {
   thumbsUpFeedback,
   thumbsDownFeedback,
@@ -19,11 +19,11 @@ const feedback = ({feedbackActive}: Ace.State) => {
       h(
         'ab-feedback-prompt-text',
         {
-          'aria-label': 'Are you enjoying ACE?',
+          'aria-label': 'Are you enjoying AccessAngel?',
           class: 'ab-feedback-prompt-text',
           id: 'ab-feedback-prompt-text',
         },
-        ['Have you enjoyed using ACE?']
+        ['Have you enjoyed using AccessAngel?']
       ),
       h(
         'ab-feedback-actions-container',
@@ -35,7 +35,7 @@ const feedback = ({feedbackActive}: Ace.State) => {
           h(
             'ab-feedback-action-thumbs-up',
             {
-              'aria-label': 'Enjoying ACE',
+              'aria-label': 'Enjoying AccessAngel',
               class: 'ab-feedback-action-thumbs-up',
               id: 'ab-feedback-action-thumbs-up',
               onclick: thumbsUpFeedback,
@@ -43,6 +43,11 @@ const feedback = ({feedbackActive}: Ace.State) => {
                 aceAddTippy,
                 {id: '#ab-feedback-action-thumbs-up', content: 'Yes'},
               ],
+              onmouseenter: [
+                aceSpeakTooltip,
+                {id: '#ab-feedback-action-thumbs-up', content: 'Yes'},
+              ],
+
               onkeydown: (state: Ace.State, event: KeyboardEvent) => {
                 const {type, code} = event;
                 if (code !== 'Enter') {
@@ -70,12 +75,16 @@ const feedback = ({feedbackActive}: Ace.State) => {
           h(
             'ab-feedback-action-thumbs-down',
             {
-              'aria-label': 'Not Enjoying ACE',
+              'aria-label': 'Not Enjoying AccessAngel',
               class: 'ab-feedback-action-thumbs-down',
               id: 'ab-feedback-action-thumbs-down',
               onclick: thumbsDownFeedback,
               onmouseover: [
                 aceAddTippy,
+                {id: '#ab-feedback-action-thumbs-down', content: 'No'},
+              ],
+              onmouseenter: [
+                aceSpeakTooltip,
                 {id: '#ab-feedback-action-thumbs-down', content: 'No'},
               ],
               onkeydown: (state: Ace.State, event: KeyboardEvent) => {

@@ -36,8 +36,17 @@ const settingsHeader = ({settingsHidden}) => {
         'aria-label': 'Close Settings',
         'aria-pressed': String(settingsHidden),
         class: 'ab-modal-close-button',
+        id: 'ab-settings-close-button',
         onclick: settingsClose,
         onkeydown: settingsClose,
+        onmouseover: [
+          aceAddTippy,
+          {id: '#ab-settings-close-button', content: 'Close Settings Menu'},
+        ],
+        onmouseenter: [
+          aceSpeakTooltip,
+          {id: '#ab-settings-close-button', content: 'Close Settings Menu'},
+        ],
         role: 'button',
         tabindex: 0,
       },
@@ -334,7 +343,7 @@ const settingsThemesSection = (state: Ace.State) => {
           tabindex: 0,
         }),
         h('ab-color-selector', {
-          class: `ab-color-selector sky-blue-selector ${
+          class: `ab-color-selector ab-sky-blue ${
             state.aceTheme === 'sky-blue-theme' ? 'ab-active' : ''
           }`,
           id: 'ab-color-selector-sky-blue',

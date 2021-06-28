@@ -66,12 +66,11 @@
     display: flex;
     margin-right: 2em;
     padding: 1em;
-    background: var(--dark-grey);
     color: var(--font-colour);
     line-height: 0;
     align-self: center;
     border-radius: 50%;
-    border: 4px solid transparent;
+    border: 2px solid var(--lighter-grey);
 
     &:hover, &:focus {
         cursor: pointer;
@@ -82,6 +81,55 @@
         cursor: pointer;
         border: 4px solid var(--dark-red);
     }
+
+    &.default-selector {
+      background-color: var(--bg-grey);
+   }
+
+   &.orange-selector {
+      background-color: var(--lighter-orange);
+   }
+
+   &.light-selector {
+      background-color: var(--near-white);
+   }
+
+   &.dark-selector {
+      background-color: var(--dark-grey);
+   }
+
+   &.sky-blue-selector {
+      background-color: var(--sky-blue);
+   }
+
+   &.pink-selector {
+      background-color: var(--pink);
+   }
+
+   &.yellow-selector {
+      background-color: var(--yellow);
+   }
+
+   &.grass-green-selector {
+      background-color: var(--grass-green);
+   }
+
+
+   &.aqua-blue-selector {
+      background-color: var(--aqua-blue);
+   }
+
+   &.celery-green-selector {
+      background-color: var(--celery-green);
+   }
+
+   &.jade-selector {
+      background-color: var(--jade);
+   }
+
+   &.magenta-selector {
+      background-color: var(--magenta);
+   }
 }
 
 #accessabar .ab-custom-action-button {

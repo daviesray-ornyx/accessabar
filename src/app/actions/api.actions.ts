@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 
 async function doRequest(link, req) {
   return fetch(link, req).catch(err => {
-    console.log('[ACE API] Error: ', err);
+    console.log('[AccessAngel API] Error: ', err);
   });
 }
 
