@@ -1,4 +1,8 @@
-import {languageChangeAll, ptCachePage} from '../actions/language.actions';
+import {
+  languageChangeAll,
+  ptCachePage,
+  ptResetLanguage,
+} from '../actions/language.actions';
 import {ttsChangeVoice} from '../actions/tts.actions';
 
 function fxLanguageChangeAll(key: string) {
@@ -37,4 +41,16 @@ function fxPtSwitchTTS(key: number) {
   ];
 }
 
-export {fxLanguageChangeAll, fxPtCachePage, fxPtSwitchTTS};
+function fxResetLanguage(state: Ace.State) {
+  return [
+    (dispatch, props) => {
+      dispatch(props.action);
+    },
+    {
+      state,
+      action: ptResetLanguage,
+    },
+  ];
+}
+
+export {fxLanguageChangeAll, fxPtCachePage, fxPtSwitchTTS, fxResetLanguage};
