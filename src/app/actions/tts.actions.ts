@@ -10,7 +10,18 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   const {target} = event;
   const selection = window.getSelection();
 
-  if (!target || !selection) {
+  const ignoredTargetIds = [
+    'ab-stop',
+    'ab-icon-stop',
+    'ab-pause-toggle',
+    'ab-icon-pause-toggle',
+  ];
+
+  if (ignoredTargetIds.indexOf((event.target as HTMLElement).id) > -1) {
+    return state;
+  }
+
+  if (!selection) {
     return state;
   }
 
@@ -22,7 +33,18 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
   return [state, fxTTSDelaySpeech(state, currentText)];
 }
 
-function ttsHandleHighlight(state: Ace.State) {
+function ttsHandleHighlight(state: Ace.State, event: MouseEvent) {
+  const ignoredTargetIds = [
+    'ab-stop',
+    'ab-icon-stop',
+    'ab-pause-toggle',
+    'ab-icon-pause-toggle',
+  ];
+
+  if (ignoredTargetIds.indexOf((event.target as HTMLElement).id) > -1) {
+    return state;
+  }
+
   const selection = window.getSelection();
 
   if (!selection) {
@@ -49,6 +71,10 @@ function ttsHoverToggle(state: Ace.State) {
 }
 
 function ttsHoverEnable(state: Ace.State) {
+  if (state.ttsHoverSpeak) {
+    return state;
+  }
+
   ttsStopCurrent(state);
 
   const newState = {
@@ -77,6 +103,9 @@ function ttsHightlightToggle(state: Ace.State) {
 }
 
 function ttsHightlightEnable(state: Ace.State) {
+  if (state.ttsHighlightSpeak) {
+    return state;
+  }
   ttsStopCurrent(state);
 
   const newState = {
@@ -96,15 +125,21 @@ function ttsPlayAudio(state: Ace.State, id: string) {
   );
 
   ttsAudio.addEventListener('canplaythrough', () => ttsAudio.play());
-
+  // ttsAudio.addEventListener('ended', () => {
+  //   console.log('Ended playing the audio');
+  // });
   return {
     ...state,
     ttsAudio,
+    ttsAudioState: 'Playing',
   };
 }
 
 function ttsSpeak(state: Ace.State, text: string) {
   const {ttsVoice} = state;
+  if (!text || text.length === 0) {
+    return state;
+  }
   const data: Ace.TTSData = {
     text,
     lang: ttsVoice.lang,
@@ -114,6 +149,25 @@ function ttsSpeak(state: Ace.State, text: string) {
   return [state, fxTTSPlayAudio(data)];
 }
 
+function ttsPausePlayToggleCurrent(state: Ace.State) {
+  const {ttsAudio, ttsAudioState} = state;
+  if (!ttsAudio || typeof ttsAudio.pause !== 'function') {
+    return state;
+  }
+
+  if (ttsAudioState === 'Playing') {
+    ttsAudio.pause();
+  } else {
+    ttsAudio.play();
+  }
+
+  return {
+    ...state,
+    ttsAudio,
+    ttsAudioState: ttsAudioState === 'Paused' ? 'Playing' : 'Paused',
+  };
+}
+
 function ttsStopCurrent(state: Ace.State) {
   const {ttsAudio} = state;
 
@@ -121,7 +175,11 @@ function ttsStopCurrent(state: Ace.State) {
     ttsAudio.pause();
   }
 
-  return state;
+  return {
+    ...state,
+    ttsAudio,
+    ttsAudioState: 'None',
+  };
 }
 
 function ttsStopAll(state: Ace.State) {
@@ -172,6 +230,7 @@ function ttsChangeGender(state: Ace.State, key: number) {
 export {
   ttsSpeak,
   ttsHandleHover,
+  ttsPausePlayToggleCurrent,
   ttsHandleHighlight,
   ttsHoverToggle,
   ttsHightlightToggle,
