@@ -32,7 +32,7 @@ const pauseToggleButton = (state: Ace.State) => {
   return h(
     'ab-bar-pause-toggle-button',
     {
-      'aria-label': 'Stop',
+      'aria-label': `${state.ttsAudioState === 'Playing' ? 'Pause' : 'Play'}`,
       class: `ab-bar-button ${
         state.ttsHighlightSpeak && state.ttsAudioState !== 'None'
           ? 'ab-flex'
