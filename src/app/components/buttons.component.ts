@@ -62,7 +62,7 @@ const pauseToggleButton = (state: Ace.State) => {
       h('ab-icon', {
         'aria-hidden': 'true',
         class: `ab-icon ${
-          state.ttsAudioState === 'Playing' ? 'ab-icon-pause' : 'ab-icon-cross'
+          state.ttsAudioState === 'Playing' ? 'ab-icon-pause' : 'ab-icon-play'
         }`,
         id: 'ab-icon-pause-toggle',
       }),

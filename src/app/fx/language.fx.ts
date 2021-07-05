@@ -32,7 +32,6 @@ function fxPtCachePage(state: Ace.State) {
 function fxPtSwitchTTS(key: number) {
   return [
     (dispatch, props) => {
-      console.log(key);
       dispatch(props.action, key);
     },
     {

@@ -3,7 +3,9 @@ import {
   fxTTSDelaySpeech,
   fxTTSHighlight,
   fxTTSHover,
+  fxTTSPrepAudio,
   fxTTSPlayAudio,
+  fxTTSStopAudio,
 } from '../fx/tts.fx';
 
 function ttsHandleHover(state: Ace.State, event: MouseEvent) {
@@ -34,6 +36,7 @@ function ttsHandleHover(state: Ace.State, event: MouseEvent) {
 }
 
 function ttsHandleHighlight(state: Ace.State, event: MouseEvent) {
+  event.preventDefault();
   const ignoredTargetIds = [
     'ab-stop',
     'ab-icon-stop',
@@ -119,20 +122,29 @@ function ttsHightlightEnable(state: Ace.State) {
   return [newState, fxTTSHover(newState), fxTTSHighlight(newState)];
 }
 
-function ttsPlayAudio(state: Ace.State, id: string) {
+function ttsPrepAudio(state: Ace.State, id: string) {
   const ttsAudio = new Audio(
     `https://ace-tts.acetoolbar.com/api/v1/text/${id}`
   );
 
-  ttsAudio.addEventListener('canplaythrough', () => ttsAudio.play());
-  // ttsAudio.addEventListener('ended', () => {
-  //   console.log('Ended playing the audio');
-  // });
-  return {
+  const newState: Ace.State =  {
+    ...state,
+    ttsAudio,
+  };
+  return [newState, fxTTSPlayAudio(newState), fxTTSStopAudio(newState)];
+}
+
+function ttsPlayAudio(state: Ace.State, id: string) {
+  const {ttsAudio} = state; 
+
+  ttsAudio.play()
+
+  const newState: Ace.State =  {
     ...state,
     ttsAudio,
     ttsAudioState: 'Playing',
   };
+  return newState;
 }
 
 function ttsSpeak(state: Ace.State, text: string) {
@@ -146,7 +158,7 @@ function ttsSpeak(state: Ace.State, text: string) {
     gender: state.ttsGender,
   };
 
-  return [state, fxTTSPlayAudio(data)];
+  return [state, fxTTSPrepAudio(data)];
 }
 
 function ttsPausePlayToggleCurrent(state: Ace.State) {
@@ -169,12 +181,13 @@ function ttsPausePlayToggleCurrent(state: Ace.State) {
 }
 
 function ttsStopCurrent(state: Ace.State) {
-  const {ttsAudio} = state;
+  const {ttsAudio, ttsAudioState} = state;
 
-  if (ttsAudio && typeof ttsAudio.pause === 'function') {
+  if (ttsAudio && typeof ttsAudio.pause === 'function' && ttsAudioState !== 'None') {
     ttsAudio.pause();
+    document.getSelection()?.empty();
   }
-
+   
   return {
     ...state,
     ttsAudio,
@@ -241,6 +254,7 @@ export {
   ttsStopCurrent,
   ttsHightlightEnable,
   ttsHoverEnable,
+  ttsPrepAudio,
   ttsPlayAudio,
   ttsChangeGender,
 };
